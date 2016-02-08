@@ -23,6 +23,10 @@ var Pokedex = (function() {
     return getJSON(pokeUrl + '/api/v2/berry/' + name);
   };
 
+  Pokedex.prototype.getBerryFirmnessByName = function(name) {
+    return getJSON(pokeUrl + '/api/v2/berry-firmness/' + name);
+  };
+
 
   return Pokedex;
 })();
