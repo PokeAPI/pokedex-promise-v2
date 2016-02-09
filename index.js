@@ -35,6 +35,10 @@ var Pokedex = (function() {
     return getJSON(pokeUrl + '/api/v2/contest-type/' + name);
   };
 
+  Pokedex.prototype.getContestEffectById = function(id) {
+    return getJSON(pokeUrl + '/api/v2/contest-type/' + id);
+  };
+
 
   return Pokedex;
 })();
