@@ -27,6 +27,10 @@ var Pokedex = (function() {
     return getJSON(pokeUrl + '/api/v2/berry-firmness/' + name);
   };
 
+  Pokedex.prototype.getBerryFlavorByName = function(name) {
+    return getJSON(pokeUrl + '/api/v2/berry-flavor/' + name);
+  };
+
 
   return Pokedex;
 })();
