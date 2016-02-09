@@ -31,6 +31,10 @@ var Pokedex = (function() {
     return getJSON(pokeUrl + '/api/v2/berry-flavor/' + name);
   };
 
+  Pokedex.prototype.getContestTypeByName = function(name) {
+    return getJSON(pokeUrl + '/api/v2/contest-type/' + name);
+  };
+
 
   return Pokedex;
 })();
