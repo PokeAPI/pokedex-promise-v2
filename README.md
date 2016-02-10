@@ -24,7 +24,7 @@ var P = new Pokedex();
 
 Use **getBerryByName** to return data about a specific berry. **NOTE**: You can also pass in an integer to get the berry by ID.
 ```js
-  P.getBerryByName
+  P.getBerryByName('cheri')
     .then(function(response) {
       res.json(response);
     })
