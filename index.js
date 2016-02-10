@@ -39,6 +39,14 @@ var Pokedex = (function() {
     return getJSON(pokeUrl + '/api/v2/contest-type/' + id);
   };
 
+  Pokedex.prototype.getSuperContestEffectById = function(id) {
+    return getJSON(pokeUrl + '/api/v2/super-contest-effect/' + id);
+  };
+
+  Pokedex.prototype.getEncounterMethodByName = function(name) {
+    return getJSON(pokeUrl + '/api/v2/encounter-method/' + name);
+  };
+
 
   return Pokedex;
 })();
