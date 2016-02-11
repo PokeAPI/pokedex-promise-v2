@@ -51,6 +51,10 @@ var Pokedex = (function() {
     return getJSON(pokeUrl + '/api/v2/encounter-condition/' + name);
   };
 
+  Pokedex.prototype.getEncounterConditionValueByName = function(name) {
+    return getJSON(pokeUrl + '/api/v2/encounter-condition-value/' + name);
+  };
+
 
   return Pokedex;
 })();
