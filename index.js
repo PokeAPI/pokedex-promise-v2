@@ -107,6 +107,10 @@ var Pokedex = (function() {
     return getJSON(pokeUrl + '/api/v2/move-ailment/' + name);
   };
 
+  Pokedex.prototype.getMoveBattleStyleByName = function(name) {
+    return getJSON(pokeUrl + '/api/v2/move-battle-style/' + name);
+  };
+
 
   return Pokedex;
 })();
