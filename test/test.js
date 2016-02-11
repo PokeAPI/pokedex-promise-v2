@@ -213,4 +213,28 @@ describe("pokedex", function() {
       return expect(promise).to.eventually.have.property("name");
     });
   });
+
+  describe(".getItemCategoryByName(Id: int)", function() {
+    before(function() {
+      promise = P.getItemCategoryByName(id);
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property name", function() {
+      return expect(promise).to.eventually.have.property("name");
+    });
+  });
+
+  describe(".getItemFlingEffectByName(Id: int)", function() {
+    before(function() {
+      promise = P.getItemFlingEffectByName(id);
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property name", function() {
+      return expect(promise).to.eventually.have.property("name");
+    });
+  });
 });

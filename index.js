@@ -87,6 +87,14 @@ var Pokedex = (function() {
     return getJSON(pokeUrl + '/api/v2/item-attribute/' + name);
   };
 
+  Pokedex.prototype.getItemCategoryByName = function(name) {
+    return getJSON(pokeUrl + '/api/v2/item-category/' + name);
+  };
+
+  Pokedex.prototype.getItemFlingEffectByName = function(name) {
+    return getJSON(pokeUrl + '/api/v2/item-fling-effect/' + name);
+  };
+
 
   return Pokedex;
 })();
