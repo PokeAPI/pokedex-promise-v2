@@ -75,6 +75,10 @@ var Pokedex = (function() {
     return getJSON(pokeUrl + '/api/v2/version/' + name);
   };
 
+  Pokedex.prototype.getVersionGroupByName = function(name) {
+    return getJSON(pokeUrl + '/api/v2/version-group/' + name);
+  };
+
 
   return Pokedex;
 })();
