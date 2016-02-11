@@ -285,4 +285,16 @@ describe("pokedex", function() {
       return expect(promise).to.eventually.have.property("name");
     });
   });
+
+  describe(".getMoveCategoryByName(Id: int)", function() {
+    before(function() {
+      promise = P.getMoveCategoryByName(id);
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property name", function() {
+      return expect(promise).to.eventually.have.property("name");
+    });
+  });
 });

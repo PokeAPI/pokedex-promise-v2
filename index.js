@@ -111,6 +111,10 @@ var Pokedex = (function() {
     return getJSON(pokeUrl + '/api/v2/move-battle-style/' + name);
   };
 
+  Pokedex.prototype.getMoveCategoryByName = function(name) {
+    return getJSON(pokeUrl + '/api/v2/move-category/' + name);
+  };
+
 
   return Pokedex;
 })();
