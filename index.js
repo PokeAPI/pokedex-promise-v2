@@ -55,6 +55,10 @@ var Pokedex = (function() {
     return getJSON(pokeUrl + '/api/v2/encounter-condition-value/' + name);
   };
 
+  Pokedex.prototype.getEvolutionChainById = function(id) {
+    return getJSON(pokeUrl + '/api/v2/evolution-chain/' + id);
+  };
+
 
   return Pokedex;
 })();

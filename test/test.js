@@ -117,4 +117,16 @@ describe("pokedex", function() {
       return expect(promise).to.eventually.have.property("name");
     });
   });
+
+  describe(".getEvolutionChainById(Id: int)", function() {
+    before(function() {
+      promise = P.getEvolutionChainById(id);
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property name", function() {
+      return expect(promise).to.eventually.have.property("id");
+    });
+  });
 });
