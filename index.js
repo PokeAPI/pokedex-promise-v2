@@ -95,6 +95,10 @@ var Pokedex = (function() {
     return getJSON(pokeUrl + '/api/v2/item-fling-effect/' + name);
   };
 
+  Pokedex.prototype.getItemPocketByName = function(name) {
+    return getJSON(pokeUrl + '/api/v2/item-pocket/' + name);
+  };
+
 
   return Pokedex;
 })();
