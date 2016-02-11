@@ -63,6 +63,10 @@ var Pokedex = (function() {
     return getJSON(pokeUrl + '/api/v2/evolution-trigger/' + name);
   };
 
+  Pokedex.prototype.getGenerationByName = function(name) {
+    return getJSON(pokeUrl + '/api/v2/generation/' + name);
+  };
+
 
   return Pokedex;
 })();
