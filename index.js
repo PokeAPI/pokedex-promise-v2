@@ -99,6 +99,10 @@ var Pokedex = (function() {
     return getJSON(pokeUrl + '/api/v2/item-pocket/' + name);
   };
 
+  Pokedex.prototype.getMoveByName = function(name) {
+    return getJSON(pokeUrl + '/api/v2/move/' + name);
+  };
+
 
   return Pokedex;
 })();
