@@ -67,6 +67,10 @@ var Pokedex = (function() {
     return getJSON(pokeUrl + '/api/v2/generation/' + name);
   };
 
+  Pokedex.prototype.getPokedexByName = function(name) {
+    return getJSON(pokeUrl + '/api/v2/pokedex/' + name);
+  };
+
 
   return Pokedex;
 })();

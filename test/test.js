@@ -153,4 +153,16 @@ describe("pokedex", function() {
       return expect(promise).to.eventually.have.property("name");
     });
   });
+
+  describe(".getPokedexByName(Id: int)", function() {
+    before(function() {
+      promise = P.getPokedexByName(id);
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property name", function() {
+      return expect(promise).to.eventually.have.property("name");
+    });
+  });
 });
