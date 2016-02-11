@@ -297,4 +297,184 @@ describe("pokedex", function() {
       return expect(promise).to.eventually.have.property("name");
     });
   });
+
+  describe(".getMoveDamageClassByName(Id: int)", function() {
+    before(function() {
+      promise = P.getMoveDamageClassByName(id);
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property name", function() {
+      return expect(promise).to.eventually.have.property("name");
+    });
+  });
+
+  describe(".getMoveTargetByName(Id: int)", function() {
+    before(function() {
+      promise = P.getMoveTargetByName(id);
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property name", function() {
+      return expect(promise).to.eventually.have.property("name");
+    });
+  });
+
+  describe(".getLocationByName(Id: int)", function() {
+    before(function() {
+      promise = P.getLocationByName(id);
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property name", function() {
+      return expect(promise).to.eventually.have.property("name");
+    });
+  });
+
+  describe(".getLocationAreaByName(Id: int)", function() {
+    before(function() {
+      promise = P.getLocationAreaByName(id);
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property name", function() {
+      return expect(promise).to.eventually.have.property("name");
+    });
+  });
+
+  describe(".getPalParkAreaByName(Id: int)", function() {
+    before(function() {
+      promise = P.getPalParkAreaByName(id);
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property name", function() {
+      return expect(promise).to.eventually.have.property("name");
+    });
+  });
+
+  describe(".getRegionByName(Id: int)", function() {
+    before(function() {
+      promise = P.getRegionByName(id);
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property name", function() {
+      return expect(promise).to.eventually.have.property("name");
+    });
+  });
+
+  describe(".getAbilityByName(Id: int)", function() {
+    before(function() {
+      promise = P.getAbilityByName(id);
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property name", function() {
+      return expect(promise).to.eventually.have.property("name");
+    });
+  });
+
+  describe(".getCharacteristicById(Id: int)", function() {
+    before(function() {
+      promise = P.getCharacteristicById(id);
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property name", function() {
+      return expect(promise).to.eventually.have.property("id");
+    });
+  });
+
+  describe(".getEggGroupByName(Id: int)", function() {
+    before(function() {
+      promise = P.getEggGroupByName(id);
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property name", function() {
+      return expect(promise).to.eventually.have.property("name");
+    });
+  });
+
+  describe(".getGenderByName(Id: int)", function() {
+    before(function() {
+      promise = P.getGenderByName(id);
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property name", function() {
+      return expect(promise).to.eventually.have.property("name");
+    });
+  });
+
+  describe(".getGrowthRateByName(Id: int)", function() {
+    before(function() {
+      promise = P.getGrowthRateByName(id);
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property name", function() {
+      return expect(promise).to.eventually.have.property("name");
+    });
+  });
+
+  describe(".getNatureByName(Id: int)", function() {
+    before(function() {
+      promise = P.getNatureByName(id);
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property name", function() {
+      return expect(promise).to.eventually.have.property("name");
+    });
+  });
+
+  describe(".getPokeathonStatByName(Id: int)", function() {
+    before(function() {
+      promise = P.getPokeathonStatByName(id);
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property name", function() {
+      return expect(promise).to.eventually.have.property("name");
+    });
+  });
+
+  describe(".getPokemonByName(Id: int)", function() {
+    before(function() {
+      promise = P.getPokemonByName(id);
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property name", function() {
+      return expect(promise).to.eventually.have.property("name");
+    });
+  });
+
+  describe(".getPokemonColorByName(Id: int)", function() {
+    before(function() {
+      promise = P.getPokemonColorByName(id);
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property name", function() {
+      return expect(promise).to.eventually.have.property("name");
+    });
+  });
 });

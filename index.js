@@ -115,6 +115,70 @@ var Pokedex = (function() {
     return getJSON(pokeUrl + '/api/v2/move-category/' + name);
   };
 
+  Pokedex.prototype.getMoveDamageClassByName = function(name) {
+    return getJSON(pokeUrl + '/api/v2/move-damage-class/' + name);
+  };
+
+  Pokedex.prototype.getMoveLearnMethodByName = function(name) {
+    return getJSON(pokeUrl + '/api/v2/move-learn-method/' + name);
+  };
+
+  Pokedex.prototype.getMoveTargetByName = function(name) {
+    return getJSON(pokeUrl + '/api/v2/move-target/' + name);
+  };
+
+  Pokedex.prototype.getLocationByName = function(name) {
+    return getJSON(pokeUrl + '/api/v2/location/' + name);
+  };
+
+  Pokedex.prototype.getLocationAreaByName = function(name) {
+    return getJSON(pokeUrl + '/api/v2/location-area/' + name);
+  };
+
+  Pokedex.prototype.getPalParkAreaByName = function(name) {
+    return getJSON(pokeUrl + '/api/v2/pal-park-area/' + name);
+  };
+
+  Pokedex.prototype.getRegionByName = function(name) {
+    return getJSON(pokeUrl + '/api/v2/region/' + name);
+  };
+
+  Pokedex.prototype.getAbilityByName = function(name) {
+    return getJSON(pokeUrl + '/api/v2/ability/' + name);
+  };
+
+  Pokedex.prototype.getCharacteristicById = function(id) {
+    return getJSON(pokeUrl + '/api/v2/characteristic/' + id);
+  };
+
+  Pokedex.prototype.getEggGroupByName = function(name) {
+    return getJSON(pokeUrl + '/api/v2/egg-group/' + name);
+  };
+
+  Pokedex.prototype.getGenderByName = function(name) {
+    return getJSON(pokeUrl + '/api/v2/gender/' + name);
+  };
+
+  Pokedex.prototype.getGrowthRateByName = function(name) {
+    return getJSON(pokeUrl + '/api/v2/growth-rate/' + name);
+  };
+
+  Pokedex.prototype.getNatureByName = function(name) {
+    return getJSON(pokeUrl + '/api/v2/nature/' + name);
+  };
+
+  Pokedex.prototype.getPokeathonStatByName = function(name) {
+    return getJSON(pokeUrl + '/api/v2/pokeathon-stat/' + name);
+  };
+
+  Pokedex.prototype.getPokemonByName = function(name) {
+    return getJSON(pokeUrl + '/api/v2/pokemon/' + name);
+  };
+
+  Pokedex.prototype.getPokemonColorByName = function(name) {
+    return getJSON(pokeUrl + '/api/v2/pokemon-color/' + name);
+  };
+
 
   return Pokedex;
 })();
