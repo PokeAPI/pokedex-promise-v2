@@ -103,6 +103,10 @@ var Pokedex = (function() {
     return getJSON(pokeUrl + '/api/v2/move/' + name);
   };
 
+  Pokedex.prototype.getMoveAilmentByName = function(name) {
+    return getJSON(pokeUrl + '/api/v2/move-ailment/' + name);
+  };
+
 
   return Pokedex;
 })();
