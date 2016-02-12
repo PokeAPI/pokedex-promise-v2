@@ -105,3 +105,14 @@ Use **getEncounterMethodByName** to return data about the conditions in which a 
       console.log('There was an ERROR: ', error);
     });
 ```
+
+Use **getEncounterConditionByName** to return data that affects which pokemon might appear in the wild.
+```js
+  P.getEncounterConditionByName("swarm")
+    .then(function(response) {
+      res.json(response);
+    })
+    .catch(function(error) {
+      console.log('There was an ERROR: ', error);
+    });
+```
