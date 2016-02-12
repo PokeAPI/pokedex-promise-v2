@@ -151,3 +151,62 @@ Use **getEvolutionTriggerByName** to return data about triggers which cause poke
       console.log('There was an ERROR: ', error);
     });
 ```
+
+### Games
+
+Use **getGenerationByName** to return data about the different generations of pokemon games.
+```js
+  P.getGenerationByName("generation-i")
+    .then(function(response) {
+      res.json(response);
+    })
+    .catch(function(error) {
+      console.log('There was an ERROR: ', error);
+    });
+```
+
+Use **getPokedexByName** to return data about specific types of pokedexes.
+```js
+  P.getPokedexByName("kanto")
+    .then(function(response) {
+      res.json(response);
+    })
+    .catch(function(error) {
+      console.log('There was an ERROR: ', error);
+    });
+```
+
+Use **getVersionByName** to return data about specific versions of pokemon games.
+```js
+  P.getVersionByName("red")
+    .then(function(response) {
+      res.json(response);
+    })
+    .catch(function(error) {
+      console.log('There was an ERROR: ', error);
+    });
+```
+
+Use **getVersionGroupByName** to return data about specific version groups of pokemon games.
+```js
+  P.getVersionGroupByName("red-blue")
+    .then(function(response) {
+      res.json(response);
+    })
+    .catch(function(error) {
+      console.log('There was an ERROR: ', error);
+    });
+```
+
+### Items
+
+Use **getItemByName** to return data about specific items.
+```js
+  P.getItemByName("master-ball")
+    .then(function(response) {
+      res.json(response);
+    })
+    .catch(function(error) {
+      console.log('There was an ERROR: ', error);
+    });
+```
