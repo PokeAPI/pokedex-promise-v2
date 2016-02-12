@@ -22,9 +22,22 @@ Initialize the constructor.
 var P = new Pokedex();
 ```
 
-Use **getBerryByName** to return data about a specific berry. **NOTE**: You can also pass in an integer to get the berry by ID.
+**NOTE**: Any function with the designation "ByName" can also be passed an integer ID.
+
+Use **getBerryByName** to return data about a specific berry.
 ```js
   P.getBerryByName('cheri')
+    .then(function(response) {
+      res.json(response);
+    })
+    .catch(function(error) {
+      console.log('There was an ERROR: ', error);
+    });
+```
+
+Use **getBerryFirmnessByName** to return data about the firmness of a specific berry.
+```js
+  P.getBerryFirmnessByName('very-soft')
     .then(function(response) {
       res.json(response);
     })
