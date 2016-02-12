@@ -477,4 +477,88 @@ describe("pokedex", function() {
       return expect(promise).to.eventually.have.property("name");
     });
   });
+
+  describe(".getPokemonFormByName(Id: int)", function() {
+    before(function() {
+      promise = P.getPokemonFormByName(id);
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property name", function() {
+      return expect(promise).to.eventually.have.property("name");
+    });
+  });
+
+  describe(".getPokemonHabitatByName(Id: int)", function() {
+    before(function() {
+      promise = P.getPokemonHabitatByName(id);
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property name", function() {
+      return expect(promise).to.eventually.have.property("name");
+    });
+  });
+
+  describe(".getPokemonShapeByName(Id: int)", function() {
+    before(function() {
+      promise = P.getPokemonShapeByName(id);
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property name", function() {
+      return expect(promise).to.eventually.have.property("name");
+    });
+  });
+
+  describe(".getPokemonSpeciesByName(Id: int)", function() {
+    before(function() {
+      promise = P.getPokemonSpeciesByName(id);
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property name", function() {
+      return expect(promise).to.eventually.have.property("name");
+    });
+  });
+
+  describe(".getStatByName(Id: int)", function() {
+    before(function() {
+      promise = P.getStatByName(id);
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property name", function() {
+      return expect(promise).to.eventually.have.property("name");
+    });
+  });
+
+  describe(".getTypeByName(Id: int)", function() {
+    before(function() {
+      promise = P.getTypeByName(id);
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property name", function() {
+      return expect(promise).to.eventually.have.property("name");
+    });
+  });
+
+  describe(".getLanguageByName(Id: int)", function() {
+    before(function() {
+      promise = P.getLanguageByName(id);
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property name", function() {
+      return expect(promise).to.eventually.have.property("name");
+    });
+  });
 });

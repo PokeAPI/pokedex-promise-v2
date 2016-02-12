@@ -179,6 +179,34 @@ var Pokedex = (function() {
     return getJSON(pokeUrl + '/api/v2/pokemon-color/' + name);
   };
 
+  Pokedex.prototype.getPokemonFormByName = function(name) {
+    return getJSON(pokeUrl + '/api/v2/pokemon-form/' + name);
+  };
+
+  Pokedex.prototype.getPokemonHabitatByName = function(name) {
+    return getJSON(pokeUrl + '/api/v2/pokemon-habitat/' + name);
+  };
+
+  Pokedex.prototype.getPokemonShapeByName = function(name) {
+    return getJSON(pokeUrl + '/api/v2/pokemon-shape/' + name);
+  };
+
+  Pokedex.prototype.getPokemonSpeciesByName = function(name) {
+    return getJSON(pokeUrl + '/api/v2/pokemon-species/' + name);
+  };
+
+  Pokedex.prototype.getStatByName = function(name) {
+    return getJSON(pokeUrl + '/api/v2/stat/' + name);
+  };
+
+  Pokedex.prototype.getTypeByName = function(name) {
+    return getJSON(pokeUrl + '/api/v2/type/' + name);
+  };
+
+  Pokedex.prototype.getLanguageByName = function(name) {
+    return getJSON(pokeUrl + '/api/v2/language/' + name);
+  };
+
 
   return Pokedex;
 })();
