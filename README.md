@@ -22,7 +22,7 @@ Initialize the constructor.
 var P = new Pokedex();
 ```
 
-**NOTE**: Any function with the designation "ByName" can also be passed an integer ID. However the functions with the designation "ById" can only be passed an integer ID.
+**NOTE**: Any function with the designation "ByName" can also be passed an integer ID. However, the functions with the designation "ById" can only be passed an integer ID.
 
 ### Berries
 
@@ -75,6 +75,28 @@ Use **getContestTypeByName** to return data about the effects of moves when used
 Use **getContestEffectById** to return data about the effects of moves when used in contests.
 ```js
   P.getContestTypeByName(1)
+    .then(function(response) {
+      res.json(response);
+    })
+    .catch(function(error) {
+      console.log('There was an ERROR: ', error);
+    });
+```
+
+Use **getSuperContestEffectById** to return data about the effects of moves when used in super contests.
+```js
+  P.getSuperContestTypeById(1)
+    .then(function(response) {
+      res.json(response);
+    })
+    .catch(function(error) {
+      console.log('There was an ERROR: ', error);
+    });
+```
+
+Use **getEncounterMethodByName** to return data about the conditions in which a trainer may encounter a pokemon in the wild.
+```js
+  P.getEncounterMethodByName("walk")
     .then(function(response) {
       res.json(response);
     })
