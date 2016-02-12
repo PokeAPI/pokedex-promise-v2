@@ -116,3 +116,38 @@ Use **getEncounterConditionByName** to return data that affects which pokemon mi
       console.log('There was an ERROR: ', error);
     });
 ```
+
+Use **getEncounterConditionValueByName** to return data the various states that an encounter condition can have.
+```js
+  P.getEncounterConditionValueByName("swarm-yes")
+    .then(function(response) {
+      res.json(response);
+    })
+    .catch(function(error) {
+      console.log('There was an ERROR: ', error);
+    });
+```
+
+### Evolution
+
+Use **getEvolutionChainById** to return data evolution chains.
+```js
+  P.getEvolutionChainById(1)
+    .then(function(response) {
+      res.json(response);
+    })
+    .catch(function(error) {
+      console.log('There was an ERROR: ', error);
+    });
+```
+
+Use **getEvolutionTriggerByName** to return data about triggers which cause pokemon to evolve.
+```js
+  P.getEvolutionTriggerByName("level-up")
+    .then(function(response) {
+      res.json(response);
+    })
+    .catch(function(error) {
+      console.log('There was an ERROR: ', error);
+    });
+```
