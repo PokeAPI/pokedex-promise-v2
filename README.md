@@ -24,6 +24,8 @@ var P = new Pokedex();
 
 **NOTE**: Any function with the designation "ByName" can also be passed an integer ID.
 
+### Berries
+
 Use **getBerryByName** to return data about a specific berry.
 ```js
   P.getBerryByName('cheri')
