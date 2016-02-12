@@ -93,6 +93,7 @@ Use **getSuperContestEffectById** to return data about the effects of moves when
       console.log('There was an ERROR: ', error);
     });
 ```
+### Encounters
 
 Use **getEncounterMethodByName** to return data about the conditions in which a trainer may encounter a pokemon in the wild.
 ```js
