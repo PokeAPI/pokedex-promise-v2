@@ -22,7 +22,7 @@ Initialize the constructor.
 var P = new Pokedex();
 ```
 
-**NOTE**: Any function with the designation "ByName" can also be passed an integer ID.
+**NOTE**: Any function with the designation "ByName" can also be passed an integer ID. However the functions with the designation "ById" can only be passed an integer ID.
 
 ### Berries
 
@@ -64,6 +64,17 @@ Use **getBerryFlavorByName** to return data about the flavor of a specific berry
 Use **getContestTypeByName** to return data about the effects of moves when used in contests.
 ```js
   P.getContestTypeByName('cool')
+    .then(function(response) {
+      res.json(response);
+    })
+    .catch(function(error) {
+      console.log('There was an ERROR: ', error);
+    });
+```
+
+Use **getContestEffectById** to return data about the effects of moves when used in contests.
+```js
+  P.getContestTypeByName(1)
     .then(function(response) {
       res.json(response);
     })
