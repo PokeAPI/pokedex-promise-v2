@@ -210,3 +210,60 @@ Use **getItemByName** to return data about specific items.
       console.log('There was an ERROR: ', error);
     });
 ```
+
+Use **getItemAttributeByName** to return data about specific item attribute.
+```js
+  P.getItemAttributeByName("countable")
+    .then(function(response) {
+      res.json(response);
+    })
+    .catch(function(error) {
+      console.log('There was an ERROR: ', error);
+    });
+```
+
+Use **getItemCategoryByName** to return data about specific item category.
+```js
+  P.getItemCategoryByName("stat-boosts")
+    .then(function(response) {
+      res.json(response);
+    })
+    .catch(function(error) {
+      console.log('There was an ERROR: ', error);
+    });
+```
+
+Use **getItemFlingEffectByName** to return data about specific item fling effect.
+```js
+  P.getItemFlingEffectByName("badly-poison")
+    .then(function(response) {
+      res.json(response);
+    })
+    .catch(function(error) {
+      console.log('There was an ERROR: ', error);
+    });
+```
+
+Use **getItemPocketByName** to return data about specific pockets in a players bag.
+```js
+  P.getItemPocketByName("misc")
+    .then(function(response) {
+      res.json(response);
+    })
+    .catch(function(error) {
+      console.log('There was an ERROR: ', error);
+    });
+```
+
+### Moves
+
+Use **getMoveByName** to return data about specific pokemon move.
+```js
+  P.getMoveByName("pound")
+    .then(function(response) {
+      res.json(response);
+    })
+    .catch(function(error) {
+      console.log('There was an ERROR: ', error);
+    });
+```
