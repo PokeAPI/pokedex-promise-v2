@@ -1,5 +1,8 @@
 # pokedex-promise-v2 ![Bulbasaur](http://pokeapi.co/media/img/1383571573.78.png)
 
+[![npm version](https://badge.fury.io/js/pokedex-promise-v2.svg)](https://badge.fury.io/js/pokedex-promise-v2)
+[![Build Status](https://travis-ci.org/TheTommyTwitch/pokedex-promise-v2.svg?branch=master)](https://travis-ci.org/TheTommyTwitch/pokedex-promise-v2)
+
 An easy way to use pokeapi v2 with promises in node.js
 
 ## Install
