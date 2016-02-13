@@ -2,8 +2,6 @@
 
 [![npm version](https://badge.fury.io/js/pokedex-promise-v2.svg)](https://badge.fury.io/js/pokedex-promise-v2)
 [![Build Status](https://travis-ci.org/TheTommyTwitch/pokedex-promise-v2.svg?branch=master)](https://travis-ci.org/TheTommyTwitch/pokedex-promise-v2)
-[![Package Control](https://img.shields.io/packagecontrol/dt/Package%20Control.svg)](https://github.com/TheTommyTwitch/pokedex-promise)
-
 
 An easy way to use pokeapi v2 with promises in node.js
 
