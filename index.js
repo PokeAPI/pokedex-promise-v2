@@ -56,7 +56,7 @@ var Pokedex = (function() {
   };
 
   Pokedex.prototype.getEvolutionChainById = function(id) {
-    return getJSON(pokeUrl + '/api/v2/evolution-trigger/' + id);
+    return getJSON(pokeUrl + '/api/v2/evolution-chain/' + id);
   };
 
   Pokedex.prototype.getEvolutionTriggerByName = function(name) {
