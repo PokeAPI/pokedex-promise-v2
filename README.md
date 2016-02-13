@@ -1,5 +1,4 @@
-![Bulbasaur](http://pokeapi.co/media/img/1383571573.78.png)
-# pokedex-promise-v2
+# pokedex-promise-v2 ![Bulbasaur](http://pokeapi.co/media/img/1383571573.78.png)
 
 An easy way to use pokeapi v2 with promises in node.js
 
