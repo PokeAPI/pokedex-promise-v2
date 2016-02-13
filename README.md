@@ -267,3 +267,47 @@ Use **getMoveByName** to return data about specific pokemon move.
       console.log('There was an ERROR: ', error);
     });
 ```
+
+Use **getMoveAilmentByName** to return data about specific pokemon move ailment.
+```js
+  P.getMoveAilmentByName("paralysis")
+    .then(function(response) {
+      res.json(response);
+    })
+    .catch(function(error) {
+      console.log('There was an ERROR: ', error);
+    });
+```
+
+Use **getMoveBattleStyleByName** to return data about specific pokemon move battle style.
+```js
+  P.getMoveBattleStyleByName("attack")
+    .then(function(response) {
+      res.json(response);
+    })
+    .catch(function(error) {
+      console.log('There was an ERROR: ', error);
+    });
+```
+
+Use **getMoveCategoryByName** to return data about specific pokemon move category.
+```js
+  P.getMoveCategoryByName("ailment")
+    .then(function(response) {
+      res.json(response);
+    })
+    .catch(function(error) {
+      console.log('There was an ERROR: ', error);
+    });
+```
+
+Use **getMoveDamageClassByName** to return data about specific pokemon damage class.
+```js
+  P.getMoveDamageClassByName("status")
+    .then(function(response) {
+      res.json(response);
+    })
+    .catch(function(error) {
+      console.log('There was an ERROR: ', error);
+    });
+```
