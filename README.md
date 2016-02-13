@@ -458,3 +458,104 @@ Use **getPokeathonStatByName** to return data about specific pokeathon stat.
       console.log('There was an ERROR: ', error);
     });
 ```
+
+Use **getPokemonByName** to return data about specific pokemon.
+```js
+  P.getPokemonByName("butterfree")
+    .then(function(response) {
+      res.json(response);
+    })
+    .catch(function(error) {
+      console.log('There was an ERROR: ', error);
+    });
+```
+
+Use **getPokemonColorByName** to return data about specific pokemon color.
+```js
+  P.getPokemonColorByName("black")
+    .then(function(response) {
+      res.json(response);
+    })
+    .catch(function(error) {
+      console.log('There was an ERROR: ', error);
+    });
+```
+
+Use **getPokemonFormByName** to return data about specific pokemon form.
+```js
+  P.getPokemonFormByName("wormadam-plant")
+    .then(function(response) {
+      res.json(response);
+    })
+    .catch(function(error) {
+      console.log('There was an ERROR: ', error);
+    });
+```
+
+Use **getPokemonHabitatByName** to return data about specific pokemon habitat.
+```js
+  P.getPokemonHabitatByName("grottes")
+    .then(function(response) {
+      res.json(response);
+    })
+    .catch(function(error) {
+      console.log('There was an ERROR: ', error);
+    });
+```
+
+Use **getPokemonShapeByName** to return data about specific pokemon shape.
+```js
+  P.getPokemonShapeByName("ball")
+    .then(function(response) {
+      res.json(response);
+    })
+    .catch(function(error) {
+      console.log('There was an ERROR: ', error);
+    });
+```
+
+Use **getPokemonSpeciesByName** to return data about specific pokemon species.
+```js
+  P.getPokemonSpeciesByName("wormadam")
+    .then(function(response) {
+      res.json(response);
+    })
+    .catch(function(error) {
+      console.log('There was an ERROR: ', error);
+    });
+```
+
+Use **getStatByName** to return data about specific pokemon stat.
+```js
+  P.getStatByName("attack")
+    .then(function(response) {
+      res.json(response);
+    })
+    .catch(function(error) {
+      console.log('There was an ERROR: ', error);
+    });
+```
+
+Use **getTypeByName** to return data about specific pokemon type.
+```js
+  P.getTypeByName("ground")
+    .then(function(response) {
+      res.json(response);
+    })
+    .catch(function(error) {
+      console.log('There was an ERROR: ', error);
+    });
+```
+
+### Utility
+
+Use **getLanguageByName** to return data about specific pokemon language.
+```js
+  P.getLanguageByName("ja")
+    .then(function(response) {
+      res.json(response);
+    })
+    .catch(function(error) {
+      console.log('There was an ERROR: ', error);
+    });
+```
