@@ -311,3 +311,150 @@ Use **getMoveDamageClassByName** to return data about specific pokemon damage cl
       console.log('There was an ERROR: ', error);
     });
 ```
+
+Use **getMoveLearnMethodByName** to return data about specific pokemon learn method.
+```js
+  P.getMoveLearnMethodByName("level-up")
+    .then(function(response) {
+      res.json(response);
+    })
+    .catch(function(error) {
+      console.log('There was an ERROR: ', error);
+    });
+```
+
+Use **getMoveTargetByName** to return data about specific pokemon move target.
+```js
+  P.getMoveTargetByName("specific-move")
+    .then(function(response) {
+      res.json(response);
+    })
+    .catch(function(error) {
+      console.log('There was an ERROR: ', error);
+    });
+```
+
+### Locations
+
+Use **getLocationByName** to return data about specific pokemon location.
+```js
+  P.getLocationByName("sinnoh")
+    .then(function(response) {
+      res.json(response);
+    })
+    .catch(function(error) {
+      console.log('There was an ERROR: ', error);
+    });
+```
+
+Use **getLocationAreaByName** to return data about specific pokemon location area.
+```js
+  P.getLocationAreaByName("canalave-city-area")
+    .then(function(response) {
+      res.json(response);
+    })
+    .catch(function(error) {
+      console.log('There was an ERROR: ', error);
+    });
+```
+
+Use **getPalParkAreaByName** to return data about specific pokemon pal park area.
+```js
+  P.getPalParkAreaByName("forest")
+    .then(function(response) {
+      res.json(response);
+    })
+    .catch(function(error) {
+      console.log('There was an ERROR: ', error);
+    });
+```
+
+Use **getRegionByName** to return data about specific pokemon region.
+```js
+  P.getRegionByName("kanto")
+    .then(function(response) {
+      res.json(response);
+    })
+    .catch(function(error) {
+      console.log('There was an ERROR: ', error);
+    });
+```
+
+### Pokemon
+
+Use **getAbilityByName** to return data about specific pokemon ability.
+```js
+  P.getAbilityByName("stench")
+    .then(function(response) {
+      res.json(response);
+    })
+    .catch(function(error) {
+      console.log('There was an ERROR: ', error);
+    });
+```
+
+Use **getCharacteristicById** to return data about specific pokemon characteristic.
+```js
+  P.getCharacteristicById(1)
+    .then(function(response) {
+      res.json(response);
+    })
+    .catch(function(error) {
+      console.log('There was an ERROR: ', error);
+    });
+```
+
+Use **getEggGroupByName** to return data about specific pokemon egg group.
+```js
+  P.getEggGroupByName("monster")
+    .then(function(response) {
+      res.json(response);
+    })
+    .catch(function(error) {
+      console.log('There was an ERROR: ', error);
+    });
+```
+
+Use **getGenderByName** to return data about specific pokemon gender.
+```js
+  P.getGenderByName("female")
+    .then(function(response) {
+      res.json(response);
+    })
+    .catch(function(error) {
+      console.log('There was an ERROR: ', error);
+    });
+```
+
+Use **getGrowthRateByName** to return data about specific pokemon growth rate.
+```js
+  P.getGrowthRateByName("slow")
+    .then(function(response) {
+      res.json(response);
+    })
+    .catch(function(error) {
+      console.log('There was an ERROR: ', error);
+    });
+```
+
+Use **getNatureByName** to return data about specific pokemon nature.
+```js
+  P.getNatureByName("bold")
+    .then(function(response) {
+      res.json(response);
+    })
+    .catch(function(error) {
+      console.log('There was an ERROR: ', error);
+    });
+```
+
+Use **getPokeathonStatByName** to return data about specific pokeathon stat.
+```js
+  P.getPokeathonStatByName("speed")
+    .then(function(response) {
+      res.json(response);
+    })
+    .catch(function(error) {
+      console.log('There was an ERROR: ', error);
+    });
+```
