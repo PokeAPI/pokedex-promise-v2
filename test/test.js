@@ -10,6 +10,8 @@ describe("pokedex", function() {
     id = 2,
     P = new Pokedex();
 
+  this.timeout(30000);
+
   describe(".getBerryByName(Id: int)", function() {
     before(function() {
       promise = P.getBerryByName(id);
