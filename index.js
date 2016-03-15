@@ -9,9 +9,12 @@ getJSON = function(url) {
   };
   return rp.get(options)
     .catch(function(error) {
-      return error;
+      throw error;
     })
     .then(function(response) {
+      if(response.statusCode !== undefined && response.statusCode !== 200) {
+        throw response;
+      }
       return response;
     });
 };
