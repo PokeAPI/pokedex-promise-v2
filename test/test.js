@@ -20,7 +20,7 @@ describe("pokedex", function() {
       return promise;
     });
     it("should have property name", function() {
-      return expect(promise).to.eventually.have.object("name");
+      return expect(promise).to.eventually.have.property("name");
     });
   });
 
