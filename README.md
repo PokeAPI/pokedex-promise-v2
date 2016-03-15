@@ -452,9 +452,9 @@ Use **getNatureByName** to return data about specific pokemon nature.
     });
 ```
 
-Use **getPokeathonStatByName** to return data about specific pokeathon stat.
+Use **getPokeathlonStatByName** to return data about specific pokeathon stat.
 ```js
-  P.getPokeathonStatByName("speed")
+  P.getPokeathlonStatByName("speed")
     .then(function(response) {
       res.json(response);
     })

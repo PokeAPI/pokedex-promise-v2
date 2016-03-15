@@ -12,7 +12,7 @@ getJSON = function(url) {
       throw error;
     })
     .then(function(response) {
-      if(response.statusCode !== undefined && response.statusCode !== 200) {
+      if (response.statusCode !== undefined && response.statusCode !== 200) {
         throw response;
       }
       return response;
@@ -170,8 +170,8 @@ var Pokedex = (function() {
     return getJSON(pokeUrl + '/api/v2/nature/' + name);
   };
 
-  Pokedex.prototype.getPokeathonStatByName = function(name) {
-    return getJSON(pokeUrl + '/api/v2/pokeathon-stat/' + name);
+  Pokedex.prototype.getPokeathlonStatByName = function(name) {
+    return getJSON(pokeUrl + '/api/v2/pokeathlon-stat/' + name);
   };
 
   Pokedex.prototype.getPokemonByName = function(name) {

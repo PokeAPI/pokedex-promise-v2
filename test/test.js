@@ -20,7 +20,7 @@ describe("pokedex", function() {
       return promise;
     });
     it("should have property name", function() {
-      return expect(promise).to.eventually.have.property("name");
+      return expect(promise).to.eventually.have.object("name");
     });
   });
 
@@ -444,9 +444,9 @@ describe("pokedex", function() {
     });
   });
 
-  describe(".getPokeathonStatByName(Id: int)", function() {
+  describe(".getPokeathlonStatByName(Id: int)", function() {
     before(function() {
-      promise = P.getPokeathonStatByName(id);
+      promise = P.getPokeathlonStatByName(id);
     });
     it("should succeed", function() {
       return promise;
