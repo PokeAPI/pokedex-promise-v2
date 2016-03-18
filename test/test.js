@@ -563,4 +563,13 @@ describe("pokedex", function() {
       return expect(promise).to.eventually.have.property("name");
     });
   });
+
+  describe(".getBerryByName(Name: string)", function() {
+    before(function() {
+      promise = P.getBerryByName('sfgfsgsfggsfg');
+    });
+    it("should fail", function() {
+      return expect(Promise.regect);
+    });
+  });
 });
