@@ -19,6 +19,16 @@ getJSON = function(url) {
     });
 };
 
+getMultiples = function(array) {
+  var returnObject = {};
+  if (Array.isArray(array)) {
+    for (var i = 0; i < array.length; i++) {
+      returnObject[array[i]] = getJSON(array[i]);
+    }
+    return returnObject;
+  }
+};
+
 var Pokedex = (function() {
   function Pokedex() {}
 
