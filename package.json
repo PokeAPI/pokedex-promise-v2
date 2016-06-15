@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/TheTommyTwitch/pokedex-promise-v2.git"
+    "url": "git+https://github.com/PokeAPI/pokedex-promise-v2"
   },
   "keywords": [
     "pokedex",
@@ -19,9 +19,9 @@
   "author": "Thomas Asadurian <Tasadurian@gmail.com> (http://thetommytwitch.github.io/)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/TheTommyTwitch/pokedex-promise-v2/issues"
+    "url": "https://github.com/PokeAPI/pokedex-promise-v2/issues"
   },
-  "homepage": "https://github.com/TheTommyTwitch/pokedex-promise-v2#readme",
+  "homepage": "https://github.com/PokeAPI/pokedex-promise-v2#readme",
   "dependencies": {
     "chai": "^3.5.0",
     "chai-as-promised": "^5.2.0",
