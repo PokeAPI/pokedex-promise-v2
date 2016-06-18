@@ -14,10 +14,10 @@ getJSON = function(url) {
       json: true,
     };
     return rp.get(options)
-      .catch((error) => {
+      .catch(function(error) {
         throw error;
       })
-      .then((response) => {
+      .then(function(response) {
         if (response.statusCode !== undefined && response.statusCode !== 200) {
           throw response;
         }
