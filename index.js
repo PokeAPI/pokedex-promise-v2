@@ -1,25 +1,33 @@
-var rp = require('request-promise');
+const rp = require('request-promise');
+const cache = require('memory-cache');
 
-var pokeUrl = 'http://pokeapi.co';
+const CACHE_LIMIT = 1000000 * 1000 //11 days
+const pokeUrl = 'http://pokeapi.co';
 
 getJSON = function(url) {
-  var options = {
-    url: url,
-    json: true,
-  };
-  return rp.get(options)
-    .catch(function(error) {
-      throw error;
-    })
-    .then(function(response) {
-      if (response.statusCode !== undefined && response.statusCode !== 200) {
-        throw response;
-      }
-      return response;
-    });
+  const cachedResult = cache.get(url);
+  if (cachedResult !== null) {
+    return cachedResult;
+  } else {
+    const options = {
+      url: url,
+      json: true,
+    };
+    return rp.get(options)
+      .catch((error) => {
+        throw error;
+      })
+      .then((response) => {
+        if (response.statusCode !== undefined && response.statusCode !== 200) {
+          throw response;
+        }
+        cache.put(url, response, CACHE_LIMIT);
+        return response;
+      });
+  }
 };
 
-var Pokedex = (function() {
+const Pokedex = (function() {
   function Pokedex() {}
 
   Pokedex.prototype.getBerryByName = function(name) {
@@ -39,7 +47,7 @@ var Pokedex = (function() {
   };
 
   Pokedex.prototype.getContestEffectById = function(id) {
-    return getJSON(pokeUrl + '/api/v2/contest-type/' + id);
+    return getJSON(pokeUrl + '/api/v2/contest-effect/' + id);
   };
 
   Pokedex.prototype.getSuperContestEffectById = function(id) {
@@ -209,7 +217,6 @@ var Pokedex = (function() {
   Pokedex.prototype.getLanguageByName = function(name) {
     return getJSON(pokeUrl + '/api/v2/language/' + name);
   };
-
 
   return Pokedex;
 })();
