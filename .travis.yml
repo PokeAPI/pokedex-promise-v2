@@ -1,5 +1,10 @@
 language: node_js
+cache:
+  directories:
+    - node_modules
 node_js:
+  - "6"
+  - "node"
   - "4.1"
   - "4.0"
   - "0.12"
@@ -11,3 +16,10 @@ node_js:
 
 notifications:
   email: false
+before_install:
+  - npm i -g npm@^3.0.0
+  - npm i
+before_script:
+  - npm prune
+script:
+  - npm test
