@@ -1,6 +1,6 @@
 {
   "name": "pokedex-promise-v2",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "A small library used to get information about specific pokemon.",
   "main": "index.js",
   "scripts": {
@@ -17,12 +17,16 @@
     "promise"
   ],
   "author": "Thomas Asadurian <Tasadurian@gmail.com> (http://thetommytwitch.github.io/)",
+  "contributors": [
+    "Alessandro Pezzé <igougi.ui@gmail.com> (https://github.com/Naramsim)"
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/PokeAPI/pokedex-promise-v2/issues"
   },
   "homepage": "https://github.com/PokeAPI/pokedex-promise-v2#readme",
   "dependencies": {
+    "async": "^2.0.0-rc.6",
     "chai": "^3.5.0",
     "chai-as-promised": "^5.2.0",
     "chai-things": "^0.2.0",
