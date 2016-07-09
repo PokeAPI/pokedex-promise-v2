@@ -9,7 +9,7 @@ An easy way to use pokeapi v2 with promises in node.js
 
 You can install with npm!
 ```shell
-npm install pokedex-promise-v2 --save-dev
+npm install pokedex-promise-v2 --save
 ```
 
 ## Setup

@@ -27,12 +27,13 @@
   "homepage": "https://github.com/PokeAPI/pokedex-promise-v2#readme",
   "dependencies": {
     "async": "^2.0.0-rc.6",
+    "memory-cache": "^0.1.6",
+    "request-promise": "^2.0.0"
+  },
+  "devDependencies": {
     "chai": "^3.5.0",
     "chai-as-promised": "^5.2.0",
     "chai-things": "^0.2.0",
-    "memory-cache": "^0.1.6",
-    "mocha": "^2.4.5",
-    "request": "^2.65.0",
-    "request-promise": "^2.0.0"
+    "mocha": "^2.4.5"
   }
 }
