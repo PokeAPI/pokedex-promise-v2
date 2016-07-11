@@ -8,8 +8,8 @@ An easy way to use pokeapi v2 with promises in node.js
 ## Install
 
 You can install with npm!
-```
-npm install pokedex-promise-v2
+```shell
+npm install pokedex-promise-v2 --save
 ```
 
 ## Setup
@@ -27,6 +27,8 @@ var P = new Pokedex();
 ```
 
 **NOTE**: Any function with the designation "ByName" can also be passed an integer ID. However, the functions with the designation "ById" can only be passed an integer ID. Refer to the [pokeapi v2 docs](http://pokeapi.co/docsv2/) to find out more about how the data is structured.
+
+**UPDATE**: You can pass an array to each endpoint, it will retrive data for each array element.
 
 ### Berries
 
@@ -61,6 +63,17 @@ Use **getBerryFlavorByName** to return data about the flavor of a specific berry
     .catch(function(error) {
       console.log('There was an ERROR: ', error);
     });
+```
+
+Array as a parameter example. It can be a mixed array.
+This method fetches data asynchronously. So it is quite fast :smile:
+```js
+  P.getBerryByName(['cheri', 'chesto', 5])
+    .then(function(response) {
+      console.log(response);
+    })
+  // response will be an Array containing 3 Objects
+  // response.forEach((item) => {console.log(item.size)}) // 80,50,20
 ```
 
 ### Contests

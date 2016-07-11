@@ -1,16 +1,63 @@
 var Pokedex = require("../index.js");
 var chai = require('chai'),
-  expect = chai.expect;
+  expect = chai.expect,
+  assert = chai.assert;
 
-chai.use(require("chai-as-promised"));
+// order matters: github.com/chaijs/chai-things/issues/4#issuecomment-87801365
 chai.use(require("chai-things"));
+chai.use(require("chai-as-promised"));
 
 describe("pokedex", function() {
   var promise,
     id = 2,
     P = new Pokedex();
 
-  this.timeout(30000);
+  this.timeout(40000);
+
+  describe(".getBerryByName(Array: string)", function() {
+    before(function() {
+      promise = P.getBerryByName(['cheri', 'chesto', 'pecha']);
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have length 3", function() {
+      return expect(promise).to.eventually.have.length(3);
+    });
+    it("berries should have property growth_time", function() {
+      return expect(promise).to.eventually.all.have.property('growth_time');
+    });
+  });
+
+  describe(".getBerryByName(Array: int)", function() {
+    before(function() {
+      promise = P.getBerryByName([1, 3, 5]);
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have length 3", function() {
+      return expect(promise).to.eventually.have.length(3);
+    });
+    it("berries should have property growth_time", function() {
+      return expect(promise).to.eventually.all.have.property('growth_time');
+    });
+  });
+
+  describe(".getPokemonByName(Array: int)", function() {
+    before(function() {
+      promise = P.getPokemonByName([15, 35, 433, 444]);
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have length 4", function() {
+      return expect(promise).to.eventually.have.length(4);
+    });
+    it("pokemons should have property height", function() {
+      return expect(promise).to.eventually.all.have.property('height');
+    });
+  });
 
   describe(".getBerryByName(Id: int)", function() {
     before(function() {
@@ -572,4 +619,5 @@ describe("pokedex", function() {
       return expect(Promise.regect);
     });
   });
+
 });
