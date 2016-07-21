@@ -7,14 +7,17 @@ const CACHE_LIMIT = 1000000 * 1000; // 11 days
 const pokeUrl = 'http://pokeapi.co';
 const versionUrl = '/api/v2/';
 
-
-
 getJSON = function (url, cb) {
 
   // retrive possible content from volatile memory
   const cachedResult = cache.get(url);
   if (cachedResult !== null) {
-    return cachedResult;
+    return new Promise(function(resolve, reject) {
+      if (cb) {
+        cb(cachedResult);
+      }
+      resolve(cachedResult);
+    });
   } else {
     const options = {
       url: url,

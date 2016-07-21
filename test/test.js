@@ -71,6 +71,18 @@ describe("pokedex", function() {
     });
   });
 
+  describe(".getBerryByName(Id: int) cached", function() {
+    before(function() {
+      promise = P.getBerryByName(id);
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property name", function() {
+      return expect(promise).to.eventually.have.property("name");
+    });
+  });
+
   describe(".getBerryFirmnessByName(Id: int)", function() {
     before(function() {
       promise = P.getBerryFirmnessByName(id);
