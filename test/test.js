@@ -14,6 +14,19 @@ describe("pokedex", function() {
 
   this.timeout(40000);
 
+  describe(".getBerryFirmnessByName(Id: int) with callback", function() {
+    var resultAsCallback;
+    before(function(done) {
+      promise = P.getBerryFirmnessByName(id, function(data) {
+        resultAsCallback = data;
+        done();
+      });
+    });
+    it("should have property name", function() {
+      return expect(resultAsCallback).to.have.property("name");
+    });
+  });
+
   describe(".getBerryByName(Array: string)", function() {
     before(function() {
       promise = P.getBerryByName(['cheri', 'chesto', 'pecha']);

@@ -100,12 +100,12 @@ const Pokedex = (function() {
 
   // add to Pokedex.prototype all our endpoint functions
   endpoints.forEach(function (endpoint) {
-    Pokedex.prototype[endpoint[0]] = function (input) { 
+    Pokedex.prototype[endpoint[0]] = function (input, cb) { 
       if (input) {
 
         // if the user has submitted a Name or an Id, return the Json promise
         if (typeof input === 'number' || typeof input === 'string') {
-          return getJSON(pokeUrl +  versionUrl + endpoint[1] + '/' + input + '/'); 
+          return getJSON(pokeUrl +  versionUrl + endpoint[1] + '/' + input + '/', cb); 
         }
 
         // if the user has submitted an Array
