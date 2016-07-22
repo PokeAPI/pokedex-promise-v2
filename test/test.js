@@ -27,6 +27,38 @@ describe("pokedex", function() {
     });
   });
 
+  describe(".getBerryByName(Array: mixed) with callback", function() {
+    var resultAsCallback;
+    before(function(done) {
+      promise = P.getBerryByName(['cheri', 'chesto', 5], function(data) {
+        resultAsCallback = data;
+        done();
+      });
+    });
+    it("result in callback should have length 3", function() {
+      return expect(resultAsCallback).to.have.length(3);
+    });
+    it("berries should have property max_harvest", function() {
+      return expect(resultAsCallback).to.all.have.property('max_harvest');
+    });
+  });
+
+  describe(".getBerryByName(Array: mixed) cached", function() {
+    var resultAsCallback;
+    before(function(done) {
+      promise = P.getBerryByName(['cheri', 'chesto', 5]).then(function(data) {
+        resultAsCallback = data;
+        done();
+      });
+    });
+    it("result in callback should have length 3", function() {
+      return expect(resultAsCallback).to.have.length(3);
+    });
+    it("berries should have property soil_dryness", function() {
+      return expect(resultAsCallback).to.all.have.property('soil_dryness');
+    });
+  });
+
   describe(".getBerryByName(Array: string)", function() {
     before(function() {
       promise = P.getBerryByName(['cheri', 'chesto', 'pecha']);

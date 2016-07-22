@@ -121,6 +121,9 @@ const Pokedex = (function() {
               getJSON(pokeUrl +  versionUrl + endpoint[1] + '/' + name + '/', function (response){
                 toReturn.push(response);
                 if(toReturn.length === input.length){
+                  if (cb) {
+                    cb(toReturn);
+                  }
                   resolve(toReturn);
                 }
               });
