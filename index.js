@@ -14,34 +14,55 @@ getJSON = function (url, cb) {
   if (cachedResult !== null) {
     return new Promise(function(resolve, reject) {
       if (cb) {
-        cb(cachedResult);
+        // call callback without errors
+        cb(cachedResult, false);
       }
       resolve(cachedResult);
     });
   } else {
+    // retrive data from the web
     const options = {
       url: url,
       json: true,
     };
     return rp.get(options)
       .catch(function (error) {
-        throw error;
+        if (!cb) {
+          // throw if a Promise
+          throw error;
+        } else {
+          // call the callback with error as second parameter
+          cb('error', error);
+        }
       })
       .then(function (response) {
-        if (response.statusCode !== undefined && response.statusCode !== 200) {
-          throw response;
-        }
+        if (response) {
 
-        //cache the object to volatile memory
-        cache.put(url, response, CACHE_LIMIT);
+          // if there was an error
+          if (response.statusCode !== undefined && response.statusCode !== 200) {
+            if (!cb) {
+              // throw if a Promise
+              throw response;
+            } else {
+              // call the callback with error as second parameter
+              cb('error', response);
+            }
+          } else {
+            // if everithing was good
+            // cache the object in volatile memory
+            cache.put(url, response, CACHE_LIMIT);
 
-        // if a callback is present, call it
-        if (cb) {
-          cb(response);
-        } else {
-          return response;
+            // if a callback is present
+            if (cb) {
+              // call it, without errors
+              cb(response, false);
+            } else {
+              // return the Promise
+              return response;
+            }
+          }
         }
-      });
+      }); 
   }
 };
 

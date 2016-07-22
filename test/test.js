@@ -59,6 +59,42 @@ describe("pokedex", function() {
     });
   });
 
+  describe(".getBerryByName(String: name) invalid with callback", function() {
+    var resultAsCallback;
+    before(function(done) {
+      promise = P.getBerryByName("asd", function(data, error) {
+        if(error) {
+          resultAsCallback = error;
+        } else {
+          resultAsCallback = data;
+        }
+        done();
+      });
+    });
+    it("should fail with an error that has response property", function() {
+      return expect(resultAsCallback).to.have.property('response');
+    });
+  });
+
+  describe(".getBerryByName(String: name) invalid", function() {
+    var resultAsCallback;
+    before(function(done) {
+      promise = P.getBerryByName("das").then(function(data) {
+          resultAsCallback = data;
+          done();
+        }).catch(function (error){
+          resultAsCallback = error;
+          done();
+        });
+    });
+    it("should fail", function() {
+      return expect(Promise.regect);
+    });
+    it("should fail with an error that has response property", function() {
+      return expect(resultAsCallback).to.have.property('response');
+    });
+  });
+
   describe(".getBerryByName(Array: string)", function() {
     before(function() {
       promise = P.getBerryByName(['cheri', 'chesto', 'pecha']);
