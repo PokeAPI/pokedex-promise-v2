@@ -69,7 +69,7 @@ Use **getBerryFirmnessByName** to return data about the firmness of a specific b
 
 Use **getBerryFlavorByName** to return data about the flavor of a specific berry.
 ```js
-  P.getBerryFirmnessByName('spicy')
+  P.getBerryFlavorByName('spicy')
     .then(function(response) {
       console.log(response);
     })
