@@ -14,6 +14,87 @@ describe("pokedex", function() {
 
   this.timeout(40000);
 
+  describe(".getBerryFirmnessByName(Id: int) with callback", function() {
+    var resultAsCallback;
+    before(function(done) {
+      promise = P.getBerryFirmnessByName(id, function(data) {
+        resultAsCallback = data;
+        done();
+      });
+    });
+    it("should have property name", function() {
+      return expect(resultAsCallback).to.have.property("name");
+    });
+  });
+
+  describe(".getBerryByName(Array: mixed) with callback", function() {
+    var resultAsCallback;
+    before(function(done) {
+      promise = P.getBerryByName(['cheri', 'chesto', 5], function(data) {
+        resultAsCallback = data;
+        done();
+      });
+    });
+    it("result in callback should have length 3", function() {
+      return expect(resultAsCallback).to.have.length(3);
+    });
+    it("berries should have property max_harvest", function() {
+      return expect(resultAsCallback).to.all.have.property('max_harvest');
+    });
+  });
+
+  describe(".getBerryByName(Array: mixed) cached", function() {
+    var resultAsCallback;
+    before(function(done) {
+      promise = P.getBerryByName(['cheri', 'chesto', 5]).then(function(data) {
+        resultAsCallback = data;
+        done();
+      });
+    });
+    it("result in callback should have length 3", function() {
+      return expect(resultAsCallback).to.have.length(3);
+    });
+    it("berries should have property soil_dryness", function() {
+      return expect(resultAsCallback).to.all.have.property('soil_dryness');
+    });
+  });
+
+  describe(".getBerryByName(String: name) invalid with callback", function() {
+    var resultAsCallback;
+    before(function(done) {
+      promise = P.getBerryByName("asd", function(data, error) {
+        if(error) {
+          resultAsCallback = error;
+        } else {
+          resultAsCallback = data;
+        }
+        done();
+      });
+    });
+    it("should fail with an error that has response property", function() {
+      return expect(resultAsCallback).to.have.property('response');
+    });
+  });
+
+  describe(".getBerryByName(String: name) invalid", function() {
+    var resultAsCallback;
+    before(function(done) {
+      promise = P.getBerryByName("das").then(function(data) {
+          resultAsCallback = data;
+          done();
+        }).catch(function (error){
+          resultAsCallback = error;
+          done();
+        });
+    });
+    it("should fail", function() {
+      return expect(Promise.regect);
+    });
+    it("should fail with an error that has response property", function() {
+      return expect(resultAsCallback).to.have.property('response');
+    });
+  });
+
   describe(".getBerryByName(Array: string)", function() {
     before(function() {
       promise = P.getBerryByName(['cheri', 'chesto', 'pecha']);
@@ -60,6 +141,18 @@ describe("pokedex", function() {
   });
 
   describe(".getBerryByName(Id: int)", function() {
+    before(function() {
+      promise = P.getBerryByName(id);
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property name", function() {
+      return expect(promise).to.eventually.have.property("name");
+    });
+  });
+
+  describe(".getBerryByName(Id: int) cached", function() {
     before(function() {
       promise = P.getBerryByName(id);
     });

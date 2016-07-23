@@ -7,38 +7,62 @@ const CACHE_LIMIT = 1000000 * 1000; // 11 days
 const pokeUrl = 'http://pokeapi.co';
 const versionUrl = '/api/v2/';
 
-
-
 getJSON = function (url, cb) {
 
   // retrive possible content from volatile memory
   const cachedResult = cache.get(url);
   if (cachedResult !== null) {
-    return cachedResult;
+    return new Promise(function(resolve, reject) {
+      if (cb) {
+        // call callback without errors
+        cb(cachedResult, false);
+      }
+      resolve(cachedResult);
+    });
   } else {
+    // retrive data from the web
     const options = {
       url: url,
       json: true,
     };
     return rp.get(options)
       .catch(function (error) {
-        throw error;
+        if (!cb) {
+          // throw if a Promise
+          throw error;
+        } else {
+          // call the callback with error as second parameter
+          cb('error', error);
+        }
       })
       .then(function (response) {
-        if (response.statusCode !== undefined && response.statusCode !== 200) {
-          throw response;
-        }
+        if (response) {
 
-        //cache the object to volatile memory
-        cache.put(url, response, CACHE_LIMIT);
+          // if there was an error
+          if (response.statusCode !== undefined && response.statusCode !== 200) {
+            if (!cb) {
+              // throw if a Promise
+              throw response;
+            } else {
+              // call the callback with error as second parameter
+              cb('error', response);
+            }
+          } else {
+            // if everithing was good
+            // cache the object in volatile memory
+            cache.put(url, response, CACHE_LIMIT);
 
-        // if a callback is present, call it
-        if (cb) {
-          cb(response);
-        } else {
-          return response;
+            // if a callback is present
+            if (cb) {
+              // call it, without errors
+              cb(response, false);
+            } else {
+              // return the Promise
+              return response;
+            }
+          }
         }
-      });
+      }); 
   }
 };
 
@@ -97,12 +121,12 @@ const Pokedex = (function() {
 
   // add to Pokedex.prototype all our endpoint functions
   endpoints.forEach(function (endpoint) {
-    Pokedex.prototype[endpoint[0]] = function (input) { 
+    Pokedex.prototype[endpoint[0]] = function (input, cb) { 
       if (input) {
 
         // if the user has submitted a Name or an Id, return the Json promise
         if (typeof input === 'number' || typeof input === 'string') {
-          return getJSON(pokeUrl +  versionUrl + endpoint[1] + '/' + input + '/'); 
+          return getJSON(pokeUrl +  versionUrl + endpoint[1] + '/' + input + '/', cb); 
         }
 
         // if the user has submitted an Array
@@ -118,6 +142,9 @@ const Pokedex = (function() {
               getJSON(pokeUrl +  versionUrl + endpoint[1] + '/' + name + '/', function (response){
                 toReturn.push(response);
                 if(toReturn.length === input.length){
+                  if (cb) {
+                    cb(toReturn);
+                  }
                   resolve(toReturn);
                 }
               });
