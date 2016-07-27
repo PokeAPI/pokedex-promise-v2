@@ -10,9 +10,22 @@ chai.use(require("chai-as-promised"));
 describe("pokedex", function() {
   var promise,
     id = 2,
-    P = new Pokedex();
+    P = new Pokedex(),
+    secureP = new Pokedex(1);
 
   this.timeout(40000);
+
+  describe(".getItemCategoryByName(Id: int) secure (with ssl)", function() {
+    before(function() {
+      promise = secureP.getItemCategoryByName(id);
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property name", function() {
+      return expect(promise).to.eventually.have.property("name");
+    });
+  });
 
   describe(".getBerryFirmnessByName(Id: int) with callback", function() {
     var resultAsCallback;
