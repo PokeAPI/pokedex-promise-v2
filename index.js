@@ -4,11 +4,61 @@ const async = require('async');
 
 const CACHE_LIMIT = 1000000 * 1000; // 11 days
 
-const pokeUrl = 'http://pokeapi.co';
-const versionUrl = '/api/v2/';
+var protocol = 'http'
+const serverAddress = '://pokeapi.co';
+const versionPath = '/api/v2/';
 
-getJSON = function (url, cb) {
+const endpoints = [
+  ['getBerryByName', 'berry'], 
+  ['getBerryFirmnessByName', 'berry-firmness'], 
+  ['getBerryFlavorByName', 'berry-flavor'], 
+  ['getContestTypeByName', 'contest-type'], 
+  ['getContestEffectById', 'contest-effect'], 
+  ['getSuperContestEffectById', 'super-contest-effect'], 
+  ['getEncounterMethodByName', 'encounter-method'], 
+  ['getEncounterConditionByName', 'encounter-condition'], 
+  ['getEncounterConditionValueByName', 'encounter-condition-value'], 
+  ['getEvolutionChainById', 'evolution-chain'], 
+  ['getEvolutionTriggerByName', 'evolution-trigger'], 
+  ['getGenerationByName', 'generation'], 
+  ['getPokedexByName', 'pokedex'], 
+  ['getVersionByName', 'version'], 
+  ['getVersionGroupByName', 'version-group'], 
+  ['getItemByName', 'item'], 
+  ['getItemAttributeByName', 'item-attribute'], 
+  ['getItemCategoryByName', 'item-category'], 
+  ['getItemFlingEffectByName', 'item-fling-effect'], 
+  ['getItemPocketByName', 'item-pocket'], 
+  ['getMoveByName', 'move'], 
+  ['getMoveAilmentByName', 'move-ailment'], 
+  ['getMoveBattleStyleByName', 'move-battle-style'], 
+  ['getMoveCategoryByName', 'move-category'], 
+  ['getMoveDamageClassByName', 'move-damage-class'], 
+  ['getMoveLearnMethodByName', 'move-learn-method'], 
+  ['getMoveTargetByName', 'move-target'], 
+  ['getLocationByName', 'location'], 
+  ['getLocationAreaByName', 'location-area'], 
+  ['getPalParkAreaByName', 'pal-park-area'], 
+  ['getRegionByName', 'region'], 
+  ['getAbilityByName', 'ability'], 
+  ['getCharacteristicById', 'characteristic'], 
+  ['getEggGroupByName', 'egg-group'], 
+  ['getGenderByName', 'gender'], 
+  ['getGrowthRateByName', 'growth-rate'], 
+  ['getNatureByName', 'nature'], 
+  ['getPokeathlonStatByName', 'pokeathlon-stat'], 
+  ['getPokemonByName', 'pokemon'], 
+  ['getPokemonColorByName', 'pokemon-color'], 
+  ['getPokemonFormByName', 'pokemon-form'], 
+  ['getPokemonHabitatByName', 'pokemon-habitat'], 
+  ['getPokemonShapeByName', 'pokemon-shape'], 
+  ['getPokemonSpeciesByName', 'pokemon-species'], 
+  ['getStatByName', 'stat'], 
+  ['getTypeByName', 'type'], 
+  ['getLanguageByName', 'language']
+];
 
+const getJSON = function (url, cb) {
   // retrive possible content from volatile memory
   const cachedResult = cache.get(url);
   if (cachedResult !== null) {
@@ -66,58 +116,12 @@ getJSON = function (url, cb) {
   }
 };
 
-const endpoints = [
-  ['getBerryByName', 'berry'], 
-  ['getBerryFirmnessByName', 'berry-firmness'], 
-  ['getBerryFlavorByName', 'berry-flavor'], 
-  ['getContestTypeByName', 'contest-type'], 
-  ['getContestEffectById', 'contest-effect'], 
-  ['getSuperContestEffectById', 'super-contest-effect'], 
-  ['getEncounterMethodByName', 'encounter-method'], 
-  ['getEncounterConditionByName', 'encounter-condition'], 
-  ['getEncounterConditionValueByName', 'encounter-condition-value'], 
-  ['getEvolutionChainById', 'evolution-chain'], 
-  ['getEvolutionTriggerByName', 'evolution-trigger'], 
-  ['getGenerationByName', 'generation'], 
-  ['getPokedexByName', 'pokedex'], 
-  ['getVersionByName', 'version'], 
-  ['getVersionGroupByName', 'version-group'], 
-  ['getItemByName', 'item'], 
-  ['getItemAttributeByName', 'item-attribute'], 
-  ['getItemCategoryByName', 'item-category'], 
-  ['getItemFlingEffectByName', 'item-fling-effect'], 
-  ['getItemPocketByName', 'item-pocket'], 
-  ['getMoveByName', 'move'], 
-  ['getMoveAilmentByName', 'move-ailment'], 
-  ['getMoveBattleStyleByName', 'move-battle-style'], 
-  ['getMoveCategoryByName', 'move-category'], 
-  ['getMoveDamageClassByName', 'move-damage-class'], 
-  ['getMoveLearnMethodByName', 'move-learn-method'], 
-  ['getMoveTargetByName', 'move-target'], 
-  ['getLocationByName', 'location'], 
-  ['getLocationAreaByName', 'location-area'], 
-  ['getPalParkAreaByName', 'pal-park-area'], 
-  ['getRegionByName', 'region'], 
-  ['getAbilityByName', 'ability'], 
-  ['getCharacteristicById', 'characteristic'], 
-  ['getEggGroupByName', 'egg-group'], 
-  ['getGenderByName', 'gender'], 
-  ['getGrowthRateByName', 'growth-rate'], 
-  ['getNatureByName', 'nature'], 
-  ['getPokeathlonStatByName', 'pokeathlon-stat'], 
-  ['getPokemonByName', 'pokemon'], 
-  ['getPokemonColorByName', 'pokemon-color'], 
-  ['getPokemonFormByName', 'pokemon-form'], 
-  ['getPokemonHabitatByName', 'pokemon-habitat'], 
-  ['getPokemonShapeByName', 'pokemon-shape'], 
-  ['getPokemonSpeciesByName', 'pokemon-species'], 
-  ['getStatByName', 'stat'], 
-  ['getTypeByName', 'type'], 
-  ['getLanguageByName', 'language']
-];
-
 const Pokedex = (function() {
-  function Pokedex(){}
+  function Pokedex(ssl){
+    if (ssl) {
+      protocol = 'https';
+    }
+  }
 
   // add to Pokedex.prototype all our endpoint functions
   endpoints.forEach(function (endpoint) {
@@ -126,7 +130,7 @@ const Pokedex = (function() {
 
         // if the user has submitted a Name or an Id, return the Json promise
         if (typeof input === 'number' || typeof input === 'string') {
-          return getJSON(pokeUrl +  versionUrl + endpoint[1] + '/' + input + '/', cb); 
+          return getJSON(protocol + serverAddress + versionPath + endpoint[1] + '/' + input + '/', cb); 
         }
 
         // if the user has submitted an Array
@@ -139,7 +143,7 @@ const Pokedex = (function() {
             async.forEachOf(input, function (name){
 
               //get current input data and then try to resolve
-              getJSON(pokeUrl +  versionUrl + endpoint[1] + '/' + name + '/', function (response){
+              getJSON(protocol + serverAddress + versionPath + endpoint[1] + '/' + name + '/', function (response){
                 toReturn.push(response);
                 if(toReturn.length === input.length){
                   if (cb) {

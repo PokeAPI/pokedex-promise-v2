@@ -43,6 +43,15 @@ var P = new Pokedex();
     });
 ```
 
+### SSL
+
+To establish only secure connections initialize the Pokedex with a single parameter `true`.
+
+```
+var Pokedex = require('pokedex-promise-v2');
+var P = new Pokedex(1);
+```
+
 ### Berries
 
 Use **getBerryByName** to return data about a specific berry.
