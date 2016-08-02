@@ -9,21 +9,21 @@ An easy way to use [Pokéapi](https://pokeapi.co/) v2 with promises in node.js
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**
 
-- [pokedex-promise-v2 *](#pokedex-promise-v2-)
-  - [Install](#install)
-  - [Usage](#usage)
-    - [Example requests](#example-requests)
-      - [Configuration](#configuration)
-    - [Berries](#berries)
-    - [Contests](#contests)
-    - [Encounters](#encounters)
-    - [Evolution](#evolution)
-    - [Games](#games)
-    - [Items](#items)
-    - [Moves](#moves)
-    - [Locations](#locations)
-    - [Pokemon](#pokemon)
-    - [Utility](#utility)
+- [Install](#install)
+- [Usage](#usage)
+  - [Example requests](#example-requests)
+- [Configuration](#configuration)
+- [Endpoints](#endpoints)
+  - [Berries](#berries)
+  - [Contests](#contests)
+  - [Encounters](#encounters)
+  - [Evolution](#evolution)
+  - [Games](#games)
+  - [Items](#items)
+  - [Moves](#moves)
+  - [Locations](#locations)
+  - [Pokemon](#pokemon)
+  - [Utility](#utility)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -65,7 +65,7 @@ var P = new Pokedex();
     });
 ```
 
-#### Configuration
+## Configuration
 
 Pass an Object to Pokedex in order to configure it. Available options: `protocol`, `hostName`, `versionPath`.
 Any option is optional :smile:. If no Object is passed, the Pokedex will be initialized to grab data from pokeapi.co using http
@@ -79,6 +79,8 @@ var options = {
 }
 var P = new Pokedex(options);
 ```
+
+## Endpoints
 
 ### Berries
 
