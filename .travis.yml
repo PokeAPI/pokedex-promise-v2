@@ -5,9 +5,9 @@ cache:
 node_js:
   - "6"
   - "node"
-  - "4.1"
   - "4.0"
   - "0.12"
+  - "0.10"
 
 # The following are currently not supported:
 #  - "0.10"
