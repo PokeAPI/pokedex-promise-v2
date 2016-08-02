@@ -11,7 +11,11 @@ describe("pokedex", function() {
   var promise,
     id = 2,
     P = new Pokedex(),
-    secureP = new Pokedex(1);
+    secureP = new Pokedex({
+                    protocol: 'https',
+                    hostName: 'pokeapi.co',
+                    versionPath: '/api/v2/'
+                  });
 
   this.timeout(40000);
 
