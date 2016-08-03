@@ -3,7 +3,29 @@
 [![npm version](https://badge.fury.io/js/pokedex-promise-v2.svg)](https://badge.fury.io/js/pokedex-promise-v2)
 [![Build Status](https://travis-ci.org/PokeAPI/pokedex-promise-v2.svg?branch=master)](https://travis-ci.org/PokeAPI/pokedex-promise-v2)
 
-An easy way to use pokeapi v2 with promises in node.js
+An easy way to use [Pokéapi](https://pokeapi.co/) v2 with promises in node.js
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**
+
+- [Install](#install)
+- [Usage](#usage)
+  - [Example requests](#example-requests)
+- [Configuration](#configuration)
+- [Endpoints](#endpoints)
+  - [Berries](#berries)
+  - [Contests](#contests)
+  - [Encounters](#encounters)
+  - [Evolution](#evolution)
+  - [Games](#games)
+  - [Items](#items)
+  - [Moves](#moves)
+  - [Locations](#locations)
+  - [Pokemon](#pokemon)
+  - [Utility](#utility)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Install
 
@@ -21,7 +43,7 @@ var P = new Pokedex();
 
 **NOTE**: Any function with the designation "ByName" can also be passed an integer ID. However, the functions with the designation "ById" can only be passed an integer ID. Refer to the [pokeapi v2 docs](http://pokeapi.co/docsv2/) to find out more about how the data is structured.
 
-**UPDATE**: You can pass an array to each endpoint, it will retrive data for each array element.
+**UPDATE**: You can pass an array to each endpoint, it will retrive data for each array element. If you scroll down, you will find an example.
 
 ### Example requests
 
@@ -43,14 +65,22 @@ var P = new Pokedex();
     });
 ```
 
-### SSL
+## Configuration
 
-To establish only secure connections initialize the Pokedex with a single parameter `true`.
+Pass an Object to Pokedex in order to configure it. Available options: `protocol`, `hostName`, `versionPath`.
+Any option is optional :smile:. If no Object is passed, the Pokedex will be initialized to grab data from pokeapi.co using http
 
-```
+```js
 var Pokedex = require('pokedex-promise-v2');
-var P = new Pokedex(1);
+var options = {
+  protocol: 'https',
+  hostName: 'localhost:443',
+  versionPath: '/api/v2/'
+}
+var P = new Pokedex(options);
 ```
+
+## Endpoints
 
 ### Berries
 
@@ -87,7 +117,7 @@ Use **getBerryFlavorByName** to return data about the flavor of a specific berry
     });
 ```
 
-Array as a parameter example. It can be a mixed array.
+**Array** as a parameter example. It can be a mixed array.
 This method fetches data asynchronously. So it is quite fast :smile:
 ```js
   P.getBerryByName(['cheri', 'chesto', 5])
