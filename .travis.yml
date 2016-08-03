@@ -10,7 +10,6 @@ node_js:
   - "0.10"
 
 # The following are currently not supported:
-#  - "0.10"
 #  - "0.8"
 #  - "0.6"
 
