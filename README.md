@@ -662,17 +662,20 @@ This is what you will get:
   "previous": 'https://pokeapi.co:443/api/v2/pokemon/?limit=11&offset=22',
   "results": [
     { 
-      url: 'https://pokeapi.co:443/api/v2/pokemon/34/',
-     name: 'nidoking' 
+      "url": "https://pokeapi.co:443/api/v2/pokemon/34/",
+      "name": "nidoking" 
     },
     { 
-      url: 'https://pokeapi.co:443/api/v2/pokemon/35/',
-      name: 'clefairy'
+      "url": "https://pokeapi.co:443/api/v2/pokemon/35/",
+      "name": "clefairy"
     },
-    ...
+    {
+      "url": "...",
+      "name": "..."
+    },
     { 
-      url: 'https://pokeapi.co:443/api/v2/pokemon/44/',
-      name: 'gloom'
+      "url": "https://pokeapi.co:443/api/v2/pokemon/44/",
+      "name": "gloom"
     }
   ]
 }
