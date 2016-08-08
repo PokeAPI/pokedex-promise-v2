@@ -19,581 +19,20 @@ describe("pokedex", function() {
 
   this.timeout(40000);
 
-  describe(".getEndpointsList() secure (with ssl)", function() {
-    before(function() {
-      promise = secureP.getEndpointsList();
-    });
-    it("should succeed", function() {
-      return promise;
-    });
-    it("should have property name", function() {
-      return expect(promise).to.eventually.have.property("pokedex");
-    });
-  });
-  describe(".getBerriesList() secure (with ssl)", function() {
-    before(function() {
-      promise = secureP.getBerriesList();
-    });
-    it("should succeed", function() {
-      return promise;
-    });
-    it("should have property name", function() {
-      return expect(promise).to.eventually.have.property("count");
-    });
-  });
+  // start custom uncommon calls
 
-   describe(".getBerriesFirmnesssList() secure (with ssl)", function() {
-    before(function() {
-      promise = secureP.getBerriesFirmnesssList();
+  describe(".getLanguagesList() with callback cached and offset", function() {
+    var resultAsCallback;
+    before(function(done) {
+      promise = P.getLanguagesList({offset: 2}, function(data) {
+        resultAsCallback = data;
+        done();
+      });
     });
-    it("should succeed", function() {
-      return promise;
-    });
-    it("should have property name", function() {
-      return expect(promise).to.eventually.have.property("count");
-    });
-  });
-
-   describe(".getBerriesFlavorsList() secure (with ssl)", function() {
-    before(function() {
-      promise = secureP.getBerriesFlavorsList();
-    });
-    it("should succeed", function() {
-      return promise;
-    });
-    it("should have property name", function() {
-      return expect(promise).to.eventually.have.property("count");
+    it("should have property count", function() {
+      return expect(resultAsCallback).to.have.property("count");
     });
   });
-
-   describe(".getContestTypesList() secure (with ssl)", function() {
-    before(function() {
-      promise = secureP.getContestTypesList();
-    });
-    it("should succeed", function() {
-      return promise;
-    });
-    it("should have property name", function() {
-      return expect(promise).to.eventually.have.property("count");
-    });
-  });
-
-   describe(".getContestEffectsList() secure (with ssl)", function() {
-    before(function() {
-      promise = secureP.getContestEffectsList();
-    });
-    it("should succeed", function() {
-      return promise;
-    });
-    it("should have property name", function() {
-      return expect(promise).to.eventually.have.property("count");
-    });
-  });
-
-   describe(".getSuperContestEffectsList() secure (with ssl)", function() {
-    before(function() {
-      promise = secureP.getSuperContestEffectsList();
-    });
-    it("should succeed", function() {
-      return promise;
-    });
-    it("should have property name", function() {
-      return expect(promise).to.eventually.have.property("count");
-    });
-  });
-
-   describe(".getEncounterMethodsList() secure (with ssl)", function() {
-    before(function() {
-      promise = secureP.getEncounterMethodsList();
-    });
-    it("should succeed", function() {
-      return promise;
-    });
-    it("should have property name", function() {
-      return expect(promise).to.eventually.have.property("count");
-    });
-  });
-
-   describe(".getEncounterConditionsList() secure (with ssl)", function() {
-    before(function() {
-      promise = secureP.getEncounterConditionsList();
-    });
-    it("should succeed", function() {
-      return promise;
-    });
-    it("should have property name", function() {
-      return expect(promise).to.eventually.have.property("count");
-    });
-  });
-
-   describe(".getEncounterConditionValuesList() secure (with ssl)", function() {
-    before(function() {
-      promise = secureP.getEncounterConditionValuesList();
-    });
-    it("should succeed", function() {
-      return promise;
-    });
-    it("should have property name", function() {
-      return expect(promise).to.eventually.have.property("count");
-    });
-  });
-
-   describe(".getEvolutionChainsList() secure (with ssl)", function() {
-    before(function() {
-      promise = secureP.getEvolutionChainsList();
-    });
-    it("should succeed", function() {
-      return promise;
-    });
-    it("should have property name", function() {
-      return expect(promise).to.eventually.have.property("count");
-    });
-  });
-
-   describe(".getEvolutionTriggersList() secure (with ssl)", function() {
-    before(function() {
-      promise = secureP.getEvolutionTriggersList();
-    });
-    it("should succeed", function() {
-      return promise;
-    });
-    it("should have property name", function() {
-      return expect(promise).to.eventually.have.property("count");
-    });
-  });
-
-   describe(".getGenerationsList() secure (with ssl)", function() {
-    before(function() {
-      promise = secureP.getGenerationsList();
-    });
-    it("should succeed", function() {
-      return promise;
-    });
-    it("should have property name", function() {
-      return expect(promise).to.eventually.have.property("count");
-    });
-  });
-
-   describe(".getPokedexsList() secure (with ssl)", function() {
-    before(function() {
-      promise = secureP.getPokedexsList();
-    });
-    it("should succeed", function() {
-      return promise;
-    });
-    it("should have property name", function() {
-      return expect(promise).to.eventually.have.property("count");
-    });
-  });
-
-   describe(".getVersionsList() secure (with ssl)", function() {
-    before(function() {
-      promise = secureP.getVersionsList();
-    });
-    it("should succeed", function() {
-      return promise;
-    });
-    it("should have property name", function() {
-      return expect(promise).to.eventually.have.property("count");
-    });
-  });
-
-   describe(".getVersionGroupsList() secure (with ssl)", function() {
-    before(function() {
-      promise = secureP.getVersionGroupsList();
-    });
-    it("should succeed", function() {
-      return promise;
-    });
-    it("should have property name", function() {
-      return expect(promise).to.eventually.have.property("count");
-    });
-  });
-
-   describe(".getItemsList() secure (with ssl)", function() {
-    before(function() {
-      promise = secureP.getItemsList();
-    });
-    it("should succeed", function() {
-      return promise;
-    });
-    it("should have property name", function() {
-      return expect(promise).to.eventually.have.property("count");
-    });
-  });
-
-   describe(".getItemAttributesList() secure (with ssl)", function() {
-    before(function() {
-      promise = secureP.getItemAttributesList();
-    });
-    it("should succeed", function() {
-      return promise;
-    });
-    it("should have property name", function() {
-      return expect(promise).to.eventually.have.property("count");
-    });
-  });
-
-   describe(".getItemCategoriesList() secure (with ssl)", function() {
-    before(function() {
-      promise = secureP.getItemCategoriesList();
-    });
-    it("should succeed", function() {
-      return promise;
-    });
-    it("should have property name", function() {
-      return expect(promise).to.eventually.have.property("count");
-    });
-  });
-
-   describe(".getItemFlingEffectsList() secure (with ssl)", function() {
-    before(function() {
-      promise = secureP.getItemFlingEffectsList();
-    });
-    it("should succeed", function() {
-      return promise;
-    });
-    it("should have property name", function() {
-      return expect(promise).to.eventually.have.property("count");
-    });
-  });
-
-   describe(".getItemPocketsList() secure (with ssl)", function() {
-    before(function() {
-      promise = secureP.getItemPocketsList();
-    });
-    it("should succeed", function() {
-      return promise;
-    });
-    it("should have property name", function() {
-      return expect(promise).to.eventually.have.property("count");
-    });
-  });
-
-   describe(".getMovesList() secure (with ssl)", function() {
-    before(function() {
-      promise = secureP.getMovesList();
-    });
-    it("should succeed", function() {
-      return promise;
-    });
-    it("should have property name", function() {
-      return expect(promise).to.eventually.have.property("count");
-    });
-  });
-
-   describe(".getMoveAilmentsList() secure (with ssl)", function() {
-    before(function() {
-      promise = secureP.getMoveAilmentsList();
-    });
-    it("should succeed", function() {
-      return promise;
-    });
-    it("should have property name", function() {
-      return expect(promise).to.eventually.have.property("count");
-    });
-  });
-
-   describe(".getMoveBattleStylesList() secure (with ssl)", function() {
-    before(function() {
-      promise = secureP.getMoveBattleStylesList();
-    });
-    it("should succeed", function() {
-      return promise;
-    });
-    it("should have property name", function() {
-      return expect(promise).to.eventually.have.property("count");
-    });
-  });
-
-   describe(".getMoveCategoriesList() secure (with ssl)", function() {
-    before(function() {
-      promise = secureP.getMoveCategoriesList();
-    });
-    it("should succeed", function() {
-      return promise;
-    });
-    it("should have property name", function() {
-      return expect(promise).to.eventually.have.property("count");
-    });
-  });
-
-   describe(".getMoveDamageClassesList() secure (with ssl)", function() {
-    before(function() {
-      promise = secureP.getMoveDamageClassesList();
-    });
-    it("should succeed", function() {
-      return promise;
-    });
-    it("should have property name", function() {
-      return expect(promise).to.eventually.have.property("count");
-    });
-  });
-
-   describe(".getMoveLearnMethodsList() secure (with ssl)", function() {
-    before(function() {
-      promise = secureP.getMoveLearnMethodsList();
-    });
-    it("should succeed", function() {
-      return promise;
-    });
-    it("should have property name", function() {
-      return expect(promise).to.eventually.have.property("count");
-    });
-  });
-
-   describe(".getMoveTargetsList() secure (with ssl)", function() {
-    before(function() {
-      promise = secureP.getMoveTargetsList();
-    });
-    it("should succeed", function() {
-      return promise;
-    });
-    it("should have property name", function() {
-      return expect(promise).to.eventually.have.property("count");
-    });
-  });
-
-   describe(".getLocationsList() secure (with ssl)", function() {
-    before(function() {
-      promise = secureP.getLocationsList();
-    });
-    it("should succeed", function() {
-      return promise;
-    });
-    it("should have property name", function() {
-      return expect(promise).to.eventually.have.property("count");
-    });
-  });
-
-   describe(".getLocationAreasList() secure (with ssl)", function() {
-    before(function() {
-      promise = secureP.getLocationAreasList();
-    });
-    it("should succeed", function() {
-      return promise;
-    });
-    it("should have property name", function() {
-      return expect(promise).to.eventually.have.property("count");
-    });
-  });
-
-   describe(".getPalParkAreasList() secure (with ssl)", function() {
-    before(function() {
-      promise = secureP.getPalParkAreasList();
-    });
-    it("should succeed", function() {
-      return promise;
-    });
-    it("should have property name", function() {
-      return expect(promise).to.eventually.have.property("count");
-    });
-  });
-
-   describe(".getRegionsList() secure (with ssl)", function() {
-    before(function() {
-      promise = secureP.getRegionsList();
-    });
-    it("should succeed", function() {
-      return promise;
-    });
-    it("should have property name", function() {
-      return expect(promise).to.eventually.have.property("count");
-    });
-  });
-
-   describe(".getAbilitiesList() secure (with ssl)", function() {
-    before(function() {
-      promise = secureP.getAbilitiesList();
-    });
-    it("should succeed", function() {
-      return promise;
-    });
-    it("should have property name", function() {
-      return expect(promise).to.eventually.have.property("count");
-    });
-  });
-
-   describe(".getCharacteristicsList() secure (with ssl)", function() {
-    before(function() {
-      promise = secureP.getCharacteristicsList();
-    });
-    it("should succeed", function() {
-      return promise;
-    });
-    it("should have property name", function() {
-      return expect(promise).to.eventually.have.property("count");
-    });
-  });
-
-   describe(".getEggGroupsList() secure (with ssl)", function() {
-    before(function() {
-      promise = secureP.getEggGroupsList();
-    });
-    it("should succeed", function() {
-      return promise;
-    });
-    it("should have property name", function() {
-      return expect(promise).to.eventually.have.property("count");
-    });
-  });
-
-   describe(".getGendersList() secure (with ssl)", function() {
-    before(function() {
-      promise = secureP.getGendersList();
-    });
-    it("should succeed", function() {
-      return promise;
-    });
-    it("should have property name", function() {
-      return expect(promise).to.eventually.have.property("count");
-    });
-  });
-
-   describe(".getGrowthRatesList() secure (with ssl)", function() {
-    before(function() {
-      promise = secureP.getGrowthRatesList();
-    });
-    it("should succeed", function() {
-      return promise;
-    });
-    it("should have property name", function() {
-      return expect(promise).to.eventually.have.property("count");
-    });
-  });
-
-   describe(".getNaturesList() secure (with ssl)", function() {
-    before(function() {
-      promise = secureP.getNaturesList();
-    });
-    it("should succeed", function() {
-      return promise;
-    });
-    it("should have property name", function() {
-      return expect(promise).to.eventually.have.property("count");
-    });
-  });
-
-   describe(".getPokeathlonStatsList() secure (with ssl)", function() {
-    before(function() {
-      promise = secureP.getPokeathlonStatsList();
-    });
-    it("should succeed", function() {
-      return promise;
-    });
-    it("should have property name", function() {
-      return expect(promise).to.eventually.have.property("count");
-    });
-  });
-
-   describe(".getPokemonsList() secure (with ssl)", function() {
-    before(function() {
-      promise = secureP.getPokemonsList();
-    });
-    it("should succeed", function() {
-      return promise;
-    });
-    it("should have property name", function() {
-      return expect(promise).to.eventually.have.property("count");
-    });
-  });
-
-   describe(".getPokemonColorsList() secure (with ssl)", function() {
-    before(function() {
-      promise = secureP.getPokemonColorsList();
-    });
-    it("should succeed", function() {
-      return promise;
-    });
-    it("should have property name", function() {
-      return expect(promise).to.eventually.have.property("count");
-    });
-  });
-
-   describe(".getPokemonFormsList() secure (with ssl)", function() {
-    before(function() {
-      promise = secureP.getPokemonFormsList();
-    });
-    it("should succeed", function() {
-      return promise;
-    });
-    it("should have property name", function() {
-      return expect(promise).to.eventually.have.property("count");
-    });
-  });
-
-   describe(".getPokemonHabitatsList() secure (with ssl)", function() {
-    before(function() {
-      promise = secureP.getPokemonHabitatsList();
-    });
-    it("should succeed", function() {
-      return promise;
-    });
-    it("should have property name", function() {
-      return expect(promise).to.eventually.have.property("count");
-    });
-  });
-
-   describe(".getPokemonShapesList() secure (with ssl)", function() {
-    before(function() {
-      promise = secureP.getPokemonShapesList();
-    });
-    it("should succeed", function() {
-      return promise;
-    });
-    it("should have property name", function() {
-      return expect(promise).to.eventually.have.property("count");
-    });
-  });
-
-   describe(".getPokemonSpeciesList() secure (with ssl)", function() {
-    before(function() {
-      promise = secureP.getPokemonSpeciesList();
-    });
-    it("should succeed", function() {
-      return promise;
-    });
-    it("should have property name", function() {
-      return expect(promise).to.eventually.have.property("count");
-    });
-  });
-
-   describe(".getStatsList() secure (with ssl)", function() {
-    before(function() {
-      promise = secureP.getStatsList();
-    });
-    it("should succeed", function() {
-      return promise;
-    });
-    it("should have property name", function() {
-      return expect(promise).to.eventually.have.property("count");
-    });
-  });
-
-   describe(".getTypesList() secure (with ssl)", function() {
-    before(function() {
-      promise = secureP.getTypesList();
-    });
-    it("should succeed", function() {
-      return promise;
-    });
-    it("should have property name", function() {
-      return expect(promise).to.eventually.have.property("count");
-    });
-  });
-
-   describe(".getLanguagesList() secure (with ssl)", function() {
-    before(function() {
-      promise = secureP.getLanguagesList();
-    });
-    it("should succeed", function() {
-      return promise;
-    });
-    it("should have property name", function() {
-      return expect(promise).to.eventually.have.property("count");
-    });
-  });
-
  
   describe(".getItemCategoryByName(Id: int) secure (with ssl)", function() {
     before(function() {
@@ -687,6 +126,590 @@ describe("pokedex", function() {
       return expect(resultAsCallback).to.have.property('response');
     });
   });
+
+  // end custom uncommon calls
+
+  // start root endpoints
+
+  describe(".getEndpointsList() secure (with ssl)", function() {
+    before(function() {
+      promise = secureP.getEndpointsList();
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property pokedex", function() {
+      return expect(promise).to.eventually.have.property("pokedex");
+    });
+  });
+
+  describe(".getBerriesList() secure (with ssl)", function() {
+    before(function() {
+      promise = secureP.getBerriesList();
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property count", function() {
+      return expect(promise).to.eventually.have.property("count");
+    });
+  });
+
+  describe(".getBerriesFirmnesssList() secure (with ssl)", function() {
+    before(function() {
+      promise = secureP.getBerriesFirmnesssList();
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property count", function() {
+      return expect(promise).to.eventually.have.property("count");
+    });
+  });
+
+  describe(".getBerriesFlavorsList() secure (with ssl)", function() {
+    before(function() {
+      promise = secureP.getBerriesFlavorsList();
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property count", function() {
+      return expect(promise).to.eventually.have.property("count");
+    });
+  });
+
+  describe(".getContestTypesList() secure (with ssl)", function() {
+    before(function() {
+      promise = secureP.getContestTypesList();
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property count", function() {
+      return expect(promise).to.eventually.have.property("count");
+    });
+  });
+
+  describe(".getContestEffectsList() secure (with ssl)", function() {
+    before(function() {
+      promise = secureP.getContestEffectsList();
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property count", function() {
+      return expect(promise).to.eventually.have.property("count");
+    });
+  });
+
+  describe(".getSuperContestEffectsList() secure (with ssl)", function() {
+    before(function() {
+      promise = secureP.getSuperContestEffectsList();
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property count", function() {
+      return expect(promise).to.eventually.have.property("count");
+    });
+  });
+
+  describe(".getEncounterMethodsList() secure (with ssl)", function() {
+    before(function() {
+      promise = secureP.getEncounterMethodsList();
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property count", function() {
+      return expect(promise).to.eventually.have.property("count");
+    });
+  });
+
+  describe(".getEncounterConditionsList() secure (with ssl)", function() {
+    before(function() {
+      promise = secureP.getEncounterConditionsList();
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property count", function() {
+      return expect(promise).to.eventually.have.property("count");
+    });
+  });
+
+  describe(".getEncounterConditionValuesList() secure (with ssl)", function() {
+    before(function() {
+      promise = secureP.getEncounterConditionValuesList();
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property count", function() {
+      return expect(promise).to.eventually.have.property("count");
+    });
+  });
+
+  describe(".getEvolutionChainsList() secure (with ssl)", function() {
+    before(function() {
+      promise = secureP.getEvolutionChainsList();
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property count", function() {
+      return expect(promise).to.eventually.have.property("count");
+    });
+  });
+
+  describe(".getEvolutionTriggersList() secure (with ssl)", function() {
+    before(function() {
+      promise = secureP.getEvolutionTriggersList();
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property count", function() {
+      return expect(promise).to.eventually.have.property("count");
+    });
+  });
+
+  describe(".getGenerationsList() secure (with ssl)", function() {
+    before(function() {
+      promise = secureP.getGenerationsList();
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property count", function() {
+      return expect(promise).to.eventually.have.property("count");
+    });
+  });
+
+  describe(".getPokedexsList() secure (with ssl)", function() {
+    before(function() {
+      promise = secureP.getPokedexsList();
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property count", function() {
+      return expect(promise).to.eventually.have.property("count");
+    });
+  });
+
+  describe(".getVersionsList() secure (with ssl)", function() {
+    before(function() {
+      promise = secureP.getVersionsList();
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property count", function() {
+      return expect(promise).to.eventually.have.property("count");
+    });
+  });
+
+  describe(".getVersionGroupsList() secure (with ssl)", function() {
+    before(function() {
+      promise = secureP.getVersionGroupsList();
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property count", function() {
+      return expect(promise).to.eventually.have.property("count");
+    });
+  });
+
+  describe(".getItemsList() secure (with ssl)", function() {
+    before(function() {
+      promise = secureP.getItemsList();
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property count", function() {
+      return expect(promise).to.eventually.have.property("count");
+    });
+  });
+
+  describe(".getItemAttributesList() secure (with ssl)", function() {
+    before(function() {
+      promise = secureP.getItemAttributesList();
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property count", function() {
+      return expect(promise).to.eventually.have.property("count");
+    });
+  });
+
+  describe(".getItemCategoriesList() secure (with ssl)", function() {
+    before(function() {
+      promise = secureP.getItemCategoriesList();
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property count", function() {
+      return expect(promise).to.eventually.have.property("count");
+    });
+  });
+
+  describe(".getItemFlingEffectsList() secure (with ssl)", function() {
+    before(function() {
+      promise = secureP.getItemFlingEffectsList();
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property count", function() {
+      return expect(promise).to.eventually.have.property("count");
+    });
+  });
+
+  describe(".getItemPocketsList() secure (with ssl)", function() {
+    before(function() {
+      promise = secureP.getItemPocketsList();
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property count", function() {
+      return expect(promise).to.eventually.have.property("count");
+    });
+  });
+
+  describe(".getMovesList() secure (with ssl)", function() {
+    before(function() {
+      promise = secureP.getMovesList();
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property count", function() {
+      return expect(promise).to.eventually.have.property("count");
+    });
+  });
+
+  describe(".getMoveAilmentsList() secure (with ssl)", function() {
+    before(function() {
+      promise = secureP.getMoveAilmentsList();
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property count", function() {
+      return expect(promise).to.eventually.have.property("count");
+    });
+  });
+
+  describe(".getMoveBattleStylesList() secure (with ssl)", function() {
+    before(function() {
+      promise = secureP.getMoveBattleStylesList();
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property count", function() {
+      return expect(promise).to.eventually.have.property("count");
+    });
+  });
+
+  describe(".getMoveCategoriesList() secure (with ssl)", function() {
+    before(function() {
+      promise = secureP.getMoveCategoriesList();
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property count", function() {
+      return expect(promise).to.eventually.have.property("count");
+    });
+  });
+
+  describe(".getMoveDamageClassesList() secure (with ssl)", function() {
+    before(function() {
+      promise = secureP.getMoveDamageClassesList();
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property count", function() {
+      return expect(promise).to.eventually.have.property("count");
+    });
+  });
+
+  describe(".getMoveLearnMethodsList() secure (with ssl)", function() {
+    before(function() {
+      promise = secureP.getMoveLearnMethodsList();
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property count", function() {
+      return expect(promise).to.eventually.have.property("count");
+    });
+  });
+
+  describe(".getMoveTargetsList() secure (with ssl)", function() {
+    before(function() {
+      promise = secureP.getMoveTargetsList();
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property count", function() {
+      return expect(promise).to.eventually.have.property("count");
+    });
+  });
+
+  describe(".getLocationsList() secure (with ssl)", function() {
+    before(function() {
+      promise = secureP.getLocationsList();
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property count", function() {
+      return expect(promise).to.eventually.have.property("count");
+    });
+  });
+
+  describe(".getLocationAreasList() secure (with ssl)", function() {
+    before(function() {
+      promise = secureP.getLocationAreasList();
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property count", function() {
+      return expect(promise).to.eventually.have.property("count");
+    });
+  });
+
+  describe(".getPalParkAreasList() secure (with ssl)", function() {
+    before(function() {
+      promise = secureP.getPalParkAreasList();
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property count", function() {
+      return expect(promise).to.eventually.have.property("count");
+    });
+  });
+
+  describe(".getRegionsList() secure (with ssl)", function() {
+    before(function() {
+      promise = secureP.getRegionsList();
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property count", function() {
+      return expect(promise).to.eventually.have.property("count");
+    });
+  });
+
+  describe(".getAbilitiesList() secure (with ssl)", function() {
+    before(function() {
+      promise = secureP.getAbilitiesList();
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property count", function() {
+      return expect(promise).to.eventually.have.property("count");
+    });
+  });
+
+  describe(".getCharacteristicsList() secure (with ssl)", function() {
+    before(function() {
+      promise = secureP.getCharacteristicsList();
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property count", function() {
+      return expect(promise).to.eventually.have.property("count");
+    });
+  });
+
+  describe(".getEggGroupsList() secure (with ssl)", function() {
+    before(function() {
+      promise = secureP.getEggGroupsList();
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property count", function() {
+      return expect(promise).to.eventually.have.property("count");
+    });
+  });
+
+  describe(".getGendersList() secure (with ssl)", function() {
+    before(function() {
+      promise = secureP.getGendersList();
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property count", function() {
+      return expect(promise).to.eventually.have.property("count");
+    });
+  });
+
+  describe(".getGrowthRatesList() secure (with ssl)", function() {
+    before(function() {
+      promise = secureP.getGrowthRatesList();
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property count", function() {
+      return expect(promise).to.eventually.have.property("count");
+    });
+  });
+
+  describe(".getNaturesList() secure (with ssl)", function() {
+    before(function() {
+      promise = secureP.getNaturesList();
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property count", function() {
+      return expect(promise).to.eventually.have.property("count");
+    });
+  });
+
+  describe(".getPokeathlonStatsList() secure (with ssl)", function() {
+    before(function() {
+      promise = secureP.getPokeathlonStatsList();
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property count", function() {
+      return expect(promise).to.eventually.have.property("count");
+    });
+  });
+
+  describe(".getPokemonsList() secure (with ssl)", function() {
+    before(function() {
+      promise = secureP.getPokemonsList();
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property count", function() {
+      return expect(promise).to.eventually.have.property("count");
+    });
+  });
+
+  describe(".getPokemonColorsList() secure (with ssl)", function() {
+    before(function() {
+      promise = secureP.getPokemonColorsList();
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property count", function() {
+      return expect(promise).to.eventually.have.property("count");
+    });
+  });
+
+  describe(".getPokemonFormsList() secure (with ssl)", function() {
+    before(function() {
+      promise = secureP.getPokemonFormsList();
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property count", function() {
+      return expect(promise).to.eventually.have.property("count");
+    });
+  });
+
+  describe(".getPokemonHabitatsList() secure (with ssl)", function() {
+    before(function() {
+      promise = secureP.getPokemonHabitatsList();
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property count", function() {
+      return expect(promise).to.eventually.have.property("count");
+    });
+  });
+
+  describe(".getPokemonShapesList() secure (with ssl)", function() {
+    before(function() {
+      promise = secureP.getPokemonShapesList();
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property count", function() {
+      return expect(promise).to.eventually.have.property("count");
+    });
+  });
+
+  describe(".getPokemonSpeciesList() secure (with ssl)", function() {
+    before(function() {
+      promise = secureP.getPokemonSpeciesList();
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property count", function() {
+      return expect(promise).to.eventually.have.property("count");
+    });
+  });
+
+  describe(".getStatsList() secure (with ssl)", function() {
+    before(function() {
+      promise = secureP.getStatsList();
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property count", function() {
+      return expect(promise).to.eventually.have.property("count");
+    });
+  });
+
+  describe(".getTypesList() secure (with ssl)", function() {
+    before(function() {
+      promise = secureP.getTypesList();
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property count", function() {
+      return expect(promise).to.eventually.have.property("count");
+    });
+  });
+
+  describe(".getLanguagesList() secure (with ssl)", function() {
+    before(function() {
+      promise = secureP.getLanguagesList();
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property count", function() {
+      return expect(promise).to.eventually.have.property("count");
+    });
+  });
+
+  // end root endpoints
+
+  // start normals calls
 
   describe(".getBerryByName(Array: string)", function() {
     before(function() {

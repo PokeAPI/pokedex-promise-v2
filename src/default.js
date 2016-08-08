@@ -16,10 +16,10 @@ values.setVersionPath = (newVersionPath) => {
     values.versionPath = newVersionPath;
 }
 values.setOffset = (newOffset) => {
-    values.offset = newOffset;
+    values.offset = newOffset - 1;
 }
 values.setLimit = (newLimit) => {
-    values.limit = newLimit;
+    values.limit = newLimit + 1;
 }
 
 export { values };
