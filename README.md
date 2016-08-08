@@ -658,8 +658,8 @@ This is what you will get:
 ```json
 {
   "count": 811,
-  "next":  'https://pokeapi.co:443/api/v2/pokemon/?limit=11&offset=44',
-  "previous": 'https://pokeapi.co:443/api/v2/pokemon/?limit=11&offset=22',
+  "next":  "https://pokeapi.co:443/api/v2/pokemon/?limit=11&offset=44",
+  "previous": "https://pokeapi.co:443/api/v2/pokemon/?limit=11&offset=22",
   "results": [
     { 
       "url": "https://pokeapi.co:443/api/v2/pokemon/34/",
