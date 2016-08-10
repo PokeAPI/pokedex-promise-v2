@@ -1,7 +1,7 @@
 import rp from 'request-promise';
 import cache from 'memory-cache';
 
-const CACHE_LIMIT = 1000000 * 1000; // 11 days
+import { values } from './default.js';
 
 const getJSON = (url, cb) => {
     
@@ -19,7 +19,8 @@ const getJSON = (url, cb) => {
         // retrive data from the web
         const options = {
             url: url,
-            json: true
+            json: true,
+            timeout: values.timeout
         };
         return rp.get(options)
             .catch((error) => {
@@ -46,7 +47,7 @@ const getJSON = (url, cb) => {
                     } else {
                         // if everithing was good
                         // cache the object in volatile memory
-                        cache.put(url, response, CACHE_LIMIT);
+                        cache.put(url, response, values.cacheLimit);
 
                         // if a callback is present
                         if (cb) {
