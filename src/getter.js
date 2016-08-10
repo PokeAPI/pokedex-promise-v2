@@ -19,7 +19,7 @@ const getJSON = (url, cb) => {
         // retrive data from the web
         const options = {
             url: url,
-            json: true,
+            json: true
         };
         return rp.get(options)
             .catch((error) => {

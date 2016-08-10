@@ -24,6 +24,8 @@ An easy way to use [Pokéapi](https://pokeapi.co/) v2 with promises in node.js
   - [Locations](#locations)
   - [Pokemon](#pokemon)
   - [Utility](#utility)
+- [Root Endpoints](#root-endpoints)
+  - [List of supported root endpoints](#list-of-supported-root-endpoints)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -628,3 +630,104 @@ Use **getLanguageByName** to return data about specific pokemon language.
       console.log('There was an ERROR: ', error);
     });
 ```
+
+## Root Endpoints
+
+For each root endpoint we provide a method to get all the items contained by that endpoint. By default the method will return every item in the endpoint. If you want you can configure its offset and limit.
+
+* `offset` is where to start. The first item that you will get. Default `0`
+* `limit` is how many items you want to list. Default `100000`
+
+**TIP**: Do not pass any config Object to your call, since you will get every item and everything will be cached to your RAM.
+
+This call will get the list of pokemon between ID 34 and ID 44 
+
+```js
+  var interval = {
+    limit: 10,
+    offset: 34
+  }
+  P.getPokemonsList(interval)
+    .then(function(response) {
+      console.log(response);
+    })
+```
+
+This is what you will get:
+
+```json
+{
+  "count": 811,
+  "next":  "https://pokeapi.co:443/api/v2/pokemon/?limit=11&offset=44",
+  "previous": "https://pokeapi.co:443/api/v2/pokemon/?limit=11&offset=22",
+  "results": [
+    { 
+      "url": "https://pokeapi.co:443/api/v2/pokemon/34/",
+      "name": "nidoking" 
+    },
+    { 
+      "url": "https://pokeapi.co:443/api/v2/pokemon/35/",
+      "name": "clefairy"
+    },
+    {
+      "url": "...",
+      "name": "..."
+    },
+    { 
+      "url": "https://pokeapi.co:443/api/v2/pokemon/44/",
+      "name": "gloom"
+    }
+  ]
+}
+```
+
+### List of supported root endpoints
+
+* .getEndpointsList()
+* .getBerriesList()
+* .getBerriesFirmnesssList()
+* .getBerriesFlavorsList()
+* .getContestTypesList()
+* .getContestEffectsList()
+* .getSuperContestEffectsList()
+* .getEncounterMethodsList()
+* .getEncounterConditionsList()
+* .getEncounterConditionValuesList()
+* .getEvolutionChainsList()
+* .getEvolutionTriggersList()
+* .getGenerationsList()
+* .getPokedexsList()
+* .getVersionsList()
+* .getVersionGroupsList()
+* .getItemsList()
+* .getItemAttributesList()
+* .getItemCategoriesList()
+* .getItemFlingEffectsList()
+* .getItemPocketsList()
+* .getMovesList()
+* .getMoveAilmentsList()
+* .getMoveBattleStylesList()
+* .getMoveCategoriesList()
+* .getMoveDamageClassesList()
+* .getMoveLearnMethodsList()
+* .getMoveTar* getsList()
+* .getLocationsList()
+* .getLocationAreasList()
+* .getPalParkAreasList()
+* .getRegionsList()
+* .getAbilitiesList()
+* .getCharacteristicsList()
+* .getEggGroupsList()
+* .getGendersList()
+* .getGrowthRatesList()
+* .getNaturesList()
+* .getPokeathlonStatsList()
+* .getPokemonsList()
+* .getPokemonColorsList()
+* .getPokemonFormsList()
+* .getPokemonHabitatsList()
+* .getPokemonShapesList()
+* .getPokemonSpeciesList()
+* .getStatsList()
+* .getTypesList()
+* .getLanguagesList()
