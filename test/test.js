@@ -14,10 +14,10 @@ describe("pokedex", function() {
     secureP = new Pokedex({
                     protocol: 'https',
                     hostName: 'pokeapi.co',
-                    versionPath: '/api/v2/'
+                    versionPath: '/api/v2/',
                   });
 
-  this.timeout(40000);
+  this.timeout(21000);
 
   // start custom uncommon calls
 
