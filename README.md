@@ -12,7 +12,7 @@ An easy way to use [Pokéapi](https://pokeapi.co/) v2 with promises *(or callbac
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**
 
-- [Install](#install)
+- [Install](#install-)
 - [Usage](#usage)
   - [Example requests](#example-requests)
 - [Configuration](#configuration)
