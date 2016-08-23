@@ -2,14 +2,17 @@
 
 [![npm version](https://badge.fury.io/js/pokedex-promise-v2.svg)](https://badge.fury.io/js/pokedex-promise-v2)
 [![Build Status](https://travis-ci.org/PokeAPI/pokedex-promise-v2.svg?branch=master)](https://travis-ci.org/PokeAPI/pokedex-promise-v2)
+[![Package Quality](http://npm.packagequality.com/shield/pokedex-promise-v2.svg)](http://packagequality.com/#?package=pokedex-promise-v2)
+[![Ghit.me](https://ghit.me/badge.svg?repo=PokeAPI/pokedex-promise-v2)](https://ghit.me/repo/PokeAPI/pokedex-promise-v2)
+[![npm](https://img.shields.io/npm/l/express.svg?maxAge=2592000)](https://github.com/PokeAPI/pokedex-promise-v2/blob/master/LICENSE)
 
-An easy way to use [Pokéapi](https://pokeapi.co/) v2 with promises in node.js
+An easy way to use [Pokéapi](https://pokeapi.co/) v2 with promises *(or callbacks as of v3)* in node.js
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**
 
-- [Install](#install)
+- [Install](#install-)
 - [Usage](#usage)
   - [Example requests](#example-requests)
 - [Configuration](#configuration)
@@ -29,7 +32,7 @@ An easy way to use [Pokéapi](https://pokeapi.co/) v2 with promises in node.js
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-## Install
+## Install [![nodeVersion](https://img.shields.io/badge/node-any-brightgreen.svg)](https://www.npmjs.com/package/pokedex-promise-v2)
 
 You can install with npm!
 ```shell
