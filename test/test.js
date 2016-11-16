@@ -33,6 +33,32 @@ describe("pokedex", function() {
       return expect(resultAsCallback).to.have.property("count");
     });
   });
+
+  describe(".getLanguagesList() with callback, 0 cached and offset", function() {
+    var resultAsCallback;
+    before(function(done) {
+      promise = P.getLanguagesList({offset: 2, cacheLimit: 0}, function(data) {
+        resultAsCallback = data;
+        done();
+      });
+    });
+    it("should have property count", function() {
+      return expect(resultAsCallback).to.have.property("count");
+    });
+  });
+
+  describe(".getLanguagesList() with callback, negative cached and offset", function() {
+    var resultAsCallback;
+    before(function(done) {
+      promise = P.getLanguagesList({offset: 2, cacheLimit: -1}, function(data) {
+        resultAsCallback = data;
+        done();
+      });
+    });
+    it("should have property count", function() {
+      return expect(resultAsCallback).to.have.property("count");
+    });
+  });
  
   describe(".getItemCategoryByName(Id: int) secure (with ssl)", function() {
     before(function() {
