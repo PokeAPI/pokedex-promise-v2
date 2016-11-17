@@ -3,20 +3,20 @@ import { values } from './default.js';
 const configurator = {};
 
 configurator.setPokedexConfiguration = (config) => {
-	if (config) {
-        if (config.protocol) {
+    if (config) {
+        if (config.hasOwnProperty('protocol')) {
             values.setProtocol(config.protocol);
         }
-        if (config.hostName) {
+        if (config.hasOwnProperty('hostName')) {
             values.setHostName(config.hostName);
         }
-        if (config.versionPath) {
+        if (config.hasOwnProperty('versionPath')) {
             values.setVersionPath(config.versionPath);
         }
-        if (config.timeout) {
+        if (config.hasOwnProperty('timeout')) {
             values.setTimeout(config.timeout);
         }
-        if (config.cacheLimit) {
+        if (config.hasOwnProperty('cacheLimit')) {
             values.setCacheLimit(config.cacheLimit);
         }
     }

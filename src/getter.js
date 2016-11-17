@@ -45,9 +45,12 @@ const getJSON = (url, cb) => {
                             cb('error', response);
                         }
                     } else {
-                        // if everithing was good
+                        // if everything was good
                         // cache the object in volatile memory
-                        cache.put(url, response, values.cacheLimit);
+                        // only if cacheLimit > 0
+                        if (values.cacheLimit > 0) {
+                            cache.put(url, response, values.cacheLimit);
+                        }
 
                         // if a callback is present
                         if (cb) {
