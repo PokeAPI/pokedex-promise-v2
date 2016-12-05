@@ -34,9 +34,14 @@ An easy way to use [Pokéapi](https://pokeapi.co/) v2 with promises *(or callbac
 
 ## Install [![nodeVersion](https://img.shields.io/badge/node-any-brightgreen.svg)](https://www.npmjs.com/package/pokedex-promise-v2)
 
-You can install with npm!
+You can install with Npm!
 ```shell
 npm install pokedex-promise-v2 --save
+```
+
+or with Yarn!
+```shell
+yarn add pokedex-promise-v2
 ```
 
 ## Usage
