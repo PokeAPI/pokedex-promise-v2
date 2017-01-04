@@ -20,6 +20,7 @@
     ["getItemCategoriesList", "item-category/"], 
     ["getItemFlingEffectsList", "item-fling-effect/"], 
     ["getItemPocketsList", "item-pocket/"], 
+    ["getMachinesList", "machine/"], 
     ["getMovesList", "move/"], 
     ["getMoveAilmentsList", "move-ailment/"], 
     ["getMoveBattleStylesList", "move-battle-style/"], 
