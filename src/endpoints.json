@@ -19,6 +19,7 @@
     ["getItemCategoryByName", "item-category"], 
     ["getItemFlingEffectByName", "item-fling-effect"], 
     ["getItemPocketByName", "item-pocket"], 
+    ["getMachineById", "machine"],
     ["getMoveByName", "move"], 
     ["getMoveAilmentByName", "move-ailment"], 
     ["getMoveBattleStyleByName", "move-battle-style"], 

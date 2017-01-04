@@ -23,6 +23,7 @@ An easy way to use [Pokéapi](https://pokeapi.co/) v2 with promises *(or callbac
   - [Evolution](#evolution)
   - [Games](#games)
   - [Items](#items)
+  - [Machines](#machines)
   - [Moves](#moves)
   - [Locations](#locations)
   - [Pokemon](#pokemon)
@@ -328,6 +329,19 @@ Use **getItemFlingEffectByName** to return data about specific item fling effect
 Use **getItemPocketByName** to return data about specific pockets in a players bag.
 ```js
   P.getItemPocketByName("misc")
+    .then(function(response) {
+      console.log(response);
+    })
+    .catch(function(error) {
+      console.log('There was an ERROR: ', error);
+    });
+```
+
+### Machines
+
+Use **getMachineById** to return data about specific machine.
+```js
+  P.getMachineById(2)
     .then(function(response) {
       console.log(response);
     })
@@ -714,6 +728,7 @@ This is what you will get:
 * .getItemCategoriesList()
 * .getItemFlingEffectsList()
 * .getItemPocketsList()
+* .getMachinesList()
 * .getMovesList()
 * .getMoveAilmentsList()
 * .getMoveBattleStylesList()

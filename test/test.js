@@ -409,6 +409,18 @@ describe("pokedex", function() {
     });
   });
 
+  describe(".getMachinesList() secure (with ssl)", function() {
+    before(function() {
+      promise = secureP.getMachinesList();
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property count", function() {
+      return expect(promise).to.eventually.have.property("count");
+    });
+  });
+
   describe(".getMovesList() secure (with ssl)", function() {
     before(function() {
       promise = secureP.getMovesList();
@@ -1031,6 +1043,18 @@ describe("pokedex", function() {
     });
     it("should have property name", function() {
       return expect(promise).to.eventually.have.property("name");
+    });
+  });
+
+  describe(".getMachineById(Id: int)", function() {
+    before(function() {
+      promise = P.getMachineById(id);
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property id", function() {
+      return expect(promise).to.eventually.have.property("id");
     });
   });
 
