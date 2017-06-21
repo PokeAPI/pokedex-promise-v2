@@ -88,7 +88,7 @@ var options = {
   hostName: 'localhost:443',
   versionPath: '/api/v2/',
   cacheLimit: 100 * 1000, // 100s
-  tiemout: 5 * 1000 // 5s
+  timeout: 5 * 1000 // 5s
 }
 var P = new Pokedex(options);
 ```
