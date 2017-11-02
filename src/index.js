@@ -53,6 +53,16 @@ class Pokedex {
             }
         });
     }
+
+    resource(path) {
+        if (typeof path === 'string') {
+            return getJSON(path)
+        } else if (typeof path === 'object') {
+            return Promise.all(path.map(p => getJSON(p)));
+        } else {
+            return 'String or Array is required'
+        }
+    }
 };
 
 module.exports = Pokedex;
