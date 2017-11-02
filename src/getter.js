@@ -22,7 +22,7 @@ const getJSON = (url, cb) => {
             timeout: values.timeout
         }
         return axios.get(url, options)
-            .catch((error) => {
+            .catch(error => {
                 if (!cb) {
                     // throw if a Promise
                     throw error;
@@ -31,7 +31,7 @@ const getJSON = (url, cb) => {
                     cb('error', error);
                 }
             })
-            .then((response) => {
+            .then(response => {
                 if (response) {
 
                     // if there was an error

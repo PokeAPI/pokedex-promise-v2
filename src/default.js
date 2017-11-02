@@ -8,25 +8,25 @@ values.limit = 100000;
 values.timeout = 20 * 1000; // 20 seconds
 values.cacheLimit = 1000000 * 1000; // 11 days
 
-values.setProtocol = (newProtocol) => {
+values.setProtocol = newProtocol => {
     values.protocol = newProtocol;
 }
-values.setHostName = (newHostName) => {
+values.setHostName = newHostName => {
     values.hostName = `://${newHostName}`;
 }
-values.setVersionPath = (newVersionPath) => {
+values.setVersionPath = newVersionPath => {
     values.versionPath = newVersionPath;
 }
-values.setOffset = (newOffset) => {
+values.setOffset = newOffset => {
     values.offset = newOffset - 1;
 }
-values.setLimit = (newLimit) => {
+values.setLimit = newLimit => {
     values.limit = newLimit + 1;
 }
-values.setTimeout = (newTimeout) => {
+values.setTimeout = newTimeout => {
     values.timeout = newTimeout;
 }
-values.setCacheLimit = (newCacheLimit) => {
+values.setCacheLimit = newCacheLimit => {
     values.cacheLimit = newCacheLimit;
 }
 
