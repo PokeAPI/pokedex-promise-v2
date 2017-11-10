@@ -11,7 +11,7 @@ class Pokedex {
         configurator.setPokedexConfiguration(config);
         
         // add to Pokedex.prototype all our endpoint functions
-        endpoints.forEach((endpoint) => {
+        endpoints.forEach(endpoint => {
             this[endpoint[0]] = (input, cb) => { 
                 if (input) {
 
@@ -27,10 +27,10 @@ class Pokedex {
                         return new Promise((resolve, reject) => {
 
                             // fetch data asynchronously to be faster
-                            async.forEachOf(input, (name) => {
+                            async.forEachOf(input, name => {
 
                                 //get current input data and then try to resolve
-                                getJSON(`${values.protocol}${values.hostName}${values.versionPath}${endpoint[1]}/${name}/`, (response) => {
+                                getJSON(`${values.protocol}${values.hostName}${values.versionPath}${endpoint[1]}/${name}/`, response => {
                                     toReturn.push(response);
                                     if(toReturn.length === input.length){
                                         if (cb) {
@@ -46,12 +46,22 @@ class Pokedex {
             }
         });
 
-        rootEndpoints.forEach((rootEndpoint) => {
+        rootEndpoints.forEach(rootEndpoint => {
             this[rootEndpoint[0]] = (config, cb) => {
                 configurator.setRootEndpointConfiguration(config);
                 return getJSON(`${values.protocol}${values.hostName}${values.versionPath}${rootEndpoint[1]}?limit=${values.limit}&offset=${values.offset}`, cb);
             }
         });
+    }
+
+    resource(path) {
+        if (typeof path === 'string') {
+            return getJSON(path)
+        } else if (typeof path === 'object') {
+            return Promise.all(path.map(p => getJSON(p)));
+        } else {
+            return 'String or Array is required'
+        }
     }
 };
 

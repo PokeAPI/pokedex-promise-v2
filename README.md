@@ -12,7 +12,7 @@ An easy way to use [Pokéapi](https://pokeapi.co/) v2 with promises *(or callbac
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**
 
-- [Install](#install-)
+- [Install *](#install-)
 - [Usage](#usage)
   - [Example requests](#example-requests)
 - [Configuration](#configuration)
@@ -28,6 +28,7 @@ An easy way to use [Pokéapi](https://pokeapi.co/) v2 with promises *(or callbac
   - [Locations](#locations)
   - [Pokemon](#pokemon)
   - [Utility](#utility)
+  - [Custom URLs and paths](#custom-urls-and-paths)
 - [Root Endpoints](#root-endpoints)
   - [List of supported root endpoints](#list-of-supported-root-endpoints)
 
@@ -73,6 +74,11 @@ var P = new Pokedex();
       } else {
         console.log(error)
       }
+    });
+
+  P.resource(['/api/v2/pokemon/36', 'api/v2/berry/8', 'https://pokeapi.co/api/v2/ability/9/'])
+    .then(function(response) {
+      console.log(response); // resource function accepts singles or arrays of URLs/paths
     });
 ```
 
@@ -652,6 +658,22 @@ Use **getLanguageByName** to return data about specific pokemon language.
     })
     .catch(function(error) {
       console.log('There was an ERROR: ', error);
+    });
+```
+
+### Custom URLs and paths
+
+Use **resource** to return data about any URL or path.
+
+```js
+  P.resource(['/api/v2/pokemon/36', 'api/v2/berry/8', 'https://pokeapi.co/api/v2/ability/9/'])
+    .then(function(response) {
+      console.log(response); // resource function accepts singles or arrays of URLs/paths
+    });
+
+  P.resource('api/v2/berry/5')
+    .then(function(response) {
+      console.log(response);
     });
 ```
 

@@ -2,7 +2,7 @@ import { values } from './default.js';
 
 const configurator = {};
 
-configurator.setPokedexConfiguration = (config) => {
+configurator.setPokedexConfiguration = config => {
     if (config) {
         if (config.hasOwnProperty('protocol')) {
             values.setProtocol(config.protocol);
@@ -22,7 +22,7 @@ configurator.setPokedexConfiguration = (config) => {
     }
 }
 
-configurator.setRootEndpointConfiguration = (config) => {
+configurator.setRootEndpointConfiguration = config => {
 	if (config) {
         if (config.offset) {
             values.setOffset(config.offset);

@@ -19,6 +19,47 @@ describe("pokedex", function() {
 
   this.timeout(21000);
 
+  // test resource endpoint
+
+  describe(".resource(Url: String) secure (with ssl)", function() {
+    before(function() {
+      promise = secureP.resource('https://pokeapi.co/api/v2/berry/12');
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property name", function() {
+      return expect(promise).to.eventually.have.property("name");
+    });
+  });
+
+  describe(".resource(Path: String) secure (with ssl)", function() {
+    before(function() {
+      promise = secureP.resource('/api/v2/berry/13');
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have property name", function() {
+      return expect(promise).to.eventually.have.property("name");
+    });
+  });
+
+  describe(".resource(Mixed: Array) secure (with ssl)", function() {
+    before(function() {
+      promise = secureP.resource(['/api/v2/berry/15','https://pokeapi.co/api/v2/berry/14']);
+    });
+    it("should succeed", function() {
+      return promise;
+    });
+    it("should have length 2", function() {
+      return expect(promise).to.eventually.have.length(2);
+    });
+    it("should have property name", function() {
+      return expect(promise).to.eventually.all.have.property("name");
+    });
+  });
+
   // start custom uncommon calls
 
   describe(".getLanguagesList() with callback cached and offset", function() {

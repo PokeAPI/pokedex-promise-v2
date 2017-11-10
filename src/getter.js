@@ -1,4 +1,4 @@
-import rp from 'request-promise';
+import axios from 'axios';
 import cache from 'memory-cache';
 
 import { values } from './default.js';
@@ -17,13 +17,12 @@ const getJSON = (url, cb) => {
         });
     } else {
         // retrive data from the web
-        const options = {
-            url: url,
-            json: true,
+        let options = {
+            baseURL: `${values.protocol}${values.hostName}/`,
             timeout: values.timeout
-        };
-        return rp.get(options)
-            .catch((error) => {
+        }
+        return axios.get(url, options)
+            .catch(error => {
                 if (!cb) {
                     // throw if a Promise
                     throw error;
@@ -32,7 +31,7 @@ const getJSON = (url, cb) => {
                     cb('error', error);
                 }
             })
-            .then((response) => {
+            .then(response => {
                 if (response) {
 
                     // if there was an error
@@ -48,6 +47,8 @@ const getJSON = (url, cb) => {
                         // if everything was good
                         // cache the object in volatile memory
                         // only if cacheLimit > 0
+                        response = response.data
+
                         if (values.cacheLimit > 0) {
                             cache.put(url, response, values.cacheLimit);
                         }
