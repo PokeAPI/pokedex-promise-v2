@@ -3,9 +3,8 @@ cache:
   directories:
     - node_modules
 node_js:
-  - "6"
+  - "node"
   - "lts/*"
-  - "4"
 notifications:
   email: false
 before_install:
