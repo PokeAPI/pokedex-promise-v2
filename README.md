@@ -3,7 +3,6 @@
 [![npm version](https://badge.fury.io/js/pokedex-promise-v2.svg)](https://badge.fury.io/js/pokedex-promise-v2)
 [![Build Status](https://travis-ci.org/PokeAPI/pokedex-promise-v2.svg?branch=master)](https://travis-ci.org/PokeAPI/pokedex-promise-v2)
 [![Package Quality](http://npm.packagequality.com/shield/pokedex-promise-v2.svg)](http://packagequality.com/#?package=pokedex-promise-v2)
-[![Ghit.me](https://ghit.me/badge.svg?repo=PokeAPI/pokedex-promise-v2)](https://ghit.me/repo/PokeAPI/pokedex-promise-v2)
 [![npm](https://img.shields.io/npm/l/express.svg?maxAge=2592000)](https://github.com/PokeAPI/pokedex-promise-v2/blob/master/LICENSE)
 
 An easy way to use [Pokéapi](https://pokeapi.co/) v2 with promises *(or callbacks as of v3)* in node.js
