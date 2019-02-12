@@ -5,6 +5,8 @@
 [![Package Quality](http://npm.packagequality.com/shield/pokedex-promise-v2.svg)](http://packagequality.com/#?package=pokedex-promise-v2)
 [![npm](https://img.shields.io/npm/l/express.svg?maxAge=2592000)](https://github.com/PokeAPI/pokedex-promise-v2/blob/master/LICENSE)
 
+Maintainers: [Naramsim](https://github.com/Naramsim) and [TheTommyTwitch](https://github.com/TheTommyTwitch)
+
 An easy way to use [Pokéapi](https://pokeapi.co/) v2 with promises *(or callbacks as of v3)* in node.js
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
