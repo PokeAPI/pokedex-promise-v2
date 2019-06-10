@@ -1,6 +1,6 @@
 {
   "name": "pokedex-promise-v2",
-  "version": "3.1.1",
+  "version": "3.1.2",
   "description": "A library used to get information about Pokemons.",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,7 @@
     "build:watch": "webpack -p --watch",
     "doctoc": "doctoc .",
     "pretest": "npm run build",
-    "test": "mocha",
+    "test": "mocha --exit",
     "prepublish": "npm run build"
   },
   "repository": {
@@ -32,23 +32,23 @@
   },
   "homepage": "https://github.com/PokeAPI/pokedex-promise-v2#readme",
   "dependencies": {
-    "async": "^2.0.1",
-    "axios": "^0.17.0",
-    "es6-promise": "^3.2.1",
-    "memory-cache": "^0.1.6"
+    "async": "^2.6.2",
+    "axios": "^0.19.0",
+    "es6-promise": "^3.3.1",
+    "memory-cache": "^0.2.0"
   },
   "devDependencies": {
     "babel-core": "^6.11.4",
-    "babel-loader": "^6.2.4",
-    "babel-plugin-es6-promise": "^1.0.0",
-    "babel-preset-es2015": "^6.9.0",
+    "babel-loader": "^6.4.1",
+    "babel-plugin-es6-promise": "^1.1.1",
+    "babel-preset-es2015": "^6.24.1",
     "chai": "^3.5.0",
-    "chai-as-promised": "^5.2.0",
+    "chai-as-promised": "^5.3.0",
     "chai-things": "^0.2.0",
-    "doctoc": "^1.2.0",
-    "json-loader": "^0.5.4",
-    "mocha": "^2.4.5",
-    "webpack": "^1.13.1",
-    "webpack-node-externals": "^1.3.3"
+    "doctoc": "^1.4.0",
+    "json-loader": "^0.5.7",
+    "mocha": "^6.1.4",
+    "webpack": "^1.15.0",
+    "webpack-node-externals": "^1.7.2"
   }
 }
