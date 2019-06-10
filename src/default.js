@@ -1,6 +1,6 @@
 const values = {};
 
-values.protocol = 'http';
+values.protocol = 'https';
 values.hostName = '://pokeapi.co';
 values.versionPath = '/api/v2/';
 values.offset = 0;
