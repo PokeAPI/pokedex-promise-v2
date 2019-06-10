@@ -86,7 +86,7 @@ var P = new Pokedex();
 ## Configuration
 
 Pass an Object to Pokedex in order to configure it. Available options: `protocol`, `hostName`, `versionPath`, `cacheLimit` in ms, `timeout` in ms.
-Any option is optional :smile:. If no Object is passed, the Pokedex will be initialized to grab data from pokeapi.co using http with 20 seconds timeout and caching resources for 11 days.
+Any option is optional :smile:. If no Object is passed, the Pokedex will be initialized to grab data from pokeapi.co using http with 20 seconds timeout and caching resources for 11 days. HTTPS is the default protocol.
 
 ```js
 var Pokedex = require('pokedex-promise-v2');
