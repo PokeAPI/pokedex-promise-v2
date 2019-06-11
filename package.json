@@ -28,14 +28,13 @@
   },
   "homepage": "https://github.com/PokeAPI/pokedex-promise-v2#readme",
   "dependencies": {
-    "async": "^2.6.2",
     "axios": "^0.19.0",
     "memory-cache": "^0.2.0",
     "p-map": "^2.1.0"
   },
   "devDependencies": {
-    "chai": "^3.5.0",
-    "chai-as-promised": "^5.3.0",
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
     "chai-things": "^0.2.0",
     "doctoc": "^1.4.0",
     "mocha": "^6.1.4"
