@@ -30,4 +30,4 @@ values.setCacheLimit = newCacheLimit => {
     values.cacheLimit = newCacheLimit;
 }
 
-export { values };
+exports.values = values

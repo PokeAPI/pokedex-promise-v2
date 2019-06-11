@@ -1,9 +1,9 @@
-import axios from 'axios';
-import cache from 'memory-cache';
+const axios = require('axios')
+const cache = require('memory-cache')
 
-import { values } from './default.js';
+const { values } = require('./default.js')
 
-const getJSON = (url, cb) => {
+exports.getJSON = (url, cb) => {
     
     // retrive possible content from volatile memory
     const cachedResult = cache.get(url);
@@ -65,6 +65,4 @@ const getJSON = (url, cb) => {
                 }
             }); 
     }
-};
-
-export { getJSON };
+}

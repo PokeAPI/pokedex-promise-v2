@@ -1,4 +1,4 @@
-var Pokedex = require("../index.js");
+var Pokedex = require("../src/index.js");
 var chai = require('chai'),
   expect = chai.expect,
   assert = chai.assert;
@@ -10,20 +10,19 @@ chai.use(require("chai-as-promised"));
 describe("pokedex", function() {
   var promise,
     id = 2,
-    P = new Pokedex(),
-    secureP = new Pokedex({
-                    protocol: 'https',
-                    hostName: 'pokeapi.co',
-                    versionPath: '/api/v2/',
-                  });
+    P = new Pokedex({
+      protocol: 'https',
+      hostName: 'pokeapi.co',
+      versionPath: '/api/v2/',
+    });
 
-  this.timeout(21000);
+  this.timeout(5000);
 
   // test resource endpoint
 
   describe(".resource(Url: String) secure (with ssl)", function() {
     before(function() {
-      promise = secureP.resource('https://pokeapi.co/api/v2/berry/12');
+      promise = P.resource('https://pokeapi.co/api/v2/berry/12');
     });
     it("should succeed", function() {
       return promise;
@@ -35,7 +34,7 @@ describe("pokedex", function() {
 
   describe(".resource(Path: String) secure (with ssl)", function() {
     before(function() {
-      promise = secureP.resource('/api/v2/berry/13');
+      promise = P.resource('/api/v2/berry/13');
     });
     it("should succeed", function() {
       return promise;
@@ -47,7 +46,7 @@ describe("pokedex", function() {
 
   describe(".resource(Mixed: Array) secure (with ssl)", function() {
     before(function() {
-      promise = secureP.resource(['/api/v2/berry/15','https://pokeapi.co/api/v2/berry/14']);
+      promise = P.resource(['/api/v2/berry/15','https://pokeapi.co/api/v2/berry/14']);
     });
     it("should succeed", function() {
       return promise;
@@ -103,7 +102,7 @@ describe("pokedex", function() {
  
   describe(".getItemCategoryByName(Id: int) secure (with ssl)", function() {
     before(function() {
-      promise = secureP.getItemCategoryByName(id);
+      promise = P.getItemCategoryByName(id);
     });
     it("should succeed", function() {
       return promise;
@@ -200,7 +199,7 @@ describe("pokedex", function() {
 
   describe(".getEndpointsList() secure (with ssl)", function() {
     before(function() {
-      promise = secureP.getEndpointsList();
+      promise = P.getEndpointsList();
     });
     it("should succeed", function() {
       return promise;
@@ -212,7 +211,7 @@ describe("pokedex", function() {
 
   describe(".getBerriesList() secure (with ssl)", function() {
     before(function() {
-      promise = secureP.getBerriesList();
+      promise = P.getBerriesList();
     });
     it("should succeed", function() {
       return promise;
@@ -224,7 +223,7 @@ describe("pokedex", function() {
 
   describe(".getBerriesFirmnesssList() secure (with ssl)", function() {
     before(function() {
-      promise = secureP.getBerriesFirmnesssList();
+      promise = P.getBerriesFirmnesssList();
     });
     it("should succeed", function() {
       return promise;
@@ -236,7 +235,7 @@ describe("pokedex", function() {
 
   describe(".getBerriesFlavorsList() secure (with ssl)", function() {
     before(function() {
-      promise = secureP.getBerriesFlavorsList();
+      promise = P.getBerriesFlavorsList();
     });
     it("should succeed", function() {
       return promise;
@@ -248,7 +247,7 @@ describe("pokedex", function() {
 
   describe(".getContestTypesList() secure (with ssl)", function() {
     before(function() {
-      promise = secureP.getContestTypesList();
+      promise = P.getContestTypesList();
     });
     it("should succeed", function() {
       return promise;
@@ -260,7 +259,7 @@ describe("pokedex", function() {
 
   describe(".getContestEffectsList() secure (with ssl)", function() {
     before(function() {
-      promise = secureP.getContestEffectsList();
+      promise = P.getContestEffectsList();
     });
     it("should succeed", function() {
       return promise;
@@ -272,7 +271,7 @@ describe("pokedex", function() {
 
   describe(".getSuperContestEffectsList() secure (with ssl)", function() {
     before(function() {
-      promise = secureP.getSuperContestEffectsList();
+      promise = P.getSuperContestEffectsList();
     });
     it("should succeed", function() {
       return promise;
@@ -284,7 +283,7 @@ describe("pokedex", function() {
 
   describe(".getEncounterMethodsList() secure (with ssl)", function() {
     before(function() {
-      promise = secureP.getEncounterMethodsList();
+      promise = P.getEncounterMethodsList();
     });
     it("should succeed", function() {
       return promise;
@@ -296,7 +295,7 @@ describe("pokedex", function() {
 
   describe(".getEncounterConditionsList() secure (with ssl)", function() {
     before(function() {
-      promise = secureP.getEncounterConditionsList();
+      promise = P.getEncounterConditionsList();
     });
     it("should succeed", function() {
       return promise;
@@ -308,7 +307,7 @@ describe("pokedex", function() {
 
   describe(".getEncounterConditionValuesList() secure (with ssl)", function() {
     before(function() {
-      promise = secureP.getEncounterConditionValuesList();
+      promise = P.getEncounterConditionValuesList();
     });
     it("should succeed", function() {
       return promise;
@@ -320,7 +319,7 @@ describe("pokedex", function() {
 
   describe(".getEvolutionChainsList() secure (with ssl)", function() {
     before(function() {
-      promise = secureP.getEvolutionChainsList();
+      promise = P.getEvolutionChainsList();
     });
     it("should succeed", function() {
       return promise;
@@ -332,7 +331,7 @@ describe("pokedex", function() {
 
   describe(".getEvolutionTriggersList() secure (with ssl)", function() {
     before(function() {
-      promise = secureP.getEvolutionTriggersList();
+      promise = P.getEvolutionTriggersList();
     });
     it("should succeed", function() {
       return promise;
@@ -344,7 +343,7 @@ describe("pokedex", function() {
 
   describe(".getGenerationsList() secure (with ssl)", function() {
     before(function() {
-      promise = secureP.getGenerationsList();
+      promise = P.getGenerationsList();
     });
     it("should succeed", function() {
       return promise;
@@ -356,7 +355,7 @@ describe("pokedex", function() {
 
   describe(".getPokedexsList() secure (with ssl)", function() {
     before(function() {
-      promise = secureP.getPokedexsList();
+      promise = P.getPokedexsList();
     });
     it("should succeed", function() {
       return promise;
@@ -368,7 +367,7 @@ describe("pokedex", function() {
 
   describe(".getVersionsList() secure (with ssl)", function() {
     before(function() {
-      promise = secureP.getVersionsList();
+      promise = P.getVersionsList();
     });
     it("should succeed", function() {
       return promise;
@@ -380,7 +379,7 @@ describe("pokedex", function() {
 
   describe(".getVersionGroupsList() secure (with ssl)", function() {
     before(function() {
-      promise = secureP.getVersionGroupsList();
+      promise = P.getVersionGroupsList();
     });
     it("should succeed", function() {
       return promise;
@@ -392,7 +391,7 @@ describe("pokedex", function() {
 
   describe(".getItemsList() secure (with ssl)", function() {
     before(function() {
-      promise = secureP.getItemsList();
+      promise = P.getItemsList();
     });
     it("should succeed", function() {
       return promise;
@@ -404,7 +403,7 @@ describe("pokedex", function() {
 
   describe(".getItemAttributesList() secure (with ssl)", function() {
     before(function() {
-      promise = secureP.getItemAttributesList();
+      promise = P.getItemAttributesList();
     });
     it("should succeed", function() {
       return promise;
@@ -416,7 +415,7 @@ describe("pokedex", function() {
 
   describe(".getItemCategoriesList() secure (with ssl)", function() {
     before(function() {
-      promise = secureP.getItemCategoriesList();
+      promise = P.getItemCategoriesList();
     });
     it("should succeed", function() {
       return promise;
@@ -428,7 +427,7 @@ describe("pokedex", function() {
 
   describe(".getItemFlingEffectsList() secure (with ssl)", function() {
     before(function() {
-      promise = secureP.getItemFlingEffectsList();
+      promise = P.getItemFlingEffectsList();
     });
     it("should succeed", function() {
       return promise;
@@ -440,7 +439,7 @@ describe("pokedex", function() {
 
   describe(".getItemPocketsList() secure (with ssl)", function() {
     before(function() {
-      promise = secureP.getItemPocketsList();
+      promise = P.getItemPocketsList();
     });
     it("should succeed", function() {
       return promise;
@@ -452,7 +451,7 @@ describe("pokedex", function() {
 
   describe(".getMachinesList() secure (with ssl)", function() {
     before(function() {
-      promise = secureP.getMachinesList();
+      promise = P.getMachinesList();
     });
     it("should succeed", function() {
       return promise;
@@ -464,7 +463,7 @@ describe("pokedex", function() {
 
   describe(".getMovesList() secure (with ssl)", function() {
     before(function() {
-      promise = secureP.getMovesList();
+      promise = P.getMovesList();
     });
     it("should succeed", function() {
       return promise;
@@ -476,7 +475,7 @@ describe("pokedex", function() {
 
   describe(".getMoveAilmentsList() secure (with ssl)", function() {
     before(function() {
-      promise = secureP.getMoveAilmentsList();
+      promise = P.getMoveAilmentsList();
     });
     it("should succeed", function() {
       return promise;
@@ -488,7 +487,7 @@ describe("pokedex", function() {
 
   describe(".getMoveBattleStylesList() secure (with ssl)", function() {
     before(function() {
-      promise = secureP.getMoveBattleStylesList();
+      promise = P.getMoveBattleStylesList();
     });
     it("should succeed", function() {
       return promise;
@@ -500,7 +499,7 @@ describe("pokedex", function() {
 
   describe(".getMoveCategoriesList() secure (with ssl)", function() {
     before(function() {
-      promise = secureP.getMoveCategoriesList();
+      promise = P.getMoveCategoriesList();
     });
     it("should succeed", function() {
       return promise;
@@ -512,7 +511,7 @@ describe("pokedex", function() {
 
   describe(".getMoveDamageClassesList() secure (with ssl)", function() {
     before(function() {
-      promise = secureP.getMoveDamageClassesList();
+      promise = P.getMoveDamageClassesList();
     });
     it("should succeed", function() {
       return promise;
@@ -524,7 +523,7 @@ describe("pokedex", function() {
 
   describe(".getMoveLearnMethodsList() secure (with ssl)", function() {
     before(function() {
-      promise = secureP.getMoveLearnMethodsList();
+      promise = P.getMoveLearnMethodsList();
     });
     it("should succeed", function() {
       return promise;
@@ -536,7 +535,7 @@ describe("pokedex", function() {
 
   describe(".getMoveTargetsList() secure (with ssl)", function() {
     before(function() {
-      promise = secureP.getMoveTargetsList();
+      promise = P.getMoveTargetsList();
     });
     it("should succeed", function() {
       return promise;
@@ -548,7 +547,7 @@ describe("pokedex", function() {
 
   describe(".getLocationsList() secure (with ssl)", function() {
     before(function() {
-      promise = secureP.getLocationsList();
+      promise = P.getLocationsList();
     });
     it("should succeed", function() {
       return promise;
@@ -560,7 +559,7 @@ describe("pokedex", function() {
 
   describe(".getLocationAreasList() secure (with ssl)", function() {
     before(function() {
-      promise = secureP.getLocationAreasList();
+      promise = P.getLocationAreasList();
     });
     it("should succeed", function() {
       return promise;
@@ -572,7 +571,7 @@ describe("pokedex", function() {
 
   describe(".getPalParkAreasList() secure (with ssl)", function() {
     before(function() {
-      promise = secureP.getPalParkAreasList();
+      promise = P.getPalParkAreasList();
     });
     it("should succeed", function() {
       return promise;
@@ -584,7 +583,7 @@ describe("pokedex", function() {
 
   describe(".getRegionsList() secure (with ssl)", function() {
     before(function() {
-      promise = secureP.getRegionsList();
+      promise = P.getRegionsList();
     });
     it("should succeed", function() {
       return promise;
@@ -596,7 +595,7 @@ describe("pokedex", function() {
 
   describe(".getAbilitiesList() secure (with ssl)", function() {
     before(function() {
-      promise = secureP.getAbilitiesList();
+      promise = P.getAbilitiesList();
     });
     it("should succeed", function() {
       return promise;
@@ -608,7 +607,7 @@ describe("pokedex", function() {
 
   describe(".getCharacteristicsList() secure (with ssl)", function() {
     before(function() {
-      promise = secureP.getCharacteristicsList();
+      promise = P.getCharacteristicsList();
     });
     it("should succeed", function() {
       return promise;
@@ -620,7 +619,7 @@ describe("pokedex", function() {
 
   describe(".getEggGroupsList() secure (with ssl)", function() {
     before(function() {
-      promise = secureP.getEggGroupsList();
+      promise = P.getEggGroupsList();
     });
     it("should succeed", function() {
       return promise;
@@ -632,7 +631,7 @@ describe("pokedex", function() {
 
   describe(".getGendersList() secure (with ssl)", function() {
     before(function() {
-      promise = secureP.getGendersList();
+      promise = P.getGendersList();
     });
     it("should succeed", function() {
       return promise;
@@ -644,7 +643,7 @@ describe("pokedex", function() {
 
   describe(".getGrowthRatesList() secure (with ssl)", function() {
     before(function() {
-      promise = secureP.getGrowthRatesList();
+      promise = P.getGrowthRatesList();
     });
     it("should succeed", function() {
       return promise;
@@ -656,7 +655,7 @@ describe("pokedex", function() {
 
   describe(".getNaturesList() secure (with ssl)", function() {
     before(function() {
-      promise = secureP.getNaturesList();
+      promise = P.getNaturesList();
     });
     it("should succeed", function() {
       return promise;
@@ -668,7 +667,7 @@ describe("pokedex", function() {
 
   describe(".getPokeathlonStatsList() secure (with ssl)", function() {
     before(function() {
-      promise = secureP.getPokeathlonStatsList();
+      promise = P.getPokeathlonStatsList();
     });
     it("should succeed", function() {
       return promise;
@@ -680,7 +679,7 @@ describe("pokedex", function() {
 
   describe(".getPokemonsList() secure (with ssl)", function() {
     before(function() {
-      promise = secureP.getPokemonsList();
+      promise = P.getPokemonsList();
     });
     it("should succeed", function() {
       return promise;
@@ -692,7 +691,7 @@ describe("pokedex", function() {
 
   describe(".getPokemonColorsList() secure (with ssl)", function() {
     before(function() {
-      promise = secureP.getPokemonColorsList();
+      promise = P.getPokemonColorsList();
     });
     it("should succeed", function() {
       return promise;
@@ -704,7 +703,7 @@ describe("pokedex", function() {
 
   describe(".getPokemonFormsList() secure (with ssl)", function() {
     before(function() {
-      promise = secureP.getPokemonFormsList();
+      promise = P.getPokemonFormsList();
     });
     it("should succeed", function() {
       return promise;
@@ -716,7 +715,7 @@ describe("pokedex", function() {
 
   describe(".getPokemonHabitatsList() secure (with ssl)", function() {
     before(function() {
-      promise = secureP.getPokemonHabitatsList();
+      promise = P.getPokemonHabitatsList();
     });
     it("should succeed", function() {
       return promise;
@@ -728,7 +727,7 @@ describe("pokedex", function() {
 
   describe(".getPokemonShapesList() secure (with ssl)", function() {
     before(function() {
-      promise = secureP.getPokemonShapesList();
+      promise = P.getPokemonShapesList();
     });
     it("should succeed", function() {
       return promise;
@@ -740,7 +739,7 @@ describe("pokedex", function() {
 
   describe(".getPokemonSpeciesList() secure (with ssl)", function() {
     before(function() {
-      promise = secureP.getPokemonSpeciesList();
+      promise = P.getPokemonSpeciesList();
     });
     it("should succeed", function() {
       return promise;
@@ -752,7 +751,7 @@ describe("pokedex", function() {
 
   describe(".getStatsList() secure (with ssl)", function() {
     before(function() {
-      promise = secureP.getStatsList();
+      promise = P.getStatsList();
     });
     it("should succeed", function() {
       return promise;
@@ -764,7 +763,7 @@ describe("pokedex", function() {
 
   describe(".getTypesList() secure (with ssl)", function() {
     before(function() {
-      promise = secureP.getTypesList();
+      promise = P.getTypesList();
     });
     it("should succeed", function() {
       return promise;
@@ -776,7 +775,7 @@ describe("pokedex", function() {
 
   describe(".getLanguagesList() secure (with ssl)", function() {
     before(function() {
-      promise = secureP.getLanguagesList();
+      promise = P.getLanguagesList();
     });
     it("should succeed", function() {
       return promise;

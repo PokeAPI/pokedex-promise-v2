@@ -1,4 +1,4 @@
-[
+exports.endpoints = [
     ["getBerryByName", "berry"], 
     ["getBerryFirmnessByName", "berry-firmness"], 
     ["getBerryFlavorByName", "berry-flavor"], 

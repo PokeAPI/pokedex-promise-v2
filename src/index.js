@@ -1,10 +1,10 @@
-import async from 'async';
+const async = require('async');
 
-import endpoints from './endpoints.json';
-import rootEndpoints from './rootEndpoints.json';
-import { getJSON } from './getter.js';
-import { values } from './default.js';
-import { configurator } from './configurator.js';
+const { endpoints } = require('./endpoints.js')
+const { rootEndpoints } = require('./rootEndpoints.js')
+const { getJSON } = require('./getter.js')
+const { values } = require('./default.js')
+const configurator = require('./configurator.js')
 
 class Pokedex {
     constructor(config) {
@@ -65,4 +65,4 @@ class Pokedex {
     }
 };
 
-module.exports = Pokedex;
+module.exports = Pokedex
