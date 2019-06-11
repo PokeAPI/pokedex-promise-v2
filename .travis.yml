@@ -5,10 +5,10 @@ cache:
 node_js:
   - "node"
   - "lts/*"
+  - "6"
 notifications:
   email: false
 before_install:
-  - npm install -g npm@latest
   - npm i
 before_script:
   - npm prune
