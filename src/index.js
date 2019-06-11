@@ -1,4 +1,4 @@
-const async = require('async');
+const pMap = require('p-map');
 
 const { endpoints } = require('./endpoints.js')
 const { rootEndpoints } = require('./rootEndpoints.js')
@@ -12,7 +12,12 @@ class Pokedex {
         
         // add to Pokedex.prototype all our endpoint functions
         endpoints.forEach(endpoint => {
-            this[endpoint[0]] = (input, cb) => { 
+            this[endpoint[0]] = (input, cb) => {
+                const mapper = async name => {
+                    const queryRes = await getJSON(`${values.protocol}${values.hostName}${values.versionPath}${endpoint[1]}/${name}/`)
+                    return queryRes;
+                };
+
                 if (input) {
 
                     // if the user has submitted a Name or an Id, return the Json promise
@@ -23,23 +28,17 @@ class Pokedex {
                     // if the user has submitted an Array
                     // return a new promise which will resolve when all getJSON calls are ended
                     else if (typeof input === 'object') {
-                        let toReturn = [];
                         return new Promise((resolve, reject) => {
 
-                            // fetch data asynchronously to be faster
-                            async.forEachOf(input, name => {
+                            
 
-                                //get current input data and then try to resolve
-                                getJSON(`${values.protocol}${values.hostName}${values.versionPath}${endpoint[1]}/${name}/`, response => {
-                                    toReturn.push(response);
-                                    if(toReturn.length === input.length){
-                                        if (cb) {
-                                            cb(toReturn);
-                                        }
-                                        resolve(toReturn);
-                                    }
-                                });
-                            });
+                            // fetch data asynchronously to be faster
+                            pMap(input, mapper, {concurrency: 4}).then(toReturn => {
+                                if (cb) {
+                                    cb(toReturn);
+                                }
+                                resolve(toReturn);
+                            })
                         });
                     }
                 }

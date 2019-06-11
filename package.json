@@ -30,7 +30,8 @@
   "dependencies": {
     "async": "^2.6.2",
     "axios": "^0.19.0",
-    "memory-cache": "^0.2.0"
+    "memory-cache": "^0.2.0",
+    "p-map": "^2.1.0"
   },
   "devDependencies": {
     "chai": "^3.5.0",
