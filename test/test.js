@@ -1416,7 +1416,7 @@ describe("pokedex", function() {
       promise = P.getBerryByName('sfgfsgsfggsfg');
     });
     it("should fail", function() {
-      return expect(Promise.regect);
+      return expect(promise).rejected;
     });
   });
 
