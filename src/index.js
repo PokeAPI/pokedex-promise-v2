@@ -5,6 +5,7 @@ const { rootEndpoints } = require('./rootEndpoints.js')
 const { getJSON } = require('./getter.js')
 const { values } = require('./default.js')
 const configurator = require('./configurator.js')
+const { handleError } = require('./error.js')
 
 class Pokedex {
     constructor(config) {
@@ -30,15 +31,15 @@ class Pokedex {
                         // return a new promise which will resolve when all getJSON calls are ended
                         else if (typeof input === 'object') {
                             // fetch data asynchronously to be faster
-                            const toReturn = await pMap(input, mapper, {concurrency: 4})
+                            const mappedResults = await pMap(input, mapper, {concurrency: 4})
                             if (cb) {
-                                cb(toReturn);
+                                cb(mappedResults);
                             }
-                            return toReturn;
+                            return mappedResults;
                         }
                     }
                 } catch (error) {
-                    throw error
+                    handleError(error, cb)
                 }
             }
         });
@@ -49,7 +50,7 @@ class Pokedex {
                     configurator.setRootEndpointConfiguration(config);
                     return getJSON(`${values.protocol}${values.hostName}${values.versionPath}${rootEndpoint[1]}?limit=${values.limit}&offset=${values.offset}`, cb)
                 } catch (error) {
-                    throw error
+                    handleError(error, cb)
                 }
             }
         });
@@ -65,7 +66,7 @@ class Pokedex {
                 throw 'String or Array required'
             }
         } catch (error) {
-            throw error
+            throw new Error(error)
         }
     }
 };

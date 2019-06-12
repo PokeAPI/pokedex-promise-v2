@@ -2,35 +2,28 @@ const axios = require('axios')
 const cache = require('memory-cache')
 
 const { values } = require('./default.js')
+const { handleError } = require('./error.js')
 
-// retrive data from the web
 let options = {
     baseURL: `${values.protocol}${values.hostName}/`,
     timeout: values.timeout
 }
 
 exports.getJSON = async (url, cb) => {
-    
-    // retrive possible content from volatile memory
-    const cachedResult = cache.get(url);
-    if (cachedResult !== null) {
-        if (cb) {
-            // call callback without errors
-            cb(cachedResult, false);
-        }
-        return cachedResult
-    } else {
-        try{
-            response = await axios.get(url, options)       
+    try {
+        // retrive possible content from volatile memory
+        const cachedResult = cache.get(url);
+        if (cachedResult !== null) {
+            if (cb) {
+                // call callback without errors
+                cb(cachedResult, false);
+            }
+            return cachedResult
+        } else {
+            response = await axios.get(url, options)
             // if there is an error
             if (response.statusCode !== undefined && response.statusCode !== 200) {
-                if (!cb) {
-                    // throw if a Promise
-                    throw response;
-                } else {
-                    // call the callback with error as second parameter
-                    cb('error', response);
-                }
+                handleError(response, cb)
             } else {
                 // if everything was good
                 // cache the object in volatile memory
@@ -49,14 +42,8 @@ exports.getJSON = async (url, cb) => {
                     return response;
                 }
             }
-        } catch (error) {
-            if (!cb) {
-                // throw if a Promise
-                throw error;
-            } else {
-                // call the callback with error as second parameter
-                cb('error', error);
-            }
         }
+    } catch (error) {
+        handleError(error, cb)
     }
 }
