@@ -15,10 +15,21 @@ describe("pokedex", function() {
       hostName: 'pokeapi.co',
       versionPath: '/api/v2/',
     });
-
   this.timeout(5000);
 
   // test resource endpoint
+
+  describe("P", function() {
+    it("should be an object", function() {
+      return expect(P).to.be.an('object')
+    });
+    it("should have getPokemonByName function", function() {
+      return expect(P).to.have.property('getPokemonByName')
+    });
+    it("should have getPokemonsList function", function() {
+      return expect(P).to.have.property('getPokemonsList')
+    });
+  });
 
   describe(".resource(Mixed: Array) with callback", function() {
     var resultAsCallback;
