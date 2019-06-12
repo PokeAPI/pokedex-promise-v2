@@ -187,8 +187,6 @@ describe("pokedex", function() {
       promise = P.getBerryByName("asd", function(data, error) {
         if(error) {
           resultAsCallback = error;
-        } else {
-          resultAsCallback = data;
         }
         done();
       });
