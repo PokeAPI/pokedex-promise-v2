@@ -56,7 +56,7 @@ var P = new Pokedex();
 
 **UPDATE**: You can pass an array to each endpoint, it will retrive data for each array element. If you scroll down, you will find an example.
 
-### Example requests
+### [Example](./test/test_async.js) requests
 
 ```js
   P.getPokemonByName('eevee') // with Promise
