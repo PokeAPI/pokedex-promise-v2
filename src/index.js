@@ -56,15 +56,20 @@ class Pokedex {
         });
     }
 
-    async resource(path) {
-        try{
+    async resource(path, cb) {
+        let result
+        try {
             if (typeof path === 'string') {
-                return getJSON(path)
+                result = getJSON(path)
             } else if (typeof path === 'object') {
-                return Promise.all(path.map(p => getJSON(p)));
+                result = Promise.all(path.map(p => getJSON(p)));
             } else {
                 throw 'String or Array required'
             }
+            if (cb) {
+                cb(result)
+            }
+            return result
         } catch (error) {
             throw new Error(error)
         }
