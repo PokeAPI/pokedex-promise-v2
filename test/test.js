@@ -20,6 +20,19 @@ describe("pokedex", function() {
 
   // test resource endpoint
 
+  describe(".resource(Mixed: Array) with callback", function() {
+    var resultAsCallback;
+    before(function(done) {
+      promise = P.resource(['https://pokeapi.co/api/v2/berry/12', 'https://pokeapi.co/api/v2/berry/11', 'https://pokeapi.co/api/v2/pokemon/12'], function(data) {
+        resultAsCallback = data;
+        done();
+      });
+    });
+    it("should all have property name", function() {
+      return expect(resultAsCallback).to.eventually.all.have.property("name");
+    });
+  });
+
   describe(".resource(Url: String) secure (with ssl)", function() {
     before(function() {
       promise = P.resource('https://pokeapi.co/api/v2/berry/12');
