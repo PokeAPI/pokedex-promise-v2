@@ -5,7 +5,7 @@ cache:
 node_js:
   - "node"
   - "lts/*"
-  - "6"
+  - "7.6"
 notifications:
   email: false
 before_install:
