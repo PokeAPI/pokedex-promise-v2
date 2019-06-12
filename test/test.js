@@ -175,21 +175,11 @@ describe("pokedex", function() {
   });
 
   describe(".getBerryByName(String: name) invalid", function() {
-    var resultAsCallback;
-    before(function(done) {
-      promise = P.getBerryByName("das").then(function(data) {
-          resultAsCallback = data;
-          done();
-        }).catch(function (error){
-          resultAsCallback = error;
-          done();
-        });
-    });
     it("should fail", function() {
-      return expect(Promise.regect);
+      return expect(P.getBerryByName("das")).to.be.rejected
     });
     it("should fail with an error that has response property", function() {
-      return expect(resultAsCallback).to.have.property('response');
+      return expect(P.getBerryByName("das")).to.be.eventually.rejectedWith(Error).and.have.property('response');
     });
   });
 
