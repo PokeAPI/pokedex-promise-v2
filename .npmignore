@@ -1,5 +1,4 @@
 node_modules
 test
-src
 .travis.yml
 webpack.config.js
