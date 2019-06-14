@@ -1,4 +1,4 @@
-[
+exports.rootEndpoints = [
     ["getEndpointsList", ""],
     ["getBerriesList", "berry/"], 
     ["getBerriesFirmnesssList", "berry-firmness/"], 

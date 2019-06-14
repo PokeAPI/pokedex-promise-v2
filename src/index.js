@@ -1,10 +1,11 @@
-import async from 'async';
+const pMap = require('p-map');
 
-import endpoints from './endpoints.json';
-import rootEndpoints from './rootEndpoints.json';
-import { getJSON } from './getter.js';
-import { values } from './default.js';
-import { configurator } from './configurator.js';
+const { endpoints } = require('./endpoints.js')
+const { rootEndpoints } = require('./rootEndpoints.js')
+const { getJSON } = require('./getter.js')
+const { values } = require('./default.js')
+const configurator = require('./configurator.js')
+const { handleError } = require('./error.js')
 
 class Pokedex {
     constructor(config) {
@@ -12,57 +13,67 @@ class Pokedex {
         
         // add to Pokedex.prototype all our endpoint functions
         endpoints.forEach(endpoint => {
-            this[endpoint[0]] = (input, cb) => { 
-                if (input) {
-
-                    // if the user has submitted a Name or an Id, return the Json promise
-                    if (typeof input === 'number' || typeof input === 'string') {
-                        return getJSON(`${values.protocol}${values.hostName}${values.versionPath}${endpoint[1]}/${input}/`, cb); 
-                    }
-
-                    // if the user has submitted an Array
-                    // return a new promise which will resolve when all getJSON calls are ended
-                    else if (typeof input === 'object') {
-                        let toReturn = [];
-                        return new Promise((resolve, reject) => {
-
+            this[endpoint[0]] = async (input, cb) => {
+                try {
+                    const mapper = async name => {
+                        const queryRes = await getJSON(`${values.protocol}${values.hostName}${values.versionPath}${endpoint[1]}/${name}/`)
+                        return queryRes;
+                    };
+    
+                    if (input) {
+    
+                        // if the user has submitted a Name or an Id, return the Json promise
+                        if (typeof input === 'number' || typeof input === 'string') {
+                            return getJSON(`${values.protocol}${values.hostName}${values.versionPath}${endpoint[1]}/${input}/`, cb); 
+                        }
+    
+                        // if the user has submitted an Array
+                        // return a new promise which will resolve when all getJSON calls are ended
+                        else if (typeof input === 'object') {
                             // fetch data asynchronously to be faster
-                            async.forEachOf(input, name => {
-
-                                //get current input data and then try to resolve
-                                getJSON(`${values.protocol}${values.hostName}${values.versionPath}${endpoint[1]}/${name}/`, response => {
-                                    toReturn.push(response);
-                                    if(toReturn.length === input.length){
-                                        if (cb) {
-                                            cb(toReturn);
-                                        }
-                                        resolve(toReturn);
-                                    }
-                                });
-                            });
-                        });
+                            const mappedResults = await pMap(input, mapper, {concurrency: 4})
+                            if (cb) {
+                                cb(mappedResults);
+                            }
+                            return mappedResults;
+                        }
                     }
+                } catch (error) {
+                    handleError(error, cb)
                 }
             }
         });
 
         rootEndpoints.forEach(rootEndpoint => {
-            this[rootEndpoint[0]] = (config, cb) => {
-                configurator.setRootEndpointConfiguration(config);
-                return getJSON(`${values.protocol}${values.hostName}${values.versionPath}${rootEndpoint[1]}?limit=${values.limit}&offset=${values.offset}`, cb);
+            this[rootEndpoint[0]] = async (config, cb) => {
+                try {
+                    configurator.setRootEndpointConfiguration(config);
+                    return getJSON(`${values.protocol}${values.hostName}${values.versionPath}${rootEndpoint[1]}?limit=${values.limit}&offset=${values.offset}`, cb)
+                } catch (error) {
+                    handleError(error, cb)
+                }
             }
         });
     }
 
-    resource(path) {
-        if (typeof path === 'string') {
-            return getJSON(path)
-        } else if (typeof path === 'object') {
-            return Promise.all(path.map(p => getJSON(p)));
-        } else {
-            return 'String or Array is required'
+    async resource(path, cb) {
+        let result
+        try {
+            if (typeof path === 'string') {
+                result = getJSON(path)
+            } else if (typeof path === 'object') {
+                result = Promise.all(path.map(p => getJSON(p)));
+            } else {
+                throw 'String or Array required'
+            }
+            if (cb) {
+                cb(result)
+            }
+            return result
+        } catch (error) {
+            throw new Error(error)
         }
     }
 };
 
-module.exports = Pokedex;
+module.exports = Pokedex
