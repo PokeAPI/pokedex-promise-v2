@@ -1,4 +1,5 @@
 const pMap = require('p-map');
+const cache = require('memory-cache');
 
 const { endpoints } = require('./endpoints.js')
 const { rootEndpoints } = require('./rootEndpoints.js')
@@ -74,6 +75,16 @@ class Pokedex {
             throw new Error(error)
         }
     }
+
+    cacheSize() {
+        // Retuns the current number of entries in the cache
+        return cache.size();
+    }
+
+    clearCache() {
+        // Deletes all keys in cache
+        cache.clear();
+    };
 };
 
 module.exports = Pokedex
