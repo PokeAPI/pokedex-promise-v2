@@ -15,7 +15,7 @@ describe("pokedex", function() {
       hostName: 'pokeapi.co',
       versionPath: '/api/v2/',
     });
-  this.timeout(5000);
+  this.timeout(10000);
 
   // test resource endpoint
 
