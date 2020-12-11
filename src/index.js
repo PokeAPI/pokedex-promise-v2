@@ -1,5 +1,5 @@
-const pMap = require('p-map');
-const cache = require('memory-cache');
+const pMap = require('p-map')
+const cache = require('memory-cache')
 
 const { endpoints } = require('./endpoints.js')
 const { rootEndpoints } = require('./rootEndpoints.js')
@@ -18,14 +18,14 @@ class Pokedex {
                 try {
                     const mapper = async name => {
                         const queryRes = await getJSON(this.values, `${this.values.protocol}${this.values.hostName}${this.values.versionPath}${endpoint[1]}/${name}/`)
-                        return queryRes;
-                    };
+                        return queryRes
+                    }
     
                     if (input) {
     
                         // if the user has submitted a Name or an Id, return the Json promise
                         if (typeof input === 'number' || typeof input === 'string') {
-                            return getJSON(this.values, `${this.values.protocol}${this.values.hostName}${this.values.versionPath}${endpoint[1]}/${input}/`, cb); 
+                            return getJSON(this.values, `${this.values.protocol}${this.values.hostName}${this.values.versionPath}${endpoint[1]}/${input}/`, cb) 
                         }
     
                         // if the user has submitted an Array
@@ -34,16 +34,16 @@ class Pokedex {
                             // fetch data asynchronously to be faster
                             const mappedResults = await pMap(input, mapper, {concurrency: 4})
                             if (cb) {
-                                cb(mappedResults);
+                                cb(mappedResults)
                             }
-                            return mappedResults;
+                            return mappedResults
                         }
                     }
                 } catch (error) {
                     handleError(error, cb)
                 }
             }
-        });
+        })
 
         rootEndpoints.forEach(rootEndpoint => {
             this[rootEndpoint[0]] = async (config, cb) => {
@@ -63,7 +63,7 @@ class Pokedex {
                     handleError(error, cb)
                 }
             }
-        });
+        })
     }
 
     async resource(path, cb) {
@@ -72,7 +72,7 @@ class Pokedex {
             if (typeof path === 'string') {
                 result = getJSON(this.values, path)
             } else if (typeof path === 'object') {
-                result = Promise.all(path.map(p => getJSON(this.values, p)));
+                result = Promise.all(path.map(p => getJSON(this.values, p)))
             } else {
                 throw 'String or Array required'
             }
@@ -85,19 +85,19 @@ class Pokedex {
         }
     }
 
-    getConfig = function() {
+    getConfig() {
         return this.values
     }
 
     cacheSize() {
         // Retuns the current number of entries in the cache
-        return this.values.cache.size();
+        return this.values.cache.size()
     }
 
     clearCache() {
         // Deletes all keys in cache
-        this.values.cache.clear();
-    };
-};
+        this.values.cache.clear()
+    }
+}
 
 module.exports = Pokedex

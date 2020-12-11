@@ -10,11 +10,11 @@ exports.getJSON = async (values, url, cb) => {
     }
     try {
         // retrive possible content from memory-cache
-        const cachedResult = values.cache.get(url);
+        const cachedResult = values.cache.get(url)
         if (cachedResult !== null) {
             if (cb) {
                 // call callback without errors
-                cb(cachedResult, false);
+                cb(cachedResult, false)
             }
             return cachedResult
         } else {
@@ -29,15 +29,15 @@ exports.getJSON = async (values, url, cb) => {
                 response = response.data
 
                 if (values.cacheLimit > 0) {
-                    values.cache.put(url, response, values.cacheLimit);
+                    values.cache.put(url, response, values.cacheLimit)
                 }
 
                 // if a callback is present
                 if (cb) {
                     // call it, without errors
-                    cb(response, false);
+                    cb(response, false)
                 } else {
-                    return response;
+                    return response
                 }
             }
         }
