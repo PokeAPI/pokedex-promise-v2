@@ -5,12 +5,10 @@ cache:
 node_js:
   - "node"
   - "lts/*"
-  - "7.6"
+  - "10"
 notifications:
   email: false
 before_install:
   - npm i
-before_script:
-  - npm prune
 script:
   - npm test

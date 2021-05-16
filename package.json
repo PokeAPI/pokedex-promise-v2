@@ -1,9 +1,9 @@
 {
   "name": "pokedex-promise-v2",
-  "version": "3.3.1",
+  "version": "3.3.2",
   "description": "A library used to get information about Pokemons.",
   "engines": {
-    "node": ">=7.6"
+    "node": ">=10"
   },
   "main": "src/index.js",
   "scripts": {
@@ -34,7 +34,7 @@
   "dependencies": {
     "axios": "^0.21.1",
     "memory-cache": "^0.2.0",
-    "p-map": "^2.1.0"
+    "p-map": "^4.0.0"
   },
   "devDependencies": {
     "chai": "^4.3.4",
