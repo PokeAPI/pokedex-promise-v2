@@ -18,7 +18,7 @@ exports.getJSON = async (values, url, cb) => {
             }
             return cachedResult
         } else {
-            response = await axios.get(url, options)
+            let response = await axios.get(url, options)
             // if there is an error
             if (response.statusCode !== undefined && response.statusCode !== 200) {
                 handleError(response, cb)
