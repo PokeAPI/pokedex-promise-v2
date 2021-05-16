@@ -1,6 +1,6 @@
 {
   "name": "pokedex-promise-v2",
-  "version": "3.3.0",
+  "version": "3.3.1",
   "description": "A library used to get information about Pokemons.",
   "engines": {
     "node": ">=7.6"
