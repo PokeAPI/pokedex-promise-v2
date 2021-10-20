@@ -46,6 +46,10 @@ npm install pokedex-promise-v2 --save
 yarn add pokedex-promise-v2
 ```
 
+```sh
+pnpm i pokedex-promise-v2
+```
+
 ## Usage
 
 ```js
