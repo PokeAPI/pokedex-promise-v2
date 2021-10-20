@@ -8,7 +8,8 @@
   "main": "src/index.js",
   "scripts": {
     "doctoc": "doctoc .",
-    "test": "mocha --exit"
+    "test": "mocha --exit",
+    "lint": "eslint --ext .js src/"
   },
   "repository": {
     "type": "git",
@@ -41,6 +42,9 @@
     "chai-as-promised": "^7.1.1",
     "chai-things": "^0.2.0",
     "doctoc": "^2.0.0",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.25.2",
     "mocha": "^8.4.0"
   }
 }
