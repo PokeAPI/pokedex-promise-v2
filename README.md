@@ -13,25 +13,26 @@ An easy way to use [Pokéapi](https://pokeapi.co/) v2 with promises *(or callbac
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**
 
-- [Install *](#install-)
-- [Usage](#usage)
-  - [Example requests](#example-requests)
-- [Configuration](#configuration)
-- [Endpoints](#endpoints)
-  - [Berries](#berries)
-  - [Contests](#contests)
-  - [Encounters](#encounters)
-  - [Evolution](#evolution)
-  - [Games](#games)
-  - [Items](#items)
-  - [Machines](#machines)
-  - [Moves](#moves)
-  - [Locations](#locations)
-  - [Pokemon](#pokemon)
-  - [Utility](#utility)
-  - [Custom URLs and paths](#custom-urls-and-paths)
-- [Root Endpoints](#root-endpoints)
-  - [List of supported root endpoints](#list-of-supported-root-endpoints)
+- [pokedex-promise-v2 <a href="https://pokeapi.co/api/v2/pokemon/bulbasaur"><img src='https://veekun.com/dex/media/pokemon/global-link/1.png' height=50px/></a>](#pokedex-promise-v2-)
+  - [Install ![nodeVersion](https://www.npmjs.com/package/pokedex-promise-v2)](#install-)
+  - [Usage](#usage)
+    - [Example requests](#example-requests)
+  - [Configuration](#configuration)
+  - [Endpoints](#endpoints)
+    - [Berries](#berries)
+    - [Contests](#contests)
+    - [Encounters](#encounters)
+    - [Evolution](#evolution)
+    - [Games](#games)
+    - [Items](#items)
+    - [Machines](#machines)
+    - [Moves](#moves)
+    - [Locations](#locations)
+    - [Pokemon](#pokemon)
+    - [Utility](#utility)
+    - [Custom URLs and paths](#custom-urls-and-paths)
+  - [Root Endpoints](#root-endpoints)
+    - [List of supported root endpoints](#list-of-supported-root-endpoints)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -48,8 +49,8 @@ yarn add pokedex-promise-v2
 ## Usage
 
 ```js
-var Pokedex = require('pokedex-promise-v2');
-var P = new Pokedex();
+import Pokedex from 'pokedex-promise-v2';
+const P = new Pokedex();
 ```
 
 **NOTE**: Any function with the designation "ByName" can also be passed an integer ID. However, the functions with the designation "ById" can only be passed an integer ID. Refer to the [pokeapi v2 docs](http://pokeapi.co/docsv2/) to find out more about how the data is structured.
@@ -87,15 +88,15 @@ Pass an Object to Pokedex in order to configure it. Available options: `protocol
 Any option is optional :smile:. If no Object is passed, the Pokedex will be initialized to grab data from pokeapi.co using http with 20 seconds timeout and caching resources for 11 days. HTTPS is the default protocol.
 
 ```js
-var Pokedex = require('pokedex-promise-v2');
-var options = {
+import Pokedex from 'pokedex-promise-v2';
+const options = {
   protocol: 'https',
   hostName: 'localhost:443',
   versionPath: '/api/v2/',
   cacheLimit: 100 * 1000, // 100s
   timeout: 5 * 1000 // 5s
 }
-var P = new Pokedex(options);
+const P = new Pokedex(options);
 ```
 
 ## Endpoints
@@ -688,7 +689,7 @@ For each root endpoint we provide a method to get all the items contained by tha
 This call will get the list of pokemon between ID 34 and ID 44 
 
 ```js
-  var interval = {
+  const interval = {
     limit: 10,
     offset: 34
   }
