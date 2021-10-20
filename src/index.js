@@ -1,103 +1,102 @@
-const pMap = require('p-map')
-const cache = require('memory-cache')
+import pMap from 'p-map';
+import cache from 'memory-cache';
 
-const { endpoints } = require('./endpoints.js')
-const { rootEndpoints } = require('./rootEndpoints.js')
-const { getJSON } = require('./getter.js')
-const { Values } = require('./values.js')
-const { handleError } = require('./error.js')
-
+import endpoints from './endpoints.js';
+import rootEndpoints from './rootEndpoints.js';
+import getJSON from './getter.js';
+import Values from './values.js';
+import handleError from './error.js';
 
 class Pokedex {
-    constructor(config) {
-        this.values = new Values(config, new cache.Cache())
-        
-        // add to Pokedex.prototype all our endpoint functions
-        endpoints.forEach(endpoint => {
-            this[endpoint[0]] = async (input, cb) => {
-                try {
-                    const mapper = async name => {
-                        const queryRes = await getJSON(this.values, `${this.values.protocol}${this.values.hostName}${this.values.versionPath}${endpoint[1]}/${name}/`)
-                        return queryRes
-                    }
-    
-                    if (input) {
-    
-                        // if the user has submitted a Name or an Id, return the Json promise
-                        if (typeof input === 'number' || typeof input === 'string') {
-                            return getJSON(this.values, `${this.values.protocol}${this.values.hostName}${this.values.versionPath}${endpoint[1]}/${input}/`, cb) 
-                        }
-    
-                        // if the user has submitted an Array
-                        // return a new promise which will resolve when all getJSON calls are ended
-                        else if (typeof input === 'object') {
-                            // fetch data asynchronously to be faster
-                            const mappedResults = await pMap(input, mapper, {concurrency: 4})
-                            if (cb) {
-                                cb(mappedResults)
-                            }
-                            return mappedResults
-                        }
-                    }
-                } catch (error) {
-                    handleError(error, cb)
-                }
-            }
-        })
+  constructor(config) {
+    this.values = new Values(config, new cache.Cache());
 
-        rootEndpoints.forEach(rootEndpoint => {
-            this[rootEndpoint[0]] = async (config, cb) => {
-                try {
-                    let limit = this.values.limit
-                    let offset = this.values.offset
-                    if (config) {
-                        if (config.hasOwnProperty('limit')) {
-                            limit = config.limit
-                        }
-                        if (config.hasOwnProperty('offset')) {
-                            offset = config.offset
-                        }
-                    }
-                    return getJSON(this.values, `${this.values.protocol}${this.values.hostName}${this.values.versionPath}${rootEndpoint[1]}?limit=${limit}&offset=${offset}`, cb)
-                } catch (error) {
-                    handleError(error, cb)
-                }
-            }
-        })
-    }
-
-    async resource(path, cb) {
-        let result
+    // add to Pokedex.prototype all our endpoint functions
+    endpoints.forEach((endpoint) => {
+      this[endpoint[0]] = async (input, cb) => {
         try {
-            if (typeof path === 'string') {
-                result = getJSON(this.values, path)
-            } else if (typeof path === 'object') {
-                result = Promise.all(path.map(p => getJSON(this.values, p)))
-            } else {
-                throw 'String or Array required'
+          const mapper = async (name) => {
+            const queryRes = await getJSON(this.values, `${this.values.protocol}${this.values.hostName}${this.values.versionPath}${endpoint[1]}/${name}/`);
+            return queryRes;
+          };
+
+          if (input) {
+            // if the user has submitted a Name or an Id, return the Json promise
+            if (typeof input === 'number' || typeof input === 'string') {
+              return getJSON(this.values, `${this.values.protocol}${this.values.hostName}${this.values.versionPath}${endpoint[1]}/${input}/`, cb);
             }
-            if (cb) {
-                cb(result) // TODO: check if this callback is called with a pending Promise or an actual result
+
+            // if the user has submitted an Array
+            // return a new promise which will resolve when all getJSON calls are ended
+            if (typeof input === 'object') {
+              // fetch data asynchronously to be faster
+              const mappedResults = await pMap(input, mapper, { concurrency: 4 });
+              if (cb) {
+                cb(mappedResults);
+              }
+              return mappedResults;
             }
-            return result
+          }
         } catch (error) {
-            throw new Error(error)
+          handleError(error, cb);
         }
-    }
+      };
+    });
 
-    getConfig() {
-        return this.values
-    }
+    rootEndpoints.forEach((rootEndpoint) => {
+      this[rootEndpoint[0]] = async (config, cb) => {
+        try {
+          let { limit } = this.values;
+          let { offset } = this.values;
+          if (config) {
+            if (config.hasOwnProperty('limit')) {
+              limit = config.limit;
+            }
+            if (config.hasOwnProperty('offset')) {
+              offset = config.offset;
+            }
+          }
+          return getJSON(this.values, `${this.values.protocol}${this.values.hostName}${this.values.versionPath}${rootEndpoint[1]}?limit=${limit}&offset=${offset}`, cb);
+        } catch (error) {
+          handleError(error, cb);
+        }
+      };
+    });
+  }
 
-    cacheSize() {
-        // Retuns the current number of entries in the cache
-        return this.values.cache.size()
+  async resource(path, cb) {
+    let result;
+    try {
+      if (typeof path === 'string') {
+        result = getJSON(this.values, path);
+      } else if (typeof path === 'object') {
+        result = Promise.all(path.map((p) => getJSON(this.values, p)));
+      } else {
+        throw new Error('String or Array required');
+      }
+      if (cb) {
+        // TODO: check if this callback is called with a pending Promise or an actual result
+        cb(result);
+      }
+      return result;
+    } catch (error) {
+      throw new Error(error);
     }
+  }
 
-    clearCache() {
-        // Deletes all keys in cache
-        this.values.cache.clear()
-    }
+  getConfig() {
+    return this.values;
+  }
+
+  cacheSize() {
+    // Retuns the current number of entries in the cache
+    return this.values.cache.size();
+  }
+
+  clearCache() {
+    // Deletes all keys in cache
+    this.values.cache.clear();
+  }
 }
 
-module.exports = Pokedex
+export default Pokedex;
