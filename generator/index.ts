@@ -26,12 +26,12 @@ const file = project.createSourceFile(typeFile, `// Type definitions for pokedex
 });
 
 // Create the root module
-const rootModule = file.addNamespace({
+const rootModule = file.addModule({
   name: '\'pokedex-promise-v2\''
 });
 
 // Create the namespace
-const namespace = rootModule.addNamespace({
+const namespace = rootModule.addModule({
   name: 'PokeAPI',
 });
 
@@ -93,9 +93,12 @@ for (const schemaPath of paths) {
     newInterface = newInterface.replace('Index', apiMap[basename]);
 
     // Write the interfaces to the namespace
-    namespace.setBodyText(`${namespace.getBodyText()}\n${newInterface}\n`);
+    namespace.setBodyText(`${namespace.getBodyText()}\n${newInterface}\n  \n`);
   
 }
+
+// Format the namespace to be correctly indented
+namespace.formatText();
 
 // Add the root endpoint interval
 namespace.addInterface({
@@ -138,12 +141,12 @@ rootModule.addInterface({
 });
 
 // Add the main PokeAPI class
-const cls = rootModule.addClass({
+const pokeApiClass = rootModule.addClass({
   name: 'PokeAPI',
 });
 
 // Add the constructor typing to the class
-cls.addConstructor({
+pokeApiClass.addConstructor({
   parameters: [{
     name: 'options',
     type: 'PokeApiOptions',
@@ -152,7 +155,7 @@ cls.addConstructor({
 });
 
 // Add the get generic resource method
-cls.addMethod({
+pokeApiClass.addMethod({
   name: 'resource',
   parameters: [{
     name: 'path',
@@ -162,7 +165,7 @@ cls.addMethod({
 });
 
 // Add the get generic resource array method
-cls.addMethod({
+pokeApiClass.addMethod({
   name: 'resource',
   parameters: [{
     name: 'paths',
@@ -174,7 +177,7 @@ cls.addMethod({
 // Add all the methods from the endpoints list, 
 // setting the parameters typing and binding to the correct interface
 for (const [method, apiName] of endpoints) {
-  cls.addMethod({
+  pokeApiClass.addMethod({
     name: method,
     parameters: [{
       name: method.match(/ByName$/) ? 'nameOrId' : 'id',
@@ -183,7 +186,7 @@ for (const [method, apiName] of endpoints) {
     returnType: `Promise<PokeAPI.${apiMap[apiName]}>`,
   });
 
-  cls.addMethod({
+  pokeApiClass.addMethod({
     name: method,
     parameters: [{
       name: method.match(/ByName$/) ? 'nameOrIds' : 'ids',
@@ -194,7 +197,7 @@ for (const [method, apiName] of endpoints) {
 }
 
 // Add method to get the list of endpoints
-cls.addMethod({
+pokeApiClass.addMethod({
   name: 'getEndpointsList',
   returnType: 'PokeAPI.EndpointsList',
 });
@@ -207,7 +210,7 @@ for (const [method, path] of rootEndpoints) {
   if (!apiMap[apiName]) {
     continue;
   }
-  cls.addMethod({
+  pokeApiClass.addMethod({
     name: method,
     parameters: [{
       name: 'interval',
@@ -217,12 +220,6 @@ for (const [method, path] of rootEndpoints) {
     returnType: `Promise<PokeAPI.${apiMap[apiName].includes('NamedList') ? 'ApiResourceList' : 'NamedApiResourceList'}>`,
   });
 }
-
-// Export the namespace
-rootModule.addExportAssignment({
-  expression: 'PokeAPI',
-});
-
 
 // Write the file
 await file.save();
