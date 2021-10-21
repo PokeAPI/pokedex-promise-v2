@@ -1,7 +1,6 @@
 import { compileFromFile } from 'json-schema-to-typescript'
 import directoryTree from 'directory-tree';
 import { Project, Writers } from 'ts-morph';
-import fs from 'fs';
 
 import endpoints from '../src/endpoints.js';
 import rootEndpoints from '../src/rootEndpoints.js';
@@ -17,141 +16,213 @@ function clearAndUpper(text: string) {
 const typeFile = './types/index.d.ts';
 let apiMap: Record<string, string> = {};
 
-function genTypes() {
-  fs.writeFileSync(typeFile, "/* tslint:disable */\n/** Execute `npm run gentypes` to regenerate **/\n\n");
+const project = new Project();
+const file = project.createSourceFile(typeFile, `// Type definitions for pokedex-promise-v2 v4.x
+// DO NOT MODIFY, THIS IS AUTO GENERATED
+// Original code by: Mudkip <https://github.com/mudkipme/>
+// Schema code by: HRKings <https://github.com/HRKings/>
+// Execute \'npm run gentypes\` to regenerate`, {
+    overwrite: true,
+});
 
-  directoryTree('./generator/schema', { extensions: /\.json$/ }, (item) => {
-    let basename: string;
-    let paths = item.path.split('/').reverse();
+// Create the root module
+const rootModule = file.addNamespace({
+  name: '\'pokedex-promise-v2\''
+});
 
-    if (item.path.includes('$id')) {
-      basename = paths[2];
-    } else if (item.path.includes('pokemon/encounters')) {
-      basename = paths[3];
-    }
-    else {
-      basename = `${paths[1]}List`;
-    }
+// Create the namespace
+const namespace = rootModule.addNamespace({
+  name: 'PokeAPI',
+});
 
-    apiMap[basename] = toPascalCase(basename);
+// Get all schemas and put them in the array
+let paths: string[] = [];
+directoryTree('./generator/schema', { extensions: /\.json$/ }, (file) => paths.push(file.path));
 
-    compileFromFile(item.path, {
-      declareExternallyReferenced: false,
-      bannerComment: ''
-    }).then(ts => {
-      ts = ts.replaceAll('[k: string]: unknown;', '').replace('export', '');
-
-      if (ts.includes('Index') && !item.path.includes('schema/index.js')) {
-        fs.appendFileSync(typeFile, ts.replace('Index', apiMap[basename]))
-      } else {
-        fs.appendFileSync(typeFile, ts)
-      }
-
-      fs.appendFileSync(typeFile, '\n');
-    });
-  });
-}
-
-async function addMethodType() {
-  const project = new Project();
-  const file = project.addSourceFileAtPath(typeFile);
-
-  const cls = file.addClass({
-    name: 'PokeAPI',
-  });
-
-  // cls.addConstructor({
-  //   parameters: [{
-  //     name: 'options',
-  //     type: 'PokeAPIOptions',
-  //     hasQuestionToken: true,
-  //   }],
-  // });
-
-  cls.addMethod({
-    name: 'resource',
-    parameters: [{
-      name: 'path',
-      type: 'string',
-    }],
-    returnType: 'Promise<unknown>',
-  });
-
-  cls.addMethod({
-    name: 'resource',
-    parameters: [{
-      name: 'paths',
-      type: 'string[]',
-    }],
-    returnType: 'Promise<unknown[]>',
-  });
-
-  // cls.addMethod({
-  //   name: 'resource',
-  //   typeParameters: ['T'],
-  //   parameters: [{
-  //     name: 'path',
-  //     type: 'APIResourceURL<T>',
-  //   }],
-  //   returnType: 'Promise<T>',
-  // });
-
-  // cls.addMethod({
-  //   name: 'resource',
-  //   typeParameters: ['T'],
-  //   parameters: [{
-  //     name: 'paths',
-  //     type: 'APIResourceURL<T>[]',
-  //   }],
-  //   returnType: 'Promise<T[]>',
-  // });
-
-  for (const [method, apiName] of endpoints) {
-    cls.addMethod({
-      name: method,
-      parameters: [{
-        name: method.match(/ByName$/) ? 'nameOrId' : 'id',
-        type: method.match(/ByName$/) ? Writers.unionType('string', 'number') : 'number',
-      }],
-      returnType: `Promise<${apiMap[apiName]}>`,
-    });
-    cls.addMethod({
-      name: method,
-      parameters: [{
-        name: method.match(/ByName$/) ? 'nameOrIds' : 'ids',
-        type: method.match(/ByName$/) ? 'Array<string | number>' : 'number[]',
-      }],
-      returnType: `Promise<${apiMap[apiName]}[]>`,
-    });
-  }
-
-  cls.addMethod({
-    name: 'getEndpointsList',
-    returnType: 'Index',
-  });
-
-  for (const [method, path] of rootEndpoints) {
-    const apiName = path.replace(/\/$/, '');
-    if (!apiMap[apiName]) {
+for (const schemaPath of paths) {
+    // The endpoint path, as in the endpoints list
+    let basename: string;    
+    // The name of the generated interface/type
+    let interfaceName: string;
+    // Split the path, to get the folder names later
+    let paths = schemaPath.split('/').reverse();
+  
+    // Handle two special cases
+    if (schemaPath.includes('pokemon/$id/encounters')) {
+      basename = 'pokemon-encounter';
+      interfaceName = 'PokemonEncounter';
+    } else if (schemaPath.includes('move-ailment/-1')) {
       continue;
     }
-    cls.addMethod({
-      name: method,
-      parameters: [{
-        name: 'interval',
-        type: 'RootEndPointInterval',
-        hasQuestionToken: true,
-      }],
-      returnType: `Promise<${Object.keys(apiMap[apiName]).includes('List') ? 'NamedApiResourceList' : 'ApiResourceList'}<${apiMap[apiName]}>>`,
+    // If the scheme is the wanted one, pick the name of two folder above, eg.: 'pokemon/$id', picks the "pokemon"
+    else if (schemaPath.includes('$id')) {
+      basename = paths[2];
+      interfaceName = toPascalCase(basename);
+    }
+    // Gets one folder above (used for the resource lists), eg. 'pokemon/index.js', picks the "pokemon"
+    // and adds 'List' to the interface name, eg. 'PokemonList'
+    else {
+      basename = paths[1];
+      interfaceName = `${toPascalCase(basename)}List`;
+    }
+  
+    // Register to the API map to use later on the methods
+    apiMap[basename] = interfaceName;
+  
+    // Create the interfaces/types from the schema
+    let newInterface = await compileFromFile(schemaPath, {
+      declareExternallyReferenced: false,
+      bannerComment: ''
     });
-  }
 
-  file.addExportAssignment({
-    expression: 'PokeAPI',
-  });
+    // Remove the 'export' before the interface/type name
+    newInterface = newInterface.replace('export ', '');
+  
+    // If the interface contains named resources and is a list, rename the interface
+    if (interfaceName.includes('List') && newInterface.match(/name: string;\n\s+url/gm)) {
+      interfaceName = interfaceName.replace('List', 'NamedList');
+    }
 
-  await file.save();
+    // If the interface is the one containing all the endpoints, rename the interface
+    if (schemaPath.includes('schema/index.js')) {
+      interfaceName = 'EndpointsList';
+    }
+
+    // Save the changes and rename the interface
+    apiMap[basename] = interfaceName;
+    newInterface = newInterface.replace('Index', apiMap[basename]);
+
+    // Write the interfaces to the namespace
+    namespace.setBodyText(`${namespace.getBodyText()}\n${newInterface}\n`);
+  
 }
 
-genTypes();
-await addMethodType();
+// Add the options interface
+namespace.addInterface({
+  name: 'PokeApiOptions',
+  properties: [{
+      name: 'protocol',
+      type: Writers.unionType('"https"', '"http"'),
+      hasQuestionToken: true,
+  }, {
+      name: 'hostName',
+      type: 'string',
+      hasQuestionToken: true,
+  }, {
+      name: 'versionPath',
+      type: 'string',
+      hasQuestionToken: true,
+  }, {
+      name: 'cacheLimit',
+      type: 'number',
+      hasQuestionToken: true,
+  }, {
+      name: 'timeout',
+      type: 'number',
+      hasQuestionToken: true,
+  }],
+});
+
+// Add the root endpoint interval
+namespace.addInterface({
+  name: 'RootEndPointInterval',
+  properties: [{
+      name: 'limit',
+      type: 'number',
+      hasQuestionToken: true,     
+  },{
+      name: 'offset',
+      type: 'number',
+      hasQuestionToken: true,     
+  }],
+});
+
+// Add the main PokeAPI class
+const cls = namespace.addClass({
+  name: 'PokeAPI',
+});
+
+// Add the constructor typing to the class
+cls.addConstructor({
+  parameters: [{
+    name: 'options',
+    type: 'PokeApiOptions',
+    hasQuestionToken: true,
+  }],
+});
+
+// Add the get generic resource method
+cls.addMethod({
+  name: 'resource',
+  parameters: [{
+    name: 'path',
+    type: 'string',
+  }],
+  returnType: 'Promise<unknown>',
+});
+
+// Add the get generic resource array method
+cls.addMethod({
+  name: 'resource',
+  parameters: [{
+    name: 'paths',
+    type: 'string[]',
+  }],
+  returnType: 'Promise<unknown[]>',
+});
+
+// Add all the methods from the endpoints list, 
+// setting the parameters typing and binding to the correct interface
+for (const [method, apiName] of endpoints) {
+  cls.addMethod({
+    name: method,
+    parameters: [{
+      name: method.match(/ByName$/) ? 'nameOrId' : 'id',
+      type: method.match(/ByName$/) ? Writers.unionType('string', 'number') : 'number',
+    }],
+    returnType: `Promise<PokeAPI.${apiMap[apiName]}>`,
+  });
+
+  cls.addMethod({
+    name: method,
+    parameters: [{
+      name: method.match(/ByName$/) ? 'nameOrIds' : 'ids',
+      type: method.match(/ByName$/) ? 'Array<string | number>' : 'number[]',
+    }],
+    returnType: `Promise<PokeAPI.${apiMap[apiName]}[]>`,
+  });
+}
+
+// Add method to get the list of endpoints
+cls.addMethod({
+  name: 'getEndpointsList',
+  returnType: 'EndpointsList',
+});
+
+// Add all the get list methods from the root endpoints list, 
+// setting the parameters typing and binding to the correct interface
+// Also sets correctly to a named or normal list
+for (const [method, path] of rootEndpoints) {
+  const apiName = path.replace(/\/$/, '');
+  if (!apiMap[apiName]) {
+    continue;
+  }
+  cls.addMethod({
+    name: method,
+    parameters: [{
+      name: 'interval',
+      type: 'RootEndPointInterval',
+      hasQuestionToken: true,
+    }],
+    returnType: `Promise<PokeAPI.${apiMap[apiName].includes('NamedList') ? 'ApiResourceList' : 'NamedApiResourceList'}>`,
+  });
+}
+
+// Export the namespace
+rootModule.addExportAssignment({
+  expression: 'PokeAPI',
+});
+
+
+// Write the file
+await file.save();

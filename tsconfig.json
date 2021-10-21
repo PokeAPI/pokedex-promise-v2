@@ -17,7 +17,7 @@
     "lib": [
       "esnext",
       "dom"
-    ]
+    ],
   },
   "include": [
     "generator/index.ts",
