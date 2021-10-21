@@ -97,8 +97,22 @@ for (const schemaPath of paths) {
   
 }
 
-// Add the options interface
+// Add the root endpoint interval
 namespace.addInterface({
+  name: 'RootEndPointInterval',
+  properties: [{
+      name: 'limit',
+      type: 'number',
+      hasQuestionToken: true,     
+  },{
+      name: 'offset',
+      type: 'number',
+      hasQuestionToken: true,     
+  }],
+});
+
+// Add the options interface
+rootModule.addInterface({
   name: 'PokeApiOptions',
   properties: [{
       name: 'protocol',
@@ -123,22 +137,8 @@ namespace.addInterface({
   }],
 });
 
-// Add the root endpoint interval
-namespace.addInterface({
-  name: 'RootEndPointInterval',
-  properties: [{
-      name: 'limit',
-      type: 'number',
-      hasQuestionToken: true,     
-  },{
-      name: 'offset',
-      type: 'number',
-      hasQuestionToken: true,     
-  }],
-});
-
 // Add the main PokeAPI class
-const cls = namespace.addClass({
+const cls = rootModule.addClass({
   name: 'PokeAPI',
 });
 
@@ -196,7 +196,7 @@ for (const [method, apiName] of endpoints) {
 // Add method to get the list of endpoints
 cls.addMethod({
   name: 'getEndpointsList',
-  returnType: 'EndpointsList',
+  returnType: 'PokeAPI.EndpointsList',
 });
 
 // Add all the get list methods from the root endpoints list, 
@@ -211,7 +211,7 @@ for (const [method, path] of rootEndpoints) {
     name: method,
     parameters: [{
       name: 'interval',
-      type: 'RootEndPointInterval',
+      type: 'PokeAPI.RootEndPointInterval',
       hasQuestionToken: true,
     }],
     returnType: `Promise<PokeAPI.${apiMap[apiName].includes('NamedList') ? 'ApiResourceList' : 'NamedApiResourceList'}>`,
