@@ -735,7 +735,7 @@ This is what you will get:
 
 * .getEndpointsList()
 * .getBerriesList()
-* .getBerriesFirmnesssList()
+* .getBerriesFirmnessList()
 * .getBerriesFlavorsList()
 * .getContestTypesList()
 * .getContestEffectsList()
@@ -746,7 +746,7 @@ This is what you will get:
 * .getEvolutionChainsList()
 * .getEvolutionTriggersList()
 * .getGenerationsList()
-* .getPokedexsList()
+* .getPokedexList()
 * .getVersionsList()
 * .getVersionGroupsList()
 * .getItemsList()
