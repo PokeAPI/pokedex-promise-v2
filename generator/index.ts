@@ -62,7 +62,7 @@ for (const schemaPath of paths) {
     // Gets one folder above (used for the resource lists), eg. 'pokemon/index.js', picks the "pokemon"
     // and adds 'List' to the interface name, eg. 'PokemonList'
     else {
-      basename = paths[1];
+      basename = `${paths[1]}-list`;
       interfaceName = `${toPascalCase(basename)}List`;
     }
   
@@ -203,7 +203,7 @@ cls.addMethod({
 // setting the parameters typing and binding to the correct interface
 // Also sets correctly to a named or normal list
 for (const [method, path] of rootEndpoints) {
-  const apiName = path.replace(/\/$/, '');
+  const apiName = `${path.replace(/\/$/, '')}-list`;
   if (!apiMap[apiName]) {
     continue;
   }

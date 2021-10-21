@@ -76,7 +76,7 @@ declare module 'pokedex-promise-v2' {
       }[];
       [k: string]: unknown;
     }
-    interface AbilityNamedList {
+    interface AbilityNamedListList {
       count: number;
       next: null | string;
       previous: null | string;
@@ -136,7 +136,7 @@ declare module 'pokedex-promise-v2' {
       soil_dryness: number;
       [k: string]: unknown;
     }
-    interface BerryNamedList {
+    interface BerryNamedListList {
       count: number;
       next: null | string;
       previous: null | string;
@@ -166,7 +166,7 @@ declare module 'pokedex-promise-v2' {
       }[];
       [k: string]: unknown;
     }
-    interface BerryFirmnessNamedList {
+    interface BerryFirmnessNamedListList {
       count: number;
       next: null | string;
       previous: null | string;
@@ -205,7 +205,7 @@ declare module 'pokedex-promise-v2' {
       }[];
       [k: string]: unknown;
     }
-    interface BerryFlavorNamedList {
+    interface BerryFlavorNamedListList {
       count: number;
       next: null | string;
       previous: null | string;
@@ -236,7 +236,7 @@ declare module 'pokedex-promise-v2' {
       possible_values: number[];
       [k: string]: unknown;
     }
-    interface CharacteristicList {
+    interface CharacteristicListList {
       count: number;
       next: null | string;
       previous: null | string;
@@ -270,7 +270,7 @@ declare module 'pokedex-promise-v2' {
       jam: number;
       [k: string]: unknown;
     }
-    interface ContestEffectList {
+    interface ContestEffectListList {
       count: number;
       next: null | string;
       previous: null | string;
@@ -300,7 +300,7 @@ declare module 'pokedex-promise-v2' {
       }[];
       [k: string]: unknown;
     }
-    interface ContestTypeNamedList {
+    interface ContestTypeNamedListList {
       count: number;
       next: null | string;
       previous: null | string;
@@ -330,7 +330,7 @@ declare module 'pokedex-promise-v2' {
       }[];
       [k: string]: unknown;
     }
-    interface EggGroupNamedList {
+    interface EggGroupNamedListList {
       count: number;
       next: null | string;
       previous: null | string;
@@ -360,7 +360,7 @@ declare module 'pokedex-promise-v2' {
       }[];
       [k: string]: unknown;
     }
-    interface EncounterConditionNamedList {
+    interface EncounterConditionNamedListList {
       count: number;
       next: null | string;
       previous: null | string;
@@ -390,7 +390,7 @@ declare module 'pokedex-promise-v2' {
       }[];
       [k: string]: unknown;
     }
-    interface EncounterConditionValueNamedList {
+    interface EncounterConditionValueNamedListList {
       count: number;
       next: null | string;
       previous: null | string;
@@ -416,7 +416,7 @@ declare module 'pokedex-promise-v2' {
       order: number;
       [k: string]: unknown;
     }
-    interface EncounterMethodNamedList {
+    interface EncounterMethodNamedListList {
       count: number;
       next: null | string;
       previous: null | string;
@@ -563,7 +563,7 @@ declare module 'pokedex-promise-v2' {
       id: number;
       [k: string]: unknown;
     }
-    interface EvolutionChainList {
+    interface EvolutionChainListList {
       count: number;
       next: null | string;
       previous: null | string;
@@ -592,7 +592,7 @@ declare module 'pokedex-promise-v2' {
       }[];
       [k: string]: unknown;
     }
-    interface EvolutionTriggerNamedList {
+    interface EvolutionTriggerNamedListList {
       count: number;
       next: null | string;
       previous: null | string;
@@ -622,7 +622,7 @@ declare module 'pokedex-promise-v2' {
       }[];
       [k: string]: unknown;
     }
-    interface GenderNamedList {
+    interface GenderNamedListList {
       count: number;
       next: null | string;
       previous: null | string;
@@ -677,7 +677,7 @@ declare module 'pokedex-promise-v2' {
       }[];
       [k: string]: unknown;
     }
-    interface GenerationNamedList {
+    interface GenerationNamedListList {
       count: number;
       next: null | string;
       previous: null | string;
@@ -713,7 +713,7 @@ declare module 'pokedex-promise-v2' {
       }[];
       [k: string]: unknown;
     }
-    interface GrowthRateNamedList {
+    interface GrowthRateNamedListList {
       count: number;
       next: null | string;
       previous: null | string;
@@ -876,7 +876,7 @@ declare module 'pokedex-promise-v2' {
       };
       [k: string]: unknown;
     }
-    interface ItemNamedList {
+    interface ItemNamedListList {
       count: number;
       next: null | string;
       previous: null | string;
@@ -915,7 +915,7 @@ declare module 'pokedex-promise-v2' {
       }[];
       [k: string]: unknown;
     }
-    interface ItemAttributeNamedList {
+    interface ItemAttributeNamedListList {
       count: number;
       next: null | string;
       previous: null | string;
@@ -950,7 +950,7 @@ declare module 'pokedex-promise-v2' {
       };
       [k: string]: unknown;
     }
-    interface ItemCategoryNamedList {
+    interface ItemCategoryNamedListList {
       count: number;
       next: null | string;
       previous: null | string;
@@ -980,7 +980,7 @@ declare module 'pokedex-promise-v2' {
       name: string;
       [k: string]: unknown;
     }
-    interface ItemFlingEffectNamedList {
+    interface ItemFlingEffectNamedListList {
       count: number;
       next: null | string;
       previous: null | string;
@@ -1010,7 +1010,7 @@ declare module 'pokedex-promise-v2' {
       }[];
       [k: string]: unknown;
     }
-    interface ItemPocketNamedList {
+    interface ItemPocketNamedListList {
       count: number;
       next: null | string;
       previous: null | string;
@@ -1038,7 +1038,7 @@ declare module 'pokedex-promise-v2' {
       official: boolean;
       [k: string]: unknown;
     }
-    interface LanguageNamedList {
+    interface LanguageNamedListList {
       count: number;
       next: null | string;
       previous: null | string;
@@ -1082,7 +1082,7 @@ declare module 'pokedex-promise-v2' {
       };
       [k: string]: unknown;
     }
-    interface LocationNamedList {
+    interface LocationNamedListList {
       count: number;
       next: null | string;
       previous: null | string;
@@ -1163,7 +1163,7 @@ declare module 'pokedex-promise-v2' {
       }[];
       [k: string]: unknown;
     }
-    interface LocationAreaNamedList {
+    interface LocationAreaNamedListList {
       count: number;
       next: null | string;
       previous: null | string;
@@ -1193,7 +1193,7 @@ declare module 'pokedex-promise-v2' {
       };
       [k: string]: unknown;
     }
-    interface MachineList {
+    interface MachineListList {
       count: number;
       next: null | string;
       previous: null | string;
@@ -1409,7 +1409,7 @@ declare module 'pokedex-promise-v2' {
       };
       [k: string]: unknown;
     }
-    interface MoveNamedList {
+    interface MoveNamedListList {
       count: number;
       next: null | string;
       previous: null | string;
@@ -1439,7 +1439,7 @@ declare module 'pokedex-promise-v2' {
       }[];
       [k: string]: unknown;
     }
-    interface MoveAilmentNamedList {
+    interface MoveAilmentNamedListList {
       count: number;
       next: null | string;
       previous: null | string;
@@ -1464,7 +1464,7 @@ declare module 'pokedex-promise-v2' {
       }[];
       [k: string]: unknown;
     }
-    interface MoveBattleStyleNamedList {
+    interface MoveBattleStyleNamedListList {
       count: number;
       next: null | string;
       previous: null | string;
@@ -1494,7 +1494,7 @@ declare module 'pokedex-promise-v2' {
       name: string;
       [k: string]: unknown;
     }
-    interface MoveCategoryNamedList {
+    interface MoveCategoryNamedListList {
       count: number;
       next: null | string;
       previous: null | string;
@@ -1533,7 +1533,7 @@ declare module 'pokedex-promise-v2' {
       }[];
       [k: string]: unknown;
     }
-    interface MoveDamageClassNamedList {
+    interface MoveDamageClassNamedListList {
       count: number;
       next: null | string;
       previous: null | string;
@@ -1572,7 +1572,7 @@ declare module 'pokedex-promise-v2' {
       }[];
       [k: string]: unknown;
     }
-    interface MoveLearnMethodNamedList {
+    interface MoveLearnMethodNamedListList {
       count: number;
       next: null | string;
       previous: null | string;
@@ -1611,7 +1611,7 @@ declare module 'pokedex-promise-v2' {
       }[];
       [k: string]: unknown;
     }
-    interface MoveTargetNamedList {
+    interface MoveTargetNamedListList {
       count: number;
       next: null | string;
       previous: null | string;
@@ -1691,7 +1691,7 @@ declare module 'pokedex-promise-v2' {
       }[];
       [k: string]: unknown;
     }
-    interface NatureNamedList {
+    interface NatureNamedListList {
       count: number;
       next: null | string;
       previous: null | string;
@@ -1726,7 +1726,7 @@ declare module 'pokedex-promise-v2' {
       }[];
       [k: string]: unknown;
     }
-    interface PalParkAreaNamedList {
+    interface PalParkAreaNamedListList {
       count: number;
       next: null | string;
       previous: null | string;
@@ -1772,7 +1772,7 @@ declare module 'pokedex-promise-v2' {
       }[];
       [k: string]: unknown;
     }
-    interface PokeathlonStatNamedList {
+    interface PokeathlonStatNamedListList {
       count: number;
       next: null | string;
       previous: null | string;
@@ -1826,7 +1826,7 @@ declare module 'pokedex-promise-v2' {
       }[];
       [k: string]: unknown;
     }
-    interface PokedexNamedList {
+    interface PokedexNamedListList {
       count: number;
       next: null | string;
       previous: null | string;
@@ -2175,7 +2175,7 @@ declare module 'pokedex-promise-v2' {
       weight: number;
       [k: string]: unknown;
     }
-    interface PokemonNamedList {
+    interface PokemonNamedListList {
       count: number;
       next: null | string;
       previous: null | string;
@@ -2205,7 +2205,7 @@ declare module 'pokedex-promise-v2' {
       }[];
       [k: string]: unknown;
     }
-    interface PokemonColorNamedList {
+    interface PokemonColorNamedListList {
       count: number;
       next: null | string;
       previous: null | string;
@@ -2275,7 +2275,7 @@ declare module 'pokedex-promise-v2' {
       };
       [k: string]: unknown;
     }
-    interface PokemonFormNamedList {
+    interface PokemonFormNamedListList {
       count: number;
       next: null | string;
       previous: null | string;
@@ -2305,7 +2305,7 @@ declare module 'pokedex-promise-v2' {
       }[];
       [k: string]: unknown;
     }
-    interface PokemonHabitatNamedList {
+    interface PokemonHabitatNamedListList {
       count: number;
       next: null | string;
       previous: null | string;
@@ -2344,7 +2344,7 @@ declare module 'pokedex-promise-v2' {
       }[];
       [k: string]: unknown;
     }
-    interface PokemonShapeNamedList {
+    interface PokemonShapeNamedListList {
       count: number;
       next: null | string;
       previous: null | string;
@@ -2478,7 +2478,7 @@ declare module 'pokedex-promise-v2' {
       }[];
       [k: string]: unknown;
     }
-    interface PokemonSpeciesNamedList {
+    interface PokemonSpeciesNamedListList {
       count: number;
       next: null | string;
       previous: null | string;
@@ -2523,7 +2523,7 @@ declare module 'pokedex-promise-v2' {
       }[];
       [k: string]: unknown;
     }
-    interface RegionNamedList {
+    interface RegionNamedListList {
       count: number;
       next: null | string;
       previous: null | string;
@@ -2593,7 +2593,7 @@ declare module 'pokedex-promise-v2' {
       }[];
       [k: string]: unknown;
     }
-    interface StatNamedList {
+    interface StatNamedListList {
       count: number;
       next: null | string;
       previous: null | string;
@@ -2623,7 +2623,7 @@ declare module 'pokedex-promise-v2' {
       }[];
       [k: string]: unknown;
     }
-    interface SuperContestEffectList {
+    interface SuperContestEffectListList {
       count: number;
       next: null | string;
       previous: null | string;
@@ -2754,7 +2754,7 @@ declare module 'pokedex-promise-v2' {
       }[];
       [k: string]: unknown;
     }
-    interface TypeNamedList {
+    interface TypeNamedListList {
       count: number;
       next: null | string;
       previous: null | string;
@@ -2784,7 +2784,7 @@ declare module 'pokedex-promise-v2' {
       };
       [k: string]: unknown;
     }
-    interface VersionNamedList {
+    interface VersionNamedListList {
       count: number;
       next: null | string;
       previous: null | string;
@@ -2826,7 +2826,7 @@ declare module 'pokedex-promise-v2' {
       }[];
       [k: string]: unknown;
     }
-    interface VersionGroupNamedList {
+    interface VersionGroupNamedListList {
       count: number;
       next: null | string;
       previous: null | string;
@@ -2855,105 +2855,105 @@ declare module 'pokedex-promise-v2' {
             constructor(options?: PokeApiOptions);
             resource(path: string): Promise<unknown>;
             resource(paths: string[]): Promise<unknown[]>;
-            getBerryByName(nameOrId: string | number): Promise<PokeAPI.BerryNamedList>;
-            getBerryByName(nameOrIds: Array<string | number>): Promise<PokeAPI.BerryNamedList[]>;
-            getBerryFirmnessByName(nameOrId: string | number): Promise<PokeAPI.BerryFirmnessNamedList>;
-            getBerryFirmnessByName(nameOrIds: Array<string | number>): Promise<PokeAPI.BerryFirmnessNamedList[]>;
-            getBerryFlavorByName(nameOrId: string | number): Promise<PokeAPI.BerryFlavorNamedList>;
-            getBerryFlavorByName(nameOrIds: Array<string | number>): Promise<PokeAPI.BerryFlavorNamedList[]>;
-            getContestTypeByName(nameOrId: string | number): Promise<PokeAPI.ContestTypeNamedList>;
-            getContestTypeByName(nameOrIds: Array<string | number>): Promise<PokeAPI.ContestTypeNamedList[]>;
-            getContestEffectById(id: number): Promise<PokeAPI.ContestEffectList>;
-            getContestEffectById(ids: number[]): Promise<PokeAPI.ContestEffectList[]>;
-            getSuperContestEffectById(id: number): Promise<PokeAPI.SuperContestEffectList>;
-            getSuperContestEffectById(ids: number[]): Promise<PokeAPI.SuperContestEffectList[]>;
-            getEncounterMethodByName(nameOrId: string | number): Promise<PokeAPI.EncounterMethodNamedList>;
-            getEncounterMethodByName(nameOrIds: Array<string | number>): Promise<PokeAPI.EncounterMethodNamedList[]>;
-            getEncounterConditionByName(nameOrId: string | number): Promise<PokeAPI.EncounterConditionNamedList>;
-            getEncounterConditionByName(nameOrIds: Array<string | number>): Promise<PokeAPI.EncounterConditionNamedList[]>;
-            getEncounterConditionValueByName(nameOrId: string | number): Promise<PokeAPI.EncounterConditionValueNamedList>;
-            getEncounterConditionValueByName(nameOrIds: Array<string | number>): Promise<PokeAPI.EncounterConditionValueNamedList[]>;
-            getEvolutionChainById(id: number): Promise<PokeAPI.EvolutionChainList>;
-            getEvolutionChainById(ids: number[]): Promise<PokeAPI.EvolutionChainList[]>;
-            getEvolutionTriggerByName(nameOrId: string | number): Promise<PokeAPI.EvolutionTriggerNamedList>;
-            getEvolutionTriggerByName(nameOrIds: Array<string | number>): Promise<PokeAPI.EvolutionTriggerNamedList[]>;
-            getGenerationByName(nameOrId: string | number): Promise<PokeAPI.GenerationNamedList>;
-            getGenerationByName(nameOrIds: Array<string | number>): Promise<PokeAPI.GenerationNamedList[]>;
-            getPokedexByName(nameOrId: string | number): Promise<PokeAPI.PokedexNamedList>;
-            getPokedexByName(nameOrIds: Array<string | number>): Promise<PokeAPI.PokedexNamedList[]>;
-            getVersionByName(nameOrId: string | number): Promise<PokeAPI.VersionNamedList>;
-            getVersionByName(nameOrIds: Array<string | number>): Promise<PokeAPI.VersionNamedList[]>;
-            getVersionGroupByName(nameOrId: string | number): Promise<PokeAPI.VersionGroupNamedList>;
-            getVersionGroupByName(nameOrIds: Array<string | number>): Promise<PokeAPI.VersionGroupNamedList[]>;
-            getItemByName(nameOrId: string | number): Promise<PokeAPI.ItemNamedList>;
-            getItemByName(nameOrIds: Array<string | number>): Promise<PokeAPI.ItemNamedList[]>;
-            getItemAttributeByName(nameOrId: string | number): Promise<PokeAPI.ItemAttributeNamedList>;
-            getItemAttributeByName(nameOrIds: Array<string | number>): Promise<PokeAPI.ItemAttributeNamedList[]>;
-            getItemCategoryByName(nameOrId: string | number): Promise<PokeAPI.ItemCategoryNamedList>;
-            getItemCategoryByName(nameOrIds: Array<string | number>): Promise<PokeAPI.ItemCategoryNamedList[]>;
-            getItemFlingEffectByName(nameOrId: string | number): Promise<PokeAPI.ItemFlingEffectNamedList>;
-            getItemFlingEffectByName(nameOrIds: Array<string | number>): Promise<PokeAPI.ItemFlingEffectNamedList[]>;
-            getItemPocketByName(nameOrId: string | number): Promise<PokeAPI.ItemPocketNamedList>;
-            getItemPocketByName(nameOrIds: Array<string | number>): Promise<PokeAPI.ItemPocketNamedList[]>;
-            getMachineById(id: number): Promise<PokeAPI.MachineList>;
-            getMachineById(ids: number[]): Promise<PokeAPI.MachineList[]>;
-            getMoveByName(nameOrId: string | number): Promise<PokeAPI.MoveNamedList>;
-            getMoveByName(nameOrIds: Array<string | number>): Promise<PokeAPI.MoveNamedList[]>;
-            getMoveAilmentByName(nameOrId: string | number): Promise<PokeAPI.MoveAilmentNamedList>;
-            getMoveAilmentByName(nameOrIds: Array<string | number>): Promise<PokeAPI.MoveAilmentNamedList[]>;
-            getMoveBattleStyleByName(nameOrId: string | number): Promise<PokeAPI.MoveBattleStyleNamedList>;
-            getMoveBattleStyleByName(nameOrIds: Array<string | number>): Promise<PokeAPI.MoveBattleStyleNamedList[]>;
-            getMoveCategoryByName(nameOrId: string | number): Promise<PokeAPI.MoveCategoryNamedList>;
-            getMoveCategoryByName(nameOrIds: Array<string | number>): Promise<PokeAPI.MoveCategoryNamedList[]>;
-            getMoveDamageClassByName(nameOrId: string | number): Promise<PokeAPI.MoveDamageClassNamedList>;
-            getMoveDamageClassByName(nameOrIds: Array<string | number>): Promise<PokeAPI.MoveDamageClassNamedList[]>;
-            getMoveLearnMethodByName(nameOrId: string | number): Promise<PokeAPI.MoveLearnMethodNamedList>;
-            getMoveLearnMethodByName(nameOrIds: Array<string | number>): Promise<PokeAPI.MoveLearnMethodNamedList[]>;
-            getMoveTargetByName(nameOrId: string | number): Promise<PokeAPI.MoveTargetNamedList>;
-            getMoveTargetByName(nameOrIds: Array<string | number>): Promise<PokeAPI.MoveTargetNamedList[]>;
-            getLocationByName(nameOrId: string | number): Promise<PokeAPI.LocationNamedList>;
-            getLocationByName(nameOrIds: Array<string | number>): Promise<PokeAPI.LocationNamedList[]>;
-            getLocationAreaByName(nameOrId: string | number): Promise<PokeAPI.LocationAreaNamedList>;
-            getLocationAreaByName(nameOrIds: Array<string | number>): Promise<PokeAPI.LocationAreaNamedList[]>;
-            getPalParkAreaByName(nameOrId: string | number): Promise<PokeAPI.PalParkAreaNamedList>;
-            getPalParkAreaByName(nameOrIds: Array<string | number>): Promise<PokeAPI.PalParkAreaNamedList[]>;
-            getRegionByName(nameOrId: string | number): Promise<PokeAPI.RegionNamedList>;
-            getRegionByName(nameOrIds: Array<string | number>): Promise<PokeAPI.RegionNamedList[]>;
-            getAbilityByName(nameOrId: string | number): Promise<PokeAPI.AbilityNamedList>;
-            getAbilityByName(nameOrIds: Array<string | number>): Promise<PokeAPI.AbilityNamedList[]>;
-            getCharacteristicById(id: number): Promise<PokeAPI.CharacteristicList>;
-            getCharacteristicById(ids: number[]): Promise<PokeAPI.CharacteristicList[]>;
-            getEggGroupByName(nameOrId: string | number): Promise<PokeAPI.EggGroupNamedList>;
-            getEggGroupByName(nameOrIds: Array<string | number>): Promise<PokeAPI.EggGroupNamedList[]>;
-            getGenderByName(nameOrId: string | number): Promise<PokeAPI.GenderNamedList>;
-            getGenderByName(nameOrIds: Array<string | number>): Promise<PokeAPI.GenderNamedList[]>;
-            getGrowthRateByName(nameOrId: string | number): Promise<PokeAPI.GrowthRateNamedList>;
-            getGrowthRateByName(nameOrIds: Array<string | number>): Promise<PokeAPI.GrowthRateNamedList[]>;
-            getNatureByName(nameOrId: string | number): Promise<PokeAPI.NatureNamedList>;
-            getNatureByName(nameOrIds: Array<string | number>): Promise<PokeAPI.NatureNamedList[]>;
-            getPokeathlonStatByName(nameOrId: string | number): Promise<PokeAPI.PokeathlonStatNamedList>;
-            getPokeathlonStatByName(nameOrIds: Array<string | number>): Promise<PokeAPI.PokeathlonStatNamedList[]>;
-            getPokemonByName(nameOrId: string | number): Promise<PokeAPI.PokemonNamedList>;
-            getPokemonByName(nameOrIds: Array<string | number>): Promise<PokeAPI.PokemonNamedList[]>;
-            getPokemonColorByName(nameOrId: string | number): Promise<PokeAPI.PokemonColorNamedList>;
-            getPokemonColorByName(nameOrIds: Array<string | number>): Promise<PokeAPI.PokemonColorNamedList[]>;
-            getPokemonFormByName(nameOrId: string | number): Promise<PokeAPI.PokemonFormNamedList>;
-            getPokemonFormByName(nameOrIds: Array<string | number>): Promise<PokeAPI.PokemonFormNamedList[]>;
-            getPokemonHabitatByName(nameOrId: string | number): Promise<PokeAPI.PokemonHabitatNamedList>;
-            getPokemonHabitatByName(nameOrIds: Array<string | number>): Promise<PokeAPI.PokemonHabitatNamedList[]>;
-            getPokemonShapeByName(nameOrId: string | number): Promise<PokeAPI.PokemonShapeNamedList>;
-            getPokemonShapeByName(nameOrIds: Array<string | number>): Promise<PokeAPI.PokemonShapeNamedList[]>;
-            getPokemonSpeciesByName(nameOrId: string | number): Promise<PokeAPI.PokemonSpeciesNamedList>;
-            getPokemonSpeciesByName(nameOrIds: Array<string | number>): Promise<PokeAPI.PokemonSpeciesNamedList[]>;
-            getStatByName(nameOrId: string | number): Promise<PokeAPI.StatNamedList>;
-            getStatByName(nameOrIds: Array<string | number>): Promise<PokeAPI.StatNamedList[]>;
-            getTypeByName(nameOrId: string | number): Promise<PokeAPI.TypeNamedList>;
-            getTypeByName(nameOrIds: Array<string | number>): Promise<PokeAPI.TypeNamedList[]>;
-            getLanguageByName(nameOrId: string | number): Promise<PokeAPI.LanguageNamedList>;
-            getLanguageByName(nameOrIds: Array<string | number>): Promise<PokeAPI.LanguageNamedList[]>;
+            getBerryByName(nameOrId: string | number): Promise<PokeAPI.Berry>;
+            getBerryByName(nameOrIds: Array<string | number>): Promise<PokeAPI.Berry[]>;
+            getBerryFirmnessByName(nameOrId: string | number): Promise<PokeAPI.BerryFirmness>;
+            getBerryFirmnessByName(nameOrIds: Array<string | number>): Promise<PokeAPI.BerryFirmness[]>;
+            getBerryFlavorByName(nameOrId: string | number): Promise<PokeAPI.BerryFlavor>;
+            getBerryFlavorByName(nameOrIds: Array<string | number>): Promise<PokeAPI.BerryFlavor[]>;
+            getContestTypeByName(nameOrId: string | number): Promise<PokeAPI.ContestType>;
+            getContestTypeByName(nameOrIds: Array<string | number>): Promise<PokeAPI.ContestType[]>;
+            getContestEffectById(id: number): Promise<PokeAPI.ContestEffect>;
+            getContestEffectById(ids: number[]): Promise<PokeAPI.ContestEffect[]>;
+            getSuperContestEffectById(id: number): Promise<PokeAPI.SuperContestEffect>;
+            getSuperContestEffectById(ids: number[]): Promise<PokeAPI.SuperContestEffect[]>;
+            getEncounterMethodByName(nameOrId: string | number): Promise<PokeAPI.EncounterMethod>;
+            getEncounterMethodByName(nameOrIds: Array<string | number>): Promise<PokeAPI.EncounterMethod[]>;
+            getEncounterConditionByName(nameOrId: string | number): Promise<PokeAPI.EncounterCondition>;
+            getEncounterConditionByName(nameOrIds: Array<string | number>): Promise<PokeAPI.EncounterCondition[]>;
+            getEncounterConditionValueByName(nameOrId: string | number): Promise<PokeAPI.EncounterConditionValue>;
+            getEncounterConditionValueByName(nameOrIds: Array<string | number>): Promise<PokeAPI.EncounterConditionValue[]>;
+            getEvolutionChainById(id: number): Promise<PokeAPI.EvolutionChain>;
+            getEvolutionChainById(ids: number[]): Promise<PokeAPI.EvolutionChain[]>;
+            getEvolutionTriggerByName(nameOrId: string | number): Promise<PokeAPI.EvolutionTrigger>;
+            getEvolutionTriggerByName(nameOrIds: Array<string | number>): Promise<PokeAPI.EvolutionTrigger[]>;
+            getGenerationByName(nameOrId: string | number): Promise<PokeAPI.Generation>;
+            getGenerationByName(nameOrIds: Array<string | number>): Promise<PokeAPI.Generation[]>;
+            getPokedexByName(nameOrId: string | number): Promise<PokeAPI.Pokedex>;
+            getPokedexByName(nameOrIds: Array<string | number>): Promise<PokeAPI.Pokedex[]>;
+            getVersionByName(nameOrId: string | number): Promise<PokeAPI.Version>;
+            getVersionByName(nameOrIds: Array<string | number>): Promise<PokeAPI.Version[]>;
+            getVersionGroupByName(nameOrId: string | number): Promise<PokeAPI.VersionGroup>;
+            getVersionGroupByName(nameOrIds: Array<string | number>): Promise<PokeAPI.VersionGroup[]>;
+            getItemByName(nameOrId: string | number): Promise<PokeAPI.Item>;
+            getItemByName(nameOrIds: Array<string | number>): Promise<PokeAPI.Item[]>;
+            getItemAttributeByName(nameOrId: string | number): Promise<PokeAPI.ItemAttribute>;
+            getItemAttributeByName(nameOrIds: Array<string | number>): Promise<PokeAPI.ItemAttribute[]>;
+            getItemCategoryByName(nameOrId: string | number): Promise<PokeAPI.ItemCategory>;
+            getItemCategoryByName(nameOrIds: Array<string | number>): Promise<PokeAPI.ItemCategory[]>;
+            getItemFlingEffectByName(nameOrId: string | number): Promise<PokeAPI.ItemFlingEffect>;
+            getItemFlingEffectByName(nameOrIds: Array<string | number>): Promise<PokeAPI.ItemFlingEffect[]>;
+            getItemPocketByName(nameOrId: string | number): Promise<PokeAPI.ItemPocket>;
+            getItemPocketByName(nameOrIds: Array<string | number>): Promise<PokeAPI.ItemPocket[]>;
+            getMachineById(id: number): Promise<PokeAPI.Machine>;
+            getMachineById(ids: number[]): Promise<PokeAPI.Machine[]>;
+            getMoveByName(nameOrId: string | number): Promise<PokeAPI.Move>;
+            getMoveByName(nameOrIds: Array<string | number>): Promise<PokeAPI.Move[]>;
+            getMoveAilmentByName(nameOrId: string | number): Promise<PokeAPI.MoveAilment>;
+            getMoveAilmentByName(nameOrIds: Array<string | number>): Promise<PokeAPI.MoveAilment[]>;
+            getMoveBattleStyleByName(nameOrId: string | number): Promise<PokeAPI.MoveBattleStyle>;
+            getMoveBattleStyleByName(nameOrIds: Array<string | number>): Promise<PokeAPI.MoveBattleStyle[]>;
+            getMoveCategoryByName(nameOrId: string | number): Promise<PokeAPI.MoveCategory>;
+            getMoveCategoryByName(nameOrIds: Array<string | number>): Promise<PokeAPI.MoveCategory[]>;
+            getMoveDamageClassByName(nameOrId: string | number): Promise<PokeAPI.MoveDamageClass>;
+            getMoveDamageClassByName(nameOrIds: Array<string | number>): Promise<PokeAPI.MoveDamageClass[]>;
+            getMoveLearnMethodByName(nameOrId: string | number): Promise<PokeAPI.MoveLearnMethod>;
+            getMoveLearnMethodByName(nameOrIds: Array<string | number>): Promise<PokeAPI.MoveLearnMethod[]>;
+            getMoveTargetByName(nameOrId: string | number): Promise<PokeAPI.MoveTarget>;
+            getMoveTargetByName(nameOrIds: Array<string | number>): Promise<PokeAPI.MoveTarget[]>;
+            getLocationByName(nameOrId: string | number): Promise<PokeAPI.Location>;
+            getLocationByName(nameOrIds: Array<string | number>): Promise<PokeAPI.Location[]>;
+            getLocationAreaByName(nameOrId: string | number): Promise<PokeAPI.LocationArea>;
+            getLocationAreaByName(nameOrIds: Array<string | number>): Promise<PokeAPI.LocationArea[]>;
+            getPalParkAreaByName(nameOrId: string | number): Promise<PokeAPI.PalParkArea>;
+            getPalParkAreaByName(nameOrIds: Array<string | number>): Promise<PokeAPI.PalParkArea[]>;
+            getRegionByName(nameOrId: string | number): Promise<PokeAPI.Region>;
+            getRegionByName(nameOrIds: Array<string | number>): Promise<PokeAPI.Region[]>;
+            getAbilityByName(nameOrId: string | number): Promise<PokeAPI.Ability>;
+            getAbilityByName(nameOrIds: Array<string | number>): Promise<PokeAPI.Ability[]>;
+            getCharacteristicById(id: number): Promise<PokeAPI.Characteristic>;
+            getCharacteristicById(ids: number[]): Promise<PokeAPI.Characteristic[]>;
+            getEggGroupByName(nameOrId: string | number): Promise<PokeAPI.EggGroup>;
+            getEggGroupByName(nameOrIds: Array<string | number>): Promise<PokeAPI.EggGroup[]>;
+            getGenderByName(nameOrId: string | number): Promise<PokeAPI.Gender>;
+            getGenderByName(nameOrIds: Array<string | number>): Promise<PokeAPI.Gender[]>;
+            getGrowthRateByName(nameOrId: string | number): Promise<PokeAPI.GrowthRate>;
+            getGrowthRateByName(nameOrIds: Array<string | number>): Promise<PokeAPI.GrowthRate[]>;
+            getNatureByName(nameOrId: string | number): Promise<PokeAPI.Nature>;
+            getNatureByName(nameOrIds: Array<string | number>): Promise<PokeAPI.Nature[]>;
+            getPokeathlonStatByName(nameOrId: string | number): Promise<PokeAPI.PokeathlonStat>;
+            getPokeathlonStatByName(nameOrIds: Array<string | number>): Promise<PokeAPI.PokeathlonStat[]>;
+            getPokemonByName(nameOrId: string | number): Promise<PokeAPI.Pokemon>;
+            getPokemonByName(nameOrIds: Array<string | number>): Promise<PokeAPI.Pokemon[]>;
+            getPokemonColorByName(nameOrId: string | number): Promise<PokeAPI.PokemonColor>;
+            getPokemonColorByName(nameOrIds: Array<string | number>): Promise<PokeAPI.PokemonColor[]>;
+            getPokemonFormByName(nameOrId: string | number): Promise<PokeAPI.PokemonForm>;
+            getPokemonFormByName(nameOrIds: Array<string | number>): Promise<PokeAPI.PokemonForm[]>;
+            getPokemonHabitatByName(nameOrId: string | number): Promise<PokeAPI.PokemonHabitat>;
+            getPokemonHabitatByName(nameOrIds: Array<string | number>): Promise<PokeAPI.PokemonHabitat[]>;
+            getPokemonShapeByName(nameOrId: string | number): Promise<PokeAPI.PokemonShape>;
+            getPokemonShapeByName(nameOrIds: Array<string | number>): Promise<PokeAPI.PokemonShape[]>;
+            getPokemonSpeciesByName(nameOrId: string | number): Promise<PokeAPI.PokemonSpecies>;
+            getPokemonSpeciesByName(nameOrIds: Array<string | number>): Promise<PokeAPI.PokemonSpecies[]>;
+            getStatByName(nameOrId: string | number): Promise<PokeAPI.Stat>;
+            getStatByName(nameOrIds: Array<string | number>): Promise<PokeAPI.Stat[]>;
+            getTypeByName(nameOrId: string | number): Promise<PokeAPI.Type>;
+            getTypeByName(nameOrIds: Array<string | number>): Promise<PokeAPI.Type[]>;
+            getLanguageByName(nameOrId: string | number): Promise<PokeAPI.Language>;
+            getLanguageByName(nameOrIds: Array<string | number>): Promise<PokeAPI.Language[]>;
             getEndpointsList(): EndpointsList;
             getBerriesList(interval?: RootEndPointInterval): Promise<PokeAPI.ApiResourceList>;
-            getBerriesFirmnesssList(interval?: RootEndPointInterval): Promise<PokeAPI.ApiResourceList>;
+            getBerriesFirmnessList(interval?: RootEndPointInterval): Promise<PokeAPI.ApiResourceList>;
             getBerriesFlavorsList(interval?: RootEndPointInterval): Promise<PokeAPI.ApiResourceList>;
             getContestTypesList(interval?: RootEndPointInterval): Promise<PokeAPI.ApiResourceList>;
             getContestEffectsList(interval?: RootEndPointInterval): Promise<PokeAPI.NamedApiResourceList>;
@@ -2964,7 +2964,7 @@ declare module 'pokedex-promise-v2' {
             getEvolutionChainsList(interval?: RootEndPointInterval): Promise<PokeAPI.NamedApiResourceList>;
             getEvolutionTriggersList(interval?: RootEndPointInterval): Promise<PokeAPI.ApiResourceList>;
             getGenerationsList(interval?: RootEndPointInterval): Promise<PokeAPI.ApiResourceList>;
-            getPokedexsList(interval?: RootEndPointInterval): Promise<PokeAPI.ApiResourceList>;
+            getPokedexList(interval?: RootEndPointInterval): Promise<PokeAPI.ApiResourceList>;
             getVersionsList(interval?: RootEndPointInterval): Promise<PokeAPI.ApiResourceList>;
             getVersionGroupsList(interval?: RootEndPointInterval): Promise<PokeAPI.ApiResourceList>;
             getItemsList(interval?: RootEndPointInterval): Promise<PokeAPI.ApiResourceList>;
