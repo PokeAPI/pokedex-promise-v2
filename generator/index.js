@@ -1,3 +1,6 @@
+// Created by @mudkipme
+// Original project https://github.com/mudkipme/pokeapi-v2-typescript
+
 /* eslint-disable no-console */
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable no-await-in-loop */
