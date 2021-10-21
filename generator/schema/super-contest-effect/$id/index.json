@@ -1,0 +1,42 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "properties": {
+        "appeal": {
+            "type": "integer"
+        },
+        "flavor_text_entries": {
+            "items": {
+                "properties": {
+                    "flavor_text": {
+                        "type": "string"
+                    },
+                    "language": {
+                        "$ref": "../../named_api_resource.json"
+                    }
+                },
+                "required": [
+                    "flavor_text",
+                    "language"
+                ],
+                "type": "object"
+            },
+            "type": "array"
+        },
+        "id": {
+            "type": "integer"
+        },
+        "moves": {
+            "items": {
+                "$ref": "../../named_api_resource.json"
+            },
+            "type": "array"
+        }
+    },
+    "required": [
+        "appeal",
+        "flavor_text_entries",
+        "id",
+        "moves"
+    ],
+    "type": "object"
+}

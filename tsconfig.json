@@ -1,8 +1,7 @@
 {
   "compilerOptions": {
-    "target": "es2020",
-    "module": "es2020",
-    "strict": true,
+    "target": "esnext",
+    "module": "esnext",
     "importHelpers": true,
     "moduleResolution": "node",
     "skipLibCheck": true,
@@ -16,12 +15,12 @@
       ]
     },
     "lib": [
-      "es2020",
+      "esnext",
       "dom"
     ]
   },
   "include": [
-    "types/index.d.ts",
+    "generator/index.ts",
   ],
   "exclude": [
     "node_modules"

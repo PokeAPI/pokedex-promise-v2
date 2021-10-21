@@ -1,0 +1,4 @@
+{
+    "$ref": "../named_api_resource_list.json",
+    "$schema": "http://json-schema.org/schema#"
+}

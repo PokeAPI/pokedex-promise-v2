@@ -1,0 +1,42 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "properties": {
+        "descriptions": {
+            "items": {
+                "properties": {
+                    "description": {
+                        "type": "string"
+                    },
+                    "language": {
+                        "$ref": "../../named_api_resource.json"
+                    }
+                },
+                "required": [
+                    "description",
+                    "language"
+                ],
+                "type": "object"
+            },
+            "type": "array"
+        },
+        "id": {
+            "type": "integer"
+        },
+        "moves": {
+            "items": {
+                "$ref": "../../named_api_resource.json"
+            },
+            "type": "array"
+        },
+        "name": {
+            "type": "string"
+        }
+    },
+    "required": [
+        "descriptions",
+        "id",
+        "moves",
+        "name"
+    ],
+    "type": "object"
+}

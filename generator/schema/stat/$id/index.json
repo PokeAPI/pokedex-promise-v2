@@ -1,0 +1,129 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "properties": {
+        "affecting_moves": {
+            "properties": {
+                "decrease": {
+                    "items": {
+                        "properties": {
+                            "change": {
+                                "type": "integer"
+                            },
+                            "move": {
+                                "$ref": "../../named_api_resource.json"
+                            }
+                        },
+                        "required": [
+                            "change",
+                            "move"
+                        ],
+                        "type": "object"
+                    },
+                    "type": "array"
+                },
+                "increase": {
+                    "items": {
+                        "properties": {
+                            "change": {
+                                "type": "integer"
+                            },
+                            "move": {
+                                "$ref": "../../named_api_resource.json"
+                            }
+                        },
+                        "required": [
+                            "change",
+                            "move"
+                        ],
+                        "type": "object"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "decrease",
+                "increase"
+            ],
+            "type": "object"
+        },
+        "affecting_natures": {
+            "properties": {
+                "decrease": {
+                    "items": {
+                        "$ref": "../../named_api_resource.json"
+                    },
+                    "type": "array"
+                },
+                "increase": {
+                    "items": {
+                        "$ref": "../../named_api_resource.json"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "decrease",
+                "increase"
+            ],
+            "type": "object"
+        },
+        "characteristics": {
+            "items": {
+                "$ref": "../../api_resource.json"
+            },
+            "type": "array"
+        },
+        "game_index": {
+            "type": "integer"
+        },
+        "id": {
+            "type": "integer"
+        },
+        "is_battle_only": {
+            "type": "boolean"
+        },
+        "move_damage_class": {
+            "anyOf": [
+                {
+                    "type": "null"
+                },
+                {
+                    "$ref": "../../named_api_resource.json"
+                }
+            ]
+        },
+        "name": {
+            "type": "string"
+        },
+        "names": {
+            "items": {
+                "properties": {
+                    "language": {
+                        "$ref": "../../named_api_resource.json"
+                    },
+                    "name": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "language",
+                    "name"
+                ],
+                "type": "object"
+            },
+            "type": "array"
+        }
+    },
+    "required": [
+        "affecting_moves",
+        "affecting_natures",
+        "characteristics",
+        "game_index",
+        "id",
+        "is_battle_only",
+        "move_damage_class",
+        "name",
+        "names"
+    ],
+    "type": "object"
+}
