@@ -178,9 +178,9 @@ describe('pokedex', function () {
     it('should have property count', () => chai.expect(promise).to.eventually.have.property('count'));
   });
 
-  describe('.getBerriesFirmnesssList() secure (with ssl)', () => {
+  describe('.getBerriesFirmnessList() secure (with ssl)', () => {
     before(() => {
-      promise = P.getBerriesFirmnesssList();
+      promise = P.getBerriesFirmnessList();
     });
     it('should succeed', () => promise);
     it('should have property count', () => chai.expect(promise).to.eventually.have.property('count'));
@@ -266,9 +266,9 @@ describe('pokedex', function () {
     it('should have property count', () => chai.expect(promise).to.eventually.have.property('count'));
   });
 
-  describe('.getPokedexsList() secure (with ssl)', () => {
+  describe('.getPokedexList() secure (with ssl)', () => {
     before(() => {
-      promise = P.getPokedexsList();
+      promise = P.getPokedexList();
     });
     it('should succeed', () => promise);
     it('should have property count', () => chai.expect(promise).to.eventually.have.property('count'));
