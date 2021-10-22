@@ -3002,4 +3002,6 @@ declare module 'pokedex-promise-v2' {
         getTypesList(interval?: PokeAPI.RootEndPointInterval): Promise<PokeAPI.NamedApiResourceList>;
         getLanguagesList(interval?: PokeAPI.RootEndPointInterval): Promise<PokeAPI.NamedApiResourceList>;
     }
+
+    export = PokeAPI;
 }

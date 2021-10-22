@@ -220,5 +220,10 @@ for (const [method, path] of rootEndpoints) {
   });
 }
 
+// Export the typing
+rootModule.addExportAssignment({
+  expression: 'PokeAPI'
+});
+
 // Write the file
 await file.save();
