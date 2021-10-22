@@ -41,12 +41,12 @@ directoryTree('./generator/schema', { extensions: /\.json$/ }, (file) => paths.p
 
 for (const schemaPath of paths) {
     // The endpoint path, as in the endpoints list
-    let basename: string;    
+    let basename: string;
     // The name of the generated interface/type
     let interfaceName: string;
     // Split the path, to get the folder names later
     let paths = schemaPath.split('/').reverse();
-  
+
     // Handle two special cases
     if (schemaPath.includes('pokemon/$id/encounters')) {
       basename = 'pokemon-encounter';
@@ -65,10 +65,10 @@ for (const schemaPath of paths) {
       basename = `${paths[1]}-list`;
       interfaceName = `${toPascalCase(basename)}List`;
     }
-  
+
     // Register to the API map to use later on the methods
     apiMap[basename] = interfaceName;
-  
+
     // Create the interfaces/types from the schema
     let newInterface = await compileFromFile(schemaPath, {
       bannerComment: ''
@@ -76,7 +76,7 @@ for (const schemaPath of paths) {
 
     // Remove the 'export' before the interface/type name
     newInterface = newInterface.replace('export ', '');
-  
+
     // If the interface contains named resources and is a list, rename the interface
     if (interfaceName.includes('List') && newInterface.match(/name: string;\n\s+url/gm)) {
       interfaceName = interfaceName.replace('List', 'NamedList');
@@ -93,7 +93,7 @@ for (const schemaPath of paths) {
 
     // Write the interfaces to the namespace
     namespace.setBodyText(`${namespace.getBodyText()}\n${newInterface}\n  \n`);
-  
+
 }
 
 // Format the namespace to be correctly indented
@@ -105,11 +105,11 @@ namespace.addInterface({
   properties: [{
       name: 'limit',
       type: 'number',
-      hasQuestionToken: true,     
+      hasQuestionToken: true,
   },{
       name: 'offset',
       type: 'number',
-      hasQuestionToken: true,     
+      hasQuestionToken: true,
   }],
 });
 
@@ -173,7 +173,29 @@ pokeApiClass.addMethod({
   returnType: 'Promise<unknown[]>',
 });
 
-// Add all the methods from the endpoints list, 
+// Add the get generic resource method, with support for typing
+pokeApiClass.addMethod({
+  name: 'resource',
+  typeParameters: ['T'],
+  parameters: [{
+    name: 'path',
+    type: 'APIResourceURL<T>',
+  }],
+  returnType: 'Promise<T>',
+});
+
+// Add the get generic resource array method, with support for typing
+pokeApiClass.addMethod({
+  name: 'resource',
+  typeParameters: ['T'],
+  parameters: [{
+    name: 'paths',
+    type: 'APIResourceURL<T>[]',
+  }],
+  returnType: 'Promise<T[]>',
+});
+
+// Add all the methods from the endpoints list,
 // setting the parameters typing and binding to the correct interface
 for (const [method, apiName] of endpoints) {
   pokeApiClass.addMethod({
@@ -201,7 +223,7 @@ pokeApiClass.addMethod({
   returnType: 'PokeAPI.EndpointsList',
 });
 
-// Add all the get list methods from the root endpoints list, 
+// Add all the get list methods from the root endpoints list,
 // setting the parameters typing and binding to the correct interface
 // Also sets correctly to a named or normal list
 for (const [method, path] of rootEndpoints) {
