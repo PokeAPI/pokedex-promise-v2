@@ -54,7 +54,7 @@ for (const schemaPath of paths) {
     } else if (schemaPath.includes('move-ailment/-1')) {
       continue;
     }
-    // If the scheme is the wanted one, pick the name of two folder above, eg.: 'pokemon/$id', picks the "pokemon"
+    // If the scheme is the wanted one, pick the name of two folder above, eg.: 'pokemon/$id/index.json', picks the "pokemon"
     else if (schemaPath.includes('$id')) {
       basename = paths[2];
       interfaceName = toPascalCase(basename);
@@ -71,7 +71,6 @@ for (const schemaPath of paths) {
   
     // Create the interfaces/types from the schema
     let newInterface = await compileFromFile(schemaPath, {
-      declareExternallyReferenced: false,
       bannerComment: ''
     });
 
@@ -217,7 +216,7 @@ for (const [method, path] of rootEndpoints) {
       type: 'PokeAPI.RootEndPointInterval',
       hasQuestionToken: true,
     }],
-    returnType: `Promise<PokeAPI.${apiMap[apiName].includes('NamedList') ? 'ApiResourceList' : 'NamedApiResourceList'}>`,
+    returnType: `Promise<PokeAPI.${apiMap[apiName].includes('NamedList') ? 'NamedApiResourceList' : 'ApiResourceList'}>`,
   });
 }
 
