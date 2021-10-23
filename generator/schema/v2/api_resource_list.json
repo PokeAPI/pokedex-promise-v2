@@ -1,0 +1,33 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "properties": {
+        "count": {
+            "type": "integer"
+        },
+        "next": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "previous": {
+            "type": [
+                "null",
+                "string"
+            ]
+        },
+        "results": {
+            "items": {
+                "$ref": "generator/schema/v2/api_resource.json"
+            },
+            "type": "array"
+        }
+    },
+    "required": [
+        "count",
+        "next",
+        "previous",
+        "results"
+    ],
+    "type": "object"
+}

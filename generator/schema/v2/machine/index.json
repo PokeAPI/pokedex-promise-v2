@@ -1,0 +1,4 @@
+{
+    "$ref": "generator/schema/v2/api_resource_list.json",
+    "$schema": "http://json-schema.org/schema#"
+}

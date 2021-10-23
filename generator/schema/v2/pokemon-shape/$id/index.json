@@ -1,0 +1,61 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "properties": {
+        "awesome_names": {
+            "items": {
+                "properties": {
+                    "awesome_name": {
+                        "type": "string"
+                    },
+                    "language": {
+                        "$ref": "generator/schema/v2/named_api_resource.json"
+                    }
+                },
+                "required": [
+                    "awesome_name",
+                    "language"
+                ],
+                "type": "object"
+            },
+            "type": "array"
+        },
+        "id": {
+            "type": "integer"
+        },
+        "name": {
+            "type": "string"
+        },
+        "names": {
+            "items": {
+                "properties": {
+                    "language": {
+                        "$ref": "generator/schema/v2/named_api_resource.json"
+                    },
+                    "name": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "language",
+                    "name"
+                ],
+                "type": "object"
+            },
+            "type": "array"
+        },
+        "pokemon_species": {
+            "items": {
+                "$ref": "generator/schema/v2/named_api_resource.json"
+            },
+            "type": "array"
+        }
+    },
+    "required": [
+        "awesome_names",
+        "id",
+        "name",
+        "names",
+        "pokemon_species"
+    ],
+    "type": "object"
+}

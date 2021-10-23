@@ -1,0 +1,210 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "properties": {
+        "damage_relations": {
+            "properties": {
+                "double_damage_from": {
+                    "items": {
+                        "$ref": "generator/schema/v2/named_api_resource.json"
+                    },
+                    "type": "array"
+                },
+                "double_damage_to": {
+                    "items": {
+                        "$ref": "generator/schema/v2/named_api_resource.json"
+                    },
+                    "type": "array"
+                },
+                "half_damage_from": {
+                    "items": {
+                        "$ref": "generator/schema/v2/named_api_resource.json"
+                    },
+                    "type": "array"
+                },
+                "half_damage_to": {
+                    "items": {
+                        "$ref": "generator/schema/v2/named_api_resource.json"
+                    },
+                    "type": "array"
+                },
+                "no_damage_from": {
+                    "items": {
+                        "$ref": "generator/schema/v2/named_api_resource.json"
+                    },
+                    "type": "array"
+                },
+                "no_damage_to": {
+                    "items": {
+                        "$ref": "generator/schema/v2/named_api_resource.json"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "double_damage_from",
+                "double_damage_to",
+                "half_damage_from",
+                "half_damage_to",
+                "no_damage_from",
+                "no_damage_to"
+            ],
+            "type": "object"
+        },
+        "game_indices": {
+            "items": {
+                "properties": {
+                    "game_index": {
+                        "type": "integer"
+                    },
+                    "generation": {
+                        "$ref": "generator/schema/v2/named_api_resource.json"
+                    }
+                },
+                "required": [
+                    "game_index",
+                    "generation"
+                ],
+                "type": "object"
+            },
+            "type": "array"
+        },
+        "generation": {
+            "$ref": "generator/schema/v2/named_api_resource.json"
+        },
+        "id": {
+            "type": "integer"
+        },
+        "move_damage_class": {
+            "anyOf": [
+                {
+                    "type": "null"
+                },
+                {
+                    "$ref": "generator/schema/v2/named_api_resource.json"
+                }
+            ]
+        },
+        "moves": {
+            "items": {
+                "$ref": "generator/schema/v2/named_api_resource.json"
+            },
+            "type": "array"
+        },
+        "name": {
+            "type": "string"
+        },
+        "names": {
+            "items": {
+                "properties": {
+                    "language": {
+                        "$ref": "generator/schema/v2/named_api_resource.json"
+                    },
+                    "name": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "language",
+                    "name"
+                ],
+                "type": "object"
+            },
+            "type": "array"
+        },
+        "past_damage_relations": {
+            "items": {
+                "properties": {
+                    "damage_relations": {
+                        "properties": {
+                            "double_damage_from": {
+                                "items": {
+                                    "$ref": "generator/schema/v2/named_api_resource.json"
+                                },
+                                "type": "array"
+                            },
+                            "double_damage_to": {
+                                "items": {
+                                    "$ref": "generator/schema/v2/named_api_resource.json"
+                                },
+                                "type": "array"
+                            },
+                            "half_damage_from": {
+                                "items": {
+                                    "$ref": "generator/schema/v2/named_api_resource.json"
+                                },
+                                "type": "array"
+                            },
+                            "half_damage_to": {
+                                "items": {
+                                    "$ref": "generator/schema/v2/named_api_resource.json"
+                                },
+                                "type": "array"
+                            },
+                            "no_damage_from": {
+                                "items": {
+                                    "$ref": "generator/schema/v2/named_api_resource.json"
+                                },
+                                "type": "array"
+                            },
+                            "no_damage_to": {
+                                "items": {
+                                    "$ref": "generator/schema/v2/named_api_resource.json"
+                                },
+                                "type": "array"
+                            }
+                        },
+                        "required": [
+                            "double_damage_from",
+                            "double_damage_to",
+                            "half_damage_from",
+                            "half_damage_to",
+                            "no_damage_from",
+                            "no_damage_to"
+                        ],
+                        "type": "object"
+                    },
+                    "generation": {
+                        "$ref": "generator/schema/v2/named_api_resource.json"
+                    }
+                },
+                "required": [
+                    "damage_relations",
+                    "generation"
+                ],
+                "type": "object"
+            },
+            "type": "array"
+        },
+        "pokemon": {
+            "items": {
+                "properties": {
+                    "pokemon": {
+                        "$ref": "generator/schema/v2/named_api_resource.json"
+                    },
+                    "slot": {
+                        "type": "integer"
+                    }
+                },
+                "required": [
+                    "pokemon",
+                    "slot"
+                ],
+                "type": "object"
+            },
+            "type": "array"
+        }
+    },
+    "required": [
+        "damage_relations",
+        "game_indices",
+        "generation",
+        "id",
+        "move_damage_class",
+        "moves",
+        "name",
+        "names",
+        "past_damage_relations",
+        "pokemon"
+    ],
+    "type": "object"
+}

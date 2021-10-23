@@ -1,0 +1,61 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "properties": {
+        "descriptions": {
+            "items": {
+                "properties": {
+                    "description": {
+                        "type": "string"
+                    },
+                    "language": {
+                        "$ref": "generator/schema/v2/named_api_resource.json"
+                    }
+                },
+                "required": [
+                    "description",
+                    "language"
+                ],
+                "type": "object"
+            },
+            "type": "array"
+        },
+        "id": {
+            "type": "integer"
+        },
+        "name": {
+            "type": "string"
+        },
+        "names": {
+            "items": {
+                "properties": {
+                    "language": {
+                        "$ref": "generator/schema/v2/named_api_resource.json"
+                    },
+                    "name": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "language",
+                    "name"
+                ],
+                "type": "object"
+            },
+            "type": "array"
+        },
+        "version_groups": {
+            "items": {
+                "$ref": "generator/schema/v2/named_api_resource.json"
+            },
+            "type": "array"
+        }
+    },
+    "required": [
+        "descriptions",
+        "id",
+        "name",
+        "names",
+        "version_groups"
+    ],
+    "type": "object"
+}

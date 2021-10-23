@@ -1,0 +1,58 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "properties": {
+        "id": {
+            "type": "integer"
+        },
+        "name": {
+            "type": "string"
+        },
+        "names": {
+            "items": {
+                "properties": {
+                    "language": {
+                        "$ref": "generator/schema/v2/named_api_resource.json"
+                    },
+                    "name": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "language",
+                    "name"
+                ],
+                "type": "object"
+            },
+            "type": "array"
+        },
+        "pokemon_encounters": {
+            "items": {
+                "properties": {
+                    "base_score": {
+                        "type": "integer"
+                    },
+                    "pokemon_species": {
+                        "$ref": "generator/schema/v2/named_api_resource.json"
+                    },
+                    "rate": {
+                        "type": "integer"
+                    }
+                },
+                "required": [
+                    "base_score",
+                    "pokemon_species",
+                    "rate"
+                ],
+                "type": "object"
+            },
+            "type": "array"
+        }
+    },
+    "required": [
+        "id",
+        "name",
+        "names",
+        "pokemon_encounters"
+    ],
+    "type": "object"
+}

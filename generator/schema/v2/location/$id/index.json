@@ -1,0 +1,72 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "properties": {
+        "areas": {
+            "items": {
+                "$ref": "generator/schema/v2/named_api_resource.json"
+            },
+            "type": "array"
+        },
+        "game_indices": {
+            "items": {
+                "properties": {
+                    "game_index": {
+                        "type": "integer"
+                    },
+                    "generation": {
+                        "$ref": "generator/schema/v2/named_api_resource.json"
+                    }
+                },
+                "required": [
+                    "game_index",
+                    "generation"
+                ],
+                "type": "object"
+            },
+            "type": "array"
+        },
+        "id": {
+            "type": "integer"
+        },
+        "name": {
+            "type": "string"
+        },
+        "names": {
+            "items": {
+                "properties": {
+                    "language": {
+                        "$ref": "generator/schema/v2/named_api_resource.json"
+                    },
+                    "name": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "language",
+                    "name"
+                ],
+                "type": "object"
+            },
+            "type": "array"
+        },
+        "region": {
+            "anyOf": [
+                {
+                    "type": "null"
+                },
+                {
+                    "$ref": "generator/schema/v2/named_api_resource.json"
+                }
+            ]
+        }
+    },
+    "required": [
+        "areas",
+        "game_indices",
+        "id",
+        "name",
+        "names",
+        "region"
+    ],
+    "type": "object"
+}

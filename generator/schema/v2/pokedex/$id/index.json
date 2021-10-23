@@ -1,0 +1,95 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "properties": {
+        "descriptions": {
+            "items": {
+                "properties": {
+                    "description": {
+                        "type": "string"
+                    },
+                    "language": {
+                        "$ref": "generator/schema/v2/named_api_resource.json"
+                    }
+                },
+                "required": [
+                    "description",
+                    "language"
+                ],
+                "type": "object"
+            },
+            "type": "array"
+        },
+        "id": {
+            "type": "integer"
+        },
+        "is_main_series": {
+            "type": "boolean"
+        },
+        "name": {
+            "type": "string"
+        },
+        "names": {
+            "items": {
+                "properties": {
+                    "language": {
+                        "$ref": "generator/schema/v2/named_api_resource.json"
+                    },
+                    "name": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "language",
+                    "name"
+                ],
+                "type": "object"
+            },
+            "type": "array"
+        },
+        "pokemon_entries": {
+            "items": {
+                "properties": {
+                    "entry_number": {
+                        "type": "integer"
+                    },
+                    "pokemon_species": {
+                        "$ref": "generator/schema/v2/named_api_resource.json"
+                    }
+                },
+                "required": [
+                    "entry_number",
+                    "pokemon_species"
+                ],
+                "type": "object"
+            },
+            "type": "array"
+        },
+        "region": {
+            "anyOf": [
+                {
+                    "type": "null"
+                },
+                {
+                    "$ref": "generator/schema/v2/named_api_resource.json"
+                }
+            ]
+        },
+        "version_groups": {
+            "items": {
+                "$ref": "generator/schema/v2/named_api_resource.json"
+            },
+            "type": "array"
+        }
+    },
+    "required": [
+        "descriptions",
+        "id",
+        "is_main_series",
+        "name",
+        "names",
+        "pokemon_entries",
+        "region",
+        "version_groups"
+    ],
+    "type": "object"
+}

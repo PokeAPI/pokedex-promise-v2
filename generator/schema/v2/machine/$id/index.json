@@ -1,0 +1,24 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "properties": {
+        "id": {
+            "type": "integer"
+        },
+        "item": {
+            "$ref": "generator/schema/v2/named_api_resource.json"
+        },
+        "move": {
+            "$ref": "generator/schema/v2/named_api_resource.json"
+        },
+        "version_group": {
+            "$ref": "generator/schema/v2/named_api_resource.json"
+        }
+    },
+    "required": [
+        "id",
+        "item",
+        "move",
+        "version_group"
+    ],
+    "type": "object"
+}

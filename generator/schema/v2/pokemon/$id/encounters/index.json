@@ -1,0 +1,68 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "items": {
+        "properties": {
+            "location_area": {
+                "$ref": "generator/schema/v2/named_api_resource.json"
+            },
+            "version_details": {
+                "items": {
+                    "properties": {
+                        "encounter_details": {
+                            "items": {
+                                "properties": {
+                                    "chance": {
+                                        "type": "integer"
+                                    },
+                                    "condition_values": {
+                                        "items": {
+                                            "$ref": "generator/schema/v2/named_api_resource.json"
+                                        },
+                                        "type": "array"
+                                    },
+                                    "max_level": {
+                                        "type": "integer"
+                                    },
+                                    "method": {
+                                        "$ref": "generator/schema/v2/named_api_resource.json"
+                                    },
+                                    "min_level": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "required": [
+                                    "chance",
+                                    "condition_values",
+                                    "max_level",
+                                    "method",
+                                    "min_level"
+                                ],
+                                "type": "object"
+                            },
+                            "type": "array"
+                        },
+                        "max_chance": {
+                            "type": "integer"
+                        },
+                        "version": {
+                            "$ref": "generator/schema/v2/named_api_resource.json"
+                        }
+                    },
+                    "required": [
+                        "encounter_details",
+                        "max_chance",
+                        "version"
+                    ],
+                    "type": "object"
+                },
+                "type": "array"
+            }
+        },
+        "required": [
+            "location_area",
+            "version_details"
+        ],
+        "type": "object"
+    },
+    "type": "array"
+}
