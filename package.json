@@ -11,7 +11,8 @@
   "scripts": {
     "doctoc": "doctoc .",
     "test": "mocha --exit",
-    "gentypes": "tsc; node ./generator",
+    "gentypes": "tsc; node ./generator/index.js",
+    "genjsdocs": "tsc; node ./generator/AddJSDocs.js",
     "lint": "eslint --ext .js src/"
   },
   "repository": {

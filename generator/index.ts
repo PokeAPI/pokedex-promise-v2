@@ -6,11 +6,7 @@ import { quicktype, InputData, JSONSchemaInput, FetchingJSONSchemaStore } from '
 
 import endpoints from '../src/endpoints.js';
 import rootEndpoints from '../src/rootEndpoints.js';
-
-// Paths that will be used
-const typeFile = './types/index.d.ts';
-const schemaFolder = './generator/schema/v2';
-const timerLabel = 'Generator';
+import { schemaFolder, timerLabel, typeFile } from './Utils.js';
 
 // Helper functions to interface names
 function toPascalCase(text: string) {

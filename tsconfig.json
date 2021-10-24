@@ -19,7 +19,8 @@
     ],
   },
   "include": [
-    "generator/index.ts",
+    "generator/**/*.ts",
+    "types/**/*.ts"
   ],
   "exclude": [
     "node_modules"
