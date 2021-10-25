@@ -2,7 +2,7 @@ import path from 'path';
 import fetch from 'node-fetch';
 import { InterfaceDeclaration, ModuleDeclaration, Project } from 'ts-morph';
 
-import { typeFile } from './Utils.js';
+import { jsdocsLabel, typeFile } from './Utils.js';
 
 const docList = [
   'berries',
@@ -19,10 +19,11 @@ const docList = [
   'utility',
 ];
 
-function addJsDoc(generatedInterface: InterfaceDeclaration, index: number, description: string, model: any) {
+function addJsDoc(generatedInterface: InterfaceDeclaration,
+  index: number, description: string, model: any) {
   if (index === 0) {
     generatedInterface.addJsDoc({
-      description: description,
+      description,
     });
   }
 
@@ -39,11 +40,10 @@ async function loadDocumentation(namespace: ModuleDeclaration, docName: string) 
 
   for (const api of apis) {
     for (const [index, model] of api.responseModels.entries()) {
-
       try {
-        let generatedInterface = namespace.getInterface(model.name == 'PokemonEncounter' ? 'LocationAreaPokemonEncounter' : model.name);
-        let purpleGeneratedInterface = namespace.getInterface(`Purple${model.name}`);
-        let fluffyGeneratedInterface = namespace.getInterface(`Fluffy${model.name}`);
+        const generatedInterface = namespace.getInterface(model.name === 'PokemonEncounter' ? 'LocationAreaPokemonEncounter' : model.name);
+        const purpleGeneratedInterface = namespace.getInterface(`Purple${model.name}`);
+        const fluffyGeneratedInterface = namespace.getInterface(`Fluffy${model.name}`);
 
         if (generatedInterface) {
           addJsDoc(generatedInterface, index, api.description, model);
@@ -56,15 +56,16 @@ async function loadDocumentation(namespace: ModuleDeclaration, docName: string) 
         if (fluffyGeneratedInterface) {
           addJsDoc(fluffyGeneratedInterface, index, api.description, model);
         }
-
       } catch (error) {
         console.log(model.name);
         console.log(error);
       }
-
     }
   }
 }
+
+console.time(jsdocsLabel);
+console.timeLog(jsdocsLabel, '- Starting to generate JSDocs...');
 
 // Initialize the types file
 const project = new Project({
@@ -80,6 +81,9 @@ const namespace = rootModule.getModuleOrThrow('PokeAPI');
 
 for (const docName of docList) {
   await loadDocumentation(namespace, docName);
-};
+}
 
 await file.save();
+
+console.timeEnd(jsdocsLabel);
+console.log('JSDocs added!');
