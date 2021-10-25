@@ -15,9 +15,8 @@
   },
   "include": [
     "src/**/*.ts",
-    "generator/**/*.ts", 
     "types/**/*.ts",
-    "test/**/*.ts",
+    "generator/**/*.ts"
   ],
   "exclude": [
     "node_modules"

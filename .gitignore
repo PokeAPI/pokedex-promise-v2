@@ -1,2 +1,4 @@
 node_modules/
-dist/generator
+dist/generator/
+dist/test/
+api-data/
