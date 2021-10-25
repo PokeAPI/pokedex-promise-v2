@@ -337,7 +337,7 @@ return this.options.cache.size();`).addJsDoc('Retuns the current number of entri
 pokeApiClass.addMethod({
   name: 'cacheSize',
 }).setBodyText(`// Retuns the current number of entries in the cache
-return this.options.cache.size();`).addJsDoc('@deprecated use @{link getItemsInCacheCount}');
+return this.options.cache.size();`).addJsDoc('@deprecated use {@link getCachedItemsCount}');
 
 // Add method to clear the cache
 pokeApiClass.addMethod({
