@@ -330,7 +330,7 @@ pokeApiClass.addMethod({
 
 // Add method to get the cache size
 pokeApiClass.addMethod({
-  name: 'getItemsInCacheCount',
+  name: 'getCachedItemsCount',
 }).setBodyText(`
 return this.options.cache.size();`).addJsDoc('Retuns the current number of entries in the cache');
 
