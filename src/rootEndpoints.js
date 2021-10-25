@@ -2,6 +2,7 @@ const rootEndpoints = [
   ['getEndpointsList', ''],
   ['getBerriesList', 'berry/'],
   ['getBerriesFirmnessList', 'berry-firmness/'],
+  ['getBerriesFirmnesssList', 'berry-firmness/'], // Deprecated, will be removed on the next version
   ['getBerriesFlavorsList', 'berry-flavor/'],
   ['getContestTypesList', 'contest-type/'],
   ['getContestEffectsList', 'contest-effect/'],
@@ -12,6 +13,7 @@ const rootEndpoints = [
   ['getEvolutionChainsList', 'evolution-chain/'],
   ['getEvolutionTriggersList', 'evolution-trigger/'],
   ['getGenerationsList', 'generation/'],
+  ['getPokedexsList', 'pokedex/'], // Deprecated, will be removed on the next version
   ['getPokedexList', 'pokedex/'],
   ['getVersionsList', 'version/'],
   ['getVersionGroupsList', 'version-group/'],
