@@ -1688,7 +1688,7 @@ export default class Pokedex {
             handleError(error, callback);
         }
     }
-    /** @deprecated will be removed on the next version. Use {@link getBerriesFirmnessList} instead */
+    /** @deprecated will be removed on a future version. Use {@link getBerriesFirmnessList} instead */
     async getBerriesFirmnesssList(interval, callback) {
         try {
             let { limit, offset } = this.options;
@@ -1876,7 +1876,7 @@ export default class Pokedex {
             handleError(error, callback);
         }
     }
-    /** @deprecated will be removed on the next version. Use {@link getPokedexList} instead */
+    /** @deprecated will be removed on a future version. Use {@link getPokedexList} instead */
     async getPokedexsList(interval, callback) {
         try {
             let { limit, offset } = this.options;
@@ -2527,10 +2527,10 @@ export default class Pokedex {
         return this.options;
     }
     /** Retuns the current number of entries in the cache */
-    getItemsInCacheCount() {
+    getCachedItemsCount() {
         return this.options.cache.size();
     }
-    /** @deprecated use @{link getItemsInCacheCount} */
+    /** @deprecated use {@link getCachedItemsCount} */
     cacheSize() {
         // Retuns the current number of entries in the cache
         return this.options.cache.size();

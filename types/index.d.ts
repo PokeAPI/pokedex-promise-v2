@@ -2037,7 +2037,7 @@ declare module 'pokedex-promise-v2' {
         getLanguageByName(nameOrId: string | number | Array<string | number>, callback?: (result: PokeAPITypes.Language | PokeAPITypes.Language[], error?: any) => any): Promise<PokeAPITypes.Language | PokeAPITypes.Language[]>;
         getBerriesList(interval?: ListEndpointOptions, callback?: (result: PokeAPITypes.NamedAPIResourceList, error?: any) => any): Promise<PokeAPITypes.NamedAPIResourceList>;
         getBerriesFirmnessList(interval?: ListEndpointOptions, callback?: (result: PokeAPITypes.NamedAPIResourceList, error?: any) => any): Promise<PokeAPITypes.NamedAPIResourceList>;
-        /** @deprecated will be removed on the next version. Use {@link getBerriesFirmnessList} instead */
+        /** @deprecated will be removed on a future version. Use {@link getBerriesFirmnessList} instead */
         getBerriesFirmnesssList(interval?: ListEndpointOptions, callback?: (result: PokeAPITypes.NamedAPIResourceList, error?: any) => any): Promise<PokeAPITypes.NamedAPIResourceList>;
         getBerriesFlavorsList(interval?: ListEndpointOptions, callback?: (result: PokeAPITypes.NamedAPIResourceList, error?: any) => any): Promise<PokeAPITypes.NamedAPIResourceList>;
         getContestTypesList(interval?: ListEndpointOptions, callback?: (result: PokeAPITypes.NamedAPIResourceList, error?: any) => any): Promise<PokeAPITypes.NamedAPIResourceList>;
@@ -2049,7 +2049,7 @@ declare module 'pokedex-promise-v2' {
         getEvolutionChainsList(interval?: ListEndpointOptions, callback?: (result: PokeAPITypes.APIResourceList, error?: any) => any): Promise<PokeAPITypes.APIResourceList>;
         getEvolutionTriggersList(interval?: ListEndpointOptions, callback?: (result: PokeAPITypes.NamedAPIResourceList, error?: any) => any): Promise<PokeAPITypes.NamedAPIResourceList>;
         getGenerationsList(interval?: ListEndpointOptions, callback?: (result: PokeAPITypes.NamedAPIResourceList, error?: any) => any): Promise<PokeAPITypes.NamedAPIResourceList>;
-        /** @deprecated will be removed on the next version. Use {@link getPokedexList} instead */
+        /** @deprecated will be removed on a future version. Use {@link getPokedexList} instead */
         getPokedexsList(interval?: ListEndpointOptions, callback?: (result: PokeAPITypes.NamedAPIResourceList, error?: any) => any): Promise<PokeAPITypes.NamedAPIResourceList>;
         getPokedexList(interval?: ListEndpointOptions, callback?: (result: PokeAPITypes.NamedAPIResourceList, error?: any) => any): Promise<PokeAPITypes.NamedAPIResourceList>;
         getVersionsList(interval?: ListEndpointOptions, callback?: (result: PokeAPITypes.NamedAPIResourceList, error?: any) => any): Promise<PokeAPITypes.NamedAPIResourceList>;
