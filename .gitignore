@@ -1,3 +1,2 @@
 node_modules/
-generator/*.js
-generator/*.js.map
+dist/generator

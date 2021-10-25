@@ -11,10 +11,11 @@
   "scripts": {
     "doctoc": "doctoc .",
     "test": "mocha --exit",
-    "gentypes": "tsc; node ./generator/index.js",
-    "genjsdocs": "tsc; node ./generator/AddJSDocs.js",
+    "gentypes": "tsc; node ./dist/generator/TypesGenerator.js",
+    "genjsdocs": "tsc; node ./dist/generator/AddJSDocs.js",
     "lint": "eslint --ext .js src/"
   },
+  "files": ["dist/src/"],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/PokeAPI/pokedex-promise-v2"

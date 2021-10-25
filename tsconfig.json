@@ -11,8 +11,10 @@
       "esnext",
       "dom"
     ],
+    "outDir": "dist"
   },
   "include": [
+    "src/**/*.ts",
     "generator/**/*.ts",
     "types/**/*.ts"
   ],

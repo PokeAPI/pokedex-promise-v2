@@ -3,3 +3,4 @@ test
 .travis.yml
 webpack.config.js
 generator
+dist/generator
