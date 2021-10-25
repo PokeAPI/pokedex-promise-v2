@@ -6,8 +6,12 @@ export const __filename = fileURLToPath(import.meta.url);
 export const __dirname = dirname(__filename);
 
 // Paths that will be used
-export const typeFile = path.resolve(__dirname, '../types/index.d.ts');
-export const schemaFolder = path.resolve(__dirname, '../schema/v2');;
+export const typeFile = path.resolve(__dirname, '../../types/index.d.ts');
+export const mainFile = path.resolve(__dirname, '../../src/index.ts');
+export const apiMapFile = path.join(__dirname, 'apiMap.json');
+export const schemaFolder = path.resolve(__dirname, '../../api-data/data/schema/v2');
 
 // Misc
-export const timerLabel = 'Generator';
+export const typesLabel = 'Generator';
+export const jsdocsLabel = 'Generator';
+export const mainLabel = 'Generator';
