@@ -1,4 +1,4 @@
-const endpoints = [
+const endpoints: string[][] = [
   ['getBerryByName', 'berry'],
   ['getBerryFirmnessByName', 'berry-firmness'],
   ['getBerryFlavorByName', 'berry-flavor'],
