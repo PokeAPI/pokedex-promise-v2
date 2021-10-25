@@ -80,7 +80,7 @@ const P = new Pokedex();
       }
     });
 
-  P.resource(['/api/v2/pokemon/36', 'api/v2/berry/8', 'https://pokeapi.co/api/v2/ability/9/'])
+  P.getResource(['/api/v2/pokemon/36', 'api/v2/berry/8', 'https://pokeapi.co/api/v2/ability/9/'])
     .then(function(response) {
       console.log(response); // resource function accepts singles or arrays of URLs/paths
     });
@@ -670,12 +670,12 @@ Use **getLanguageByName** to return data about specific pokemon language.
 Use **resource** to return data about any URL or path.
 
 ```js
-  P.resource(['/api/v2/pokemon/36', 'api/v2/berry/8', 'https://pokeapi.co/api/v2/ability/9/'])
+  P.getResource(['/api/v2/pokemon/36', 'api/v2/berry/8', 'https://pokeapi.co/api/v2/ability/9/'])
     .then(function(response) {
       console.log(response); // resource function accepts singles or arrays of URLs/paths
     });
 
-  P.resource('api/v2/berry/5')
+  P.getResource('api/v2/berry/5')
     .then(function(response) {
       console.log(response);
     });
