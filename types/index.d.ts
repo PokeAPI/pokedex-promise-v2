@@ -847,6 +847,7 @@ declare module 'pokedex-promise-v2' {
             generation: NamedAPIResource;
             /** The identifier for this resource. */
             id: number;
+            /** List of Pokemon that can learn the move */
             learned_by_pokemon: NamedAPIResource[];
             /** A list of the machines that teach this move. */
             machines: MoveMachine[];
@@ -1256,6 +1257,7 @@ declare module 'pokedex-promise-v2' {
             name: string;
             /** Order for sorting. Almost national order, except families are grouped together. */
             order: number;
+            /** A list of details showing types this pokémon had in previous generations */
             past_types: PastType[];
             /** The species this Pokémon belongs to. */
             species: NamedAPIResource;
@@ -1581,7 +1583,6 @@ declare module 'pokedex-promise-v2' {
         interface PokemonForm {
             /** The name of this form. */
             form_name: string;
-            /** The form specific form name of this Pokémon form, or empty if the form does not have a specific name. */
             form_names: FormName[];
             /** The order in which forms should be sorted within a species' forms. */
             form_order: number;
@@ -1595,16 +1596,14 @@ declare module 'pokedex-promise-v2' {
             is_mega: boolean;
             /** The name for this resource. */
             name: string;
-            /** The form specific full name of this Pokémon form, or empty if the form does not have a specific name. */
             names: PokemonFormName[];
             /** The order in which forms should be sorted within all forms. Multiple forms may have equal order, in which case they should fall back on sorting by name. */
             order: number;
             /** The Pokémon that can take on this form. */
             pokemon: NamedAPIResource;
-            /** A set of sprites used to depict this Pokémon form in the game. */
             sprites: PokemonFormSprites;
+            /** A list of details showing types this Pokémon form has. */
             types: PokemonFormType[];
-            /** The version group this Pokémon form was introduced in. */
             version_group: NamedAPIResource;
         }
 
@@ -1634,7 +1633,9 @@ declare module 'pokedex-promise-v2' {
         }
 
         interface PokemonFormType {
+            /** The order the Pokémon's types are listed in. */
             slot: number;
+            /** The type the referenced Form has. */
             type: NamedAPIResource;
         }
 
@@ -1883,6 +1884,7 @@ declare module 'pokedex-promise-v2' {
             name: string;
             /** The name of this resource listed in different languages. */
             names: TypeName[];
+            /** A list of details of how effective this type was toward others and vice versa in previous generations */
             past_damage_relations: PastDamageRelation[];
             /** A list of details of Pokémon that have this type. */
             pokemon: TypePokemon[];
