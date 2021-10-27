@@ -13,9 +13,7 @@ const P = new Pokedex({
   try {
     const berry = await P.getBerryByName(1) as Berry;
     assert.equal(berry.name, 'cheri');
-    // process.exit(0);
   } catch (error) {
     console.log(error);
-    // process.exit(1);
   }
 })();
