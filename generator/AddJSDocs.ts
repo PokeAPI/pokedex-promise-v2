@@ -1,5 +1,5 @@
+import axios from 'axios';
 import path from 'path';
-import fetch from 'node-fetch';
 import { InterfaceDeclaration, ModuleDeclaration, Project } from 'ts-morph';
 
 import { jsdocsLabel, typeFile } from './Utils.js';
@@ -35,8 +35,8 @@ function addJsDoc(generatedInterface: InterfaceDeclaration,
 }
 
 async function loadDocumentation(namespace: ModuleDeclaration, docName: string) {
-  const response = await fetch(`https://raw.githubusercontent.com/PokeAPI/pokeapi.co/master/src/docs/${docName}.json`);
-  const apis: any = await response.json();
+  const response = await axios.get(`https://raw.githubusercontent.com/PokeAPI/pokeapi.co/master/src/docs/${docName}.json`);
+  const apis: any = await response.data;
 
   for (const api of apis) {
     for (const [index, model] of api.responseModels.entries()) {
