@@ -139,6 +139,8 @@ let methodStructure = {
 };
 
 pokeApiClass.addMethod(methodStructure).setBodyText(getResourceCode);
+// Add the declaration to the types file
+// Removing the async keyword
 methodStructure.isAsync = false;
 declarationClass.addMethod(methodStructure);
 
@@ -149,6 +151,8 @@ methodStructure.isAsync = true;
 pokeApiClass.addMethod(methodStructure).setBodyText(getResourceCode)
   .addJsDoc('@deprecated - will be removed on the next version. Use {@link getResource} instead');
 
+// Add the declaration to the types file
+// Removing the async keyword
 methodStructure.isAsync = false;
 declarationClass.addMethod(methodStructure)
   .addJsDoc('@deprecated - will be removed on the next version. Use {@link getResource} instead');
@@ -208,7 +212,10 @@ for (const [methodName, endpoint, jsdocs] of endpoints) {
   }`);
 
   // Add the declaration to the types file
+  // Sanitizing the namespace and remove the async keyword
   methodStructure.isAsync = false;
+  methodStructure.parameters[1].type = methodStructure.parameters[1].type.replaceAll('PokeAPITypes', 'PokeAPI');
+  methodStructure.returnType = methodStructure.returnType.replaceAll('PokeAPITypes', 'PokeAPI');
   const declaredMethod = declarationClass.addMethod(methodStructure);
 
   // If the method has a JSDoc, add it
@@ -274,7 +281,10 @@ for (const [method, rawEndpoint, jsdocs] of rootEndpoints) {
   }`);
 
   // Add the declaration to the types file
+  // Sanitizing the namespace and remove the async keyword
   methodStructure.isAsync = false;
+  methodStructure.parameters[1].type = methodStructure.parameters[1].type.replaceAll('PokeAPITypes', 'PokeAPI');
+  methodStructure.returnType = methodStructure.returnType.replaceAll('PokeAPITypes', 'PokeAPI');
   const declaredMethod = declarationClass.addMethod(methodStructure);
 
   // If the method has a JSDoc, add it
@@ -320,6 +330,8 @@ try {
   handleError(error, callback);
 }`);
 
+// Add the declaration to the types file
+// Removing the async keyword
 methodStructure.isAsync = false;
 declarationClass.addMethod(methodStructure);
 
