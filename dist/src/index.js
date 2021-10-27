@@ -9,7 +9,6 @@ import PokeAPIOptions from "./interfaces/PokeAPIOptions.js";
 import handleError from "./utils/ErrorHandler.js";
 import getJSON from "./utils/Getter.js";
 export default class Pokedex {
-    options;
     constructor(options) {
         this.options = new PokeAPIOptions(options, new memoryCache.Cache());
     }

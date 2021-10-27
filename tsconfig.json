@@ -1,14 +1,13 @@
 {
   "compilerOptions": {
-    "target": "esnext",
-    "module": "esnext",
-    "importHelpers": true,
+    "target": "es2020",
+    "module": "es2020",
     "moduleResolution": "node",
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "lib": [
-      "esnext",
+      "es2020",
       "dom"
     ],
     "outDir": "dist"
