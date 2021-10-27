@@ -14,8 +14,6 @@
     "outDir": "dist"
   },
   "include": [
-    "src/**/*.ts",
-    "types/**/*.ts",
     "generator/**/*.ts"
   ],
   "exclude": [
