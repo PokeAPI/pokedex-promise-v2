@@ -13,8 +13,8 @@ An easy way to use [Pokéapi](https://pokeapi.co/) v2 with promises *(or callbac
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**
 
-- [pokedex-promise-v2 <a href="https://pokeapi.co/api/v2/pokemon/bulbasaur"><img src='https://veekun.com/dex/media/pokemon/global-link/1.png' height=50px/></a>](#pokedex-promise-v2-)
-  - [Install ![nodeVersion](https://www.npmjs.com/package/pokedex-promise-v2)](#install-)
+- [pokedex-promise-v2](#pokedex-promise-v2-)
+  - [Install](#install-)
   - [Usage](#usage)
     - [Example requests](#example-requests)
   - [Configuration](#configuration)
