@@ -74,17 +74,20 @@ async function generateFinalFile(types: string) {
   namespace.addInterface({
     name: 'ListEndpointOptions',
     properties: [{
-      name: 'limit',
-      type: 'number',
-      hasQuestionToken: true,
-    }, {
       name: 'offset',
       type: 'number',
       hasQuestionToken: true,
+      docs: ['The offset to be used in the request'],
+    }, {
+      name: 'limit',
+      type: 'number',
+      hasQuestionToken: true,
+      docs: ['The limit to be used in the request'],
     }, {
       name: 'cacheLimit',
       type: 'number',
       hasQuestionToken: true,
+      docs: ['The limit of the cache in milliseconds'],
     }],
   });
 
@@ -95,30 +98,44 @@ async function generateFinalFile(types: string) {
       name: 'protocol',
       type: Writers.unionType('\'https\'', '\'http\''),
       hasQuestionToken: true,
+      docs: ['The protocol to be used',
+        '@default \'https\''],
     }, {
       name: 'hostName',
       type: 'string',
       hasQuestionToken: true,
+      docs: ['The hostname of the PokeAPI instance',
+        '@default \'pokeapi.co\''],
     }, {
       name: 'versionPath',
       type: 'string',
       hasQuestionToken: true,
+      docs: ['The version path of the API',
+        '@default \'/api/v2/\''],
     }, {
       name: 'offset',
       type: 'number',
       hasQuestionToken: true,
+      docs: ['The offset to be used in list requests',
+        '@default 0'],
     }, {
       name: 'limit',
       type: 'number',
       hasQuestionToken: true,
+      docs: ['The limit to be used in list requests',
+        '@default 100000'],
     }, {
       name: 'timeout',
       type: 'number',
       hasQuestionToken: true,
+      docs: ['The timeout of a response in milliseconds',
+        '@default 10 * 1000 // (10 seconds)'],
     }, {
       name: 'cacheLimit',
       type: 'number',
       hasQuestionToken: true,
+      docs: ['The limit of the cache in milliseconds',
+        '@default 1000000 * 1000 // (11 days)'],
     }],
   });
 

@@ -1972,19 +1972,36 @@ declare module 'pokedex-promise-v2' {
         }
 
         interface ListEndpointOptions {
-            limit?: number;
+            /** The offset to be used in the request */
             offset?: number;
+            /** The limit to be used in the request */
+            limit?: number;
+            /** The limit of the cache in milliseconds */
             cacheLimit?: number;
         }
     }
 
     interface PokeAPIOptions {
+        /** The protocol to be used */
+        /** @default 'https' */
         protocol?: 'https' | 'http';
+        /** The hostname of the PokeAPI instance */
+        /** @default 'pokeapi.co' */
         hostName?: string;
+        /** The version path of the API */
+        /** @default '/api/v2/' */
         versionPath?: string;
+        /** The offset to be used in list requests */
+        /** @default 0 */
         offset?: number;
+        /** The limit to be used in list requests */
+        /** @default 100000 */
         limit?: number;
+        /** The timeout of a response in milliseconds */
+        /** @default 10 * 1000 // (10 seconds) */
         timeout?: number;
+        /** The limit of the cache in milliseconds */
+        /** @default 1000000 * 1000 // (11 days) */
         cacheLimit?: number;
     }
 
