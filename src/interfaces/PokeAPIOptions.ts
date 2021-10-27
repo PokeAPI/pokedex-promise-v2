@@ -21,11 +21,13 @@ class PokeAPIOptions {
   */
   offset?: number;
 
-  /** The limit to be used in list requests */
+  /** The limit to be used in list requests
+   * @default 100000
+  */
   limit?: number;
 
-  /** The timeout of a response
-   * @default 100000
+  /** The timeout of a response in milliseconds
+   * @default 10 * 1000 // (10 seconds)
    */
   timeout?: number;
 
