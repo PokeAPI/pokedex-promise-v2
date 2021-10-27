@@ -15,10 +15,12 @@ class PokeAPIOptions {
      * @default 0
     */
     offset;
-    /** The limit to be used in list requests */
-    limit;
-    /** The timeout of a response
+    /** The limit to be used in list requests
      * @default 100000
+    */
+    limit;
+    /** The timeout of a response in milliseconds
+     * @default 10 * 1000 // (10 seconds)
      */
     timeout;
     /** The limit of the cache in milliseconds
@@ -33,7 +35,7 @@ class PokeAPIOptions {
         this.versionPath = '/api/v2/';
         this.offset = 0;
         this.limit = 100000;
-        this.timeout = 20 * 1000; // 20 seconds
+        this.timeout = 10 * 1000; // 10 seconds
         this.cacheLimit = 1000000 * 1000; // 11 days
         this.cache = cache;
         if (config.protocol) {
