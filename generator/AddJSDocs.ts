@@ -4,6 +4,7 @@ import { InterfaceDeclaration, ModuleDeclaration, Project } from 'ts-morph';
 
 import { jsdocsLabel, typeFile } from './Utils.js';
 
+// The doc names available on the PokeAPI github repo
 const docList = [
   'berries',
   'contests',
@@ -19,14 +20,17 @@ const docList = [
   'utility',
 ];
 
+// Add JSDocs to the interface and all of its properties
 function addJsDoc(generatedInterface: InterfaceDeclaration,
   index: number, description: string, model: any) {
+  // If it is the the root interface, add the main description to it
   if (index === 0) {
     generatedInterface.addJsDoc({
       description,
     });
   }
 
+  // Add JSDocs to all of the properties of the interface
   for (const field of model.fields) {
     generatedInterface.getPropertyOrThrow(field.name).addJsDoc({
       description: field.description,
@@ -34,13 +38,17 @@ function addJsDoc(generatedInterface: InterfaceDeclaration,
   }
 }
 
+// Load a doc from the PokeAPI docs and get the descriptions to apply to the code
 async function loadDocumentation(namespace: ModuleDeclaration, docName: string) {
   const response = await axios.get(`https://raw.githubusercontent.com/PokeAPI/pokeapi.co/master/src/docs/${docName}.json`);
   const apis: any = await response.data;
 
+  // As one doc contain multiple APIs examples, loop through them
   for (const api of apis) {
+    // Loop over all of the response models, not the examples
     for (const [index, model] of api.responseModels.entries()) {
       try {
+        // Quicktype has its quirks while generating the types, so those 3 lines account for them
         const generatedInterface = namespace.getInterface(model.name === 'PokemonEncounter' ? 'LocationAreaPokemonEncounter' : model.name);
         const purpleGeneratedInterface = namespace.getInterface(`Purple${model.name}`);
         const fluffyGeneratedInterface = namespace.getInterface(`Fluffy${model.name}`);
@@ -64,6 +72,7 @@ async function loadDocumentation(namespace: ModuleDeclaration, docName: string) 
   }
 }
 
+// Timestamp
 console.time(jsdocsLabel);
 console.timeLog(jsdocsLabel, '- Starting to generate JSDocs...');
 
@@ -79,11 +88,14 @@ const rootModule = file.getModuleOrThrow('\'pokedex-promise-v2\'');
 // Create the namespace
 const namespace = rootModule.getModuleOrThrow('PokeAPI');
 
+// For each doc we have on the array, add the descriptions it provides
 for (const docName of docList) {
   await loadDocumentation(namespace, docName);
 }
 
+// Save the file
 await file.save();
 
+// Timestamp
 console.timeEnd(jsdocsLabel);
 console.log('JSDocs added!');

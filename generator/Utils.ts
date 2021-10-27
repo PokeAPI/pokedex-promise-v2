@@ -11,7 +11,7 @@ export const mainFile = path.resolve(__dirname, '../../src/index.ts');
 export const apiMapFile = path.join(__dirname, 'apiMap.json');
 export const schemaFolder = path.resolve(__dirname, '../../api-data/data/schema/v2');
 
-// Misc
-export const typesLabel = 'Generator';
-export const jsdocsLabel = 'Generator';
-export const mainLabel = 'Generator';
+// Timer labels
+export const typesLabel = 'Types Generator';
+export const mainLabel = 'Main Generator';
+export const jsdocsLabel = 'JSDocs Generator';
