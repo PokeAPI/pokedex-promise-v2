@@ -11,10 +11,10 @@
       "esnext",
       "dom"
     ],
-    "outDir": "dist"
+    "outDir": "../dist"
   },
   "include": [
-    "generator/**/*.ts"
+    "./**/*.ts"
   ],
   "exclude": [
     "node_modules"

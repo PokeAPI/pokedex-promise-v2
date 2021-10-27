@@ -11,9 +11,9 @@
   "scripts": {
     "doctoc": "doctoc .",
     "test": "tsc; mocha --exit ./dist/test/",
-    "generate:main": "tsc -p ./generator.tsconfig.json; node ./dist/generator/Main.js",
-    "generate:types": "tsc -p ./generator.tsconfig.json; node ./dist/generator/TypesGenerator.js",
-    "generate:jsdocs": "tsc -p ./generator.tsconfig.json; node ./dist/generator/AddJSDocs.js",
+    "generate:main": "tsc -p ./generator/; node ./dist/generator/Main.js",
+    "generate:types": "tsc -p ./generator/; node ./dist/generator/TypesGenerator.js",
+    "generate:jsdocs": "tsc -p ./generator/; node ./dist/generator/AddJSDocs.js",
     "lint": "eslint --ext .ts src/ --fix"
   },
   "files": [
