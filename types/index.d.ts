@@ -1583,6 +1583,7 @@ declare module 'pokedex-promise-v2' {
         interface PokemonForm {
             /** The name of this form. */
             form_name: string;
+            /** The form specific form name of this Pokémon form, or empty if the form does not have a specific name. */
             form_names: FormName[];
             /** The order in which forms should be sorted within a species' forms. */
             form_order: number;
@@ -1596,14 +1597,17 @@ declare module 'pokedex-promise-v2' {
             is_mega: boolean;
             /** The name for this resource. */
             name: string;
+            /** The form specific full name of this Pokémon form, or empty if the form does not have a specific name. */
             names: PokemonFormName[];
             /** The order in which forms should be sorted within all forms. Multiple forms may have equal order, in which case they should fall back on sorting by name. */
             order: number;
             /** The Pokémon that can take on this form. */
             pokemon: NamedAPIResource;
+            /** A set of sprites used to depict this Pokémon form in the game. */
             sprites: PokemonFormSprites;
             /** A list of details showing types this Pokémon form has. */
             types: PokemonFormType[];
+            /** The version group this Pokémon form was introduced in. */
             version_group: NamedAPIResource;
         }
 
