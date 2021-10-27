@@ -4,13 +4,13 @@
 * Execute `npm run generate` to regenerate
 */
 import pMap from "p-map";
-import memoryCache from "memory-cache";
+import NodeCache from "node-cache";
 import PokeAPIOptions from "./interfaces/PokeAPIOptions.js";
 import handleError from "./utils/ErrorHandler.js";
 import getJSON from "./utils/Getter.js";
 export default class Pokedex {
     constructor(options) {
-        this.options = new PokeAPIOptions(options, new memoryCache.Cache());
+        this.options = new PokeAPIOptions(options, new NodeCache());
     }
     async getResource(endpoint, callback) {
         try {
@@ -2522,20 +2522,20 @@ export default class Pokedex {
             handleError(error, callback);
         }
     }
+    /** Retrieve the configs used */
     getConfig() {
         return this.options;
     }
     /** Retuns the current number of entries in the cache */
     getCachedItemsCount() {
-        return this.options.cache.size();
+        return this.options.cache.stats.keys;
     }
     /** @deprecated use {@link getCachedItemsCount} */
     cacheSize() {
-        // Retuns the current number of entries in the cache
-        return this.options.cache.size();
+        return this.options.cache.stats.keys;
     }
     /** Deletes all keys in cache */
     clearCache() {
-        this.options.cache.clear();
+        this.options.cache.flushAll();
     }
 }

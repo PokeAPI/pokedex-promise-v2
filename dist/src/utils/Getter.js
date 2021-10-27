@@ -30,7 +30,7 @@ callback) {
             // only if cacheLimit > 0
             const responseData = response.data;
             if (values.cacheLimit > 0) {
-                values.cache.put(url, responseData, values.cacheLimit);
+                values.cache.set(url, responseData, values.cacheLimit);
             }
             // If a callback is present
             if (callback) {

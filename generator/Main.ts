@@ -37,8 +37,8 @@ indexFile.addImportDeclaration({
 });
 
 indexFile.addImportDeclaration({
-  defaultImport: 'memoryCache',
-  moduleSpecifier: 'memory-cache',
+  defaultImport: 'NodeCache',
+  moduleSpecifier: 'node-cache',
 });
 
 indexFile.addImportDeclaration({
@@ -88,7 +88,7 @@ const classConstructor = {
 
 // Add the constructor typing to the class
 pokeApiClass.addConstructor(classConstructor)
-  .setBodyText('this.options = new PokeAPIOptions(options, new memoryCache.Cache());');
+  .setBodyText('this.options = new PokeAPIOptions(options, new NodeCache());');
 declarationClass.addConstructor(classConstructor);
 
 // Timestamp
@@ -338,23 +338,21 @@ declarationClass.addMethod(methodStructure);
 // Add method to get the config
 pokeApiClass.addMethod({
   name: 'getConfig',
-}).setBodyText('return this.options');
+}).setBodyText('return this.options;').addJsDoc('Retrieve the configs used');
 
 // Add method to get the cache size
 pokeApiClass.addMethod({
   name: 'getCachedItemsCount',
-}).setBodyText('return this.options.cache.size();').addJsDoc('Retuns the current number of entries in the cache');
+}).setBodyText('return this.options.cache.stats.keys;').addJsDoc('Retuns the current number of entries in the cache');
 
 pokeApiClass.addMethod({
   name: 'cacheSize',
-}).setBodyText(`// Retuns the current number of entries in the cache
-return this.options.cache.size();`).addJsDoc('@deprecated use {@link getCachedItemsCount}');
+}).setBodyText('return this.options.cache.stats.keys;').addJsDoc('@deprecated use {@link getCachedItemsCount}');
 
 // Add method to clear the cache
 pokeApiClass.addMethod({
   name: 'clearCache',
-}).setBodyText(`
-this.options.cache.clear();`).addJsDoc('Deletes all keys in cache');
+}).setBodyText('this.options.cache.flushAll();').addJsDoc('Deletes all keys in cache');
 
 // Export the typing
 declarationClass.getParentModule().addExportAssignment({

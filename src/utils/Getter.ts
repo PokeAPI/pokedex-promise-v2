@@ -14,7 +14,7 @@ async function getJSON<T>(values: PokeAPIOptions, url: string,
   };
   try {
     // Retrieve possible content from memory-cache
-    const cachedResult = values.cache.get(url);
+    const cachedResult = values.cache.get<T>(url);
 
     if (cachedResult) {
       if (callback) {
@@ -36,7 +36,7 @@ async function getJSON<T>(values: PokeAPIOptions, url: string,
       const responseData = response.data;
 
       if (values.cacheLimit > 0) {
-        values.cache.put(url, responseData, values.cacheLimit);
+        values.cache.set<T>(url, responseData, values.cacheLimit);
       }
 
       // If a callback is present

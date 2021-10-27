@@ -7,6 +7,7 @@ specifiers:
   '@types/memory-cache': ^0.2.1
   '@types/mocha': ^9.0.0
   '@types/node': ^16.11.2
+  '@types/node-cache': ^4.2.5
   '@typescript-eslint/eslint-plugin': ^5.2.0
   '@typescript-eslint/parser': ^5.2.0
   axios: ^0.23.0
@@ -19,8 +20,8 @@ specifiers:
   eslint-config-airbnb-base: ^14.2.1
   eslint-plugin-import: ^2.25.2
   lodash: ^4.17.21
-  memory-cache: ^0.2.0
   mocha: ^8.4.0
+  node-cache: ^5.1.2
   p-map: ^4.0.0
   quicktype-core: ^6.0.70
   ts-morph: ^12.0.0
@@ -28,7 +29,7 @@ specifiers:
 
 dependencies:
   axios: 0.23.0
-  memory-cache: 0.2.0
+  node-cache: 5.1.2
   p-map: 4.0.0
 
 devDependencies:
@@ -38,6 +39,7 @@ devDependencies:
   '@types/memory-cache': 0.2.1
   '@types/mocha': 9.0.0
   '@types/node': 16.11.2
+  '@types/node-cache': 4.2.5
   '@typescript-eslint/eslint-plugin': 5.2.0_9a56ca1c5fc1d82b3da3317a5c6f9ab1
   '@typescript-eslint/parser': 5.2.0_eslint@8.1.0+typescript@4.4.4
   chai: 4.3.4
@@ -173,6 +175,13 @@ packages:
 
   /@types/mocha/9.0.0:
     resolution: {integrity: sha512-scN0hAWyLVAvLR9AyW7HoFF5sJZglyBsbPuHO4fv7JRvfmPBMfp1ozWqOf/e4wwPNxezBZXRfWzMb6iFLgEVRA==}
+    dev: true
+
+  /@types/node-cache/4.2.5:
+    resolution: {integrity: sha512-faK2Owokboz53g8ooq2dw3iDJ6/HMTCIa2RvMte5WMTiABy+wA558K+iuyRtlR67Un5q9gEKysSDtqZYbSa0Pg==}
+    deprecated: This is a stub types definition. node-cache provides its own type definitions, so you do not need this installed.
+    dependencies:
+      node-cache: 5.1.2
     dev: true
 
   /@types/node/16.11.2:
@@ -560,6 +569,10 @@ packages:
       strip-ansi: 6.0.1
       wrap-ansi: 7.0.0
     dev: true
+
+  /clone/2.1.2:
+    resolution: {integrity: sha1-G39Ln1kfHo+DZwQBYANFoCiHQ18=}
+    engines: {node: '>=0.8'}
 
   /code-block-writer/10.1.1:
     resolution: {integrity: sha512-67ueh2IRGst/51p0n6FvPrnRjAGHY5F8xdjkgrYE7DDzpJe6qA07RYQ9VcoUeo5ATOjSOiWpSL3SWBRRbempMw==}
@@ -1646,10 +1659,6 @@ packages:
     resolution: {integrity: sha512-8z4efJYk43E0upd0NbVXwgSTQs6cT3T06etieCMEg7dRbzCbxUCK/GHlX8mhHRDcp+OLlHkPKsvqQTCvsRl2cg==}
     dev: true
 
-  /memory-cache/0.2.0:
-    resolution: {integrity: sha1-eJCwHVLADI68nVM+H46xfjA0hxo=}
-    dev: false
-
   /merge-source-map/1.0.4:
     resolution: {integrity: sha1-pd5GU42uhNQRTMXqArR3KmNGcB8=}
     dependencies:
@@ -1738,6 +1747,12 @@ packages:
   /natural-compare/1.4.0:
     resolution: {integrity: sha1-Sr6/7tdUHywnrPspvbvRXI1bpPc=}
     dev: true
+
+  /node-cache/5.1.2:
+    resolution: {integrity: sha512-t1QzWwnk4sjLWaQAS8CHgOJ+RAfmHpxFWmc36IWTiWHQfs0w5JDMBS1b1ZxQteo0vVVuWJvIUKHDkkeK7vIGCg==}
+    engines: {node: '>= 8.0.0'}
+    dependencies:
+      clone: 2.1.2
 
   /node-fetch/1.7.3:
     resolution: {integrity: sha512-NhZ4CsKx7cYm2vSrBAr2PvFOe6sWDf0UYLRqA6svUYg7+/TSfVAu49jYC4BvQ4Sms9SZgdqGBgroqfDhJdTyKQ==}

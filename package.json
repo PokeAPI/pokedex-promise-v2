@@ -10,7 +10,7 @@
   "typings": "types/index.d.ts",
   "scripts": {
     "doctoc": "doctoc .",
-    "test": "tsc; mocha --exit ./dist/test/",
+    "test": "tsc; mocha ./dist/test/",
     "generate:main": "tsc -p ./generator/; node ./dist/generator/Main.js",
     "generate:types": "tsc -p ./generator/; node ./dist/generator/TypesGenerator.js",
     "generate:jsdocs": "tsc -p ./generator/; node ./dist/generator/AddJSDocs.js",
@@ -43,7 +43,7 @@
   "homepage": "https://github.com/PokeAPI/pokedex-promise-v2#readme",
   "dependencies": {
     "axios": "^0.23.0",
-    "memory-cache": "^0.2.0",
+    "node-cache": "^5.1.2",
     "p-map": "^4.0.0"
   },
   "devDependencies": {
@@ -53,6 +53,7 @@
     "@types/memory-cache": "^0.2.1",
     "@types/mocha": "^9.0.0",
     "@types/node": "^16.11.2",
+    "@types/node-cache": "^4.2.5",
     "@typescript-eslint/eslint-plugin": "^5.2.0",
     "@typescript-eslint/parser": "^5.2.0",
     "chai": "^4.3.4",

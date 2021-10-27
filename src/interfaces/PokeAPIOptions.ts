@@ -1,4 +1,4 @@
-import { CacheClass } from 'memory-cache';
+import NodeCache from 'node-cache';
 
 class PokeAPIOptions {
   /** The protocol to be used
@@ -37,9 +37,9 @@ class PokeAPIOptions {
   cacheLimit?: number;
 
   /** The version path of the API (e.g. '/api/v2/') */
-  cache?: CacheClass<string, any>;
+  cache?: NodeCache;
 
-  constructor(config: PokeAPIOptions = {}, cache: CacheClass<string, any>) {
+  constructor(config: PokeAPIOptions = {}, cache: NodeCache) {
     this.protocol = 'https';
     this.hostName = '://pokeapi.co';
     this.versionPath = '/api/v2/';
