@@ -18,7 +18,6 @@ specifiers:
   eslint: ^8.1.0
   eslint-config-airbnb-base: ^14.2.1
   eslint-plugin-import: ^2.25.2
-  lodash: ^4.17.21
   mocha: ^8.4.0
   node-cache: ^5.1.2
   p-map: ^4.0.0
@@ -48,7 +47,6 @@ devDependencies:
   eslint: 8.1.0
   eslint-config-airbnb-base: 14.2.1_f3fc3a8f1727ab01eb417b5ed5016c22
   eslint-plugin-import: 2.25.2_eslint@8.1.0
-  lodash: 4.17.21
   mocha: 8.4.0
   quicktype-core: 6.0.70
   ts-morph: 12.0.0
@@ -1621,10 +1619,6 @@ packages:
 
   /lodash.merge/4.6.2:
     resolution: {integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==}
-    dev: true
-
-  /lodash/4.17.21:
-    resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
     dev: true
 
   /log-symbols/4.0.0:
