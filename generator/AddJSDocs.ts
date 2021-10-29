@@ -88,13 +88,16 @@ const rootModule = file.getModuleOrThrow('\'pokedex-promise-v2\'');
 // Create the namespace
 const namespace = rootModule.getModuleOrThrow('PokeAPI');
 
-// For each doc we have on the array, add the descriptions it provides
-for (const docName of docList) {
-  await loadDocumentation(namespace, docName);
-}
+// Top level async function
+(async () => {
+  // For each doc we have on the array, add the descriptions it provides
+  for (const docName of docList) {
+    await loadDocumentation(namespace, docName);
+  }
 
-// Save the file
-await file.save();
+  // Save the file
+  await file.save();
+})();
 
 // Timestamp
 console.timeEnd(jsdocsLabel);

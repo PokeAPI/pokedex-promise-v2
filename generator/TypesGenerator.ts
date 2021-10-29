@@ -64,8 +64,8 @@ async function generateFinalFile(types: string) {
 
   // Replace the wrong definitions with the correct ones
   namespace.setBodyText(namespace.getBodyText()
-    .replaceAll('EvolutionChainElement', 'APIResource')
-    .replaceAll('GenerationElement', 'NamedAPIResource'));
+    .replace(/EvolutionChainElement/g, 'APIResource')
+    .replace(/GenerationElement/g, 'NamedAPIResource'));
 
   // Format the namespace to be correctly indented
   namespace.formatText();
@@ -177,7 +177,7 @@ async function quicktypeMain(jsonSchema: string, basename: string) {
       },
     });
 
-    await generateFinalFile(qt.lines.join('\n').replaceAll('export ', ''));
+    await generateFinalFile(qt.lines.join('\n').replace(/export /g, ''));
   }
 }
 
@@ -187,7 +187,7 @@ const tree = directoryTree(schemaFolder, { extensions: /\.json$/, normalizePath:
 tree.children.forEach((child) => {
   if (!child.children) {
     // Get the file name
-    let basename = path.basename(child.path, '.json').replaceAll('_', '-');
+    let basename = path.basename(child.path, '.json').replace(/_/g, '-');
 
     // If the interface is the one containing all the endpoints, rename the interface
     if (basename === 'index') {

@@ -214,8 +214,8 @@ for (const [methodName, endpoint, jsdocs] of endpoints) {
   // Add the declaration to the types file
   // Sanitizing the namespace and remove the async keyword
   methodStructure.isAsync = false;
-  methodStructure.parameters[1].type = methodStructure.parameters[1].type.replaceAll('PokeAPITypes', 'PokeAPI');
-  methodStructure.returnType = methodStructure.returnType.replaceAll('PokeAPITypes', 'PokeAPI');
+  methodStructure.parameters[1].type = methodStructure.parameters[1].type.replace(/PokeAPITypes/g, 'PokeAPI');
+  methodStructure.returnType = methodStructure.returnType.replace(/PokeAPITypes/g, 'PokeAPI');
   const declaredMethod = declarationClass.addMethod(methodStructure);
 
   // If the method has a JSDoc, add it
@@ -283,8 +283,8 @@ for (const [method, rawEndpoint, jsdocs] of rootEndpoints) {
   // Add the declaration to the types file
   // Sanitizing the namespace and remove the async keyword
   methodStructure.isAsync = false;
-  methodStructure.parameters[1].type = methodStructure.parameters[1].type.replaceAll('PokeAPITypes', 'PokeAPI');
-  methodStructure.returnType = methodStructure.returnType.replaceAll('PokeAPITypes', 'PokeAPI');
+  methodStructure.parameters[1].type = methodStructure.parameters[1].type.replace(/PokeAPITypes/g, 'PokeAPI');
+  methodStructure.returnType = methodStructure.returnType.replace(/PokeAPITypes/g, 'PokeAPI');
   const declaredMethod = declarationClass.addMethod(methodStructure);
 
   // If the method has a JSDoc, add it
@@ -359,10 +359,13 @@ declarationClass.getParentModule().addExportAssignment({
   expression: 'PokeAPI',
 });
 
-// Save and compile to JS
-await indexFile.save();
-await declarationFile.save();
-await project.emit();
+// Top level async function
+(async () => {
+  // Save and compile to JS
+  await indexFile.save();
+  await declarationFile.save();
+  await project.emit();
+})();
 
 // Timestamp
 console.timeEnd(mainLabel);
