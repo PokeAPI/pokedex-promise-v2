@@ -24,17 +24,34 @@ const docList = [
 function addJsDoc(generatedInterface: InterfaceDeclaration,
   index: number, description: string, model: any) {
   // If it is the the root interface, add the main description to it
-  if (index === 0) {
-    generatedInterface.addJsDoc({
-      description,
-    });
+  if (index === 0 && description && description !== ' ') {
+    const jsDocs = generatedInterface.getJsDocs();
+
+    if (jsDocs && jsDocs[0] && jsDocs[0].getDescription()) {
+      jsDocs[0].setDescription(description);
+    } else {
+      generatedInterface.addJsDoc({
+        description,
+      });
+    }
   }
 
   // Add JSDocs to all of the properties of the interface
   for (const field of model.fields) {
-    generatedInterface.getPropertyOrThrow(field.name).addJsDoc({
-      description: field.description,
-    });
+    if (!field.description || field.description === ' ') {
+      continue;
+    }
+
+    const property = generatedInterface.getPropertyOrThrow(field.name);
+    const jsDocs = property.getJsDocs();
+
+    if (jsDocs && jsDocs[0] && jsDocs[0].getDescription()) {
+      jsDocs[0].setDescription(field.description);
+    } else {
+      property.addJsDoc({
+        description: field.description,
+      });
+    }
   }
 }
 
@@ -97,8 +114,8 @@ const namespace = rootModule.getModuleOrThrow('PokeAPI');
 
   // Save the file
   await file.save();
-})();
 
-// Timestamp
-console.timeEnd(jsdocsLabel);
-console.log('JSDocs added!');
+  // Timestamp
+  console.timeEnd(jsdocsLabel);
+  console.log('JSDocs added!');
+})();
