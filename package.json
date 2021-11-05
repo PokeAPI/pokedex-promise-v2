@@ -10,10 +10,10 @@
   "typings": "types/index.d.ts",
   "scripts": {
     "doctoc": "doctoc .",
-    "test": "tsc; mocha ./dist/test/",
-    "generate:main": "tsc -p ./generator/; node ./dist/generator/Main.js",
-    "generate:types": "tsc -p ./generator/; node ./dist/generator/TypesGenerator.js",
-    "generate:jsdocs": "tsc -p ./generator/; node ./dist/generator/AddJSDocs.js",
+    "test": "tsc && mocha ./dist/test/",
+    "generate:main": "tsc -p ./generator/ && node ./dist/generator/Main.js",
+    "generate:types": "tsc -p ./generator/ && node ./dist/generator/TypesGenerator.js",
+    "generate:jsdocs": "tsc -p ./generator/ && node ./dist/generator/AddJSDocs.js",
     "lint": "eslint --ext .ts src/ --fix"
   },
   "files": [
