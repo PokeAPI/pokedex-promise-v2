@@ -8,7 +8,6 @@
 */
 declare module 'pokedex-promise-v2' {
     namespace PokeAPI {
-        /** */
         interface APIResource {
             /** The URL of the referenced resource. */
             url: string;
@@ -79,7 +78,6 @@ declare module 'pokedex-promise-v2' {
             url: string;
         }
 
-        /** */
         interface NamedAPIResourceList {
             /** The total number of resources available from this API. */
             count: number;
