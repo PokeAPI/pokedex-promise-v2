@@ -22,8 +22,27 @@ const indexFile = project.createSourceFile(mainFile, `/* eslint-disable */
 * DO NOT MODIFY, THIS IS AUTO GENERATED
 * Execute \`npm run generate\` to regenerate
 */`, { overwrite: true });
+
+// Get the types file
 const declarationFile = project.getSourceFile(typeFile);
-const declarationClass = declarationFile.getModule('\'pokedex-promise-v2\'').addClass({
+
+// Get the types module
+const existingDeclarationModule = declarationFile.getModule('\'pokedex-promise-v2\'');
+
+// Get the export existing export and remove them if it exists
+const existingDeclarationExports = existingDeclarationModule.getExportAssignments();
+if (existingDeclarationExports) {
+  existingDeclarationExports[0].remove();
+}
+
+// Gets the default types class and remove it if it exists
+const existingDeclarationClass = existingDeclarationModule.getClass('PokeAPI');
+if (existingDeclarationClass) {
+  existingDeclarationClass.remove();
+}
+
+// Create the updated class
+const declarationClass = existingDeclarationModule.addClass({
   name: 'PokeAPI',
 });
 
