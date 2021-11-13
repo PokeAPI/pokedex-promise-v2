@@ -4,13 +4,16 @@
   "version": "4.0.0-beta.0",
   "description": "A library used to get information about Pokemons.",
   "engines": {
-    "node": ">=10"
+    "node": ">=16"
   },
   "main": "dist/src/index.js",
   "typings": "types/index.d.ts",
   "scripts": {
     "doctoc": "doctoc .",
     "test": "tsc && mocha ./dist/test/",
+    "apidata:clone": "git clone https://github.com/PokeAPI/api-data.git",
+    "apidata:replace": "find api-data/data/schema -type f -exec sed -i -e s:/schema/v2:api-data/data/schema/v2:g {} ;",
+    "apidata:sync": "git -C api-data reset --hard HEAD && git -C api-data pull ",
     "generate:main": "tsc -p ./generator/ && node ./dist/generator/Main.js",
     "generate:types": "tsc -p ./generator/ && node ./dist/generator/TypesGenerator.js",
     "generate:jsdocs": "tsc -p ./generator/ && node ./dist/generator/AddJSDocs.js",
@@ -42,9 +45,9 @@
   },
   "homepage": "https://github.com/PokeAPI/pokedex-promise-v2#readme",
   "dependencies": {
-    "axios": "^0.23.0",
+    "axios": "^0.24.0",
     "node-cache": "^5.1.2",
-    "p-map": "^4.0.0"
+    "p-map": "^5.3.0"
   },
   "devDependencies": {
     "@types/chai": "^4.2.22",
@@ -52,17 +55,17 @@
     "@types/chai-things": "^0.0.35",
     "@types/memory-cache": "^0.2.1",
     "@types/mocha": "^9.0.0",
-    "@types/node": "^16.11.2",
+    "@types/node": "^16.11.7",
     "@typescript-eslint/eslint-plugin": "^5.2.0",
     "@typescript-eslint/parser": "^5.2.0",
     "chai": "^4.3.4",
     "chai-as-promised": "^7.1.1",
     "chai-things": "^0.2.0",
     "directory-tree": "^3.0.0",
-    "doctoc": "^2.0.0",
+    "doctoc": "^2.1.0",
     "eslint": "^8.1.0",
     "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-import": "^2.25.3",
     "lodash": "^4.17.21",
     "mocha": "^8.4.0",
     "quicktype-core": "^6.0.70",
