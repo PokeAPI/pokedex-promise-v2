@@ -20,8 +20,10 @@
     "lint": "eslint --ext .ts src/ --fix"
   },
   "files": [
-    "dist/src/"
+    "dist/src/",
+    "types"
   ],
+  "types": "types/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/PokeAPI/pokedex-promise-v2"
