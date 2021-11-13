@@ -1,15 +1,24 @@
 {
   "name": "pokedex-promise-v2",
-  "version": "3.3.2",
+  "type": "module",
+  "version": "4.0.0-beta.0",
   "description": "A library used to get information about Pokemons.",
   "engines": {
     "node": ">=10"
   },
-  "main": "src/index.js",
+  "main": "dist/src/index.js",
+  "typings": "types/index.d.ts",
   "scripts": {
     "doctoc": "doctoc .",
-    "test": "mocha --exit"
+    "test": "tsc && mocha ./dist/test/",
+    "generate:main": "tsc -p ./generator/ && node ./dist/generator/Main.js",
+    "generate:types": "tsc -p ./generator/ && node ./dist/generator/TypesGenerator.js",
+    "generate:jsdocs": "tsc -p ./generator/ && node ./dist/generator/AddJSDocs.js",
+    "lint": "eslint --ext .ts src/ --fix"
   },
+  "files": [
+    "dist/src/"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/PokeAPI/pokedex-promise-v2"
@@ -24,7 +33,8 @@
   "author": "Thomas Asadurian <Tasadurian@gmail.com> (http://thetommytwitch.github.io/)",
   "contributors": [
     "Alessandro Pezzé <igougi.ui@gmail.com> (https://github.com/Naramsim)",
-    "Christian Garza (https://github.com/C-Garza)"
+    "Christian Garza (https://github.com/C-Garza)",
+    "Helton Reis (https://github.com/HRKings)"
   ],
   "license": "MIT",
   "bugs": {
@@ -32,15 +42,31 @@
   },
   "homepage": "https://github.com/PokeAPI/pokedex-promise-v2#readme",
   "dependencies": {
-    "axios": "^0.21.1",
-    "memory-cache": "^0.2.0",
+    "axios": "^0.23.0",
+    "node-cache": "^5.1.2",
     "p-map": "^4.0.0"
   },
   "devDependencies": {
+    "@types/chai": "^4.2.22",
+    "@types/chai-as-promised": "^7.1.4",
+    "@types/chai-things": "^0.0.35",
+    "@types/memory-cache": "^0.2.1",
+    "@types/mocha": "^9.0.0",
+    "@types/node": "^16.11.2",
+    "@typescript-eslint/eslint-plugin": "^5.2.0",
+    "@typescript-eslint/parser": "^5.2.0",
     "chai": "^4.3.4",
     "chai-as-promised": "^7.1.1",
     "chai-things": "^0.2.0",
+    "directory-tree": "^3.0.0",
     "doctoc": "^2.0.0",
-    "mocha": "^8.4.0"
+    "eslint": "^8.1.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.25.2",
+    "lodash": "^4.17.21",
+    "mocha": "^8.4.0",
+    "quicktype-core": "^6.0.70",
+    "ts-morph": "^12.0.0",
+    "typescript": "^4.4.4"
   }
 }

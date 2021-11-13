@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "es2020",
+    "module": "es2020",
+    "moduleResolution": "node",
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "lib": [
+      "es2020",
+      "dom"
+    ],
+    "outDir": "dist"
+  },
+  "include": [
+    "src/**/*.ts",
+    "types/**/*.ts",
+    "test/**/*.ts",
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
