@@ -31,7 +31,7 @@ const existingDeclarationModule = declarationFile.getModule('\'pokedex-promise-v
 
 // Get the export existing export and remove them if it exists
 const existingDeclarationExports = existingDeclarationModule.getExportAssignments();
-if (existingDeclarationExports) {
+if (existingDeclarationExports && existingDeclarationExports.length >= 1) {
   existingDeclarationExports[0].remove();
 }
 
