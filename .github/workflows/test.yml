@@ -1,0 +1,31 @@
+name: Tests
+
+on: [push, pull_request]
+
+jobs:
+  unit:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: ['lts/*']
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v2
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Install dependencies
+        run: npm ci
+      - name: Setup pokeapi/api-data
+        run: |
+          npm run apidata:clone
+          npm run apidata:replace
+      - name: Build
+        run: |
+          npm run generate:types
+          npm run generate:jsdocs
+          npm run generate:main
+      - name: Unit test
+        run: |
+          npm t
