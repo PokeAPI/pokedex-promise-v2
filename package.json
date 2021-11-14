@@ -12,7 +12,7 @@
     "doctoc": "doctoc .",
     "test": "tsc && mocha dist/test/",
     "apidata:clone": "git clone https://github.com/PokeAPI/api-data.git",
-    "apidata:replace": "find api-data/data/schema -type f -exec sed -i -e s:/schema/v2:api-data/data/schema/v2:g {} ;",
+    "apidata:replace": "find api-data/data/schema -type f -exec sed -i -e s:/schema/v2:api-data/data/schema/v2:g {} +",
     "apidata:sync": "git -C api-data reset --hard HEAD && git -C api-data pull",
     "generate:main": "tsc -p generator/ && node dist/generator/Main.js",
     "generate:types": "tsc -p generator/ && node dist/generator/TypesGenerator.js",
