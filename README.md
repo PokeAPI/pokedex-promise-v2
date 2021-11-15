@@ -5,7 +5,7 @@
 [![Package Quality](http://npm.packagequality.com/shield/pokedex-promise-v2.svg)](http://packagequality.com/#?package=pokedex-promise-v2)
 [![npm](https://img.shields.io/npm/l/express.svg?maxAge=2592000)](https://github.com/PokeAPI/pokedex-promise-v2/blob/master/LICENSE)
 
-Maintainers: [Naramsim](https://github.com/Naramsim) and [TheTommyTwitch](https://github.com/TheTommyTwitch)
+Maintainers: [Naramsim](https://github.com/Naramsim), [TheTommyTwitch](https://github.com/TheTommyTwitch) and [HRKings](https://github.com/HRKings)
 
 An easy way to use [Pokéapi](https://pokeapi.co/) v2 with promises *(or callbacks as of v3)* in node.js
 
@@ -36,7 +36,7 @@ An easy way to use [Pokéapi](https://pokeapi.co/) v2 with promises *(or callbac
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-## Install [![nodeVersion](https://img.shields.io/badge/node->=10-brightgreen.svg)](https://www.npmjs.com/package/pokedex-promise-v2)
+## Install [![nodeVersion](https://img.shields.io/badge/node->=12-brightgreen.svg)](https://www.npmjs.com/package/pokedex-promise-v2)
 
 ```sh
 npm install pokedex-promise-v2 --save
@@ -690,7 +690,7 @@ For each root endpoint we provide a method to get all the items contained by tha
 
 **TIP**: Do not pass any config Object to your call, since you will get every item and everything will be cached to your RAM.
 
-This call will get the list of pokemon between ID 34 and ID 44 
+This call will get the list of pokemon between ID 34 and ID 44
 
 ```js
   const interval = {
@@ -711,11 +711,11 @@ This is what you will get:
   "next":  "https://pokeapi.co:443/api/v2/pokemon/?limit=11&offset=44",
   "previous": "https://pokeapi.co:443/api/v2/pokemon/?limit=11&offset=22",
   "results": [
-    { 
+    {
       "url": "https://pokeapi.co:443/api/v2/pokemon/34/",
-      "name": "nidoking" 
+      "name": "nidoking"
     },
-    { 
+    {
       "url": "https://pokeapi.co:443/api/v2/pokemon/35/",
       "name": "clefairy"
     },
@@ -723,7 +723,7 @@ This is what you will get:
       "url": "...",
       "name": "..."
     },
-    { 
+    {
       "url": "https://pokeapi.co:443/api/v2/pokemon/44/",
       "name": "gloom"
     }
