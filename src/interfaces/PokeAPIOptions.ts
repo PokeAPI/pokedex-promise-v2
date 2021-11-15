@@ -39,7 +39,7 @@ class PokeAPIOptions {
   /** The version path of the API (e.g. '/api/v2/') */
   cache?: NodeCache;
 
-  constructor(config: PokeAPIOptions = {}, cache: NodeCache) {
+  constructor(cache: NodeCache, config: PokeAPIOptions = {}) {
     this.protocol = 'https';
     this.hostName = '://pokeapi.co';
     this.versionPath = '/api/v2/';
