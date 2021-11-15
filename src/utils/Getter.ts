@@ -5,9 +5,12 @@ import handleError from './ErrorHandler.js';
 import PokeAPIOptions from '../interfaces/PokeAPIOptions.js';
 
 // eslint-disable-next-line consistent-return
-async function getJSON<T>(values: PokeAPIOptions, url: string,
+async function getJSON<T>(
+  values: PokeAPIOptions,
+  url: string,
   // eslint-disable-next-line no-unused-vars
-  callback?: (result: any, error?: any) => any): Promise<T> {
+  callback?: (result: any, error?: any) => any,
+): Promise<T> {
   const options = {
     baseURL: `${values.protocol}${values.hostName}/`,
     timeout: values.timeout,
