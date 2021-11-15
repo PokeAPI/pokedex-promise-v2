@@ -17,7 +17,8 @@
     "generate:main": "tsc -p generator/ && node dist/generator/Main.js",
     "generate:types": "tsc -p generator/ && node dist/generator/TypesGenerator.js",
     "generate:jsdocs": "tsc -p generator/ && node dist/generator/AddJSDocs.js",
-    "lint": "eslint --ext .ts src/ --fix"
+    "lint": "eslint --ext .ts src/ --fix",
+    "docs": "typedoc"
   },
   "files": [
     "dist/src/",
@@ -72,6 +73,7 @@
     "mocha": "^8.4.0",
     "quicktype-core": "^6.0.70",
     "ts-morph": "^12.0.0",
+    "typedoc": "^0.22.9",
     "typescript": "^4.4.4"
   }
 }

@@ -2,3 +2,4 @@ node_modules/
 dist/generator/
 dist/test/
 api-data/
+docs/
