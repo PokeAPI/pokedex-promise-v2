@@ -4,7 +4,7 @@
   "version": "4.0.0-beta.0",
   "description": "A library used to get information about Pokemons.",
   "engines": {
-    "node": ">=16"
+    "node": ">=12"
   },
   "main": "dist/src/index.js",
   "typings": "types/index.d.ts",
