@@ -39,6 +39,7 @@ class PokeAPIOptions {
   /** The version path of the API (e.g. '/api/v2/') */
   cache?: NodeCache;
 
+  /* eslint-disable default-param-last */
   constructor(config: PokeAPIOptions = {}, cache: NodeCache) {
     this.protocol = 'https';
     this.hostName = '://pokeapi.co';
