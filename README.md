@@ -1,7 +1,7 @@
 # pokedex-promise-v2 <a href="https://pokeapi.co/api/v2/pokemon/bulbasaur"><img src='https://veekun.com/dex/media/pokemon/global-link/1.png' height=50px/></a>
 
 [![npm version](https://badge.fury.io/js/pokedex-promise-v2.svg)](https://badge.fury.io/js/pokedex-promise-v2)
-[![Build Status](https://travis-ci.org/PokeAPI/pokedex-promise-v2.svg?branch=master)](https://travis-ci.org/PokeAPI/pokedex-promise-v2)
+[![Tests](https://github.com/PokeAPI/pokedex-promise-v2/actions/workflows/test.yml/badge.svg)](https://github.com/PokeAPI/pokedex-promise-v2/actions/workflows/test.yml)
 [![Package Quality](http://npm.packagequality.com/shield/pokedex-promise-v2.svg)](http://packagequality.com/#?package=pokedex-promise-v2)
 [![npm](https://img.shields.io/npm/l/express.svg?maxAge=2592000)](https://github.com/PokeAPI/pokedex-promise-v2/blob/master/LICENSE)
 
