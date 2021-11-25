@@ -1373,15 +1373,19 @@ declare module 'pokedex-promise-v2' {
         interface RedBlue {
             back_default: null | string;
             back_gray: null | string;
+            back_transparent: null | string;
             front_default: null | string;
             front_gray: null | string;
+            front_transparent: null | string;
         }
 
         interface Yellow {
             back_default: null | string;
             back_gray: null | string;
+            back_transparent: null | string;
             front_default: null | string;
             front_gray: null | string;
+            front_transparent: null | string;
         }
 
         interface GenerationIi {
@@ -1393,8 +1397,12 @@ declare module 'pokedex-promise-v2' {
         interface Crystal {
             back_default: null | string;
             back_shiny: null | string;
+            back_shiny_transparent: null | string;
+            back_transparent: null | string;
             front_default: null | string;
             front_shiny: null | string;
+            front_shiny_transparent: null | string;
+            front_transparent: null | string;
         }
 
         interface Gold {
@@ -1402,6 +1410,7 @@ declare module 'pokedex-promise-v2' {
             back_shiny: null | string;
             front_default: null | string;
             front_shiny: null | string;
+            front_transparent: null | string;
         }
 
         interface Silver {
@@ -1409,6 +1418,7 @@ declare module 'pokedex-promise-v2' {
             back_shiny: null | string;
             front_default: null | string;
             front_shiny: null | string;
+            front_transparent: null | string;
         }
 
         interface GenerationIii {
