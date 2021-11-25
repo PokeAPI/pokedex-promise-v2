@@ -38,6 +38,8 @@ An easy way to use [Pokéapi](https://pokeapi.co/) v2 with promises *(or callbac
 
 ## Install [![nodeVersion](https://img.shields.io/badge/node->=12-brightgreen.svg)](https://www.npmjs.com/package/pokedex-promise-v2)
 
+> As of 4.0.0 this package is now pure ESM. Please [read this](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c).
+
 ```sh
 npm install pokedex-promise-v2 --save
 ```
@@ -61,29 +63,39 @@ const P = new Pokedex();
 
 **UPDATE**: You can pass an array to each endpoint, it will retrive data for each array element. If you scroll down, you will find an example.
 
-### [Example](./test/test_async.js) requests
+### Example requests
 
 ```js
-  P.getPokemonByName('eevee') // with Promise
-    .then((response) => {
+(async () => { // with Async/Await
+    try {
+        const golduckSpecies = await P.getPokemonSpeciesByName("golduck")
+        const frenchName = golduckSpecies.names.filter(pokeAPIName => pokeAPIName.language.name === 'fr')[0].name
+        console.log(frenchName)
+    } catch (error) {
+        throw error
+    }
+})()
+
+P.getPokemonByName(['eevee', 'ditto']) // with Promise
+  .then((response) => {
+    console.log(response);
+  })
+  .catch((error) => {
+    console.log('There was an ERROR: ', error);
+  });
+
+P.getPokemonByName(34, (response, error) => { // with callback
+    if(!error) {
       console.log(response);
-    })
-    .catch((error) => {
-      console.log('There was an ERROR: ', error);
-    });
+    } else {
+      console.log(error)
+    }
+  });
 
-  P.getPokemonByName(34, (response, error) => { // with callback
-      if(!error) {
-        console.log(response);
-      } else {
-        console.log(error)
-      }
-    });
-
-  P.getResource(['/api/v2/pokemon/36', 'api/v2/berry/8', 'https://pokeapi.co/api/v2/ability/9/'])
-    .then((response) => {
-      console.log(response); // the getResource function accepts singles or arrays of URLs/paths
-    });
+P.getResource(['/api/v2/pokemon/36', 'api/v2/berry/8', 'https://pokeapi.co/api/v2/ability/9/'])
+  .then((response) => {
+    console.log(response); // the getResource function accepts singles or arrays of URLs/paths
+  });
 ```
 
 ## Configuration
@@ -782,3 +794,18 @@ This is what you will get:
 * .getStatsList()
 * .getTypesList()
 * .getLanguagesList()
+
+## Development
+
+A linux environment is preferred. `bash`, `sed`, `find` and required.
+
+```sh
+npm i
+npm run apidata:clone # Only if you are building for the first time
+npm run apidata:sync # Only if you have already built once
+npm run apidata:replace
+npm run generate:types
+npm run generate:main
+npm run generate:jsdocs
+npm t
+```
