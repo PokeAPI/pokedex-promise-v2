@@ -24,8 +24,8 @@ jobs:
       - name: Build
         run: |
           npm run generate:types
-          npm run generate:jsdocs
           npm run generate:main
+          npm run generate:jsdocs
       - name: Unit test
         run: |
           npm t
