@@ -71,7 +71,7 @@ async function generateFinalFile(types: string) {
   namespace.formatText();
 
   // Add the root endpoint interval
-  namespace.addInterface({
+  rootModule.addInterface({
     name: 'ListEndpointOptions',
     properties: [{
       name: 'offset',
