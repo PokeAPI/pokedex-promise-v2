@@ -266,11 +266,8 @@ for (const [methodName, endpoint, jsdocs] of endpoints) {
   }`);
 
   // Add the declaration to the types file
-  // Sanitizing the namespace and remove the async keyword
+  // Removing the async keyword
   methodStructure.isAsync = false;
-  methodStructure.parameters[1].type = (methodStructure.parameters[1].type as string).replace(/PokeAPITypes/g, 'PokeAPI');
-  methodStructure.returnType = (methodStructure.returnType as string).replace(/PokeAPITypes/g, 'PokeAPI');
-  methodStructure.overloads[0].parameters[0].type = (methodStructure.overloads[0].parameters[0].type as string).replace(/PokeAPITypes/g, 'PokeAPI');
   const declaredMethod = declarationClass.addMethod(methodStructure);
 
   // If the method has a JSDoc, add it
@@ -299,7 +296,7 @@ for (const [method, rawEndpoint, jsdocs] of rootEndpoints) {
   }
 
   // Infer the return type from the name
-  const returnType = apiMap[endpoint].includes('NamedList') ? 'NamedAPIResourceList' : 'APIResourceList';
+  const returnType = `PokeAPITypes.${apiMap[endpoint].includes('NamedList') ? 'NamedAPIResourceList' : 'APIResourceList'}`;
 
   const methodStructure = {
     name: method,
@@ -311,10 +308,10 @@ for (const [method, rawEndpoint, jsdocs] of rootEndpoints) {
     },
     {
       name: 'callback',
-      type: `(result: PokeAPITypes.${returnType}, error?: any) => any`,
+      type: `(result: ${returnType}, error?: any) => any`,
       hasQuestionToken: true,
     }],
-    returnType: `Promise<PokeAPITypes.${returnType}>`,
+    returnType: `Promise<${returnType}>`,
   };
 
   const generatedMethod = pokeApiClass.addMethod(methodStructure).setBodyText(`try {
@@ -336,11 +333,8 @@ for (const [method, rawEndpoint, jsdocs] of rootEndpoints) {
   }`);
 
   // Add the declaration to the types file
-  // Sanitizing the namespace and remove the async keyword
+  // Removing the async keyword
   methodStructure.isAsync = false;
-  // methodStructure.parameters[1].type =
-  // methodStructure.parameters[1].type.replace(/PokeAPITypes/g, 'PokeAPI');
-  // methodStructure.returnType = methodStructure.returnType.replace(/PokeAPITypes/g, 'PokeAPI');
   const declaredMethod = declarationClass.addMethod(methodStructure);
 
   // If the method has a JSDoc, add it
@@ -415,6 +409,7 @@ declarationClass.getParentModule().addExportAssignment({
   expression: 'PokeAPI',
 });
 
+// Sanitize the namespaces of the declaration file and format it again
 declarationClass.replaceWithText(declarationClass.getFullText().replace(/PokeAPITypes/g, 'PokeAPI'));
 declarationClass.formatText();
 
