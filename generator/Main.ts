@@ -155,6 +155,36 @@ let methodStructure: OptionalKind<MethodDeclarationStructure> = {
     hasQuestionToken: true,
   }],
   returnType: 'Promise<any | any[]>',
+  overloads: [
+    {
+      parameters: [
+        {
+          name: 'endpoint',
+          type: 'string',
+        },
+        {
+          name: 'callback',
+          type: '(result: any, error?: any) => any',
+          hasQuestionToken: true,
+        },
+      ],
+      returnType: 'Promise<any>',
+    },
+    {
+      parameters: [
+        {
+          name: 'endpoint',
+          type: 'string[]',
+        },
+        {
+          name: 'callback',
+          type: '(result: any[], error?: any) => any',
+          hasQuestionToken: true,
+        },
+      ],
+      returnType: 'Promise<any[]>',
+    },
+  ],
 };
 
 pokeApiClass.addMethod(methodStructure).setBodyText(getResourceCode);
