@@ -115,29 +115,35 @@ console.timeLog(mainLabel, ' - Base generated, generating methods...');
 
 // Add the get generic resource array method
 const getResourceCode = `try {
+  // Fail if the endpoint is not supplied
   if (!endpoint) {
     throw new Error('Param "endpoint" is required needs to be a string or array of strings');
   }
 
-  if (typeof endpoint === 'string') {
-    return getJSON<any>(this.options, endpoint, callback);
-  } else if (typeof endpoint === 'object') {
-    const mapper = async (endpoints: string) => {
-      const queryRes = await getJSON<any>(this.options, endpoints);
-      return queryRes;
-    };
-
-    // Fetch data asynchronously to be faster
-    const mappedResults = await pMap(endpoint, mapper, { concurrency: 4 });
-
-    if (callback) {
-      callback(mappedResults);
-    }
-
-    return mappedResults;
-  } else {
+  // Fail if the input types aren't accepted
+  if (!Array.isArray(endpoint) && typeof endpoint !== 'string') {
     throw new Error('Param "endpoint" needs to be a string or array of strings');
   }
+
+  /// If the user has submitted a string, return the JSON promise
+  if (typeof endpoint === 'string') {
+    return getJSON<any>(this.options, endpoint, callback);
+  }
+
+  // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
+  const mapper = async (endpoints: string) => {
+    const queryRes = await getJSON<any>(this.options, endpoints);
+    return queryRes;
+  };
+
+  // Fetch data asynchronously to be faster
+  const mappedResults = await pMap(endpoint, mapper, { concurrency: 4 });
+
+  if (callback) {
+    callback(mappedResults);
+  }
+
+  return mappedResults;
 } catch (error) {
   handleError(error, callback);
 }`;
@@ -263,37 +269,39 @@ for (const [methodName, endpoint, jsdocs] of endpoints) {
   };
 
   const generatedMethod = pokeApiClass.addMethod(methodStructure).setBodyText(`try {
-    if (${inputParam}) {
-      // If the user has submitted a Name or an ID, return the JSON promise
-      if (typeof ${inputParam} === 'number' || typeof ${inputParam} === 'string') {
-        return getJSON<${returnType}>(this.options, \`\${this.options.protocol}\${this.options.hostName}\${this.options.versionPath}${endpoint}/\${${inputParam}}/\`, callback);
-      }
-
-      // If the user has submitted an Array return a new promise which will
-      // resolve when all getJSON calls are ended
-      else if (typeof ${inputParam} === 'object') {
-        const mapper = async (${inputParam}s: ${inputParamType}) => {
-          const queryRes = await getJSON<${returnType}>(this.options, \`\${this.options.protocol}\${this.options.hostName}\${this.options.versionPath}${endpoint}/\${${inputParam}s}/\`);
-          return queryRes;
-        };
-
-        // Fetch data asynchronously to be faster
-        const mappedResults = await pMap(${inputParam}, mapper, { concurrency: 4 });
-
-        if (callback) {
-          callback(mappedResults);
-        }
-
-        return mappedResults;
-      } else {
-        throw new Error('Param "${inputParam}" must be a ${methodName.match(/ByName$/) ? 'string, array of strings or array of string and/or numbers' : 'number or array of numbers'}');
-      }
-    } else {
+    // Fail if the param is not supplied
+    if (!${inputParam}) {
       throw new Error('Param "${inputParam}" is required (Must be a ${methodName.match(/ByName$/) ? 'string, array of strings or array of string and/or numbers' : 'number or array of numbers'} )');
     }
-  } catch (error) {
+
+    // Fail if the input types aren't accepted
+    if (!Array.isArray(${inputParam}) && typeof ${inputParam} !== 'number' && typeof ${inputParam} !== 'string') {
+    throw new Error('Param "${inputParam}" must be a ${methodName.match(/ByName$/) ? 'string, array of strings or array of string and/or numbers' : 'number or array of numbers'}');
+    }
+
+    // If the user has submitted a Name or an ID, return the JSON promise
+    if (typeof ${inputParam} === 'number' || typeof ${inputParam} === 'string') {
+      return getJSON<${returnType}>(this.options, \`\${this.options.protocol}\${this.options.hostName}\${this.options.versionPath}${endpoint}/\${${inputParam}}/\`, callback);
+    }
+
+    // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
+    const mapper = async (${inputParam}s: ${inputParamType}) => {
+      const queryRes = await getJSON<${returnType}>(this.options, \`\${this.options.protocol}\${this.options.hostName}\${this.options.versionPath}${endpoint}/\${${inputParam}s}/\`);
+      return queryRes;
+    };
+
+    // Fetch data asynchronously to be faster
+    const mappedResults = await pMap(${inputParam}, mapper, { concurrency: 4 });
+
+    // Invoke the callback if we have one
+    if (callback) {
+      callback(mappedResults);
+    }
+
+    return mappedResults;
+} catch (error) {
     handleError(error, callback);
-  }`);
+}`);
 
   // Add the declaration to the types file
   // Removing the async keyword
