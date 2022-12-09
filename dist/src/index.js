@@ -14,27 +14,29 @@ export default class Pokedex {
     }
     async getResource(endpoint, callback) {
         try {
+            // Fail if the endpoint is not supplied
             if (!endpoint) {
                 throw new Error('Param "endpoint" is required needs to be a string or array of strings');
             }
+            // Fail if the input types aren't accepted
+            if (!Array.isArray(endpoint) && typeof endpoint !== 'string') {
+                throw new Error('Param "endpoint" needs to be a string or array of strings');
+            }
+            /// If the user has submitted a string, return the JSON promise
             if (typeof endpoint === 'string') {
                 return getJSON(this.options, endpoint, callback);
             }
-            else if (typeof endpoint === 'object') {
-                const mapper = async (endpoints) => {
-                    const queryRes = await getJSON(this.options, endpoints);
-                    return queryRes;
-                };
-                // Fetch data asynchronously to be faster
-                const mappedResults = await pMap(endpoint, mapper, { concurrency: 4 });
-                if (callback) {
-                    callback(mappedResults);
-                }
-                return mappedResults;
+            // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
+            const mapper = async (endpoints) => {
+                const queryRes = await getJSON(this.options, endpoints);
+                return queryRes;
+            };
+            // Fetch data asynchronously to be faster
+            const mappedResults = await pMap(endpoint, mapper, { concurrency: 4 });
+            if (callback) {
+                callback(mappedResults);
             }
-            else {
-                throw new Error('Param "endpoint" needs to be a string or array of strings');
-            }
+            return mappedResults;
         }
         catch (error) {
             handleError(error, callback);
@@ -43,27 +45,29 @@ export default class Pokedex {
     /** @deprecated - will be removed on the next version. Use {@link getResource} instead */
     async resource(endpoint, callback) {
         try {
+            // Fail if the endpoint is not supplied
             if (!endpoint) {
                 throw new Error('Param "endpoint" is required needs to be a string or array of strings');
             }
+            // Fail if the input types aren't accepted
+            if (!Array.isArray(endpoint) && typeof endpoint !== 'string') {
+                throw new Error('Param "endpoint" needs to be a string or array of strings');
+            }
+            /// If the user has submitted a string, return the JSON promise
             if (typeof endpoint === 'string') {
                 return getJSON(this.options, endpoint, callback);
             }
-            else if (typeof endpoint === 'object') {
-                const mapper = async (endpoints) => {
-                    const queryRes = await getJSON(this.options, endpoints);
-                    return queryRes;
-                };
-                // Fetch data asynchronously to be faster
-                const mappedResults = await pMap(endpoint, mapper, { concurrency: 4 });
-                if (callback) {
-                    callback(mappedResults);
-                }
-                return mappedResults;
+            // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
+            const mapper = async (endpoints) => {
+                const queryRes = await getJSON(this.options, endpoints);
+                return queryRes;
+            };
+            // Fetch data asynchronously to be faster
+            const mappedResults = await pMap(endpoint, mapper, { concurrency: 4 });
+            if (callback) {
+                callback(mappedResults);
             }
-            else {
-                throw new Error('Param "endpoint" needs to be a string or array of strings');
-            }
+            return mappedResults;
         }
         catch (error) {
             handleError(error, callback);
@@ -71,32 +75,30 @@ export default class Pokedex {
     }
     async getBerryByName(nameOrId, callback) {
         try {
-            if (nameOrId) {
-                // If the user has submitted a Name or an ID, return the JSON promise
-                if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
-                    return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}berry/${nameOrId}/`, callback);
-                }
-                // If the user has submitted an Array return a new promise which will
-                // resolve when all getJSON calls are ended
-                else if (typeof nameOrId === 'object') {
-                    const mapper = async (nameOrIds) => {
-                        const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}berry/${nameOrIds}/`);
-                        return queryRes;
-                    };
-                    // Fetch data asynchronously to be faster
-                    const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
-                    if (callback) {
-                        callback(mappedResults);
-                    }
-                    return mappedResults;
-                }
-                else {
-                    throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
-                }
-            }
-            else {
+            // Fail if the param is not supplied
+            if (!nameOrId) {
                 throw new Error('Param "nameOrId" is required (Must be a string, array of strings or array of string and/or numbers )');
             }
+            // Fail if the input types aren't accepted
+            if (!Array.isArray(nameOrId) && typeof nameOrId !== 'number' && typeof nameOrId !== 'string') {
+                throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
+            }
+            // If the user has submitted a Name or an ID, return the JSON promise
+            if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
+                return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}berry/${nameOrId}/`, callback);
+            }
+            // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
+            const mapper = async (nameOrIds) => {
+                const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}berry/${nameOrIds}/`);
+                return queryRes;
+            };
+            // Fetch data asynchronously to be faster
+            const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
+            // Invoke the callback if we have one
+            if (callback) {
+                callback(mappedResults);
+            }
+            return mappedResults;
         }
         catch (error) {
             handleError(error, callback);
@@ -104,32 +106,30 @@ export default class Pokedex {
     }
     async getBerryFirmnessByName(nameOrId, callback) {
         try {
-            if (nameOrId) {
-                // If the user has submitted a Name or an ID, return the JSON promise
-                if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
-                    return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}berry-firmness/${nameOrId}/`, callback);
-                }
-                // If the user has submitted an Array return a new promise which will
-                // resolve when all getJSON calls are ended
-                else if (typeof nameOrId === 'object') {
-                    const mapper = async (nameOrIds) => {
-                        const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}berry-firmness/${nameOrIds}/`);
-                        return queryRes;
-                    };
-                    // Fetch data asynchronously to be faster
-                    const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
-                    if (callback) {
-                        callback(mappedResults);
-                    }
-                    return mappedResults;
-                }
-                else {
-                    throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
-                }
-            }
-            else {
+            // Fail if the param is not supplied
+            if (!nameOrId) {
                 throw new Error('Param "nameOrId" is required (Must be a string, array of strings or array of string and/or numbers )');
             }
+            // Fail if the input types aren't accepted
+            if (!Array.isArray(nameOrId) && typeof nameOrId !== 'number' && typeof nameOrId !== 'string') {
+                throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
+            }
+            // If the user has submitted a Name or an ID, return the JSON promise
+            if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
+                return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}berry-firmness/${nameOrId}/`, callback);
+            }
+            // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
+            const mapper = async (nameOrIds) => {
+                const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}berry-firmness/${nameOrIds}/`);
+                return queryRes;
+            };
+            // Fetch data asynchronously to be faster
+            const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
+            // Invoke the callback if we have one
+            if (callback) {
+                callback(mappedResults);
+            }
+            return mappedResults;
         }
         catch (error) {
             handleError(error, callback);
@@ -137,32 +137,30 @@ export default class Pokedex {
     }
     async getBerryFlavorByName(nameOrId, callback) {
         try {
-            if (nameOrId) {
-                // If the user has submitted a Name or an ID, return the JSON promise
-                if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
-                    return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}berry-flavor/${nameOrId}/`, callback);
-                }
-                // If the user has submitted an Array return a new promise which will
-                // resolve when all getJSON calls are ended
-                else if (typeof nameOrId === 'object') {
-                    const mapper = async (nameOrIds) => {
-                        const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}berry-flavor/${nameOrIds}/`);
-                        return queryRes;
-                    };
-                    // Fetch data asynchronously to be faster
-                    const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
-                    if (callback) {
-                        callback(mappedResults);
-                    }
-                    return mappedResults;
-                }
-                else {
-                    throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
-                }
-            }
-            else {
+            // Fail if the param is not supplied
+            if (!nameOrId) {
                 throw new Error('Param "nameOrId" is required (Must be a string, array of strings or array of string and/or numbers )');
             }
+            // Fail if the input types aren't accepted
+            if (!Array.isArray(nameOrId) && typeof nameOrId !== 'number' && typeof nameOrId !== 'string') {
+                throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
+            }
+            // If the user has submitted a Name or an ID, return the JSON promise
+            if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
+                return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}berry-flavor/${nameOrId}/`, callback);
+            }
+            // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
+            const mapper = async (nameOrIds) => {
+                const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}berry-flavor/${nameOrIds}/`);
+                return queryRes;
+            };
+            // Fetch data asynchronously to be faster
+            const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
+            // Invoke the callback if we have one
+            if (callback) {
+                callback(mappedResults);
+            }
+            return mappedResults;
         }
         catch (error) {
             handleError(error, callback);
@@ -170,32 +168,30 @@ export default class Pokedex {
     }
     async getContestTypeByName(nameOrId, callback) {
         try {
-            if (nameOrId) {
-                // If the user has submitted a Name or an ID, return the JSON promise
-                if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
-                    return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}contest-type/${nameOrId}/`, callback);
-                }
-                // If the user has submitted an Array return a new promise which will
-                // resolve when all getJSON calls are ended
-                else if (typeof nameOrId === 'object') {
-                    const mapper = async (nameOrIds) => {
-                        const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}contest-type/${nameOrIds}/`);
-                        return queryRes;
-                    };
-                    // Fetch data asynchronously to be faster
-                    const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
-                    if (callback) {
-                        callback(mappedResults);
-                    }
-                    return mappedResults;
-                }
-                else {
-                    throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
-                }
-            }
-            else {
+            // Fail if the param is not supplied
+            if (!nameOrId) {
                 throw new Error('Param "nameOrId" is required (Must be a string, array of strings or array of string and/or numbers )');
             }
+            // Fail if the input types aren't accepted
+            if (!Array.isArray(nameOrId) && typeof nameOrId !== 'number' && typeof nameOrId !== 'string') {
+                throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
+            }
+            // If the user has submitted a Name or an ID, return the JSON promise
+            if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
+                return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}contest-type/${nameOrId}/`, callback);
+            }
+            // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
+            const mapper = async (nameOrIds) => {
+                const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}contest-type/${nameOrIds}/`);
+                return queryRes;
+            };
+            // Fetch data asynchronously to be faster
+            const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
+            // Invoke the callback if we have one
+            if (callback) {
+                callback(mappedResults);
+            }
+            return mappedResults;
         }
         catch (error) {
             handleError(error, callback);
@@ -203,32 +199,30 @@ export default class Pokedex {
     }
     async getContestEffectById(id, callback) {
         try {
-            if (id) {
-                // If the user has submitted a Name or an ID, return the JSON promise
-                if (typeof id === 'number' || typeof id === 'string') {
-                    return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}contest-effect/${id}/`, callback);
-                }
-                // If the user has submitted an Array return a new promise which will
-                // resolve when all getJSON calls are ended
-                else if (typeof id === 'object') {
-                    const mapper = async (ids) => {
-                        const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}contest-effect/${ids}/`);
-                        return queryRes;
-                    };
-                    // Fetch data asynchronously to be faster
-                    const mappedResults = await pMap(id, mapper, { concurrency: 4 });
-                    if (callback) {
-                        callback(mappedResults);
-                    }
-                    return mappedResults;
-                }
-                else {
-                    throw new Error('Param "id" must be a number or array of numbers');
-                }
-            }
-            else {
+            // Fail if the param is not supplied
+            if (!id) {
                 throw new Error('Param "id" is required (Must be a number or array of numbers )');
             }
+            // Fail if the input types aren't accepted
+            if (!Array.isArray(id) && typeof id !== 'number' && typeof id !== 'string') {
+                throw new Error('Param "id" must be a number or array of numbers');
+            }
+            // If the user has submitted a Name or an ID, return the JSON promise
+            if (typeof id === 'number' || typeof id === 'string') {
+                return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}contest-effect/${id}/`, callback);
+            }
+            // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
+            const mapper = async (ids) => {
+                const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}contest-effect/${ids}/`);
+                return queryRes;
+            };
+            // Fetch data asynchronously to be faster
+            const mappedResults = await pMap(id, mapper, { concurrency: 4 });
+            // Invoke the callback if we have one
+            if (callback) {
+                callback(mappedResults);
+            }
+            return mappedResults;
         }
         catch (error) {
             handleError(error, callback);
@@ -236,32 +230,30 @@ export default class Pokedex {
     }
     async getSuperContestEffectById(id, callback) {
         try {
-            if (id) {
-                // If the user has submitted a Name or an ID, return the JSON promise
-                if (typeof id === 'number' || typeof id === 'string') {
-                    return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}super-contest-effect/${id}/`, callback);
-                }
-                // If the user has submitted an Array return a new promise which will
-                // resolve when all getJSON calls are ended
-                else if (typeof id === 'object') {
-                    const mapper = async (ids) => {
-                        const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}super-contest-effect/${ids}/`);
-                        return queryRes;
-                    };
-                    // Fetch data asynchronously to be faster
-                    const mappedResults = await pMap(id, mapper, { concurrency: 4 });
-                    if (callback) {
-                        callback(mappedResults);
-                    }
-                    return mappedResults;
-                }
-                else {
-                    throw new Error('Param "id" must be a number or array of numbers');
-                }
-            }
-            else {
+            // Fail if the param is not supplied
+            if (!id) {
                 throw new Error('Param "id" is required (Must be a number or array of numbers )');
             }
+            // Fail if the input types aren't accepted
+            if (!Array.isArray(id) && typeof id !== 'number' && typeof id !== 'string') {
+                throw new Error('Param "id" must be a number or array of numbers');
+            }
+            // If the user has submitted a Name or an ID, return the JSON promise
+            if (typeof id === 'number' || typeof id === 'string') {
+                return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}super-contest-effect/${id}/`, callback);
+            }
+            // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
+            const mapper = async (ids) => {
+                const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}super-contest-effect/${ids}/`);
+                return queryRes;
+            };
+            // Fetch data asynchronously to be faster
+            const mappedResults = await pMap(id, mapper, { concurrency: 4 });
+            // Invoke the callback if we have one
+            if (callback) {
+                callback(mappedResults);
+            }
+            return mappedResults;
         }
         catch (error) {
             handleError(error, callback);
@@ -269,32 +261,30 @@ export default class Pokedex {
     }
     async getEncounterMethodByName(nameOrId, callback) {
         try {
-            if (nameOrId) {
-                // If the user has submitted a Name or an ID, return the JSON promise
-                if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
-                    return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}encounter-method/${nameOrId}/`, callback);
-                }
-                // If the user has submitted an Array return a new promise which will
-                // resolve when all getJSON calls are ended
-                else if (typeof nameOrId === 'object') {
-                    const mapper = async (nameOrIds) => {
-                        const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}encounter-method/${nameOrIds}/`);
-                        return queryRes;
-                    };
-                    // Fetch data asynchronously to be faster
-                    const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
-                    if (callback) {
-                        callback(mappedResults);
-                    }
-                    return mappedResults;
-                }
-                else {
-                    throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
-                }
-            }
-            else {
+            // Fail if the param is not supplied
+            if (!nameOrId) {
                 throw new Error('Param "nameOrId" is required (Must be a string, array of strings or array of string and/or numbers )');
             }
+            // Fail if the input types aren't accepted
+            if (!Array.isArray(nameOrId) && typeof nameOrId !== 'number' && typeof nameOrId !== 'string') {
+                throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
+            }
+            // If the user has submitted a Name or an ID, return the JSON promise
+            if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
+                return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}encounter-method/${nameOrId}/`, callback);
+            }
+            // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
+            const mapper = async (nameOrIds) => {
+                const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}encounter-method/${nameOrIds}/`);
+                return queryRes;
+            };
+            // Fetch data asynchronously to be faster
+            const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
+            // Invoke the callback if we have one
+            if (callback) {
+                callback(mappedResults);
+            }
+            return mappedResults;
         }
         catch (error) {
             handleError(error, callback);
@@ -302,32 +292,30 @@ export default class Pokedex {
     }
     async getEncounterConditionByName(nameOrId, callback) {
         try {
-            if (nameOrId) {
-                // If the user has submitted a Name or an ID, return the JSON promise
-                if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
-                    return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}encounter-condition/${nameOrId}/`, callback);
-                }
-                // If the user has submitted an Array return a new promise which will
-                // resolve when all getJSON calls are ended
-                else if (typeof nameOrId === 'object') {
-                    const mapper = async (nameOrIds) => {
-                        const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}encounter-condition/${nameOrIds}/`);
-                        return queryRes;
-                    };
-                    // Fetch data asynchronously to be faster
-                    const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
-                    if (callback) {
-                        callback(mappedResults);
-                    }
-                    return mappedResults;
-                }
-                else {
-                    throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
-                }
-            }
-            else {
+            // Fail if the param is not supplied
+            if (!nameOrId) {
                 throw new Error('Param "nameOrId" is required (Must be a string, array of strings or array of string and/or numbers )');
             }
+            // Fail if the input types aren't accepted
+            if (!Array.isArray(nameOrId) && typeof nameOrId !== 'number' && typeof nameOrId !== 'string') {
+                throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
+            }
+            // If the user has submitted a Name or an ID, return the JSON promise
+            if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
+                return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}encounter-condition/${nameOrId}/`, callback);
+            }
+            // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
+            const mapper = async (nameOrIds) => {
+                const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}encounter-condition/${nameOrIds}/`);
+                return queryRes;
+            };
+            // Fetch data asynchronously to be faster
+            const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
+            // Invoke the callback if we have one
+            if (callback) {
+                callback(mappedResults);
+            }
+            return mappedResults;
         }
         catch (error) {
             handleError(error, callback);
@@ -335,32 +323,30 @@ export default class Pokedex {
     }
     async getEncounterConditionValueByName(nameOrId, callback) {
         try {
-            if (nameOrId) {
-                // If the user has submitted a Name or an ID, return the JSON promise
-                if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
-                    return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}encounter-condition-value/${nameOrId}/`, callback);
-                }
-                // If the user has submitted an Array return a new promise which will
-                // resolve when all getJSON calls are ended
-                else if (typeof nameOrId === 'object') {
-                    const mapper = async (nameOrIds) => {
-                        const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}encounter-condition-value/${nameOrIds}/`);
-                        return queryRes;
-                    };
-                    // Fetch data asynchronously to be faster
-                    const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
-                    if (callback) {
-                        callback(mappedResults);
-                    }
-                    return mappedResults;
-                }
-                else {
-                    throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
-                }
-            }
-            else {
+            // Fail if the param is not supplied
+            if (!nameOrId) {
                 throw new Error('Param "nameOrId" is required (Must be a string, array of strings or array of string and/or numbers )');
             }
+            // Fail if the input types aren't accepted
+            if (!Array.isArray(nameOrId) && typeof nameOrId !== 'number' && typeof nameOrId !== 'string') {
+                throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
+            }
+            // If the user has submitted a Name or an ID, return the JSON promise
+            if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
+                return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}encounter-condition-value/${nameOrId}/`, callback);
+            }
+            // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
+            const mapper = async (nameOrIds) => {
+                const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}encounter-condition-value/${nameOrIds}/`);
+                return queryRes;
+            };
+            // Fetch data asynchronously to be faster
+            const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
+            // Invoke the callback if we have one
+            if (callback) {
+                callback(mappedResults);
+            }
+            return mappedResults;
         }
         catch (error) {
             handleError(error, callback);
@@ -368,32 +354,30 @@ export default class Pokedex {
     }
     async getEvolutionChainById(id, callback) {
         try {
-            if (id) {
-                // If the user has submitted a Name or an ID, return the JSON promise
-                if (typeof id === 'number' || typeof id === 'string') {
-                    return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}evolution-chain/${id}/`, callback);
-                }
-                // If the user has submitted an Array return a new promise which will
-                // resolve when all getJSON calls are ended
-                else if (typeof id === 'object') {
-                    const mapper = async (ids) => {
-                        const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}evolution-chain/${ids}/`);
-                        return queryRes;
-                    };
-                    // Fetch data asynchronously to be faster
-                    const mappedResults = await pMap(id, mapper, { concurrency: 4 });
-                    if (callback) {
-                        callback(mappedResults);
-                    }
-                    return mappedResults;
-                }
-                else {
-                    throw new Error('Param "id" must be a number or array of numbers');
-                }
-            }
-            else {
+            // Fail if the param is not supplied
+            if (!id) {
                 throw new Error('Param "id" is required (Must be a number or array of numbers )');
             }
+            // Fail if the input types aren't accepted
+            if (!Array.isArray(id) && typeof id !== 'number' && typeof id !== 'string') {
+                throw new Error('Param "id" must be a number or array of numbers');
+            }
+            // If the user has submitted a Name or an ID, return the JSON promise
+            if (typeof id === 'number' || typeof id === 'string') {
+                return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}evolution-chain/${id}/`, callback);
+            }
+            // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
+            const mapper = async (ids) => {
+                const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}evolution-chain/${ids}/`);
+                return queryRes;
+            };
+            // Fetch data asynchronously to be faster
+            const mappedResults = await pMap(id, mapper, { concurrency: 4 });
+            // Invoke the callback if we have one
+            if (callback) {
+                callback(mappedResults);
+            }
+            return mappedResults;
         }
         catch (error) {
             handleError(error, callback);
@@ -401,32 +385,30 @@ export default class Pokedex {
     }
     async getEvolutionTriggerByName(nameOrId, callback) {
         try {
-            if (nameOrId) {
-                // If the user has submitted a Name or an ID, return the JSON promise
-                if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
-                    return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}evolution-trigger/${nameOrId}/`, callback);
-                }
-                // If the user has submitted an Array return a new promise which will
-                // resolve when all getJSON calls are ended
-                else if (typeof nameOrId === 'object') {
-                    const mapper = async (nameOrIds) => {
-                        const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}evolution-trigger/${nameOrIds}/`);
-                        return queryRes;
-                    };
-                    // Fetch data asynchronously to be faster
-                    const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
-                    if (callback) {
-                        callback(mappedResults);
-                    }
-                    return mappedResults;
-                }
-                else {
-                    throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
-                }
-            }
-            else {
+            // Fail if the param is not supplied
+            if (!nameOrId) {
                 throw new Error('Param "nameOrId" is required (Must be a string, array of strings or array of string and/or numbers )');
             }
+            // Fail if the input types aren't accepted
+            if (!Array.isArray(nameOrId) && typeof nameOrId !== 'number' && typeof nameOrId !== 'string') {
+                throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
+            }
+            // If the user has submitted a Name or an ID, return the JSON promise
+            if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
+                return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}evolution-trigger/${nameOrId}/`, callback);
+            }
+            // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
+            const mapper = async (nameOrIds) => {
+                const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}evolution-trigger/${nameOrIds}/`);
+                return queryRes;
+            };
+            // Fetch data asynchronously to be faster
+            const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
+            // Invoke the callback if we have one
+            if (callback) {
+                callback(mappedResults);
+            }
+            return mappedResults;
         }
         catch (error) {
             handleError(error, callback);
@@ -434,32 +416,30 @@ export default class Pokedex {
     }
     async getGenerationByName(nameOrId, callback) {
         try {
-            if (nameOrId) {
-                // If the user has submitted a Name or an ID, return the JSON promise
-                if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
-                    return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}generation/${nameOrId}/`, callback);
-                }
-                // If the user has submitted an Array return a new promise which will
-                // resolve when all getJSON calls are ended
-                else if (typeof nameOrId === 'object') {
-                    const mapper = async (nameOrIds) => {
-                        const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}generation/${nameOrIds}/`);
-                        return queryRes;
-                    };
-                    // Fetch data asynchronously to be faster
-                    const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
-                    if (callback) {
-                        callback(mappedResults);
-                    }
-                    return mappedResults;
-                }
-                else {
-                    throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
-                }
-            }
-            else {
+            // Fail if the param is not supplied
+            if (!nameOrId) {
                 throw new Error('Param "nameOrId" is required (Must be a string, array of strings or array of string and/or numbers )');
             }
+            // Fail if the input types aren't accepted
+            if (!Array.isArray(nameOrId) && typeof nameOrId !== 'number' && typeof nameOrId !== 'string') {
+                throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
+            }
+            // If the user has submitted a Name or an ID, return the JSON promise
+            if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
+                return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}generation/${nameOrId}/`, callback);
+            }
+            // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
+            const mapper = async (nameOrIds) => {
+                const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}generation/${nameOrIds}/`);
+                return queryRes;
+            };
+            // Fetch data asynchronously to be faster
+            const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
+            // Invoke the callback if we have one
+            if (callback) {
+                callback(mappedResults);
+            }
+            return mappedResults;
         }
         catch (error) {
             handleError(error, callback);
@@ -467,32 +447,30 @@ export default class Pokedex {
     }
     async getPokedexByName(nameOrId, callback) {
         try {
-            if (nameOrId) {
-                // If the user has submitted a Name or an ID, return the JSON promise
-                if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
-                    return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}pokedex/${nameOrId}/`, callback);
-                }
-                // If the user has submitted an Array return a new promise which will
-                // resolve when all getJSON calls are ended
-                else if (typeof nameOrId === 'object') {
-                    const mapper = async (nameOrIds) => {
-                        const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}pokedex/${nameOrIds}/`);
-                        return queryRes;
-                    };
-                    // Fetch data asynchronously to be faster
-                    const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
-                    if (callback) {
-                        callback(mappedResults);
-                    }
-                    return mappedResults;
-                }
-                else {
-                    throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
-                }
-            }
-            else {
+            // Fail if the param is not supplied
+            if (!nameOrId) {
                 throw new Error('Param "nameOrId" is required (Must be a string, array of strings or array of string and/or numbers )');
             }
+            // Fail if the input types aren't accepted
+            if (!Array.isArray(nameOrId) && typeof nameOrId !== 'number' && typeof nameOrId !== 'string') {
+                throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
+            }
+            // If the user has submitted a Name or an ID, return the JSON promise
+            if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
+                return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}pokedex/${nameOrId}/`, callback);
+            }
+            // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
+            const mapper = async (nameOrIds) => {
+                const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}pokedex/${nameOrIds}/`);
+                return queryRes;
+            };
+            // Fetch data asynchronously to be faster
+            const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
+            // Invoke the callback if we have one
+            if (callback) {
+                callback(mappedResults);
+            }
+            return mappedResults;
         }
         catch (error) {
             handleError(error, callback);
@@ -500,32 +478,30 @@ export default class Pokedex {
     }
     async getVersionByName(nameOrId, callback) {
         try {
-            if (nameOrId) {
-                // If the user has submitted a Name or an ID, return the JSON promise
-                if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
-                    return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}version/${nameOrId}/`, callback);
-                }
-                // If the user has submitted an Array return a new promise which will
-                // resolve when all getJSON calls are ended
-                else if (typeof nameOrId === 'object') {
-                    const mapper = async (nameOrIds) => {
-                        const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}version/${nameOrIds}/`);
-                        return queryRes;
-                    };
-                    // Fetch data asynchronously to be faster
-                    const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
-                    if (callback) {
-                        callback(mappedResults);
-                    }
-                    return mappedResults;
-                }
-                else {
-                    throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
-                }
-            }
-            else {
+            // Fail if the param is not supplied
+            if (!nameOrId) {
                 throw new Error('Param "nameOrId" is required (Must be a string, array of strings or array of string and/or numbers )');
             }
+            // Fail if the input types aren't accepted
+            if (!Array.isArray(nameOrId) && typeof nameOrId !== 'number' && typeof nameOrId !== 'string') {
+                throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
+            }
+            // If the user has submitted a Name or an ID, return the JSON promise
+            if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
+                return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}version/${nameOrId}/`, callback);
+            }
+            // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
+            const mapper = async (nameOrIds) => {
+                const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}version/${nameOrIds}/`);
+                return queryRes;
+            };
+            // Fetch data asynchronously to be faster
+            const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
+            // Invoke the callback if we have one
+            if (callback) {
+                callback(mappedResults);
+            }
+            return mappedResults;
         }
         catch (error) {
             handleError(error, callback);
@@ -533,32 +509,30 @@ export default class Pokedex {
     }
     async getVersionGroupByName(nameOrId, callback) {
         try {
-            if (nameOrId) {
-                // If the user has submitted a Name or an ID, return the JSON promise
-                if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
-                    return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}version-group/${nameOrId}/`, callback);
-                }
-                // If the user has submitted an Array return a new promise which will
-                // resolve when all getJSON calls are ended
-                else if (typeof nameOrId === 'object') {
-                    const mapper = async (nameOrIds) => {
-                        const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}version-group/${nameOrIds}/`);
-                        return queryRes;
-                    };
-                    // Fetch data asynchronously to be faster
-                    const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
-                    if (callback) {
-                        callback(mappedResults);
-                    }
-                    return mappedResults;
-                }
-                else {
-                    throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
-                }
-            }
-            else {
+            // Fail if the param is not supplied
+            if (!nameOrId) {
                 throw new Error('Param "nameOrId" is required (Must be a string, array of strings or array of string and/or numbers )');
             }
+            // Fail if the input types aren't accepted
+            if (!Array.isArray(nameOrId) && typeof nameOrId !== 'number' && typeof nameOrId !== 'string') {
+                throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
+            }
+            // If the user has submitted a Name or an ID, return the JSON promise
+            if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
+                return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}version-group/${nameOrId}/`, callback);
+            }
+            // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
+            const mapper = async (nameOrIds) => {
+                const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}version-group/${nameOrIds}/`);
+                return queryRes;
+            };
+            // Fetch data asynchronously to be faster
+            const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
+            // Invoke the callback if we have one
+            if (callback) {
+                callback(mappedResults);
+            }
+            return mappedResults;
         }
         catch (error) {
             handleError(error, callback);
@@ -566,32 +540,30 @@ export default class Pokedex {
     }
     async getItemByName(nameOrId, callback) {
         try {
-            if (nameOrId) {
-                // If the user has submitted a Name or an ID, return the JSON promise
-                if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
-                    return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}item/${nameOrId}/`, callback);
-                }
-                // If the user has submitted an Array return a new promise which will
-                // resolve when all getJSON calls are ended
-                else if (typeof nameOrId === 'object') {
-                    const mapper = async (nameOrIds) => {
-                        const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}item/${nameOrIds}/`);
-                        return queryRes;
-                    };
-                    // Fetch data asynchronously to be faster
-                    const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
-                    if (callback) {
-                        callback(mappedResults);
-                    }
-                    return mappedResults;
-                }
-                else {
-                    throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
-                }
-            }
-            else {
+            // Fail if the param is not supplied
+            if (!nameOrId) {
                 throw new Error('Param "nameOrId" is required (Must be a string, array of strings or array of string and/or numbers )');
             }
+            // Fail if the input types aren't accepted
+            if (!Array.isArray(nameOrId) && typeof nameOrId !== 'number' && typeof nameOrId !== 'string') {
+                throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
+            }
+            // If the user has submitted a Name or an ID, return the JSON promise
+            if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
+                return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}item/${nameOrId}/`, callback);
+            }
+            // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
+            const mapper = async (nameOrIds) => {
+                const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}item/${nameOrIds}/`);
+                return queryRes;
+            };
+            // Fetch data asynchronously to be faster
+            const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
+            // Invoke the callback if we have one
+            if (callback) {
+                callback(mappedResults);
+            }
+            return mappedResults;
         }
         catch (error) {
             handleError(error, callback);
@@ -599,32 +571,30 @@ export default class Pokedex {
     }
     async getItemAttributeByName(nameOrId, callback) {
         try {
-            if (nameOrId) {
-                // If the user has submitted a Name or an ID, return the JSON promise
-                if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
-                    return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}item-attribute/${nameOrId}/`, callback);
-                }
-                // If the user has submitted an Array return a new promise which will
-                // resolve when all getJSON calls are ended
-                else if (typeof nameOrId === 'object') {
-                    const mapper = async (nameOrIds) => {
-                        const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}item-attribute/${nameOrIds}/`);
-                        return queryRes;
-                    };
-                    // Fetch data asynchronously to be faster
-                    const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
-                    if (callback) {
-                        callback(mappedResults);
-                    }
-                    return mappedResults;
-                }
-                else {
-                    throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
-                }
-            }
-            else {
+            // Fail if the param is not supplied
+            if (!nameOrId) {
                 throw new Error('Param "nameOrId" is required (Must be a string, array of strings or array of string and/or numbers )');
             }
+            // Fail if the input types aren't accepted
+            if (!Array.isArray(nameOrId) && typeof nameOrId !== 'number' && typeof nameOrId !== 'string') {
+                throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
+            }
+            // If the user has submitted a Name or an ID, return the JSON promise
+            if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
+                return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}item-attribute/${nameOrId}/`, callback);
+            }
+            // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
+            const mapper = async (nameOrIds) => {
+                const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}item-attribute/${nameOrIds}/`);
+                return queryRes;
+            };
+            // Fetch data asynchronously to be faster
+            const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
+            // Invoke the callback if we have one
+            if (callback) {
+                callback(mappedResults);
+            }
+            return mappedResults;
         }
         catch (error) {
             handleError(error, callback);
@@ -632,32 +602,30 @@ export default class Pokedex {
     }
     async getItemCategoryByName(nameOrId, callback) {
         try {
-            if (nameOrId) {
-                // If the user has submitted a Name or an ID, return the JSON promise
-                if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
-                    return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}item-category/${nameOrId}/`, callback);
-                }
-                // If the user has submitted an Array return a new promise which will
-                // resolve when all getJSON calls are ended
-                else if (typeof nameOrId === 'object') {
-                    const mapper = async (nameOrIds) => {
-                        const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}item-category/${nameOrIds}/`);
-                        return queryRes;
-                    };
-                    // Fetch data asynchronously to be faster
-                    const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
-                    if (callback) {
-                        callback(mappedResults);
-                    }
-                    return mappedResults;
-                }
-                else {
-                    throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
-                }
-            }
-            else {
+            // Fail if the param is not supplied
+            if (!nameOrId) {
                 throw new Error('Param "nameOrId" is required (Must be a string, array of strings or array of string and/or numbers )');
             }
+            // Fail if the input types aren't accepted
+            if (!Array.isArray(nameOrId) && typeof nameOrId !== 'number' && typeof nameOrId !== 'string') {
+                throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
+            }
+            // If the user has submitted a Name or an ID, return the JSON promise
+            if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
+                return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}item-category/${nameOrId}/`, callback);
+            }
+            // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
+            const mapper = async (nameOrIds) => {
+                const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}item-category/${nameOrIds}/`);
+                return queryRes;
+            };
+            // Fetch data asynchronously to be faster
+            const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
+            // Invoke the callback if we have one
+            if (callback) {
+                callback(mappedResults);
+            }
+            return mappedResults;
         }
         catch (error) {
             handleError(error, callback);
@@ -665,32 +633,30 @@ export default class Pokedex {
     }
     async getItemFlingEffectByName(nameOrId, callback) {
         try {
-            if (nameOrId) {
-                // If the user has submitted a Name or an ID, return the JSON promise
-                if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
-                    return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}item-fling-effect/${nameOrId}/`, callback);
-                }
-                // If the user has submitted an Array return a new promise which will
-                // resolve when all getJSON calls are ended
-                else if (typeof nameOrId === 'object') {
-                    const mapper = async (nameOrIds) => {
-                        const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}item-fling-effect/${nameOrIds}/`);
-                        return queryRes;
-                    };
-                    // Fetch data asynchronously to be faster
-                    const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
-                    if (callback) {
-                        callback(mappedResults);
-                    }
-                    return mappedResults;
-                }
-                else {
-                    throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
-                }
-            }
-            else {
+            // Fail if the param is not supplied
+            if (!nameOrId) {
                 throw new Error('Param "nameOrId" is required (Must be a string, array of strings or array of string and/or numbers )');
             }
+            // Fail if the input types aren't accepted
+            if (!Array.isArray(nameOrId) && typeof nameOrId !== 'number' && typeof nameOrId !== 'string') {
+                throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
+            }
+            // If the user has submitted a Name or an ID, return the JSON promise
+            if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
+                return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}item-fling-effect/${nameOrId}/`, callback);
+            }
+            // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
+            const mapper = async (nameOrIds) => {
+                const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}item-fling-effect/${nameOrIds}/`);
+                return queryRes;
+            };
+            // Fetch data asynchronously to be faster
+            const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
+            // Invoke the callback if we have one
+            if (callback) {
+                callback(mappedResults);
+            }
+            return mappedResults;
         }
         catch (error) {
             handleError(error, callback);
@@ -698,32 +664,30 @@ export default class Pokedex {
     }
     async getItemPocketByName(nameOrId, callback) {
         try {
-            if (nameOrId) {
-                // If the user has submitted a Name or an ID, return the JSON promise
-                if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
-                    return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}item-pocket/${nameOrId}/`, callback);
-                }
-                // If the user has submitted an Array return a new promise which will
-                // resolve when all getJSON calls are ended
-                else if (typeof nameOrId === 'object') {
-                    const mapper = async (nameOrIds) => {
-                        const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}item-pocket/${nameOrIds}/`);
-                        return queryRes;
-                    };
-                    // Fetch data asynchronously to be faster
-                    const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
-                    if (callback) {
-                        callback(mappedResults);
-                    }
-                    return mappedResults;
-                }
-                else {
-                    throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
-                }
-            }
-            else {
+            // Fail if the param is not supplied
+            if (!nameOrId) {
                 throw new Error('Param "nameOrId" is required (Must be a string, array of strings or array of string and/or numbers )');
             }
+            // Fail if the input types aren't accepted
+            if (!Array.isArray(nameOrId) && typeof nameOrId !== 'number' && typeof nameOrId !== 'string') {
+                throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
+            }
+            // If the user has submitted a Name or an ID, return the JSON promise
+            if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
+                return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}item-pocket/${nameOrId}/`, callback);
+            }
+            // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
+            const mapper = async (nameOrIds) => {
+                const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}item-pocket/${nameOrIds}/`);
+                return queryRes;
+            };
+            // Fetch data asynchronously to be faster
+            const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
+            // Invoke the callback if we have one
+            if (callback) {
+                callback(mappedResults);
+            }
+            return mappedResults;
         }
         catch (error) {
             handleError(error, callback);
@@ -731,32 +695,30 @@ export default class Pokedex {
     }
     async getMachineById(id, callback) {
         try {
-            if (id) {
-                // If the user has submitted a Name or an ID, return the JSON promise
-                if (typeof id === 'number' || typeof id === 'string') {
-                    return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}machine/${id}/`, callback);
-                }
-                // If the user has submitted an Array return a new promise which will
-                // resolve when all getJSON calls are ended
-                else if (typeof id === 'object') {
-                    const mapper = async (ids) => {
-                        const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}machine/${ids}/`);
-                        return queryRes;
-                    };
-                    // Fetch data asynchronously to be faster
-                    const mappedResults = await pMap(id, mapper, { concurrency: 4 });
-                    if (callback) {
-                        callback(mappedResults);
-                    }
-                    return mappedResults;
-                }
-                else {
-                    throw new Error('Param "id" must be a number or array of numbers');
-                }
-            }
-            else {
+            // Fail if the param is not supplied
+            if (!id) {
                 throw new Error('Param "id" is required (Must be a number or array of numbers )');
             }
+            // Fail if the input types aren't accepted
+            if (!Array.isArray(id) && typeof id !== 'number' && typeof id !== 'string') {
+                throw new Error('Param "id" must be a number or array of numbers');
+            }
+            // If the user has submitted a Name or an ID, return the JSON promise
+            if (typeof id === 'number' || typeof id === 'string') {
+                return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}machine/${id}/`, callback);
+            }
+            // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
+            const mapper = async (ids) => {
+                const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}machine/${ids}/`);
+                return queryRes;
+            };
+            // Fetch data asynchronously to be faster
+            const mappedResults = await pMap(id, mapper, { concurrency: 4 });
+            // Invoke the callback if we have one
+            if (callback) {
+                callback(mappedResults);
+            }
+            return mappedResults;
         }
         catch (error) {
             handleError(error, callback);
@@ -764,32 +726,30 @@ export default class Pokedex {
     }
     async getMoveByName(nameOrId, callback) {
         try {
-            if (nameOrId) {
-                // If the user has submitted a Name or an ID, return the JSON promise
-                if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
-                    return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}move/${nameOrId}/`, callback);
-                }
-                // If the user has submitted an Array return a new promise which will
-                // resolve when all getJSON calls are ended
-                else if (typeof nameOrId === 'object') {
-                    const mapper = async (nameOrIds) => {
-                        const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}move/${nameOrIds}/`);
-                        return queryRes;
-                    };
-                    // Fetch data asynchronously to be faster
-                    const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
-                    if (callback) {
-                        callback(mappedResults);
-                    }
-                    return mappedResults;
-                }
-                else {
-                    throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
-                }
-            }
-            else {
+            // Fail if the param is not supplied
+            if (!nameOrId) {
                 throw new Error('Param "nameOrId" is required (Must be a string, array of strings or array of string and/or numbers )');
             }
+            // Fail if the input types aren't accepted
+            if (!Array.isArray(nameOrId) && typeof nameOrId !== 'number' && typeof nameOrId !== 'string') {
+                throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
+            }
+            // If the user has submitted a Name or an ID, return the JSON promise
+            if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
+                return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}move/${nameOrId}/`, callback);
+            }
+            // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
+            const mapper = async (nameOrIds) => {
+                const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}move/${nameOrIds}/`);
+                return queryRes;
+            };
+            // Fetch data asynchronously to be faster
+            const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
+            // Invoke the callback if we have one
+            if (callback) {
+                callback(mappedResults);
+            }
+            return mappedResults;
         }
         catch (error) {
             handleError(error, callback);
@@ -797,32 +757,30 @@ export default class Pokedex {
     }
     async getMoveAilmentByName(nameOrId, callback) {
         try {
-            if (nameOrId) {
-                // If the user has submitted a Name or an ID, return the JSON promise
-                if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
-                    return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}move-ailment/${nameOrId}/`, callback);
-                }
-                // If the user has submitted an Array return a new promise which will
-                // resolve when all getJSON calls are ended
-                else if (typeof nameOrId === 'object') {
-                    const mapper = async (nameOrIds) => {
-                        const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}move-ailment/${nameOrIds}/`);
-                        return queryRes;
-                    };
-                    // Fetch data asynchronously to be faster
-                    const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
-                    if (callback) {
-                        callback(mappedResults);
-                    }
-                    return mappedResults;
-                }
-                else {
-                    throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
-                }
-            }
-            else {
+            // Fail if the param is not supplied
+            if (!nameOrId) {
                 throw new Error('Param "nameOrId" is required (Must be a string, array of strings or array of string and/or numbers )');
             }
+            // Fail if the input types aren't accepted
+            if (!Array.isArray(nameOrId) && typeof nameOrId !== 'number' && typeof nameOrId !== 'string') {
+                throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
+            }
+            // If the user has submitted a Name or an ID, return the JSON promise
+            if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
+                return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}move-ailment/${nameOrId}/`, callback);
+            }
+            // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
+            const mapper = async (nameOrIds) => {
+                const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}move-ailment/${nameOrIds}/`);
+                return queryRes;
+            };
+            // Fetch data asynchronously to be faster
+            const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
+            // Invoke the callback if we have one
+            if (callback) {
+                callback(mappedResults);
+            }
+            return mappedResults;
         }
         catch (error) {
             handleError(error, callback);
@@ -830,32 +788,30 @@ export default class Pokedex {
     }
     async getMoveBattleStyleByName(nameOrId, callback) {
         try {
-            if (nameOrId) {
-                // If the user has submitted a Name or an ID, return the JSON promise
-                if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
-                    return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}move-battle-style/${nameOrId}/`, callback);
-                }
-                // If the user has submitted an Array return a new promise which will
-                // resolve when all getJSON calls are ended
-                else if (typeof nameOrId === 'object') {
-                    const mapper = async (nameOrIds) => {
-                        const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}move-battle-style/${nameOrIds}/`);
-                        return queryRes;
-                    };
-                    // Fetch data asynchronously to be faster
-                    const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
-                    if (callback) {
-                        callback(mappedResults);
-                    }
-                    return mappedResults;
-                }
-                else {
-                    throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
-                }
-            }
-            else {
+            // Fail if the param is not supplied
+            if (!nameOrId) {
                 throw new Error('Param "nameOrId" is required (Must be a string, array of strings or array of string and/or numbers )');
             }
+            // Fail if the input types aren't accepted
+            if (!Array.isArray(nameOrId) && typeof nameOrId !== 'number' && typeof nameOrId !== 'string') {
+                throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
+            }
+            // If the user has submitted a Name or an ID, return the JSON promise
+            if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
+                return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}move-battle-style/${nameOrId}/`, callback);
+            }
+            // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
+            const mapper = async (nameOrIds) => {
+                const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}move-battle-style/${nameOrIds}/`);
+                return queryRes;
+            };
+            // Fetch data asynchronously to be faster
+            const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
+            // Invoke the callback if we have one
+            if (callback) {
+                callback(mappedResults);
+            }
+            return mappedResults;
         }
         catch (error) {
             handleError(error, callback);
@@ -863,32 +819,30 @@ export default class Pokedex {
     }
     async getMoveCategoryByName(nameOrId, callback) {
         try {
-            if (nameOrId) {
-                // If the user has submitted a Name or an ID, return the JSON promise
-                if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
-                    return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}move-category/${nameOrId}/`, callback);
-                }
-                // If the user has submitted an Array return a new promise which will
-                // resolve when all getJSON calls are ended
-                else if (typeof nameOrId === 'object') {
-                    const mapper = async (nameOrIds) => {
-                        const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}move-category/${nameOrIds}/`);
-                        return queryRes;
-                    };
-                    // Fetch data asynchronously to be faster
-                    const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
-                    if (callback) {
-                        callback(mappedResults);
-                    }
-                    return mappedResults;
-                }
-                else {
-                    throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
-                }
-            }
-            else {
+            // Fail if the param is not supplied
+            if (!nameOrId) {
                 throw new Error('Param "nameOrId" is required (Must be a string, array of strings or array of string and/or numbers )');
             }
+            // Fail if the input types aren't accepted
+            if (!Array.isArray(nameOrId) && typeof nameOrId !== 'number' && typeof nameOrId !== 'string') {
+                throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
+            }
+            // If the user has submitted a Name or an ID, return the JSON promise
+            if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
+                return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}move-category/${nameOrId}/`, callback);
+            }
+            // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
+            const mapper = async (nameOrIds) => {
+                const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}move-category/${nameOrIds}/`);
+                return queryRes;
+            };
+            // Fetch data asynchronously to be faster
+            const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
+            // Invoke the callback if we have one
+            if (callback) {
+                callback(mappedResults);
+            }
+            return mappedResults;
         }
         catch (error) {
             handleError(error, callback);
@@ -896,32 +850,30 @@ export default class Pokedex {
     }
     async getMoveDamageClassByName(nameOrId, callback) {
         try {
-            if (nameOrId) {
-                // If the user has submitted a Name or an ID, return the JSON promise
-                if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
-                    return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}move-damage-class/${nameOrId}/`, callback);
-                }
-                // If the user has submitted an Array return a new promise which will
-                // resolve when all getJSON calls are ended
-                else if (typeof nameOrId === 'object') {
-                    const mapper = async (nameOrIds) => {
-                        const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}move-damage-class/${nameOrIds}/`);
-                        return queryRes;
-                    };
-                    // Fetch data asynchronously to be faster
-                    const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
-                    if (callback) {
-                        callback(mappedResults);
-                    }
-                    return mappedResults;
-                }
-                else {
-                    throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
-                }
-            }
-            else {
+            // Fail if the param is not supplied
+            if (!nameOrId) {
                 throw new Error('Param "nameOrId" is required (Must be a string, array of strings or array of string and/or numbers )');
             }
+            // Fail if the input types aren't accepted
+            if (!Array.isArray(nameOrId) && typeof nameOrId !== 'number' && typeof nameOrId !== 'string') {
+                throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
+            }
+            // If the user has submitted a Name or an ID, return the JSON promise
+            if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
+                return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}move-damage-class/${nameOrId}/`, callback);
+            }
+            // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
+            const mapper = async (nameOrIds) => {
+                const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}move-damage-class/${nameOrIds}/`);
+                return queryRes;
+            };
+            // Fetch data asynchronously to be faster
+            const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
+            // Invoke the callback if we have one
+            if (callback) {
+                callback(mappedResults);
+            }
+            return mappedResults;
         }
         catch (error) {
             handleError(error, callback);
@@ -929,32 +881,30 @@ export default class Pokedex {
     }
     async getMoveLearnMethodByName(nameOrId, callback) {
         try {
-            if (nameOrId) {
-                // If the user has submitted a Name or an ID, return the JSON promise
-                if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
-                    return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}move-learn-method/${nameOrId}/`, callback);
-                }
-                // If the user has submitted an Array return a new promise which will
-                // resolve when all getJSON calls are ended
-                else if (typeof nameOrId === 'object') {
-                    const mapper = async (nameOrIds) => {
-                        const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}move-learn-method/${nameOrIds}/`);
-                        return queryRes;
-                    };
-                    // Fetch data asynchronously to be faster
-                    const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
-                    if (callback) {
-                        callback(mappedResults);
-                    }
-                    return mappedResults;
-                }
-                else {
-                    throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
-                }
-            }
-            else {
+            // Fail if the param is not supplied
+            if (!nameOrId) {
                 throw new Error('Param "nameOrId" is required (Must be a string, array of strings or array of string and/or numbers )');
             }
+            // Fail if the input types aren't accepted
+            if (!Array.isArray(nameOrId) && typeof nameOrId !== 'number' && typeof nameOrId !== 'string') {
+                throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
+            }
+            // If the user has submitted a Name or an ID, return the JSON promise
+            if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
+                return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}move-learn-method/${nameOrId}/`, callback);
+            }
+            // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
+            const mapper = async (nameOrIds) => {
+                const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}move-learn-method/${nameOrIds}/`);
+                return queryRes;
+            };
+            // Fetch data asynchronously to be faster
+            const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
+            // Invoke the callback if we have one
+            if (callback) {
+                callback(mappedResults);
+            }
+            return mappedResults;
         }
         catch (error) {
             handleError(error, callback);
@@ -962,32 +912,30 @@ export default class Pokedex {
     }
     async getMoveTargetByName(nameOrId, callback) {
         try {
-            if (nameOrId) {
-                // If the user has submitted a Name or an ID, return the JSON promise
-                if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
-                    return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}move-target/${nameOrId}/`, callback);
-                }
-                // If the user has submitted an Array return a new promise which will
-                // resolve when all getJSON calls are ended
-                else if (typeof nameOrId === 'object') {
-                    const mapper = async (nameOrIds) => {
-                        const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}move-target/${nameOrIds}/`);
-                        return queryRes;
-                    };
-                    // Fetch data asynchronously to be faster
-                    const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
-                    if (callback) {
-                        callback(mappedResults);
-                    }
-                    return mappedResults;
-                }
-                else {
-                    throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
-                }
-            }
-            else {
+            // Fail if the param is not supplied
+            if (!nameOrId) {
                 throw new Error('Param "nameOrId" is required (Must be a string, array of strings or array of string and/or numbers )');
             }
+            // Fail if the input types aren't accepted
+            if (!Array.isArray(nameOrId) && typeof nameOrId !== 'number' && typeof nameOrId !== 'string') {
+                throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
+            }
+            // If the user has submitted a Name or an ID, return the JSON promise
+            if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
+                return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}move-target/${nameOrId}/`, callback);
+            }
+            // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
+            const mapper = async (nameOrIds) => {
+                const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}move-target/${nameOrIds}/`);
+                return queryRes;
+            };
+            // Fetch data asynchronously to be faster
+            const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
+            // Invoke the callback if we have one
+            if (callback) {
+                callback(mappedResults);
+            }
+            return mappedResults;
         }
         catch (error) {
             handleError(error, callback);
@@ -995,32 +943,30 @@ export default class Pokedex {
     }
     async getLocationByName(nameOrId, callback) {
         try {
-            if (nameOrId) {
-                // If the user has submitted a Name or an ID, return the JSON promise
-                if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
-                    return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}location/${nameOrId}/`, callback);
-                }
-                // If the user has submitted an Array return a new promise which will
-                // resolve when all getJSON calls are ended
-                else if (typeof nameOrId === 'object') {
-                    const mapper = async (nameOrIds) => {
-                        const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}location/${nameOrIds}/`);
-                        return queryRes;
-                    };
-                    // Fetch data asynchronously to be faster
-                    const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
-                    if (callback) {
-                        callback(mappedResults);
-                    }
-                    return mappedResults;
-                }
-                else {
-                    throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
-                }
-            }
-            else {
+            // Fail if the param is not supplied
+            if (!nameOrId) {
                 throw new Error('Param "nameOrId" is required (Must be a string, array of strings or array of string and/or numbers )');
             }
+            // Fail if the input types aren't accepted
+            if (!Array.isArray(nameOrId) && typeof nameOrId !== 'number' && typeof nameOrId !== 'string') {
+                throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
+            }
+            // If the user has submitted a Name or an ID, return the JSON promise
+            if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
+                return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}location/${nameOrId}/`, callback);
+            }
+            // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
+            const mapper = async (nameOrIds) => {
+                const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}location/${nameOrIds}/`);
+                return queryRes;
+            };
+            // Fetch data asynchronously to be faster
+            const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
+            // Invoke the callback if we have one
+            if (callback) {
+                callback(mappedResults);
+            }
+            return mappedResults;
         }
         catch (error) {
             handleError(error, callback);
@@ -1028,32 +974,30 @@ export default class Pokedex {
     }
     async getLocationAreaByName(nameOrId, callback) {
         try {
-            if (nameOrId) {
-                // If the user has submitted a Name or an ID, return the JSON promise
-                if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
-                    return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}location-area/${nameOrId}/`, callback);
-                }
-                // If the user has submitted an Array return a new promise which will
-                // resolve when all getJSON calls are ended
-                else if (typeof nameOrId === 'object') {
-                    const mapper = async (nameOrIds) => {
-                        const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}location-area/${nameOrIds}/`);
-                        return queryRes;
-                    };
-                    // Fetch data asynchronously to be faster
-                    const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
-                    if (callback) {
-                        callback(mappedResults);
-                    }
-                    return mappedResults;
-                }
-                else {
-                    throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
-                }
-            }
-            else {
+            // Fail if the param is not supplied
+            if (!nameOrId) {
                 throw new Error('Param "nameOrId" is required (Must be a string, array of strings or array of string and/or numbers )');
             }
+            // Fail if the input types aren't accepted
+            if (!Array.isArray(nameOrId) && typeof nameOrId !== 'number' && typeof nameOrId !== 'string') {
+                throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
+            }
+            // If the user has submitted a Name or an ID, return the JSON promise
+            if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
+                return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}location-area/${nameOrId}/`, callback);
+            }
+            // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
+            const mapper = async (nameOrIds) => {
+                const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}location-area/${nameOrIds}/`);
+                return queryRes;
+            };
+            // Fetch data asynchronously to be faster
+            const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
+            // Invoke the callback if we have one
+            if (callback) {
+                callback(mappedResults);
+            }
+            return mappedResults;
         }
         catch (error) {
             handleError(error, callback);
@@ -1061,32 +1005,30 @@ export default class Pokedex {
     }
     async getPalParkAreaByName(nameOrId, callback) {
         try {
-            if (nameOrId) {
-                // If the user has submitted a Name or an ID, return the JSON promise
-                if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
-                    return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}pal-park-area/${nameOrId}/`, callback);
-                }
-                // If the user has submitted an Array return a new promise which will
-                // resolve when all getJSON calls are ended
-                else if (typeof nameOrId === 'object') {
-                    const mapper = async (nameOrIds) => {
-                        const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}pal-park-area/${nameOrIds}/`);
-                        return queryRes;
-                    };
-                    // Fetch data asynchronously to be faster
-                    const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
-                    if (callback) {
-                        callback(mappedResults);
-                    }
-                    return mappedResults;
-                }
-                else {
-                    throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
-                }
-            }
-            else {
+            // Fail if the param is not supplied
+            if (!nameOrId) {
                 throw new Error('Param "nameOrId" is required (Must be a string, array of strings or array of string and/or numbers )');
             }
+            // Fail if the input types aren't accepted
+            if (!Array.isArray(nameOrId) && typeof nameOrId !== 'number' && typeof nameOrId !== 'string') {
+                throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
+            }
+            // If the user has submitted a Name or an ID, return the JSON promise
+            if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
+                return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}pal-park-area/${nameOrId}/`, callback);
+            }
+            // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
+            const mapper = async (nameOrIds) => {
+                const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}pal-park-area/${nameOrIds}/`);
+                return queryRes;
+            };
+            // Fetch data asynchronously to be faster
+            const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
+            // Invoke the callback if we have one
+            if (callback) {
+                callback(mappedResults);
+            }
+            return mappedResults;
         }
         catch (error) {
             handleError(error, callback);
@@ -1094,32 +1036,30 @@ export default class Pokedex {
     }
     async getRegionByName(nameOrId, callback) {
         try {
-            if (nameOrId) {
-                // If the user has submitted a Name or an ID, return the JSON promise
-                if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
-                    return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}region/${nameOrId}/`, callback);
-                }
-                // If the user has submitted an Array return a new promise which will
-                // resolve when all getJSON calls are ended
-                else if (typeof nameOrId === 'object') {
-                    const mapper = async (nameOrIds) => {
-                        const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}region/${nameOrIds}/`);
-                        return queryRes;
-                    };
-                    // Fetch data asynchronously to be faster
-                    const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
-                    if (callback) {
-                        callback(mappedResults);
-                    }
-                    return mappedResults;
-                }
-                else {
-                    throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
-                }
-            }
-            else {
+            // Fail if the param is not supplied
+            if (!nameOrId) {
                 throw new Error('Param "nameOrId" is required (Must be a string, array of strings or array of string and/or numbers )');
             }
+            // Fail if the input types aren't accepted
+            if (!Array.isArray(nameOrId) && typeof nameOrId !== 'number' && typeof nameOrId !== 'string') {
+                throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
+            }
+            // If the user has submitted a Name or an ID, return the JSON promise
+            if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
+                return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}region/${nameOrId}/`, callback);
+            }
+            // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
+            const mapper = async (nameOrIds) => {
+                const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}region/${nameOrIds}/`);
+                return queryRes;
+            };
+            // Fetch data asynchronously to be faster
+            const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
+            // Invoke the callback if we have one
+            if (callback) {
+                callback(mappedResults);
+            }
+            return mappedResults;
         }
         catch (error) {
             handleError(error, callback);
@@ -1127,32 +1067,30 @@ export default class Pokedex {
     }
     async getAbilityByName(nameOrId, callback) {
         try {
-            if (nameOrId) {
-                // If the user has submitted a Name or an ID, return the JSON promise
-                if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
-                    return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}ability/${nameOrId}/`, callback);
-                }
-                // If the user has submitted an Array return a new promise which will
-                // resolve when all getJSON calls are ended
-                else if (typeof nameOrId === 'object') {
-                    const mapper = async (nameOrIds) => {
-                        const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}ability/${nameOrIds}/`);
-                        return queryRes;
-                    };
-                    // Fetch data asynchronously to be faster
-                    const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
-                    if (callback) {
-                        callback(mappedResults);
-                    }
-                    return mappedResults;
-                }
-                else {
-                    throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
-                }
-            }
-            else {
+            // Fail if the param is not supplied
+            if (!nameOrId) {
                 throw new Error('Param "nameOrId" is required (Must be a string, array of strings or array of string and/or numbers )');
             }
+            // Fail if the input types aren't accepted
+            if (!Array.isArray(nameOrId) && typeof nameOrId !== 'number' && typeof nameOrId !== 'string') {
+                throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
+            }
+            // If the user has submitted a Name or an ID, return the JSON promise
+            if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
+                return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}ability/${nameOrId}/`, callback);
+            }
+            // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
+            const mapper = async (nameOrIds) => {
+                const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}ability/${nameOrIds}/`);
+                return queryRes;
+            };
+            // Fetch data asynchronously to be faster
+            const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
+            // Invoke the callback if we have one
+            if (callback) {
+                callback(mappedResults);
+            }
+            return mappedResults;
         }
         catch (error) {
             handleError(error, callback);
@@ -1160,32 +1098,30 @@ export default class Pokedex {
     }
     async getCharacteristicById(id, callback) {
         try {
-            if (id) {
-                // If the user has submitted a Name or an ID, return the JSON promise
-                if (typeof id === 'number' || typeof id === 'string') {
-                    return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}characteristic/${id}/`, callback);
-                }
-                // If the user has submitted an Array return a new promise which will
-                // resolve when all getJSON calls are ended
-                else if (typeof id === 'object') {
-                    const mapper = async (ids) => {
-                        const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}characteristic/${ids}/`);
-                        return queryRes;
-                    };
-                    // Fetch data asynchronously to be faster
-                    const mappedResults = await pMap(id, mapper, { concurrency: 4 });
-                    if (callback) {
-                        callback(mappedResults);
-                    }
-                    return mappedResults;
-                }
-                else {
-                    throw new Error('Param "id" must be a number or array of numbers');
-                }
-            }
-            else {
+            // Fail if the param is not supplied
+            if (!id) {
                 throw new Error('Param "id" is required (Must be a number or array of numbers )');
             }
+            // Fail if the input types aren't accepted
+            if (!Array.isArray(id) && typeof id !== 'number' && typeof id !== 'string') {
+                throw new Error('Param "id" must be a number or array of numbers');
+            }
+            // If the user has submitted a Name or an ID, return the JSON promise
+            if (typeof id === 'number' || typeof id === 'string') {
+                return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}characteristic/${id}/`, callback);
+            }
+            // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
+            const mapper = async (ids) => {
+                const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}characteristic/${ids}/`);
+                return queryRes;
+            };
+            // Fetch data asynchronously to be faster
+            const mappedResults = await pMap(id, mapper, { concurrency: 4 });
+            // Invoke the callback if we have one
+            if (callback) {
+                callback(mappedResults);
+            }
+            return mappedResults;
         }
         catch (error) {
             handleError(error, callback);
@@ -1193,32 +1129,30 @@ export default class Pokedex {
     }
     async getEggGroupByName(nameOrId, callback) {
         try {
-            if (nameOrId) {
-                // If the user has submitted a Name or an ID, return the JSON promise
-                if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
-                    return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}egg-group/${nameOrId}/`, callback);
-                }
-                // If the user has submitted an Array return a new promise which will
-                // resolve when all getJSON calls are ended
-                else if (typeof nameOrId === 'object') {
-                    const mapper = async (nameOrIds) => {
-                        const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}egg-group/${nameOrIds}/`);
-                        return queryRes;
-                    };
-                    // Fetch data asynchronously to be faster
-                    const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
-                    if (callback) {
-                        callback(mappedResults);
-                    }
-                    return mappedResults;
-                }
-                else {
-                    throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
-                }
-            }
-            else {
+            // Fail if the param is not supplied
+            if (!nameOrId) {
                 throw new Error('Param "nameOrId" is required (Must be a string, array of strings or array of string and/or numbers )');
             }
+            // Fail if the input types aren't accepted
+            if (!Array.isArray(nameOrId) && typeof nameOrId !== 'number' && typeof nameOrId !== 'string') {
+                throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
+            }
+            // If the user has submitted a Name or an ID, return the JSON promise
+            if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
+                return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}egg-group/${nameOrId}/`, callback);
+            }
+            // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
+            const mapper = async (nameOrIds) => {
+                const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}egg-group/${nameOrIds}/`);
+                return queryRes;
+            };
+            // Fetch data asynchronously to be faster
+            const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
+            // Invoke the callback if we have one
+            if (callback) {
+                callback(mappedResults);
+            }
+            return mappedResults;
         }
         catch (error) {
             handleError(error, callback);
@@ -1226,32 +1160,30 @@ export default class Pokedex {
     }
     async getGenderByName(nameOrId, callback) {
         try {
-            if (nameOrId) {
-                // If the user has submitted a Name or an ID, return the JSON promise
-                if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
-                    return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}gender/${nameOrId}/`, callback);
-                }
-                // If the user has submitted an Array return a new promise which will
-                // resolve when all getJSON calls are ended
-                else if (typeof nameOrId === 'object') {
-                    const mapper = async (nameOrIds) => {
-                        const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}gender/${nameOrIds}/`);
-                        return queryRes;
-                    };
-                    // Fetch data asynchronously to be faster
-                    const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
-                    if (callback) {
-                        callback(mappedResults);
-                    }
-                    return mappedResults;
-                }
-                else {
-                    throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
-                }
-            }
-            else {
+            // Fail if the param is not supplied
+            if (!nameOrId) {
                 throw new Error('Param "nameOrId" is required (Must be a string, array of strings or array of string and/or numbers )');
             }
+            // Fail if the input types aren't accepted
+            if (!Array.isArray(nameOrId) && typeof nameOrId !== 'number' && typeof nameOrId !== 'string') {
+                throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
+            }
+            // If the user has submitted a Name or an ID, return the JSON promise
+            if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
+                return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}gender/${nameOrId}/`, callback);
+            }
+            // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
+            const mapper = async (nameOrIds) => {
+                const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}gender/${nameOrIds}/`);
+                return queryRes;
+            };
+            // Fetch data asynchronously to be faster
+            const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
+            // Invoke the callback if we have one
+            if (callback) {
+                callback(mappedResults);
+            }
+            return mappedResults;
         }
         catch (error) {
             handleError(error, callback);
@@ -1259,32 +1191,30 @@ export default class Pokedex {
     }
     async getGrowthRateByName(nameOrId, callback) {
         try {
-            if (nameOrId) {
-                // If the user has submitted a Name or an ID, return the JSON promise
-                if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
-                    return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}growth-rate/${nameOrId}/`, callback);
-                }
-                // If the user has submitted an Array return a new promise which will
-                // resolve when all getJSON calls are ended
-                else if (typeof nameOrId === 'object') {
-                    const mapper = async (nameOrIds) => {
-                        const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}growth-rate/${nameOrIds}/`);
-                        return queryRes;
-                    };
-                    // Fetch data asynchronously to be faster
-                    const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
-                    if (callback) {
-                        callback(mappedResults);
-                    }
-                    return mappedResults;
-                }
-                else {
-                    throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
-                }
-            }
-            else {
+            // Fail if the param is not supplied
+            if (!nameOrId) {
                 throw new Error('Param "nameOrId" is required (Must be a string, array of strings or array of string and/or numbers )');
             }
+            // Fail if the input types aren't accepted
+            if (!Array.isArray(nameOrId) && typeof nameOrId !== 'number' && typeof nameOrId !== 'string') {
+                throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
+            }
+            // If the user has submitted a Name or an ID, return the JSON promise
+            if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
+                return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}growth-rate/${nameOrId}/`, callback);
+            }
+            // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
+            const mapper = async (nameOrIds) => {
+                const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}growth-rate/${nameOrIds}/`);
+                return queryRes;
+            };
+            // Fetch data asynchronously to be faster
+            const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
+            // Invoke the callback if we have one
+            if (callback) {
+                callback(mappedResults);
+            }
+            return mappedResults;
         }
         catch (error) {
             handleError(error, callback);
@@ -1292,32 +1222,30 @@ export default class Pokedex {
     }
     async getNatureByName(nameOrId, callback) {
         try {
-            if (nameOrId) {
-                // If the user has submitted a Name or an ID, return the JSON promise
-                if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
-                    return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}nature/${nameOrId}/`, callback);
-                }
-                // If the user has submitted an Array return a new promise which will
-                // resolve when all getJSON calls are ended
-                else if (typeof nameOrId === 'object') {
-                    const mapper = async (nameOrIds) => {
-                        const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}nature/${nameOrIds}/`);
-                        return queryRes;
-                    };
-                    // Fetch data asynchronously to be faster
-                    const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
-                    if (callback) {
-                        callback(mappedResults);
-                    }
-                    return mappedResults;
-                }
-                else {
-                    throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
-                }
-            }
-            else {
+            // Fail if the param is not supplied
+            if (!nameOrId) {
                 throw new Error('Param "nameOrId" is required (Must be a string, array of strings or array of string and/or numbers )');
             }
+            // Fail if the input types aren't accepted
+            if (!Array.isArray(nameOrId) && typeof nameOrId !== 'number' && typeof nameOrId !== 'string') {
+                throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
+            }
+            // If the user has submitted a Name or an ID, return the JSON promise
+            if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
+                return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}nature/${nameOrId}/`, callback);
+            }
+            // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
+            const mapper = async (nameOrIds) => {
+                const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}nature/${nameOrIds}/`);
+                return queryRes;
+            };
+            // Fetch data asynchronously to be faster
+            const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
+            // Invoke the callback if we have one
+            if (callback) {
+                callback(mappedResults);
+            }
+            return mappedResults;
         }
         catch (error) {
             handleError(error, callback);
@@ -1325,32 +1253,30 @@ export default class Pokedex {
     }
     async getPokeathlonStatByName(nameOrId, callback) {
         try {
-            if (nameOrId) {
-                // If the user has submitted a Name or an ID, return the JSON promise
-                if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
-                    return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}pokeathlon-stat/${nameOrId}/`, callback);
-                }
-                // If the user has submitted an Array return a new promise which will
-                // resolve when all getJSON calls are ended
-                else if (typeof nameOrId === 'object') {
-                    const mapper = async (nameOrIds) => {
-                        const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}pokeathlon-stat/${nameOrIds}/`);
-                        return queryRes;
-                    };
-                    // Fetch data asynchronously to be faster
-                    const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
-                    if (callback) {
-                        callback(mappedResults);
-                    }
-                    return mappedResults;
-                }
-                else {
-                    throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
-                }
-            }
-            else {
+            // Fail if the param is not supplied
+            if (!nameOrId) {
                 throw new Error('Param "nameOrId" is required (Must be a string, array of strings or array of string and/or numbers )');
             }
+            // Fail if the input types aren't accepted
+            if (!Array.isArray(nameOrId) && typeof nameOrId !== 'number' && typeof nameOrId !== 'string') {
+                throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
+            }
+            // If the user has submitted a Name or an ID, return the JSON promise
+            if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
+                return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}pokeathlon-stat/${nameOrId}/`, callback);
+            }
+            // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
+            const mapper = async (nameOrIds) => {
+                const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}pokeathlon-stat/${nameOrIds}/`);
+                return queryRes;
+            };
+            // Fetch data asynchronously to be faster
+            const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
+            // Invoke the callback if we have one
+            if (callback) {
+                callback(mappedResults);
+            }
+            return mappedResults;
         }
         catch (error) {
             handleError(error, callback);
@@ -1358,32 +1284,30 @@ export default class Pokedex {
     }
     async getPokemonByName(nameOrId, callback) {
         try {
-            if (nameOrId) {
-                // If the user has submitted a Name or an ID, return the JSON promise
-                if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
-                    return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}pokemon/${nameOrId}/`, callback);
-                }
-                // If the user has submitted an Array return a new promise which will
-                // resolve when all getJSON calls are ended
-                else if (typeof nameOrId === 'object') {
-                    const mapper = async (nameOrIds) => {
-                        const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}pokemon/${nameOrIds}/`);
-                        return queryRes;
-                    };
-                    // Fetch data asynchronously to be faster
-                    const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
-                    if (callback) {
-                        callback(mappedResults);
-                    }
-                    return mappedResults;
-                }
-                else {
-                    throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
-                }
-            }
-            else {
+            // Fail if the param is not supplied
+            if (!nameOrId) {
                 throw new Error('Param "nameOrId" is required (Must be a string, array of strings or array of string and/or numbers )');
             }
+            // Fail if the input types aren't accepted
+            if (!Array.isArray(nameOrId) && typeof nameOrId !== 'number' && typeof nameOrId !== 'string') {
+                throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
+            }
+            // If the user has submitted a Name or an ID, return the JSON promise
+            if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
+                return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}pokemon/${nameOrId}/`, callback);
+            }
+            // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
+            const mapper = async (nameOrIds) => {
+                const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}pokemon/${nameOrIds}/`);
+                return queryRes;
+            };
+            // Fetch data asynchronously to be faster
+            const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
+            // Invoke the callback if we have one
+            if (callback) {
+                callback(mappedResults);
+            }
+            return mappedResults;
         }
         catch (error) {
             handleError(error, callback);
@@ -1391,32 +1315,30 @@ export default class Pokedex {
     }
     async getPokemonColorByName(nameOrId, callback) {
         try {
-            if (nameOrId) {
-                // If the user has submitted a Name or an ID, return the JSON promise
-                if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
-                    return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}pokemon-color/${nameOrId}/`, callback);
-                }
-                // If the user has submitted an Array return a new promise which will
-                // resolve when all getJSON calls are ended
-                else if (typeof nameOrId === 'object') {
-                    const mapper = async (nameOrIds) => {
-                        const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}pokemon-color/${nameOrIds}/`);
-                        return queryRes;
-                    };
-                    // Fetch data asynchronously to be faster
-                    const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
-                    if (callback) {
-                        callback(mappedResults);
-                    }
-                    return mappedResults;
-                }
-                else {
-                    throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
-                }
-            }
-            else {
+            // Fail if the param is not supplied
+            if (!nameOrId) {
                 throw new Error('Param "nameOrId" is required (Must be a string, array of strings or array of string and/or numbers )');
             }
+            // Fail if the input types aren't accepted
+            if (!Array.isArray(nameOrId) && typeof nameOrId !== 'number' && typeof nameOrId !== 'string') {
+                throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
+            }
+            // If the user has submitted a Name or an ID, return the JSON promise
+            if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
+                return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}pokemon-color/${nameOrId}/`, callback);
+            }
+            // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
+            const mapper = async (nameOrIds) => {
+                const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}pokemon-color/${nameOrIds}/`);
+                return queryRes;
+            };
+            // Fetch data asynchronously to be faster
+            const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
+            // Invoke the callback if we have one
+            if (callback) {
+                callback(mappedResults);
+            }
+            return mappedResults;
         }
         catch (error) {
             handleError(error, callback);
@@ -1424,32 +1346,30 @@ export default class Pokedex {
     }
     async getPokemonFormByName(nameOrId, callback) {
         try {
-            if (nameOrId) {
-                // If the user has submitted a Name or an ID, return the JSON promise
-                if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
-                    return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}pokemon-form/${nameOrId}/`, callback);
-                }
-                // If the user has submitted an Array return a new promise which will
-                // resolve when all getJSON calls are ended
-                else if (typeof nameOrId === 'object') {
-                    const mapper = async (nameOrIds) => {
-                        const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}pokemon-form/${nameOrIds}/`);
-                        return queryRes;
-                    };
-                    // Fetch data asynchronously to be faster
-                    const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
-                    if (callback) {
-                        callback(mappedResults);
-                    }
-                    return mappedResults;
-                }
-                else {
-                    throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
-                }
-            }
-            else {
+            // Fail if the param is not supplied
+            if (!nameOrId) {
                 throw new Error('Param "nameOrId" is required (Must be a string, array of strings or array of string and/or numbers )');
             }
+            // Fail if the input types aren't accepted
+            if (!Array.isArray(nameOrId) && typeof nameOrId !== 'number' && typeof nameOrId !== 'string') {
+                throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
+            }
+            // If the user has submitted a Name or an ID, return the JSON promise
+            if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
+                return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}pokemon-form/${nameOrId}/`, callback);
+            }
+            // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
+            const mapper = async (nameOrIds) => {
+                const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}pokemon-form/${nameOrIds}/`);
+                return queryRes;
+            };
+            // Fetch data asynchronously to be faster
+            const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
+            // Invoke the callback if we have one
+            if (callback) {
+                callback(mappedResults);
+            }
+            return mappedResults;
         }
         catch (error) {
             handleError(error, callback);
@@ -1457,32 +1377,30 @@ export default class Pokedex {
     }
     async getPokemonHabitatByName(nameOrId, callback) {
         try {
-            if (nameOrId) {
-                // If the user has submitted a Name or an ID, return the JSON promise
-                if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
-                    return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}pokemon-habitat/${nameOrId}/`, callback);
-                }
-                // If the user has submitted an Array return a new promise which will
-                // resolve when all getJSON calls are ended
-                else if (typeof nameOrId === 'object') {
-                    const mapper = async (nameOrIds) => {
-                        const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}pokemon-habitat/${nameOrIds}/`);
-                        return queryRes;
-                    };
-                    // Fetch data asynchronously to be faster
-                    const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
-                    if (callback) {
-                        callback(mappedResults);
-                    }
-                    return mappedResults;
-                }
-                else {
-                    throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
-                }
-            }
-            else {
+            // Fail if the param is not supplied
+            if (!nameOrId) {
                 throw new Error('Param "nameOrId" is required (Must be a string, array of strings or array of string and/or numbers )');
             }
+            // Fail if the input types aren't accepted
+            if (!Array.isArray(nameOrId) && typeof nameOrId !== 'number' && typeof nameOrId !== 'string') {
+                throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
+            }
+            // If the user has submitted a Name or an ID, return the JSON promise
+            if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
+                return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}pokemon-habitat/${nameOrId}/`, callback);
+            }
+            // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
+            const mapper = async (nameOrIds) => {
+                const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}pokemon-habitat/${nameOrIds}/`);
+                return queryRes;
+            };
+            // Fetch data asynchronously to be faster
+            const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
+            // Invoke the callback if we have one
+            if (callback) {
+                callback(mappedResults);
+            }
+            return mappedResults;
         }
         catch (error) {
             handleError(error, callback);
@@ -1490,32 +1408,30 @@ export default class Pokedex {
     }
     async getPokemonShapeByName(nameOrId, callback) {
         try {
-            if (nameOrId) {
-                // If the user has submitted a Name or an ID, return the JSON promise
-                if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
-                    return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}pokemon-shape/${nameOrId}/`, callback);
-                }
-                // If the user has submitted an Array return a new promise which will
-                // resolve when all getJSON calls are ended
-                else if (typeof nameOrId === 'object') {
-                    const mapper = async (nameOrIds) => {
-                        const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}pokemon-shape/${nameOrIds}/`);
-                        return queryRes;
-                    };
-                    // Fetch data asynchronously to be faster
-                    const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
-                    if (callback) {
-                        callback(mappedResults);
-                    }
-                    return mappedResults;
-                }
-                else {
-                    throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
-                }
-            }
-            else {
+            // Fail if the param is not supplied
+            if (!nameOrId) {
                 throw new Error('Param "nameOrId" is required (Must be a string, array of strings or array of string and/or numbers )');
             }
+            // Fail if the input types aren't accepted
+            if (!Array.isArray(nameOrId) && typeof nameOrId !== 'number' && typeof nameOrId !== 'string') {
+                throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
+            }
+            // If the user has submitted a Name or an ID, return the JSON promise
+            if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
+                return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}pokemon-shape/${nameOrId}/`, callback);
+            }
+            // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
+            const mapper = async (nameOrIds) => {
+                const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}pokemon-shape/${nameOrIds}/`);
+                return queryRes;
+            };
+            // Fetch data asynchronously to be faster
+            const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
+            // Invoke the callback if we have one
+            if (callback) {
+                callback(mappedResults);
+            }
+            return mappedResults;
         }
         catch (error) {
             handleError(error, callback);
@@ -1523,32 +1439,30 @@ export default class Pokedex {
     }
     async getPokemonSpeciesByName(nameOrId, callback) {
         try {
-            if (nameOrId) {
-                // If the user has submitted a Name or an ID, return the JSON promise
-                if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
-                    return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}pokemon-species/${nameOrId}/`, callback);
-                }
-                // If the user has submitted an Array return a new promise which will
-                // resolve when all getJSON calls are ended
-                else if (typeof nameOrId === 'object') {
-                    const mapper = async (nameOrIds) => {
-                        const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}pokemon-species/${nameOrIds}/`);
-                        return queryRes;
-                    };
-                    // Fetch data asynchronously to be faster
-                    const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
-                    if (callback) {
-                        callback(mappedResults);
-                    }
-                    return mappedResults;
-                }
-                else {
-                    throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
-                }
-            }
-            else {
+            // Fail if the param is not supplied
+            if (!nameOrId) {
                 throw new Error('Param "nameOrId" is required (Must be a string, array of strings or array of string and/or numbers )');
             }
+            // Fail if the input types aren't accepted
+            if (!Array.isArray(nameOrId) && typeof nameOrId !== 'number' && typeof nameOrId !== 'string') {
+                throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
+            }
+            // If the user has submitted a Name or an ID, return the JSON promise
+            if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
+                return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}pokemon-species/${nameOrId}/`, callback);
+            }
+            // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
+            const mapper = async (nameOrIds) => {
+                const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}pokemon-species/${nameOrIds}/`);
+                return queryRes;
+            };
+            // Fetch data asynchronously to be faster
+            const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
+            // Invoke the callback if we have one
+            if (callback) {
+                callback(mappedResults);
+            }
+            return mappedResults;
         }
         catch (error) {
             handleError(error, callback);
@@ -1556,32 +1470,30 @@ export default class Pokedex {
     }
     async getStatByName(nameOrId, callback) {
         try {
-            if (nameOrId) {
-                // If the user has submitted a Name or an ID, return the JSON promise
-                if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
-                    return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}stat/${nameOrId}/`, callback);
-                }
-                // If the user has submitted an Array return a new promise which will
-                // resolve when all getJSON calls are ended
-                else if (typeof nameOrId === 'object') {
-                    const mapper = async (nameOrIds) => {
-                        const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}stat/${nameOrIds}/`);
-                        return queryRes;
-                    };
-                    // Fetch data asynchronously to be faster
-                    const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
-                    if (callback) {
-                        callback(mappedResults);
-                    }
-                    return mappedResults;
-                }
-                else {
-                    throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
-                }
-            }
-            else {
+            // Fail if the param is not supplied
+            if (!nameOrId) {
                 throw new Error('Param "nameOrId" is required (Must be a string, array of strings or array of string and/or numbers )');
             }
+            // Fail if the input types aren't accepted
+            if (!Array.isArray(nameOrId) && typeof nameOrId !== 'number' && typeof nameOrId !== 'string') {
+                throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
+            }
+            // If the user has submitted a Name or an ID, return the JSON promise
+            if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
+                return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}stat/${nameOrId}/`, callback);
+            }
+            // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
+            const mapper = async (nameOrIds) => {
+                const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}stat/${nameOrIds}/`);
+                return queryRes;
+            };
+            // Fetch data asynchronously to be faster
+            const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
+            // Invoke the callback if we have one
+            if (callback) {
+                callback(mappedResults);
+            }
+            return mappedResults;
         }
         catch (error) {
             handleError(error, callback);
@@ -1589,32 +1501,30 @@ export default class Pokedex {
     }
     async getTypeByName(nameOrId, callback) {
         try {
-            if (nameOrId) {
-                // If the user has submitted a Name or an ID, return the JSON promise
-                if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
-                    return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}type/${nameOrId}/`, callback);
-                }
-                // If the user has submitted an Array return a new promise which will
-                // resolve when all getJSON calls are ended
-                else if (typeof nameOrId === 'object') {
-                    const mapper = async (nameOrIds) => {
-                        const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}type/${nameOrIds}/`);
-                        return queryRes;
-                    };
-                    // Fetch data asynchronously to be faster
-                    const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
-                    if (callback) {
-                        callback(mappedResults);
-                    }
-                    return mappedResults;
-                }
-                else {
-                    throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
-                }
-            }
-            else {
+            // Fail if the param is not supplied
+            if (!nameOrId) {
                 throw new Error('Param "nameOrId" is required (Must be a string, array of strings or array of string and/or numbers )');
             }
+            // Fail if the input types aren't accepted
+            if (!Array.isArray(nameOrId) && typeof nameOrId !== 'number' && typeof nameOrId !== 'string') {
+                throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
+            }
+            // If the user has submitted a Name or an ID, return the JSON promise
+            if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
+                return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}type/${nameOrId}/`, callback);
+            }
+            // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
+            const mapper = async (nameOrIds) => {
+                const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}type/${nameOrIds}/`);
+                return queryRes;
+            };
+            // Fetch data asynchronously to be faster
+            const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
+            // Invoke the callback if we have one
+            if (callback) {
+                callback(mappedResults);
+            }
+            return mappedResults;
         }
         catch (error) {
             handleError(error, callback);
@@ -1622,32 +1532,30 @@ export default class Pokedex {
     }
     async getLanguageByName(nameOrId, callback) {
         try {
-            if (nameOrId) {
-                // If the user has submitted a Name or an ID, return the JSON promise
-                if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
-                    return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}language/${nameOrId}/`, callback);
-                }
-                // If the user has submitted an Array return a new promise which will
-                // resolve when all getJSON calls are ended
-                else if (typeof nameOrId === 'object') {
-                    const mapper = async (nameOrIds) => {
-                        const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}language/${nameOrIds}/`);
-                        return queryRes;
-                    };
-                    // Fetch data asynchronously to be faster
-                    const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
-                    if (callback) {
-                        callback(mappedResults);
-                    }
-                    return mappedResults;
-                }
-                else {
-                    throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
-                }
-            }
-            else {
+            // Fail if the param is not supplied
+            if (!nameOrId) {
                 throw new Error('Param "nameOrId" is required (Must be a string, array of strings or array of string and/or numbers )');
             }
+            // Fail if the input types aren't accepted
+            if (!Array.isArray(nameOrId) && typeof nameOrId !== 'number' && typeof nameOrId !== 'string') {
+                throw new Error('Param "nameOrId" must be a string, array of strings or array of string and/or numbers');
+            }
+            // If the user has submitted a Name or an ID, return the JSON promise
+            if (typeof nameOrId === 'number' || typeof nameOrId === 'string') {
+                return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}language/${nameOrId}/`, callback);
+            }
+            // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
+            const mapper = async (nameOrIds) => {
+                const queryRes = await getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}language/${nameOrIds}/`);
+                return queryRes;
+            };
+            // Fetch data asynchronously to be faster
+            const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
+            // Invoke the callback if we have one
+            if (callback) {
+                callback(mappedResults);
+            }
+            return mappedResults;
         }
         catch (error) {
             handleError(error, callback);
