@@ -2214,7 +2214,7 @@ declare module 'pokedex-promise-v2' {
         getStatsList(interval?: ListEndpointOptions, callback?: (result: PokeAPI.NamedAPIResourceList, error?: any) => any): Promise<PokeAPI.NamedAPIResourceList>;
         getTypesList(interval?: ListEndpointOptions, callback?: (result: PokeAPI.NamedAPIResourceList, error?: any) => any): Promise<PokeAPI.NamedAPIResourceList>;
         getLanguagesList(interval?: ListEndpointOptions, callback?: (result: PokeAPI.NamedAPIResourceList, error?: any) => any): Promise<PokeAPI.NamedAPIResourceList>;
-        getEndpointsList(interval?: ListEndpointOptions, callback?: (result: any, error?: any) => any): Promise<PokeAPITypes.EndpointsList>;
+        getEndpointsList(interval?: ListEndpointOptions, callback?: (result: any, error?: any) => any): Promise<PokeAPI.EndpointsList>;
     }
 
     export = PokeAPI;
