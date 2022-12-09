@@ -58,25 +58,10 @@ async function generateFinalFile(types: string) {
   namespace.setBodyText(types);
 
   // Remove interfaces that are wrongly generated
-  const evolutionChainElementInterface = namespace.getInterface('EvolutionChainElement');
-  if (evolutionChainElementInterface) {
-    evolutionChainElementInterface.remove();
-  }
-
-  const resultElementInterface = namespace.getInterface('ResultElement');
-  if (resultElementInterface) {
-    resultElementInterface.remove();
-  }
-
-  const generationElementInterface = namespace.getInterface('GenerationElement');
-  if (generationElementInterface) {
-    generationElementInterface.remove();
-  }
-
-  const versionGroupNamedListInterface = namespace.getInterface('VersionGroupNamedList');
-  if (versionGroupNamedListInterface) {
-    versionGroupNamedListInterface.remove();
-  }
+  namespace.getInterface('EvolutionChainElement')?.remove();
+  namespace.getInterface('ResultElement')?.remove();
+  namespace.getInterface('GenerationElement')?.remove();
+  namespace.getInterface('VersionGroupNamedList')?.remove();
 
   // Replace the wrong definitions with the correct ones
   namespace.setBodyText(namespace.getBodyText()
