@@ -41,7 +41,7 @@ async function generateFinalFile(types: string) {
 * Code by: HRKings <https://github.com/HRKings/>
 * And: Christian Garza <https://github.com/C-Garza/>
 * Code inspired by: Mudkip <https://github.com/mudkipme/>
-* Execute \`npm run generate\` to regenerate
+* Execute \`npm run generate:types\` to regenerate
 */`, { overwrite: true });
 
   // Create the root module
@@ -58,12 +58,29 @@ async function generateFinalFile(types: string) {
   namespace.setBodyText(types);
 
   // Remove interfaces that are wrongly generated
-  namespace.getInterface('EvolutionChainElement').remove();
-  namespace.getInterface('GenerationElement').remove();
-  namespace.getInterface('VersionGroupNamedList').remove();
+  const evolutionChainElementInterface = namespace.getInterface('EvolutionChainElement');
+  if (evolutionChainElementInterface) {
+    evolutionChainElementInterface.remove();
+  }
+
+  const resultElementInterface = namespace.getInterface('ResultElement');
+  if (resultElementInterface) {
+    resultElementInterface.remove();
+  }
+
+  const generationElementInterface = namespace.getInterface('GenerationElement');
+  if (generationElementInterface) {
+    generationElementInterface.remove();
+  }
+
+  const versionGroupNamedListInterface = namespace.getInterface('VersionGroupNamedList');
+  if (versionGroupNamedListInterface) {
+    versionGroupNamedListInterface.remove();
+  }
 
   // Replace the wrong definitions with the correct ones
   namespace.setBodyText(namespace.getBodyText()
+    .replace(/ResultElement/g, 'APIResource')
     .replace(/EvolutionChainElement/g, 'APIResource')
     .replace(/GenerationElement/g, 'NamedAPIResource'));
 
