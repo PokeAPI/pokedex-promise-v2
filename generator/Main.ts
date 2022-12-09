@@ -180,8 +180,8 @@ declarationClass.addMethod(methodStructure)
 // setting the parameters typing and binding to the correct interface and endpoint
 for (const [methodName, endpoint, jsdocs] of endpoints) {
   const inputParam = methodName.match(/ByName$/) ? 'nameOrId' : 'id';
-  const inputParamType = methodName.match(/ByName$/) ? 'string | number | Array<string | number>' : 'number | number[]';
 
+  const inputParamType = methodName.match(/ByName$/) ? 'string | number | Array<string | number>' : 'number | number[]';
   methodStructure = {
     name: methodName,
     isAsync: true,
@@ -191,7 +191,7 @@ for (const [methodName, endpoint, jsdocs] of endpoints) {
     },
     {
       name: 'callback',
-      type: `(result: PokeAPITypes.${apiMap[endpoint]} | PokeAPITypes.${apiMap[endpoint]}[], error?: any) => any`,
+      type: `((result: PokeAPITypes.${apiMap[endpoint]}, error?: any) => any) & ((result: PokeAPITypes.${apiMap[endpoint]}[], error?: any) => any)`,
       hasQuestionToken: true,
     }],
     returnType: `Promise<PokeAPITypes.${apiMap[endpoint]} | PokeAPITypes.${apiMap[endpoint]}[]>`,
@@ -229,6 +229,29 @@ for (const [methodName, endpoint, jsdocs] of endpoints) {
   } catch (error) {
     handleError(error, callback);
   }`);
+
+  const singleParamType = methodName.match(/ByName$/) ? 'string | number' : 'number';
+  const overloadMethodStructure = {
+    name: methodName,
+    isAsync: true,
+    parameters: [{
+      name: inputParam,
+      type: singleParamType,
+    },
+    {
+      name: 'callback',
+      type: `(result: PokeAPITypes.${apiMap[endpoint]} | PokeAPITypes.${apiMap[endpoint]}[], error?: any) => any`,
+      hasQuestionToken: true,
+    }],
+    returnType: `Promise<PokeAPITypes.${apiMap[endpoint]}>`,
+  };
+  generatedMethod.addOverload(overloadMethodStructure);
+
+  const multipleParamType = methodName.match(/ByName$/) ? 'Array<string | number>' : 'number[]';
+  overloadMethodStructure.parameters[0].type = multipleParamType;
+  overloadMethodStructure.parameters[1].type = `(result: PokeAPITypes.${apiMap[endpoint]}[], error?: any) => any`;
+  overloadMethodStructure.returnType = `Promise<PokeAPITypes.${apiMap[endpoint]}[]>`;
+  generatedMethod.addOverload(overloadMethodStructure);
 
   // Add the declaration to the types file
   // Sanitizing the namespace and remove the async keyword
