@@ -230,6 +230,14 @@ for (const [methodName, endpoint, jsdocs] of endpoints) {
     handleError(error, callback);
   }`);
 
+  // Add the declaration to the types file
+  // Sanitizing the namespace and remove the async keyword
+  methodStructure.isAsync = false;
+  methodStructure.parameters[1].type = methodStructure.parameters[1].type.replace(/PokeAPITypes/g, 'PokeAPI');
+  methodStructure.returnType = methodStructure.returnType.replace(/PokeAPITypes/g, 'PokeAPI');
+  const declaredMethod = declarationClass.addMethod(methodStructure);
+
+  // Add single param overload
   const singleParamType = methodName.match(/ByName$/) ? 'string | number' : 'number';
   const overloadMethodStructure = {
     name: methodName,
@@ -240,25 +248,30 @@ for (const [methodName, endpoint, jsdocs] of endpoints) {
     },
     {
       name: 'callback',
-      type: `(result: PokeAPITypes.${apiMap[endpoint]} | PokeAPITypes.${apiMap[endpoint]}[], error?: any) => any`,
+      type: `(result: PokeAPITypes.${apiMap[endpoint]}, error?: any) => any`,
       hasQuestionToken: true,
     }],
     returnType: `Promise<PokeAPITypes.${apiMap[endpoint]}>`,
   };
   generatedMethod.addOverload(overloadMethodStructure);
 
+  overloadMethodStructure.isAsync = false;
+  overloadMethodStructure.parameters[1].type = overloadMethodStructure.parameters[1].type.replace(/PokeAPITypes/g, 'PokeAPI');
+  overloadMethodStructure.returnType = overloadMethodStructure.returnType.replace(/PokeAPITypes/g, 'PokeAPI');
+  declaredMethod.addOverload(overloadMethodStructure);
+
+  // Add multiple param overload
   const multipleParamType = methodName.match(/ByName$/) ? 'Array<string | number>' : 'number[]';
+  overloadMethodStructure.isAsync = true;
   overloadMethodStructure.parameters[0].type = multipleParamType;
   overloadMethodStructure.parameters[1].type = `(result: PokeAPITypes.${apiMap[endpoint]}[], error?: any) => any`;
   overloadMethodStructure.returnType = `Promise<PokeAPITypes.${apiMap[endpoint]}[]>`;
   generatedMethod.addOverload(overloadMethodStructure);
 
-  // Add the declaration to the types file
-  // Sanitizing the namespace and remove the async keyword
-  methodStructure.isAsync = false;
-  methodStructure.parameters[1].type = methodStructure.parameters[1].type.replace(/PokeAPITypes/g, 'PokeAPI');
-  methodStructure.returnType = methodStructure.returnType.replace(/PokeAPITypes/g, 'PokeAPI');
-  const declaredMethod = declarationClass.addMethod(methodStructure);
+  overloadMethodStructure.isAsync = false;
+  overloadMethodStructure.parameters[1].type = overloadMethodStructure.parameters[1].type.replace(/PokeAPITypes/g, 'PokeAPI');
+  overloadMethodStructure.returnType = overloadMethodStructure.returnType.replace(/PokeAPITypes/g, 'PokeAPI');
+  declaredMethod.addOverload(overloadMethodStructure);
 
   // If the method has a JSDoc, add it
   if (jsdocs) {
