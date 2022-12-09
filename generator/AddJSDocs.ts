@@ -21,8 +21,12 @@ const docList = [
 ];
 
 // Add JSDocs to the interface and all of its properties
-function addJsDoc(generatedInterface: InterfaceDeclaration,
-  index: number, description: string, model: any) {
+function addJsDoc(
+  generatedInterface: InterfaceDeclaration,
+  index: number,
+  description: string,
+  model: any,
+) {
   // If it is the the root interface, add the main description to it
   if (index === 0 && description && description !== ' ') {
     const jsDocs = generatedInterface.getJsDocs();

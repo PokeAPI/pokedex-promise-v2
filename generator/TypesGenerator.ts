@@ -58,7 +58,7 @@ async function generateFinalFile(types: string) {
   namespace.setBodyText(types);
 
   // Remove interfaces that are wrongly generated
-  namespace.getInterface('EvolutionChainElement').remove();
+  namespace.getInterface('EvolutionChainElement')?.remove();
   namespace.getInterface('GenerationElement').remove();
   namespace.getInterface('VersionGroupNamedList').remove();
 

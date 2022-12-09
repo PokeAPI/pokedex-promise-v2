@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { Project } from 'ts-morph';
+import { Project, type MethodDeclarationStructure, type OptionalKind } from 'ts-morph';
 
 import endpoints from '../src/utils/Endpoints.js';
 import rootEndpoints from '../src/utils/RootEndpoints.js';
@@ -142,7 +142,7 @@ const getResourceCode = `try {
   handleError(error, callback);
 }`;
 
-let methodStructure = {
+let methodStructure: OptionalKind<MethodDeclarationStructure> = {
   name: 'getResource',
   isAsync: true,
   parameters: [{
@@ -180,7 +180,9 @@ declarationClass.addMethod(methodStructure)
 // setting the parameters typing and binding to the correct interface and endpoint
 for (const [methodName, endpoint, jsdocs] of endpoints) {
   const inputParam = methodName.match(/ByName$/) ? 'nameOrId' : 'id';
-  const inputParamType = methodName.match(/ByName$/) ? 'string | number | Array<string | number>' : 'number | number[]';
+  const singleInputParamType = methodName.match(/ByName$/) ? 'string | number' : 'number';
+  const inputParamType = `${singleInputParamType} | Array<${singleInputParamType}>`;
+  const returnType = `PokeAPITypes.${apiMap[endpoint]}`;
 
   methodStructure = {
     name: methodName,
@@ -191,10 +193,34 @@ for (const [methodName, endpoint, jsdocs] of endpoints) {
     },
     {
       name: 'callback',
-      type: `(result: PokeAPITypes.${apiMap[endpoint]} | PokeAPITypes.${apiMap[endpoint]}[], error?: any) => any`,
+      type: '(result: any, error?: any) => any',
       hasQuestionToken: true,
     }],
-    returnType: `Promise<PokeAPITypes.${apiMap[endpoint]} | PokeAPITypes.${apiMap[endpoint]}[]>`,
+    returnType: `Promise<${returnType} | ${returnType}[]>`,
+    overloads: [{
+      parameters: [{
+        name: inputParam,
+        type: singleInputParamType,
+      },
+      {
+        name: 'callback',
+        type: `(result: ${returnType}, error?: any) => any`,
+        hasQuestionToken: true,
+      }],
+      returnType: `Promise<${returnType}>`,
+    },
+    {
+      parameters: [{
+        name: inputParam,
+        type: `Array<${singleInputParamType}>`,
+      },
+      {
+        name: 'callback',
+        type: `(result: ${returnType}[], error?: any) => any`,
+        hasQuestionToken: true,
+      }],
+      returnType: `Promise<${returnType}[]>`,
+    }],
   };
 
   const generatedMethod = pokeApiClass.addMethod(methodStructure).setBodyText(`try {
@@ -233,8 +259,12 @@ for (const [methodName, endpoint, jsdocs] of endpoints) {
   // Add the declaration to the types file
   // Sanitizing the namespace and remove the async keyword
   methodStructure.isAsync = false;
-  methodStructure.parameters[1].type = methodStructure.parameters[1].type.replace(/PokeAPITypes/g, 'PokeAPI');
-  methodStructure.returnType = methodStructure.returnType.replace(/PokeAPITypes/g, 'PokeAPI');
+  if (typeof methodStructure.parameters[1].type === 'string') {
+    methodStructure.parameters[1].type = methodStructure.parameters[1].type.replace(/PokeAPITypes/g, 'PokeAPI');
+  }
+  if (typeof methodStructure.returnType === 'string') {
+    methodStructure.returnType = methodStructure.returnType.replace(/PokeAPITypes/g, 'PokeAPI');
+  }
   const declaredMethod = declarationClass.addMethod(methodStructure);
 
   // If the method has a JSDoc, add it

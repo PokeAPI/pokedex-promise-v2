@@ -17,7 +17,11 @@ declare module 'pokedex-promise-v2' {
             count: number;
             next: null | string;
             previous: null | string;
-            results: APIResource[];
+            results: ResultElement[];
+        }
+
+        interface ResultElement {
+            url: string;
         }
 
         interface EndpointsList {
@@ -244,7 +248,7 @@ declare module 'pokedex-promise-v2' {
             count: number;
             next: null | string;
             previous: null | string;
-            results: APIResource[];
+            results: ResultElement[];
         }
 
         /** Contest effects refer to the effects of moves when used in contests. */
@@ -558,7 +562,7 @@ declare module 'pokedex-promise-v2' {
             /** A list of attributes this item has. */
             attributes: NamedAPIResource[];
             /** An evolution chain this item requires to produce a bay during mating. */
-            baby_trigger_for: null | APIResource;
+            baby_trigger_for: null | ResultElement;
             /** The category of items this item falls into. */
             category: NamedAPIResource;
             /** The price of this item in stores. */
@@ -615,7 +619,7 @@ declare module 'pokedex-promise-v2' {
         }
 
         interface ItemMachine {
-            machine: APIResource;
+            machine: ResultElement;
             version_group: NamedAPIResource;
         }
 
@@ -626,7 +630,7 @@ declare module 'pokedex-promise-v2' {
 
         interface ItemSprites {
             /** The default depiction of this item. */
-            default: string;
+            default: null | string;
         }
 
         /** Item attributes define particular aspects of items, e.g. "usable in battle" or "consumable". */
@@ -828,11 +832,11 @@ declare module 'pokedex-promise-v2' {
             /** A detail of normal and super contest combos that require this move. */
             contest_combos: null | ContestCombos;
             /** The effect the move has when used in a contest. */
-            contest_effect: null | APIResource;
+            contest_effect: null | ResultElement;
             /** The type of appeal this move gives a Pokémon when used in a contest. */
             contest_type: null | NamedAPIResource;
             /** The type of damage the move inflicts on the target, e.g. physical. */
-            damage_class: null | NamedAPIResource;
+            damage_class: NamedAPIResource;
             /** The percent value of how likely it is this moves effect will happen. */
             effect_chance: number | null;
             /** The list of previous effects this move has had across version groups of the games. */
@@ -866,7 +870,7 @@ declare module 'pokedex-promise-v2' {
             /** A list of stats this moves effects and how much it effects them. */
             stat_changes: StatChange[];
             /** The effect the move has when used in a super contest. */
-            super_contest_effect: null | APIResource;
+            super_contest_effect: null | ResultElement;
             /** The type of target that will receive the effects of the attack. */
             target: NamedAPIResource;
             /** The elemental type of this move. */
@@ -911,7 +915,7 @@ declare module 'pokedex-promise-v2' {
         }
 
         interface MoveMachine {
-            machine: APIResource;
+            machine: ResultElement;
             version_group: NamedAPIResource;
         }
 
@@ -1234,7 +1238,7 @@ declare module 'pokedex-promise-v2' {
             /** A list of abilities this Pokémon could potentially have. */
             abilities: AbilityElement[];
             /** The base experience gained for defeating this Pokémon. */
-            base_experience: number;
+            base_experience: number | null;
             /** A list of forms this Pokémon can take on. */
             forms: NamedAPIResource[];
             /** A list of game indices relevent to Pokémon item by generation. */
@@ -1697,7 +1701,7 @@ declare module 'pokedex-promise-v2' {
         /** A Pokémon Species forms the basis for at least one Pokémon. Attributes of a Pokémon species are shared across all varieties of Pokémon within the species. A good example is Wormadam; Wormadam is the species which can be found in three different varieties, Wormadam-Trash, Wormadam-Sandy and Wormadam-Plant. */
         interface PokemonSpecies {
             /** The happiness when caught by a normal Pokéball; up to 255. The higher the number, the happier the Pokémon. */
-            base_happiness: number;
+            base_happiness: number | null;
             /** The base capture rate; up to 255. The higher the number, the easier the catch. */
             capture_rate: number;
             /** The color of this Pokémon for Pokédex search. */
@@ -1705,7 +1709,7 @@ declare module 'pokedex-promise-v2' {
             /** A list of egg groups this Pokémon species is a member of. */
             egg_groups: NamedAPIResource[];
             /** The evolution chain this Pokémon species is a member of. */
-            evolution_chain: APIResource;
+            evolution_chain: null | ResultElement;
             /** The Pokémon species that evolves into this Pokemon_species. */
             evolves_from_species: null | NamedAPIResource;
             /** A list of flavor text entries for this Pokémon species. */
@@ -1727,7 +1731,7 @@ declare module 'pokedex-promise-v2' {
             /** Whether or not this Pokémon has visual gender differences. */
             has_gender_differences: boolean;
             /** Initial hatch counter: one must walk 255 × (hatch_counter + 1) steps before this Pokémon's egg hatches, unless utilizing bonuses like Flame Body's. */
-            hatch_counter: number;
+            hatch_counter: number | null;
             /** The identifier for this resource. */
             id: number;
             /** Whether or not this is a baby Pokémon. */
@@ -1747,7 +1751,7 @@ declare module 'pokedex-promise-v2' {
             /** A list of Pokedexes and the indexes reserved within them for this Pokémon species. */
             pokedex_numbers: PokedexNumber[];
             /** The shape of this Pokémon for Pokédex search. */
-            shape: NamedAPIResource;
+            shape: null | NamedAPIResource;
             /** A list of the Pokémon that exist within this Pokémon species. */
             varieties: Variety[];
         }
@@ -1798,7 +1802,7 @@ declare module 'pokedex-promise-v2' {
             /** A list of locations that can be found in this region. */
             locations: NamedAPIResource[];
             /** The generation this region was introduced in. */
-            main_generation: NamedAPIResource;
+            main_generation: null | NamedAPIResource;
             /** The name for this resource. */
             name: string;
             /** The name of this resource listed in different languages. */
@@ -1821,7 +1825,7 @@ declare module 'pokedex-promise-v2' {
             /** A detail of natures which affect this stat positively or negatively. */
             affecting_natures: StatAffectingNatures;
             /** A list of characteristics that are set on a Pokémon when its highest base stat is this stat. */
-            characteristics: APIResource[];
+            characteristics: ResultElement[];
             /** ID the games use for this stat. */
             game_index: number;
             /** The identifier for this resource. */
@@ -2018,54 +2022,150 @@ declare module 'pokedex-promise-v2' {
         getResource(endpoint: string | string[], callback?: (result: any | any[], error?: any) => any): Promise<any | any[]>;
         /** @deprecated - will be removed on the next version. Use {@link getResource} instead */
         resource(endpoint: string | string[], callback?: (result: any | any[], error?: any) => any): Promise<any | any[]>;
-        getBerryByName(nameOrId: string | number | Array<string | number>, callback?: (result: PokeAPI.Berry | PokeAPI.Berry[], error?: any) => any): Promise<PokeAPI.Berry | PokeAPI.Berry[]>;
-        getBerryFirmnessByName(nameOrId: string | number | Array<string | number>, callback?: (result: PokeAPI.BerryFirmness | PokeAPI.BerryFirmness[], error?: any) => any): Promise<PokeAPI.BerryFirmness | PokeAPI.BerryFirmness[]>;
-        getBerryFlavorByName(nameOrId: string | number | Array<string | number>, callback?: (result: PokeAPI.BerryFlavor | PokeAPI.BerryFlavor[], error?: any) => any): Promise<PokeAPI.BerryFlavor | PokeAPI.BerryFlavor[]>;
-        getContestTypeByName(nameOrId: string | number | Array<string | number>, callback?: (result: PokeAPI.ContestType | PokeAPI.ContestType[], error?: any) => any): Promise<PokeAPI.ContestType | PokeAPI.ContestType[]>;
-        getContestEffectById(id: number | number[], callback?: (result: PokeAPI.ContestEffect | PokeAPI.ContestEffect[], error?: any) => any): Promise<PokeAPI.ContestEffect | PokeAPI.ContestEffect[]>;
-        getSuperContestEffectById(id: number | number[], callback?: (result: PokeAPI.SuperContestEffect | PokeAPI.SuperContestEffect[], error?: any) => any): Promise<PokeAPI.SuperContestEffect | PokeAPI.SuperContestEffect[]>;
-        getEncounterMethodByName(nameOrId: string | number | Array<string | number>, callback?: (result: PokeAPI.EncounterMethod | PokeAPI.EncounterMethod[], error?: any) => any): Promise<PokeAPI.EncounterMethod | PokeAPI.EncounterMethod[]>;
-        getEncounterConditionByName(nameOrId: string | number | Array<string | number>, callback?: (result: PokeAPI.EncounterCondition | PokeAPI.EncounterCondition[], error?: any) => any): Promise<PokeAPI.EncounterCondition | PokeAPI.EncounterCondition[]>;
-        getEncounterConditionValueByName(nameOrId: string | number | Array<string | number>, callback?: (result: PokeAPI.EncounterConditionValue | PokeAPI.EncounterConditionValue[], error?: any) => any): Promise<PokeAPI.EncounterConditionValue | PokeAPI.EncounterConditionValue[]>;
-        getEvolutionChainById(id: number | number[], callback?: (result: PokeAPI.EvolutionChain | PokeAPI.EvolutionChain[], error?: any) => any): Promise<PokeAPI.EvolutionChain | PokeAPI.EvolutionChain[]>;
-        getEvolutionTriggerByName(nameOrId: string | number | Array<string | number>, callback?: (result: PokeAPI.EvolutionTrigger | PokeAPI.EvolutionTrigger[], error?: any) => any): Promise<PokeAPI.EvolutionTrigger | PokeAPI.EvolutionTrigger[]>;
-        getGenerationByName(nameOrId: string | number | Array<string | number>, callback?: (result: PokeAPI.Generation | PokeAPI.Generation[], error?: any) => any): Promise<PokeAPI.Generation | PokeAPI.Generation[]>;
-        getPokedexByName(nameOrId: string | number | Array<string | number>, callback?: (result: PokeAPI.Pokedex | PokeAPI.Pokedex[], error?: any) => any): Promise<PokeAPI.Pokedex | PokeAPI.Pokedex[]>;
-        getVersionByName(nameOrId: string | number | Array<string | number>, callback?: (result: PokeAPI.Version | PokeAPI.Version[], error?: any) => any): Promise<PokeAPI.Version | PokeAPI.Version[]>;
-        getVersionGroupByName(nameOrId: string | number | Array<string | number>, callback?: (result: PokeAPI.VersionGroup | PokeAPI.VersionGroup[], error?: any) => any): Promise<PokeAPI.VersionGroup | PokeAPI.VersionGroup[]>;
-        getItemByName(nameOrId: string | number | Array<string | number>, callback?: (result: PokeAPI.Item | PokeAPI.Item[], error?: any) => any): Promise<PokeAPI.Item | PokeAPI.Item[]>;
-        getItemAttributeByName(nameOrId: string | number | Array<string | number>, callback?: (result: PokeAPI.ItemAttribute | PokeAPI.ItemAttribute[], error?: any) => any): Promise<PokeAPI.ItemAttribute | PokeAPI.ItemAttribute[]>;
-        getItemCategoryByName(nameOrId: string | number | Array<string | number>, callback?: (result: PokeAPI.ItemCategory | PokeAPI.ItemCategory[], error?: any) => any): Promise<PokeAPI.ItemCategory | PokeAPI.ItemCategory[]>;
-        getItemFlingEffectByName(nameOrId: string | number | Array<string | number>, callback?: (result: PokeAPI.ItemFlingEffect | PokeAPI.ItemFlingEffect[], error?: any) => any): Promise<PokeAPI.ItemFlingEffect | PokeAPI.ItemFlingEffect[]>;
-        getItemPocketByName(nameOrId: string | number | Array<string | number>, callback?: (result: PokeAPI.ItemPocket | PokeAPI.ItemPocket[], error?: any) => any): Promise<PokeAPI.ItemPocket | PokeAPI.ItemPocket[]>;
-        getMachineById(id: number | number[], callback?: (result: PokeAPI.Machine | PokeAPI.Machine[], error?: any) => any): Promise<PokeAPI.Machine | PokeAPI.Machine[]>;
-        getMoveByName(nameOrId: string | number | Array<string | number>, callback?: (result: PokeAPI.Move | PokeAPI.Move[], error?: any) => any): Promise<PokeAPI.Move | PokeAPI.Move[]>;
-        getMoveAilmentByName(nameOrId: string | number | Array<string | number>, callback?: (result: PokeAPI.MoveAilment | PokeAPI.MoveAilment[], error?: any) => any): Promise<PokeAPI.MoveAilment | PokeAPI.MoveAilment[]>;
-        getMoveBattleStyleByName(nameOrId: string | number | Array<string | number>, callback?: (result: PokeAPI.MoveBattleStyle | PokeAPI.MoveBattleStyle[], error?: any) => any): Promise<PokeAPI.MoveBattleStyle | PokeAPI.MoveBattleStyle[]>;
-        getMoveCategoryByName(nameOrId: string | number | Array<string | number>, callback?: (result: PokeAPI.MoveCategory | PokeAPI.MoveCategory[], error?: any) => any): Promise<PokeAPI.MoveCategory | PokeAPI.MoveCategory[]>;
-        getMoveDamageClassByName(nameOrId: string | number | Array<string | number>, callback?: (result: PokeAPI.MoveDamageClass | PokeAPI.MoveDamageClass[], error?: any) => any): Promise<PokeAPI.MoveDamageClass | PokeAPI.MoveDamageClass[]>;
-        getMoveLearnMethodByName(nameOrId: string | number | Array<string | number>, callback?: (result: PokeAPI.MoveLearnMethod | PokeAPI.MoveLearnMethod[], error?: any) => any): Promise<PokeAPI.MoveLearnMethod | PokeAPI.MoveLearnMethod[]>;
-        getMoveTargetByName(nameOrId: string | number | Array<string | number>, callback?: (result: PokeAPI.MoveTarget | PokeAPI.MoveTarget[], error?: any) => any): Promise<PokeAPI.MoveTarget | PokeAPI.MoveTarget[]>;
-        getLocationByName(nameOrId: string | number | Array<string | number>, callback?: (result: PokeAPI.Location | PokeAPI.Location[], error?: any) => any): Promise<PokeAPI.Location | PokeAPI.Location[]>;
-        getLocationAreaByName(nameOrId: string | number | Array<string | number>, callback?: (result: PokeAPI.LocationArea | PokeAPI.LocationArea[], error?: any) => any): Promise<PokeAPI.LocationArea | PokeAPI.LocationArea[]>;
-        getPalParkAreaByName(nameOrId: string | number | Array<string | number>, callback?: (result: PokeAPI.PalParkArea | PokeAPI.PalParkArea[], error?: any) => any): Promise<PokeAPI.PalParkArea | PokeAPI.PalParkArea[]>;
-        getRegionByName(nameOrId: string | number | Array<string | number>, callback?: (result: PokeAPI.Region | PokeAPI.Region[], error?: any) => any): Promise<PokeAPI.Region | PokeAPI.Region[]>;
-        getAbilityByName(nameOrId: string | number | Array<string | number>, callback?: (result: PokeAPI.Ability | PokeAPI.Ability[], error?: any) => any): Promise<PokeAPI.Ability | PokeAPI.Ability[]>;
-        getCharacteristicById(id: number | number[], callback?: (result: PokeAPI.Characteristic | PokeAPI.Characteristic[], error?: any) => any): Promise<PokeAPI.Characteristic | PokeAPI.Characteristic[]>;
-        getEggGroupByName(nameOrId: string | number | Array<string | number>, callback?: (result: PokeAPI.EggGroup | PokeAPI.EggGroup[], error?: any) => any): Promise<PokeAPI.EggGroup | PokeAPI.EggGroup[]>;
-        getGenderByName(nameOrId: string | number | Array<string | number>, callback?: (result: PokeAPI.Gender | PokeAPI.Gender[], error?: any) => any): Promise<PokeAPI.Gender | PokeAPI.Gender[]>;
-        getGrowthRateByName(nameOrId: string | number | Array<string | number>, callback?: (result: PokeAPI.GrowthRate | PokeAPI.GrowthRate[], error?: any) => any): Promise<PokeAPI.GrowthRate | PokeAPI.GrowthRate[]>;
-        getNatureByName(nameOrId: string | number | Array<string | number>, callback?: (result: PokeAPI.Nature | PokeAPI.Nature[], error?: any) => any): Promise<PokeAPI.Nature | PokeAPI.Nature[]>;
-        getPokeathlonStatByName(nameOrId: string | number | Array<string | number>, callback?: (result: PokeAPI.PokeathlonStat | PokeAPI.PokeathlonStat[], error?: any) => any): Promise<PokeAPI.PokeathlonStat | PokeAPI.PokeathlonStat[]>;
-        getPokemonByName(nameOrId: string | number | Array<string | number>, callback?: (result: PokeAPI.Pokemon | PokeAPI.Pokemon[], error?: any) => any): Promise<PokeAPI.Pokemon | PokeAPI.Pokemon[]>;
-        getPokemonColorByName(nameOrId: string | number | Array<string | number>, callback?: (result: PokeAPI.PokemonColor | PokeAPI.PokemonColor[], error?: any) => any): Promise<PokeAPI.PokemonColor | PokeAPI.PokemonColor[]>;
-        getPokemonFormByName(nameOrId: string | number | Array<string | number>, callback?: (result: PokeAPI.PokemonForm | PokeAPI.PokemonForm[], error?: any) => any): Promise<PokeAPI.PokemonForm | PokeAPI.PokemonForm[]>;
-        getPokemonHabitatByName(nameOrId: string | number | Array<string | number>, callback?: (result: PokeAPI.PokemonHabitat | PokeAPI.PokemonHabitat[], error?: any) => any): Promise<PokeAPI.PokemonHabitat | PokeAPI.PokemonHabitat[]>;
-        getPokemonShapeByName(nameOrId: string | number | Array<string | number>, callback?: (result: PokeAPI.PokemonShape | PokeAPI.PokemonShape[], error?: any) => any): Promise<PokeAPI.PokemonShape | PokeAPI.PokemonShape[]>;
-        getPokemonSpeciesByName(nameOrId: string | number | Array<string | number>, callback?: (result: PokeAPI.PokemonSpecies | PokeAPI.PokemonSpecies[], error?: any) => any): Promise<PokeAPI.PokemonSpecies | PokeAPI.PokemonSpecies[]>;
-        getStatByName(nameOrId: string | number | Array<string | number>, callback?: (result: PokeAPI.Stat | PokeAPI.Stat[], error?: any) => any): Promise<PokeAPI.Stat | PokeAPI.Stat[]>;
-        getTypeByName(nameOrId: string | number | Array<string | number>, callback?: (result: PokeAPI.Type | PokeAPI.Type[], error?: any) => any): Promise<PokeAPI.Type | PokeAPI.Type[]>;
-        getLanguageByName(nameOrId: string | number | Array<string | number>, callback?: (result: PokeAPI.Language | PokeAPI.Language[], error?: any) => any): Promise<PokeAPI.Language | PokeAPI.Language[]>;
+        getBerryByName(nameOrId: string | number, callback?: (result: PokeAPITypes.Berry, error?: any) => any): Promise<PokeAPITypes.Berry>;
+        getBerryByName(nameOrId: Array<string | number>, callback?: (result: PokeAPITypes.Berry[], error?: any) => any): Promise<PokeAPITypes.Berry[]>;
+        getBerryByName(nameOrId: string | number | Array<string | number>, callback?: (result: any, error?: any) => any): Promise<PokeAPI.Berry | PokeAPI.Berry[]>;
+        getBerryFirmnessByName(nameOrId: string | number, callback?: (result: PokeAPITypes.BerryFirmness, error?: any) => any): Promise<PokeAPITypes.BerryFirmness>;
+        getBerryFirmnessByName(nameOrId: Array<string | number>, callback?: (result: PokeAPITypes.BerryFirmness[], error?: any) => any): Promise<PokeAPITypes.BerryFirmness[]>;
+        getBerryFirmnessByName(nameOrId: string | number | Array<string | number>, callback?: (result: any, error?: any) => any): Promise<PokeAPI.BerryFirmness | PokeAPI.BerryFirmness[]>;
+        getBerryFlavorByName(nameOrId: string | number, callback?: (result: PokeAPITypes.BerryFlavor, error?: any) => any): Promise<PokeAPITypes.BerryFlavor>;
+        getBerryFlavorByName(nameOrId: Array<string | number>, callback?: (result: PokeAPITypes.BerryFlavor[], error?: any) => any): Promise<PokeAPITypes.BerryFlavor[]>;
+        getBerryFlavorByName(nameOrId: string | number | Array<string | number>, callback?: (result: any, error?: any) => any): Promise<PokeAPI.BerryFlavor | PokeAPI.BerryFlavor[]>;
+        getContestTypeByName(nameOrId: string | number, callback?: (result: PokeAPITypes.ContestType, error?: any) => any): Promise<PokeAPITypes.ContestType>;
+        getContestTypeByName(nameOrId: Array<string | number>, callback?: (result: PokeAPITypes.ContestType[], error?: any) => any): Promise<PokeAPITypes.ContestType[]>;
+        getContestTypeByName(nameOrId: string | number | Array<string | number>, callback?: (result: any, error?: any) => any): Promise<PokeAPI.ContestType | PokeAPI.ContestType[]>;
+        getContestEffectById(id: number, callback?: (result: PokeAPITypes.ContestEffect, error?: any) => any): Promise<PokeAPITypes.ContestEffect>;
+        getContestEffectById(id: Array<number>, callback?: (result: PokeAPITypes.ContestEffect[], error?: any) => any): Promise<PokeAPITypes.ContestEffect[]>;
+        getContestEffectById(id: number | Array<number>, callback?: (result: any, error?: any) => any): Promise<PokeAPI.ContestEffect | PokeAPI.ContestEffect[]>;
+        getSuperContestEffectById(id: number, callback?: (result: PokeAPITypes.SuperContestEffect, error?: any) => any): Promise<PokeAPITypes.SuperContestEffect>;
+        getSuperContestEffectById(id: Array<number>, callback?: (result: PokeAPITypes.SuperContestEffect[], error?: any) => any): Promise<PokeAPITypes.SuperContestEffect[]>;
+        getSuperContestEffectById(id: number | Array<number>, callback?: (result: any, error?: any) => any): Promise<PokeAPI.SuperContestEffect | PokeAPI.SuperContestEffect[]>;
+        getEncounterMethodByName(nameOrId: string | number, callback?: (result: PokeAPITypes.EncounterMethod, error?: any) => any): Promise<PokeAPITypes.EncounterMethod>;
+        getEncounterMethodByName(nameOrId: Array<string | number>, callback?: (result: PokeAPITypes.EncounterMethod[], error?: any) => any): Promise<PokeAPITypes.EncounterMethod[]>;
+        getEncounterMethodByName(nameOrId: string | number | Array<string | number>, callback?: (result: any, error?: any) => any): Promise<PokeAPI.EncounterMethod | PokeAPI.EncounterMethod[]>;
+        getEncounterConditionByName(nameOrId: string | number, callback?: (result: PokeAPITypes.EncounterCondition, error?: any) => any): Promise<PokeAPITypes.EncounterCondition>;
+        getEncounterConditionByName(nameOrId: Array<string | number>, callback?: (result: PokeAPITypes.EncounterCondition[], error?: any) => any): Promise<PokeAPITypes.EncounterCondition[]>;
+        getEncounterConditionByName(nameOrId: string | number | Array<string | number>, callback?: (result: any, error?: any) => any): Promise<PokeAPI.EncounterCondition | PokeAPI.EncounterCondition[]>;
+        getEncounterConditionValueByName(nameOrId: string | number, callback?: (result: PokeAPITypes.EncounterConditionValue, error?: any) => any): Promise<PokeAPITypes.EncounterConditionValue>;
+        getEncounterConditionValueByName(nameOrId: Array<string | number>, callback?: (result: PokeAPITypes.EncounterConditionValue[], error?: any) => any): Promise<PokeAPITypes.EncounterConditionValue[]>;
+        getEncounterConditionValueByName(nameOrId: string | number | Array<string | number>, callback?: (result: any, error?: any) => any): Promise<PokeAPI.EncounterConditionValue | PokeAPI.EncounterConditionValue[]>;
+        getEvolutionChainById(id: number, callback?: (result: PokeAPITypes.EvolutionChain, error?: any) => any): Promise<PokeAPITypes.EvolutionChain>;
+        getEvolutionChainById(id: Array<number>, callback?: (result: PokeAPITypes.EvolutionChain[], error?: any) => any): Promise<PokeAPITypes.EvolutionChain[]>;
+        getEvolutionChainById(id: number | Array<number>, callback?: (result: any, error?: any) => any): Promise<PokeAPI.EvolutionChain | PokeAPI.EvolutionChain[]>;
+        getEvolutionTriggerByName(nameOrId: string | number, callback?: (result: PokeAPITypes.EvolutionTrigger, error?: any) => any): Promise<PokeAPITypes.EvolutionTrigger>;
+        getEvolutionTriggerByName(nameOrId: Array<string | number>, callback?: (result: PokeAPITypes.EvolutionTrigger[], error?: any) => any): Promise<PokeAPITypes.EvolutionTrigger[]>;
+        getEvolutionTriggerByName(nameOrId: string | number | Array<string | number>, callback?: (result: any, error?: any) => any): Promise<PokeAPI.EvolutionTrigger | PokeAPI.EvolutionTrigger[]>;
+        getGenerationByName(nameOrId: string | number, callback?: (result: PokeAPITypes.Generation, error?: any) => any): Promise<PokeAPITypes.Generation>;
+        getGenerationByName(nameOrId: Array<string | number>, callback?: (result: PokeAPITypes.Generation[], error?: any) => any): Promise<PokeAPITypes.Generation[]>;
+        getGenerationByName(nameOrId: string | number | Array<string | number>, callback?: (result: any, error?: any) => any): Promise<PokeAPI.Generation | PokeAPI.Generation[]>;
+        getPokedexByName(nameOrId: string | number, callback?: (result: PokeAPITypes.Pokedex, error?: any) => any): Promise<PokeAPITypes.Pokedex>;
+        getPokedexByName(nameOrId: Array<string | number>, callback?: (result: PokeAPITypes.Pokedex[], error?: any) => any): Promise<PokeAPITypes.Pokedex[]>;
+        getPokedexByName(nameOrId: string | number | Array<string | number>, callback?: (result: any, error?: any) => any): Promise<PokeAPI.Pokedex | PokeAPI.Pokedex[]>;
+        getVersionByName(nameOrId: string | number, callback?: (result: PokeAPITypes.Version, error?: any) => any): Promise<PokeAPITypes.Version>;
+        getVersionByName(nameOrId: Array<string | number>, callback?: (result: PokeAPITypes.Version[], error?: any) => any): Promise<PokeAPITypes.Version[]>;
+        getVersionByName(nameOrId: string | number | Array<string | number>, callback?: (result: any, error?: any) => any): Promise<PokeAPI.Version | PokeAPI.Version[]>;
+        getVersionGroupByName(nameOrId: string | number, callback?: (result: PokeAPITypes.VersionGroup, error?: any) => any): Promise<PokeAPITypes.VersionGroup>;
+        getVersionGroupByName(nameOrId: Array<string | number>, callback?: (result: PokeAPITypes.VersionGroup[], error?: any) => any): Promise<PokeAPITypes.VersionGroup[]>;
+        getVersionGroupByName(nameOrId: string | number | Array<string | number>, callback?: (result: any, error?: any) => any): Promise<PokeAPI.VersionGroup | PokeAPI.VersionGroup[]>;
+        getItemByName(nameOrId: string | number, callback?: (result: PokeAPITypes.Item, error?: any) => any): Promise<PokeAPITypes.Item>;
+        getItemByName(nameOrId: Array<string | number>, callback?: (result: PokeAPITypes.Item[], error?: any) => any): Promise<PokeAPITypes.Item[]>;
+        getItemByName(nameOrId: string | number | Array<string | number>, callback?: (result: any, error?: any) => any): Promise<PokeAPI.Item | PokeAPI.Item[]>;
+        getItemAttributeByName(nameOrId: string | number, callback?: (result: PokeAPITypes.ItemAttribute, error?: any) => any): Promise<PokeAPITypes.ItemAttribute>;
+        getItemAttributeByName(nameOrId: Array<string | number>, callback?: (result: PokeAPITypes.ItemAttribute[], error?: any) => any): Promise<PokeAPITypes.ItemAttribute[]>;
+        getItemAttributeByName(nameOrId: string | number | Array<string | number>, callback?: (result: any, error?: any) => any): Promise<PokeAPI.ItemAttribute | PokeAPI.ItemAttribute[]>;
+        getItemCategoryByName(nameOrId: string | number, callback?: (result: PokeAPITypes.ItemCategory, error?: any) => any): Promise<PokeAPITypes.ItemCategory>;
+        getItemCategoryByName(nameOrId: Array<string | number>, callback?: (result: PokeAPITypes.ItemCategory[], error?: any) => any): Promise<PokeAPITypes.ItemCategory[]>;
+        getItemCategoryByName(nameOrId: string | number | Array<string | number>, callback?: (result: any, error?: any) => any): Promise<PokeAPI.ItemCategory | PokeAPI.ItemCategory[]>;
+        getItemFlingEffectByName(nameOrId: string | number, callback?: (result: PokeAPITypes.ItemFlingEffect, error?: any) => any): Promise<PokeAPITypes.ItemFlingEffect>;
+        getItemFlingEffectByName(nameOrId: Array<string | number>, callback?: (result: PokeAPITypes.ItemFlingEffect[], error?: any) => any): Promise<PokeAPITypes.ItemFlingEffect[]>;
+        getItemFlingEffectByName(nameOrId: string | number | Array<string | number>, callback?: (result: any, error?: any) => any): Promise<PokeAPI.ItemFlingEffect | PokeAPI.ItemFlingEffect[]>;
+        getItemPocketByName(nameOrId: string | number, callback?: (result: PokeAPITypes.ItemPocket, error?: any) => any): Promise<PokeAPITypes.ItemPocket>;
+        getItemPocketByName(nameOrId: Array<string | number>, callback?: (result: PokeAPITypes.ItemPocket[], error?: any) => any): Promise<PokeAPITypes.ItemPocket[]>;
+        getItemPocketByName(nameOrId: string | number | Array<string | number>, callback?: (result: any, error?: any) => any): Promise<PokeAPI.ItemPocket | PokeAPI.ItemPocket[]>;
+        getMachineById(id: number, callback?: (result: PokeAPITypes.Machine, error?: any) => any): Promise<PokeAPITypes.Machine>;
+        getMachineById(id: Array<number>, callback?: (result: PokeAPITypes.Machine[], error?: any) => any): Promise<PokeAPITypes.Machine[]>;
+        getMachineById(id: number | Array<number>, callback?: (result: any, error?: any) => any): Promise<PokeAPI.Machine | PokeAPI.Machine[]>;
+        getMoveByName(nameOrId: string | number, callback?: (result: PokeAPITypes.Move, error?: any) => any): Promise<PokeAPITypes.Move>;
+        getMoveByName(nameOrId: Array<string | number>, callback?: (result: PokeAPITypes.Move[], error?: any) => any): Promise<PokeAPITypes.Move[]>;
+        getMoveByName(nameOrId: string | number | Array<string | number>, callback?: (result: any, error?: any) => any): Promise<PokeAPI.Move | PokeAPI.Move[]>;
+        getMoveAilmentByName(nameOrId: string | number, callback?: (result: PokeAPITypes.MoveAilment, error?: any) => any): Promise<PokeAPITypes.MoveAilment>;
+        getMoveAilmentByName(nameOrId: Array<string | number>, callback?: (result: PokeAPITypes.MoveAilment[], error?: any) => any): Promise<PokeAPITypes.MoveAilment[]>;
+        getMoveAilmentByName(nameOrId: string | number | Array<string | number>, callback?: (result: any, error?: any) => any): Promise<PokeAPI.MoveAilment | PokeAPI.MoveAilment[]>;
+        getMoveBattleStyleByName(nameOrId: string | number, callback?: (result: PokeAPITypes.MoveBattleStyle, error?: any) => any): Promise<PokeAPITypes.MoveBattleStyle>;
+        getMoveBattleStyleByName(nameOrId: Array<string | number>, callback?: (result: PokeAPITypes.MoveBattleStyle[], error?: any) => any): Promise<PokeAPITypes.MoveBattleStyle[]>;
+        getMoveBattleStyleByName(nameOrId: string | number | Array<string | number>, callback?: (result: any, error?: any) => any): Promise<PokeAPI.MoveBattleStyle | PokeAPI.MoveBattleStyle[]>;
+        getMoveCategoryByName(nameOrId: string | number, callback?: (result: PokeAPITypes.MoveCategory, error?: any) => any): Promise<PokeAPITypes.MoveCategory>;
+        getMoveCategoryByName(nameOrId: Array<string | number>, callback?: (result: PokeAPITypes.MoveCategory[], error?: any) => any): Promise<PokeAPITypes.MoveCategory[]>;
+        getMoveCategoryByName(nameOrId: string | number | Array<string | number>, callback?: (result: any, error?: any) => any): Promise<PokeAPI.MoveCategory | PokeAPI.MoveCategory[]>;
+        getMoveDamageClassByName(nameOrId: string | number, callback?: (result: PokeAPITypes.MoveDamageClass, error?: any) => any): Promise<PokeAPITypes.MoveDamageClass>;
+        getMoveDamageClassByName(nameOrId: Array<string | number>, callback?: (result: PokeAPITypes.MoveDamageClass[], error?: any) => any): Promise<PokeAPITypes.MoveDamageClass[]>;
+        getMoveDamageClassByName(nameOrId: string | number | Array<string | number>, callback?: (result: any, error?: any) => any): Promise<PokeAPI.MoveDamageClass | PokeAPI.MoveDamageClass[]>;
+        getMoveLearnMethodByName(nameOrId: string | number, callback?: (result: PokeAPITypes.MoveLearnMethod, error?: any) => any): Promise<PokeAPITypes.MoveLearnMethod>;
+        getMoveLearnMethodByName(nameOrId: Array<string | number>, callback?: (result: PokeAPITypes.MoveLearnMethod[], error?: any) => any): Promise<PokeAPITypes.MoveLearnMethod[]>;
+        getMoveLearnMethodByName(nameOrId: string | number | Array<string | number>, callback?: (result: any, error?: any) => any): Promise<PokeAPI.MoveLearnMethod | PokeAPI.MoveLearnMethod[]>;
+        getMoveTargetByName(nameOrId: string | number, callback?: (result: PokeAPITypes.MoveTarget, error?: any) => any): Promise<PokeAPITypes.MoveTarget>;
+        getMoveTargetByName(nameOrId: Array<string | number>, callback?: (result: PokeAPITypes.MoveTarget[], error?: any) => any): Promise<PokeAPITypes.MoveTarget[]>;
+        getMoveTargetByName(nameOrId: string | number | Array<string | number>, callback?: (result: any, error?: any) => any): Promise<PokeAPI.MoveTarget | PokeAPI.MoveTarget[]>;
+        getLocationByName(nameOrId: string | number, callback?: (result: PokeAPITypes.Location, error?: any) => any): Promise<PokeAPITypes.Location>;
+        getLocationByName(nameOrId: Array<string | number>, callback?: (result: PokeAPITypes.Location[], error?: any) => any): Promise<PokeAPITypes.Location[]>;
+        getLocationByName(nameOrId: string | number | Array<string | number>, callback?: (result: any, error?: any) => any): Promise<PokeAPI.Location | PokeAPI.Location[]>;
+        getLocationAreaByName(nameOrId: string | number, callback?: (result: PokeAPITypes.LocationArea, error?: any) => any): Promise<PokeAPITypes.LocationArea>;
+        getLocationAreaByName(nameOrId: Array<string | number>, callback?: (result: PokeAPITypes.LocationArea[], error?: any) => any): Promise<PokeAPITypes.LocationArea[]>;
+        getLocationAreaByName(nameOrId: string | number | Array<string | number>, callback?: (result: any, error?: any) => any): Promise<PokeAPI.LocationArea | PokeAPI.LocationArea[]>;
+        getPalParkAreaByName(nameOrId: string | number, callback?: (result: PokeAPITypes.PalParkArea, error?: any) => any): Promise<PokeAPITypes.PalParkArea>;
+        getPalParkAreaByName(nameOrId: Array<string | number>, callback?: (result: PokeAPITypes.PalParkArea[], error?: any) => any): Promise<PokeAPITypes.PalParkArea[]>;
+        getPalParkAreaByName(nameOrId: string | number | Array<string | number>, callback?: (result: any, error?: any) => any): Promise<PokeAPI.PalParkArea | PokeAPI.PalParkArea[]>;
+        getRegionByName(nameOrId: string | number, callback?: (result: PokeAPITypes.Region, error?: any) => any): Promise<PokeAPITypes.Region>;
+        getRegionByName(nameOrId: Array<string | number>, callback?: (result: PokeAPITypes.Region[], error?: any) => any): Promise<PokeAPITypes.Region[]>;
+        getRegionByName(nameOrId: string | number | Array<string | number>, callback?: (result: any, error?: any) => any): Promise<PokeAPI.Region | PokeAPI.Region[]>;
+        getAbilityByName(nameOrId: string | number, callback?: (result: PokeAPITypes.Ability, error?: any) => any): Promise<PokeAPITypes.Ability>;
+        getAbilityByName(nameOrId: Array<string | number>, callback?: (result: PokeAPITypes.Ability[], error?: any) => any): Promise<PokeAPITypes.Ability[]>;
+        getAbilityByName(nameOrId: string | number | Array<string | number>, callback?: (result: any, error?: any) => any): Promise<PokeAPI.Ability | PokeAPI.Ability[]>;
+        getCharacteristicById(id: number, callback?: (result: PokeAPITypes.Characteristic, error?: any) => any): Promise<PokeAPITypes.Characteristic>;
+        getCharacteristicById(id: Array<number>, callback?: (result: PokeAPITypes.Characteristic[], error?: any) => any): Promise<PokeAPITypes.Characteristic[]>;
+        getCharacteristicById(id: number | Array<number>, callback?: (result: any, error?: any) => any): Promise<PokeAPI.Characteristic | PokeAPI.Characteristic[]>;
+        getEggGroupByName(nameOrId: string | number, callback?: (result: PokeAPITypes.EggGroup, error?: any) => any): Promise<PokeAPITypes.EggGroup>;
+        getEggGroupByName(nameOrId: Array<string | number>, callback?: (result: PokeAPITypes.EggGroup[], error?: any) => any): Promise<PokeAPITypes.EggGroup[]>;
+        getEggGroupByName(nameOrId: string | number | Array<string | number>, callback?: (result: any, error?: any) => any): Promise<PokeAPI.EggGroup | PokeAPI.EggGroup[]>;
+        getGenderByName(nameOrId: string | number, callback?: (result: PokeAPITypes.Gender, error?: any) => any): Promise<PokeAPITypes.Gender>;
+        getGenderByName(nameOrId: Array<string | number>, callback?: (result: PokeAPITypes.Gender[], error?: any) => any): Promise<PokeAPITypes.Gender[]>;
+        getGenderByName(nameOrId: string | number | Array<string | number>, callback?: (result: any, error?: any) => any): Promise<PokeAPI.Gender | PokeAPI.Gender[]>;
+        getGrowthRateByName(nameOrId: string | number, callback?: (result: PokeAPITypes.GrowthRate, error?: any) => any): Promise<PokeAPITypes.GrowthRate>;
+        getGrowthRateByName(nameOrId: Array<string | number>, callback?: (result: PokeAPITypes.GrowthRate[], error?: any) => any): Promise<PokeAPITypes.GrowthRate[]>;
+        getGrowthRateByName(nameOrId: string | number | Array<string | number>, callback?: (result: any, error?: any) => any): Promise<PokeAPI.GrowthRate | PokeAPI.GrowthRate[]>;
+        getNatureByName(nameOrId: string | number, callback?: (result: PokeAPITypes.Nature, error?: any) => any): Promise<PokeAPITypes.Nature>;
+        getNatureByName(nameOrId: Array<string | number>, callback?: (result: PokeAPITypes.Nature[], error?: any) => any): Promise<PokeAPITypes.Nature[]>;
+        getNatureByName(nameOrId: string | number | Array<string | number>, callback?: (result: any, error?: any) => any): Promise<PokeAPI.Nature | PokeAPI.Nature[]>;
+        getPokeathlonStatByName(nameOrId: string | number, callback?: (result: PokeAPITypes.PokeathlonStat, error?: any) => any): Promise<PokeAPITypes.PokeathlonStat>;
+        getPokeathlonStatByName(nameOrId: Array<string | number>, callback?: (result: PokeAPITypes.PokeathlonStat[], error?: any) => any): Promise<PokeAPITypes.PokeathlonStat[]>;
+        getPokeathlonStatByName(nameOrId: string | number | Array<string | number>, callback?: (result: any, error?: any) => any): Promise<PokeAPI.PokeathlonStat | PokeAPI.PokeathlonStat[]>;
+        getPokemonByName(nameOrId: string | number, callback?: (result: PokeAPITypes.Pokemon, error?: any) => any): Promise<PokeAPITypes.Pokemon>;
+        getPokemonByName(nameOrId: Array<string | number>, callback?: (result: PokeAPITypes.Pokemon[], error?: any) => any): Promise<PokeAPITypes.Pokemon[]>;
+        getPokemonByName(nameOrId: string | number | Array<string | number>, callback?: (result: any, error?: any) => any): Promise<PokeAPI.Pokemon | PokeAPI.Pokemon[]>;
+        getPokemonColorByName(nameOrId: string | number, callback?: (result: PokeAPITypes.PokemonColor, error?: any) => any): Promise<PokeAPITypes.PokemonColor>;
+        getPokemonColorByName(nameOrId: Array<string | number>, callback?: (result: PokeAPITypes.PokemonColor[], error?: any) => any): Promise<PokeAPITypes.PokemonColor[]>;
+        getPokemonColorByName(nameOrId: string | number | Array<string | number>, callback?: (result: any, error?: any) => any): Promise<PokeAPI.PokemonColor | PokeAPI.PokemonColor[]>;
+        getPokemonFormByName(nameOrId: string | number, callback?: (result: PokeAPITypes.PokemonForm, error?: any) => any): Promise<PokeAPITypes.PokemonForm>;
+        getPokemonFormByName(nameOrId: Array<string | number>, callback?: (result: PokeAPITypes.PokemonForm[], error?: any) => any): Promise<PokeAPITypes.PokemonForm[]>;
+        getPokemonFormByName(nameOrId: string | number | Array<string | number>, callback?: (result: any, error?: any) => any): Promise<PokeAPI.PokemonForm | PokeAPI.PokemonForm[]>;
+        getPokemonHabitatByName(nameOrId: string | number, callback?: (result: PokeAPITypes.PokemonHabitat, error?: any) => any): Promise<PokeAPITypes.PokemonHabitat>;
+        getPokemonHabitatByName(nameOrId: Array<string | number>, callback?: (result: PokeAPITypes.PokemonHabitat[], error?: any) => any): Promise<PokeAPITypes.PokemonHabitat[]>;
+        getPokemonHabitatByName(nameOrId: string | number | Array<string | number>, callback?: (result: any, error?: any) => any): Promise<PokeAPI.PokemonHabitat | PokeAPI.PokemonHabitat[]>;
+        getPokemonShapeByName(nameOrId: string | number, callback?: (result: PokeAPITypes.PokemonShape, error?: any) => any): Promise<PokeAPITypes.PokemonShape>;
+        getPokemonShapeByName(nameOrId: Array<string | number>, callback?: (result: PokeAPITypes.PokemonShape[], error?: any) => any): Promise<PokeAPITypes.PokemonShape[]>;
+        getPokemonShapeByName(nameOrId: string | number | Array<string | number>, callback?: (result: any, error?: any) => any): Promise<PokeAPI.PokemonShape | PokeAPI.PokemonShape[]>;
+        getPokemonSpeciesByName(nameOrId: string | number, callback?: (result: PokeAPITypes.PokemonSpecies, error?: any) => any): Promise<PokeAPITypes.PokemonSpecies>;
+        getPokemonSpeciesByName(nameOrId: Array<string | number>, callback?: (result: PokeAPITypes.PokemonSpecies[], error?: any) => any): Promise<PokeAPITypes.PokemonSpecies[]>;
+        getPokemonSpeciesByName(nameOrId: string | number | Array<string | number>, callback?: (result: any, error?: any) => any): Promise<PokeAPI.PokemonSpecies | PokeAPI.PokemonSpecies[]>;
+        getStatByName(nameOrId: string | number, callback?: (result: PokeAPITypes.Stat, error?: any) => any): Promise<PokeAPITypes.Stat>;
+        getStatByName(nameOrId: Array<string | number>, callback?: (result: PokeAPITypes.Stat[], error?: any) => any): Promise<PokeAPITypes.Stat[]>;
+        getStatByName(nameOrId: string | number | Array<string | number>, callback?: (result: any, error?: any) => any): Promise<PokeAPI.Stat | PokeAPI.Stat[]>;
+        getTypeByName(nameOrId: string | number, callback?: (result: PokeAPITypes.Type, error?: any) => any): Promise<PokeAPITypes.Type>;
+        getTypeByName(nameOrId: Array<string | number>, callback?: (result: PokeAPITypes.Type[], error?: any) => any): Promise<PokeAPITypes.Type[]>;
+        getTypeByName(nameOrId: string | number | Array<string | number>, callback?: (result: any, error?: any) => any): Promise<PokeAPI.Type | PokeAPI.Type[]>;
+        getLanguageByName(nameOrId: string | number, callback?: (result: PokeAPITypes.Language, error?: any) => any): Promise<PokeAPITypes.Language>;
+        getLanguageByName(nameOrId: Array<string | number>, callback?: (result: PokeAPITypes.Language[], error?: any) => any): Promise<PokeAPITypes.Language[]>;
+        getLanguageByName(nameOrId: string | number | Array<string | number>, callback?: (result: any, error?: any) => any): Promise<PokeAPI.Language | PokeAPI.Language[]>;
         getBerriesList(interval?: ListEndpointOptions, callback?: (result: PokeAPI.NamedAPIResourceList, error?: any) => any): Promise<PokeAPI.NamedAPIResourceList>;
         getBerriesFirmnessList(interval?: ListEndpointOptions, callback?: (result: PokeAPI.NamedAPIResourceList, error?: any) => any): Promise<PokeAPI.NamedAPIResourceList>;
         /** @deprecated will be removed on a future version. Use {@link getBerriesFirmnessList} instead */
