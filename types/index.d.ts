@@ -2013,10 +2013,16 @@ declare module 'pokedex-promise-v2' {
         cacheLimit?: number;
     }
 
+
+
     class PokeAPI {
         constructor(options?: PokeAPIOptions);
+        getResource(endpoint: string, callback?: (result: any, error?: any) => any): Promise<any>;
+        getResource(endpoint: string[], callback?: (result: any[], error?: any) => any): Promise<any[]>;
         getResource(endpoint: string | string[], callback?: (result: any | any[], error?: any) => any): Promise<any | any[]>;
         /** @deprecated - will be removed on the next version. Use {@link getResource} instead */
+        resource(endpoint: string, callback?: (result: any, error?: any) => any): Promise<any>;
+        resource(endpoint: string[], callback?: (result: any[], error?: any) => any): Promise<any[]>;
         resource(endpoint: string | string[], callback?: (result: any | any[], error?: any) => any): Promise<any | any[]>;
         getBerryByName(nameOrId: string | number, callback?: (result: PokeAPI.Berry, error?: any) => any): Promise<PokeAPI.Berry>;
         getBerryByName(nameOrId: Array<string | number>, callback?: (result: PokeAPI.Berry[], error?: any) => any): Promise<PokeAPI.Berry[]>;
