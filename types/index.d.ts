@@ -2013,7 +2013,7 @@ declare module 'pokedex-promise-v2' {
         cacheLimit?: number;
     }
 
-
+    
 
     class PokeAPI {
         constructor(options?: PokeAPIOptions);
