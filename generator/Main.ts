@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { Project } from 'ts-morph';
+import { MethodDeclarationStructure, OptionalKind, Project } from 'ts-morph';
 
 import endpoints from '../src/utils/Endpoints.js';
 import rootEndpoints from '../src/utils/RootEndpoints.js';
@@ -115,34 +115,40 @@ console.timeLog(mainLabel, ' - Base generated, generating methods...');
 
 // Add the get generic resource array method
 const getResourceCode = `try {
+  // Fail if the endpoint is not supplied
   if (!endpoint) {
     throw new Error('Param "endpoint" is required needs to be a string or array of strings');
   }
 
-  if (typeof endpoint === 'string') {
-    return getJSON<any>(this.options, endpoint, callback);
-  } else if (typeof endpoint === 'object') {
-    const mapper = async (endpoints: string) => {
-      const queryRes = await getJSON<any>(this.options, endpoints);
-      return queryRes;
-    };
-
-    // Fetch data asynchronously to be faster
-    const mappedResults = await pMap(endpoint, mapper, { concurrency: 4 });
-
-    if (callback) {
-      callback(mappedResults);
-    }
-
-    return mappedResults;
-  } else {
+  // Fail if the input types aren't accepted
+  if (!Array.isArray(endpoint) && typeof endpoint !== 'string') {
     throw new Error('Param "endpoint" needs to be a string or array of strings');
   }
+
+  /// If the user has submitted a string, return the JSON promise
+  if (typeof endpoint === 'string') {
+    return getJSON<any>(this.options, endpoint, callback);
+  }
+
+  // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
+  const mapper = async (endpoints: string) => {
+    const queryRes = await getJSON<any>(this.options, endpoints);
+    return queryRes;
+  };
+
+  // Fetch data asynchronously to be faster
+  const mappedResults = await pMap(endpoint, mapper, { concurrency: 4 });
+
+  if (callback) {
+    callback(mappedResults);
+  }
+
+  return mappedResults;
 } catch (error) {
   handleError(error, callback);
 }`;
 
-let methodStructure = {
+let methodStructure: OptionalKind<MethodDeclarationStructure> = {
   name: 'getResource',
   isAsync: true,
   parameters: [{
@@ -155,6 +161,36 @@ let methodStructure = {
     hasQuestionToken: true,
   }],
   returnType: 'Promise<any | any[]>',
+  overloads: [
+    {
+      parameters: [
+        {
+          name: 'endpoint',
+          type: 'string',
+        },
+        {
+          name: 'callback',
+          type: '(result: any, error?: any) => any',
+          hasQuestionToken: true,
+        },
+      ],
+      returnType: 'Promise<any>',
+    },
+    {
+      parameters: [
+        {
+          name: 'endpoint',
+          type: 'string[]',
+        },
+        {
+          name: 'callback',
+          type: '(result: any[], error?: any) => any',
+          hasQuestionToken: true,
+        },
+      ],
+      returnType: 'Promise<any[]>',
+    },
+  ],
 };
 
 pokeApiClass.addMethod(methodStructure).setBodyText(getResourceCode);
@@ -182,6 +218,11 @@ for (const [methodName, endpoint, jsdocs] of endpoints) {
   const inputParam = methodName.match(/ByName$/) ? 'nameOrId' : 'id';
   const inputParamType = methodName.match(/ByName$/) ? 'string | number | Array<string | number>' : 'number | number[]';
 
+  const singleParamType = methodName.match(/ByName$/) ? 'string | number' : 'number';
+  const multipleParamType = methodName.match(/ByName$/) ? 'Array<string | number>' : 'number[]';
+
+  const returnType = `PokeAPITypes.${apiMap[endpoint]}`;
+
   methodStructure = {
     name: methodName,
     isAsync: true,
@@ -191,50 +232,80 @@ for (const [methodName, endpoint, jsdocs] of endpoints) {
     },
     {
       name: 'callback',
-      type: `(result: PokeAPITypes.${apiMap[endpoint]} | PokeAPITypes.${apiMap[endpoint]}[], error?: any) => any`,
+      type: `((result: ${returnType}, error?: any) => any) & ((result: ${returnType}[], error?: any) => any)`,
       hasQuestionToken: true,
     }],
-    returnType: `Promise<PokeAPITypes.${apiMap[endpoint]} | PokeAPITypes.${apiMap[endpoint]}[]>`,
+    returnType: `Promise<${returnType} | ${returnType}[]>`,
+    overloads: [
+      {
+        parameters: [
+          {
+            name: inputParam,
+            type: singleParamType,
+          },
+          {
+            name: 'callback',
+            type: `(result: ${returnType}, error?: any) => any`,
+            hasQuestionToken: true,
+          },
+        ],
+        returnType: `Promise<${returnType}>`,
+      },
+      {
+        parameters: [
+          {
+            name: inputParam,
+            type: multipleParamType,
+          },
+          {
+            name: 'callback',
+            type: `(result: ${returnType}[], error?: any) => any`,
+            hasQuestionToken: true,
+          },
+        ],
+        returnType: `Promise<${returnType}[]>`,
+      },
+    ],
   };
 
   const generatedMethod = pokeApiClass.addMethod(methodStructure).setBodyText(`try {
-    if (${inputParam}) {
-      // If the user has submitted a Name or an ID, return the JSON promise
-      if (typeof ${inputParam} === 'number' || typeof ${inputParam} === 'string') {
-        return getJSON<PokeAPITypes.${apiMap[endpoint]}>(this.options, \`\${this.options.protocol}\${this.options.hostName}\${this.options.versionPath}${endpoint}/\${${inputParam}}/\`, callback);
-      }
-
-      // If the user has submitted an Array return a new promise which will
-      // resolve when all getJSON calls are ended
-      else if (typeof ${inputParam} === 'object') {
-        const mapper = async (${inputParam}s: ${inputParamType}) => {
-          const queryRes = await getJSON<PokeAPITypes.${apiMap[endpoint]}>(this.options, \`\${this.options.protocol}\${this.options.hostName}\${this.options.versionPath}${endpoint}/\${${inputParam}s}/\`);
-          return queryRes;
-        };
-
-        // Fetch data asynchronously to be faster
-        const mappedResults = await pMap(${inputParam}, mapper, { concurrency: 4 });
-
-        if (callback) {
-          callback(mappedResults);
-        }
-
-        return mappedResults;
-      } else {
-        throw new Error('Param "${inputParam}" must be a ${methodName.match(/ByName$/) ? 'string, array of strings or array of string and/or numbers' : 'number or array of numbers'}');
-      }
-    } else {
+    // Fail if the param is not supplied
+    if (!${inputParam}) {
       throw new Error('Param "${inputParam}" is required (Must be a ${methodName.match(/ByName$/) ? 'string, array of strings or array of string and/or numbers' : 'number or array of numbers'} )');
     }
-  } catch (error) {
+
+    // Fail if the input types aren't accepted
+    if (!Array.isArray(${inputParam}) && typeof ${inputParam} !== 'number' && typeof ${inputParam} !== 'string') {
+    throw new Error('Param "${inputParam}" must be a ${methodName.match(/ByName$/) ? 'string, array of strings or array of string and/or numbers' : 'number or array of numbers'}');
+    }
+
+    // If the user has submitted a Name or an ID, return the JSON promise
+    if (typeof ${inputParam} === 'number' || typeof ${inputParam} === 'string') {
+      return getJSON<${returnType}>(this.options, \`\${this.options.protocol}\${this.options.hostName}\${this.options.versionPath}${endpoint}/\${${inputParam}}/\`, callback);
+    }
+
+    // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
+    const mapper = async (${inputParam}s: ${inputParamType}) => {
+      const queryRes = await getJSON<${returnType}>(this.options, \`\${this.options.protocol}\${this.options.hostName}\${this.options.versionPath}${endpoint}/\${${inputParam}s}/\`);
+      return queryRes;
+    };
+
+    // Fetch data asynchronously to be faster
+    const mappedResults = await pMap(${inputParam}, mapper, { concurrency: 4 });
+
+    // Invoke the callback if we have one
+    if (callback) {
+      callback(mappedResults);
+    }
+
+    return mappedResults;
+} catch (error) {
     handleError(error, callback);
-  }`);
+}`);
 
   // Add the declaration to the types file
-  // Sanitizing the namespace and remove the async keyword
+  // Removing the async keyword
   methodStructure.isAsync = false;
-  methodStructure.parameters[1].type = methodStructure.parameters[1].type.replace(/PokeAPITypes/g, 'PokeAPI');
-  methodStructure.returnType = methodStructure.returnType.replace(/PokeAPITypes/g, 'PokeAPI');
   const declaredMethod = declarationClass.addMethod(methodStructure);
 
   // If the method has a JSDoc, add it
@@ -263,7 +334,7 @@ for (const [method, rawEndpoint, jsdocs] of rootEndpoints) {
   }
 
   // Infer the return type from the name
-  const returnType = apiMap[endpoint].includes('NamedList') ? 'NamedAPIResourceList' : 'APIResourceList';
+  const returnType = `PokeAPITypes.${apiMap[endpoint].includes('NamedList') ? 'NamedAPIResourceList' : 'APIResourceList'}`;
 
   const methodStructure = {
     name: method,
@@ -275,10 +346,10 @@ for (const [method, rawEndpoint, jsdocs] of rootEndpoints) {
     },
     {
       name: 'callback',
-      type: `(result: PokeAPITypes.${returnType}, error?: any) => any`,
+      type: `(result: ${returnType}, error?: any) => any`,
       hasQuestionToken: true,
     }],
-    returnType: `Promise<PokeAPITypes.${returnType}>`,
+    returnType: `Promise<${returnType}>`,
   };
 
   const generatedMethod = pokeApiClass.addMethod(methodStructure).setBodyText(`try {
@@ -300,10 +371,8 @@ for (const [method, rawEndpoint, jsdocs] of rootEndpoints) {
   }`);
 
   // Add the declaration to the types file
-  // Sanitizing the namespace and remove the async keyword
+  // Removing the async keyword
   methodStructure.isAsync = false;
-  methodStructure.parameters[1].type = methodStructure.parameters[1].type.replace(/PokeAPITypes/g, 'PokeAPI');
-  methodStructure.returnType = methodStructure.returnType.replace(/PokeAPITypes/g, 'PokeAPI');
   const declaredMethod = declarationClass.addMethod(methodStructure);
 
   // If the method has a JSDoc, add it
@@ -377,6 +446,10 @@ pokeApiClass.addMethod({
 declarationClass.getParentModule().addExportAssignment({
   expression: 'PokeAPI',
 });
+
+// Sanitize the namespaces of the declaration file and format it again
+declarationClass.replaceWithText(declarationClass.getFullText().replace(/PokeAPITypes/g, 'PokeAPI'));
+declarationClass.formatText();
 
 // Top level async function
 (async () => {
