@@ -1352,6 +1352,7 @@ declare module 'pokedex-promise-v2' {
 
         interface OfficialArtwork {
             front_default: null | string;
+            front_shiny: null | string;
         }
 
         interface Versions {
@@ -1721,7 +1722,7 @@ declare module 'pokedex-promise-v2' {
             /** The generation this Pokémon species was introduced in. */
             generation: NamedAPIResource;
             /** The rate at which this Pokémon species gains levels. */
-            growth_rate: NamedAPIResource;
+            growth_rate: null | NamedAPIResource;
             /** The habitat this Pokémon species can be encountered in. */
             habitat: null | NamedAPIResource;
             /** Whether or not this Pokémon has visual gender differences. */
@@ -2013,7 +2014,7 @@ declare module 'pokedex-promise-v2' {
         cacheLimit?: number;
     }
 
-    
+
 
     class PokeAPI {
         constructor(options?: PokeAPIOptions);
