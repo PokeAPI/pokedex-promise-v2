@@ -48,7 +48,7 @@
   },
   "homepage": "https://github.com/PokeAPI/pokedex-promise-v2#readme",
   "dependencies": {
-    "axios": "^0.24.0",
+    "axios": "^1.6.2",
     "node-cache": "^5.1.2",
     "p-map": "^5.5.0"
   },
@@ -71,7 +71,7 @@
     "eslint-plugin-import": "^2.26.0",
     "lodash": "^4.17.21",
     "mocha": "^9.2.2",
-    "quicktype-core": "^6.1.0",
+    "quicktype-core": "^23.0.80",
     "ts-morph": "^12.2.0",
     "typescript": "^4.9.4"
   }
