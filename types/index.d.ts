@@ -11,6 +11,7 @@ declare module 'pokedex-promise-v2' {
         interface APIResource {
             /** The URL of the referenced resource. */
             url: string;
+            [property: string]: any;
         }
 
         interface APIResourceList {
@@ -18,6 +19,7 @@ declare module 'pokedex-promise-v2' {
             next: null | string;
             previous: null | string;
             results: APIResource[];
+            [property: string]: any;
         }
 
         interface EndpointsList {
@@ -69,6 +71,7 @@ declare module 'pokedex-promise-v2' {
             type: string;
             version: string;
             "version-group": string;
+            [property: string]: any;
         }
 
         interface NamedAPIResource {
@@ -76,6 +79,7 @@ declare module 'pokedex-promise-v2' {
             name: string;
             /** The URL of the referenced resource. */
             url: string;
+            [property: string]: any;
         }
 
         interface NamedAPIResourceList {
@@ -87,6 +91,7 @@ declare module 'pokedex-promise-v2' {
             previous: null | string;
             /** A list of named API resources. */
             results: NamedAPIResource[];
+            [property: string]: any;
         }
 
         /** Abilities provide passive effects for Pokémon in battle or in the overworld. Pokémon have multiple possible abilities but can have only one ability at a time. Check out [Bulbapedia](http://bulbapedia.bulbagarden.net/wiki/Ability) for greater detail. */
@@ -109,6 +114,7 @@ declare module 'pokedex-promise-v2' {
             names: AbilityName[];
             /** A list of Pokémon that could potentially have this ability. */
             pokemon: AbilityPokemon[];
+            [property: string]: any;
         }
 
         interface AbilityEffectChange {
@@ -116,28 +122,33 @@ declare module 'pokedex-promise-v2' {
             effect_entries: PurpleEffectEntry[];
             /** The version group in which the previous effect of this ability originated. */
             version_group: NamedAPIResource;
+            [property: string]: any;
         }
 
         interface PurpleEffectEntry {
             effect: string;
             language: NamedAPIResource;
+            [property: string]: any;
         }
 
         interface AbilityEffectEntry {
             effect: string;
             language: NamedAPIResource;
             short_effect: string;
+            [property: string]: any;
         }
 
         interface AbilityFlavorTextEntry {
             flavor_text: string;
             language: NamedAPIResource;
             version_group: NamedAPIResource;
+            [property: string]: any;
         }
 
         interface AbilityName {
             language: NamedAPIResource;
             name: string;
+            [property: string]: any;
         }
 
         interface AbilityPokemon {
@@ -147,6 +158,7 @@ declare module 'pokedex-promise-v2' {
             pokemon: NamedAPIResource;
             /** Pokémon have 3 ability 'slots' which hold references to possible abilities they could have. This is the slot of this ability for the referenced pokemon. */
             slot: number;
+            [property: string]: any;
         }
 
         /** Berries are small fruits that can provide HP and status condition restoration, stat enhancement, and even damage negation when eaten by Pokémon. Check out [Bulbapedia](http://bulbapedia.bulbagarden.net/wiki/Berry) for greater detail. */
@@ -175,11 +187,13 @@ declare module 'pokedex-promise-v2' {
             smoothness: number;
             /** The speed at which this Berry dries out the soil as it grows. A higher rate means the soil dries more quickly. */
             soil_dryness: number;
+            [property: string]: any;
         }
 
         interface Flavor {
             flavor: NamedAPIResource;
             potency: number;
+            [property: string]: any;
         }
 
         /** Berries can be soft or hard. Check out [Bulbapedia](http://bulbapedia.bulbagarden.net/wiki/Category:Berries_by_firmness) for greater detail. */
@@ -192,11 +206,13 @@ declare module 'pokedex-promise-v2' {
             name: string;
             /** The name of this resource listed in different languages. */
             names: BerryFirmnessName[];
+            [property: string]: any;
         }
 
         interface BerryFirmnessName {
             language: NamedAPIResource;
             name: string;
+            [property: string]: any;
         }
 
         /** Flavors determine whether a Pokémon will benefit or suffer from eating a berry based on their [nature](#natures). Check out [Bulbapedia](http://bulbapedia.bulbagarden.net/wiki/Flavor) for greater detail. */
@@ -211,33 +227,40 @@ declare module 'pokedex-promise-v2' {
             name: string;
             /** The name of this resource listed in different languages. */
             names: BerryFlavorName[];
+            [property: string]: any;
         }
 
         interface BerryElement {
             berry: NamedAPIResource;
             potency: number;
+            [property: string]: any;
         }
 
         interface BerryFlavorName {
             language: NamedAPIResource;
             name: string;
+            [property: string]: any;
         }
 
         /** Characteristics indicate which stat contains a Pokémon's highest IV. A Pokémon's Characteristic is determined by the remainder of its highest IV divided by 5 (gene_modulo). Check out [Bulbapedia](http://bulbapedia.bulbagarden.net/wiki/Characteristic) for greater detail. */
         interface Characteristic {
+            /** The descriptions of this characteristic listed in different languages. */
             descriptions: CharacteristicDescription[];
             /** The remainder of the highest stat/IV divided by 5. */
             gene_modulo: number;
+            /** The stat which results in this characteristic. */
             highest_stat: NamedAPIResource;
             /** The identifier for this resource. */
             id: number;
             /** The possible values of the highest stat that would result in a Pokémon recieving this characteristic when divided by 5. */
             possible_values: number[];
+            [property: string]: any;
         }
 
         interface CharacteristicDescription {
             description: string;
             language: NamedAPIResource;
+            [property: string]: any;
         }
 
         interface SuperContestEffectList {
@@ -245,6 +268,7 @@ declare module 'pokedex-promise-v2' {
             next: null | string;
             previous: null | string;
             results: APIResource[];
+            [property: string]: any;
         }
 
         /** Contest effects refer to the effects of moves when used in contests. */
@@ -259,16 +283,19 @@ declare module 'pokedex-promise-v2' {
             id: number;
             /** The base number of hearts the user's opponent loses. */
             jam: number;
+            [property: string]: any;
         }
 
         interface ContestEffectEffectEntry {
             effect: string;
             language: NamedAPIResource;
+            [property: string]: any;
         }
 
         interface ContestEffectFlavorTextEntry {
             flavor_text: string;
             language: NamedAPIResource;
+            [property: string]: any;
         }
 
         /** Contest types are categories judges used to weigh a Pokémon's condition in Pokémon contests. Check out [Bulbapedia](http://bulbapedia.bulbagarden.net/wiki/Contest_condition) for greater detail. */
@@ -281,12 +308,14 @@ declare module 'pokedex-promise-v2' {
             name: string;
             /** The name of this contest type listed in different languages. */
             names: ContestTypeName[];
+            [property: string]: any;
         }
 
         interface ContestTypeName {
             color: string;
             language: NamedAPIResource;
             name: string;
+            [property: string]: any;
         }
 
         /** Egg Groups are categories which determine which Pokémon are able to interbreed. Pokémon may belong to either one or two Egg Groups. Check out [Bulbapedia](http://bulbapedia.bulbagarden.net/wiki/Egg_Group) for greater detail. */
@@ -299,11 +328,13 @@ declare module 'pokedex-promise-v2' {
             names: EggGroupName[];
             /** A list of all Pokémon species that are members of this egg group. */
             pokemon_species: NamedAPIResource[];
+            [property: string]: any;
         }
 
         interface EggGroupName {
             language: NamedAPIResource;
             name: string;
+            [property: string]: any;
         }
 
         /** Conditions which affect what pokemon might appear in the wild, e.g., day or night. */
@@ -316,11 +347,13 @@ declare module 'pokedex-promise-v2' {
             names: EncounterConditionName[];
             /** A list of possible values for this encounter condition. */
             values: NamedAPIResource[];
+            [property: string]: any;
         }
 
         interface EncounterConditionName {
             language: NamedAPIResource;
             name: string;
+            [property: string]: any;
         }
 
         /** Encounter condition values are the various states that an encounter condition can have, i.e., time of day can be either day or night. */
@@ -333,11 +366,13 @@ declare module 'pokedex-promise-v2' {
             name: string;
             /** The name of this resource listed in different languages. */
             names: EncounterConditionValueName[];
+            [property: string]: any;
         }
 
         interface EncounterConditionValueName {
             language: NamedAPIResource;
             name: string;
+            [property: string]: any;
         }
 
         /** Methods by which the player might can encounter Pokémon in the wild, e.g., walking in tall grass. Check out [Bulbapedia](http://bulbapedia.bulbagarden.net/wiki/Wild_Pok%C3%A9mon) for greater detail. */
@@ -350,11 +385,13 @@ declare module 'pokedex-promise-v2' {
             names: EncounterMethodName[];
             /** A good value for sorting. */
             order: number;
+            [property: string]: any;
         }
 
         interface EncounterMethodName {
             language: NamedAPIResource;
             name: string;
+            [property: string]: any;
         }
 
         /** Evolution chains are essentially family trees. They start with the lowest stage within a family and detail evolution conditions for each as well as Pokémon they can evolve into up through the hierarchy. */
@@ -365,6 +402,7 @@ declare module 'pokedex-promise-v2' {
             chain: Chain;
             /** The identifier for this resource. */
             id: number;
+            [property: string]: any;
         }
 
         interface Chain {
@@ -372,6 +410,7 @@ declare module 'pokedex-promise-v2' {
             evolves_to: ChainEvolvesTo[];
             is_baby: boolean;
             species: NamedAPIResource;
+            [property: string]: any;
         }
 
         interface ChainEvolvesTo {
@@ -379,6 +418,7 @@ declare module 'pokedex-promise-v2' {
             evolves_to: EvolvesToEvolvesTo[];
             is_baby: boolean;
             species: NamedAPIResource;
+            [property: string]: any;
         }
 
         interface PurpleEvolutionDetail {
@@ -418,6 +458,7 @@ declare module 'pokedex-promise-v2' {
             trigger: NamedAPIResource;
             /** Whether or not the 3DS needs to be turned upside-down as this Pokémon levels up. */
             turn_upside_down: boolean;
+            [property: string]: any;
         }
 
         interface EvolvesToEvolvesTo {
@@ -425,6 +466,7 @@ declare module 'pokedex-promise-v2' {
             evolves_to: any[];
             is_baby: boolean;
             species: NamedAPIResource;
+            [property: string]: any;
         }
 
         interface FluffyEvolutionDetail {
@@ -464,6 +506,7 @@ declare module 'pokedex-promise-v2' {
             trigger: NamedAPIResource;
             /** Whether or not the 3DS needs to be turned upside-down as this Pokémon levels up. */
             turn_upside_down: boolean;
+            [property: string]: any;
         }
 
         /** Evolution triggers are the events and conditions that cause a Pokémon to evolve. Check out [Bulbapedia](http://bulbapedia.bulbagarden.net/wiki/Methods_of_evolution) for greater detail. */
@@ -476,11 +519,13 @@ declare module 'pokedex-promise-v2' {
             names: EvolutionTriggerName[];
             /** A list of pokemon species that result from this evolution trigger. */
             pokemon_species: NamedAPIResource[];
+            [property: string]: any;
         }
 
         interface EvolutionTriggerName {
             language: NamedAPIResource;
             name: string;
+            [property: string]: any;
         }
 
         /** Genders were introduced in Generation II for the purposes of breeding Pokémon but can also result in visual differences or even different evolutionary lines. Check out [Bulbapedia](http://bulbapedia.bulbagarden.net/wiki/Gender) for greater detail. */
@@ -493,11 +538,13 @@ declare module 'pokedex-promise-v2' {
             pokemon_species_details: PokemonSpeciesDetail[];
             /** A list of Pokémon species that required this gender in order for a Pokémon to evolve into them. */
             required_for_evolution: NamedAPIResource[];
+            [property: string]: any;
         }
 
         interface PokemonSpeciesDetail {
             pokemon_species: NamedAPIResource;
             rate: number;
+            [property: string]: any;
         }
 
         /** A generation is a grouping of the Pokémon games that separates them based on the Pokémon they include. In each generation, a new set of Pokémon, Moves, Abilities and Types that did not exist in the previous generation are released. */
@@ -520,11 +567,13 @@ declare module 'pokedex-promise-v2' {
             types: NamedAPIResource[];
             /** A list of version groups that were introduced in this generation. */
             version_groups: NamedAPIResource[];
+            [property: string]: any;
         }
 
         interface GenerationName {
             language: NamedAPIResource;
             name: string;
+            [property: string]: any;
         }
 
         /** Growth rates are the speed with which Pokémon gain levels through experience. Check out [Bulbapedia](http://bulbapedia.bulbagarden.net/wiki/Experience) for greater detail. */
@@ -541,16 +590,19 @@ declare module 'pokedex-promise-v2' {
             name: string;
             /** A list of Pokémon species that gain levels at this growth rate. */
             pokemon_species: NamedAPIResource[];
+            [property: string]: any;
         }
 
         interface GrowthRateDescription {
             description: string;
             language: NamedAPIResource;
+            [property: string]: any;
         }
 
         interface Level {
             experience: number;
             level: number;
+            [property: string]: any;
         }
 
         /** An item is an object in the games which the player can pick up, keep in their bag, and use in some manner. They have various uses, including healing, powering up, helping catch Pokémon, or to access a new area. */
@@ -585,48 +637,57 @@ declare module 'pokedex-promise-v2' {
             names: ItemName[];
             /** A set of sprites used to depict this item in the game. */
             sprites: ItemSprites;
+            [property: string]: any;
         }
 
         interface ItemEffectEntry {
             effect: string;
             language: NamedAPIResource;
             short_effect: string;
+            [property: string]: any;
         }
 
         interface ItemFlavorTextEntry {
             language: NamedAPIResource;
             text: string;
             version_group: NamedAPIResource;
+            [property: string]: any;
         }
 
         interface ItemGameIndex {
             game_index: number;
             generation: NamedAPIResource;
+            [property: string]: any;
         }
 
         interface HeldByPokemon {
             pokemon: NamedAPIResource;
             version_details: HeldByPokemonVersionDetail[];
+            [property: string]: any;
         }
 
         interface HeldByPokemonVersionDetail {
             rarity: number;
             version: NamedAPIResource;
+            [property: string]: any;
         }
 
         interface ItemMachine {
             machine: APIResource;
             version_group: NamedAPIResource;
+            [property: string]: any;
         }
 
         interface ItemName {
             language: NamedAPIResource;
             name: string;
+            [property: string]: any;
         }
 
         interface ItemSprites {
             /** The default depiction of this item. */
             default: null | string;
+            [property: string]: any;
         }
 
         /** Item attributes define particular aspects of items, e.g. "usable in battle" or "consumable". */
@@ -641,16 +702,19 @@ declare module 'pokedex-promise-v2' {
             name: string;
             /** The name of this item attribute listed in different languages. */
             names: ItemAttributeName[];
+            [property: string]: any;
         }
 
         interface ItemAttributeDescription {
             description: string;
             language: NamedAPIResource;
+            [property: string]: any;
         }
 
         interface ItemAttributeName {
             language: NamedAPIResource;
             name: string;
+            [property: string]: any;
         }
 
         /** Item categories determine where items will be placed in the players bag. */
@@ -665,11 +729,13 @@ declare module 'pokedex-promise-v2' {
             names: ItemCategoryName[];
             /** The pocket items in this category would be put in. */
             pocket: NamedAPIResource;
+            [property: string]: any;
         }
 
         interface ItemCategoryName {
             language: NamedAPIResource;
             name: string;
+            [property: string]: any;
         }
 
         /** The various effects of the move "Fling" when used with different items. */
@@ -682,11 +748,13 @@ declare module 'pokedex-promise-v2' {
             items: NamedAPIResource[];
             /** The name for this resource. */
             name: string;
+            [property: string]: any;
         }
 
         interface ItemFlingEffectEffectEntry {
             effect: string;
             language: NamedAPIResource;
+            [property: string]: any;
         }
 
         /** Pockets within the players bag used for storing items by category. */
@@ -699,11 +767,13 @@ declare module 'pokedex-promise-v2' {
             name: string;
             /** The name of this resource listed in different languages. */
             names: ItemPocketName[];
+            [property: string]: any;
         }
 
         interface ItemPocketName {
             language: NamedAPIResource;
             name: string;
+            [property: string]: any;
         }
 
         /** Languages for translations of API resource information. */
@@ -720,11 +790,13 @@ declare module 'pokedex-promise-v2' {
             names: LanguageName[];
             /** Whether or not the games are published in this language. */
             official: boolean;
+            [property: string]: any;
         }
 
         interface LanguageName {
             language: NamedAPIResource;
             name: string;
+            [property: string]: any;
         }
 
         /** Locations that can be visited within the games. Locations make up sizable portions of regions, like cities or routes. */
@@ -741,16 +813,19 @@ declare module 'pokedex-promise-v2' {
             names: LocationName[];
             /** The region this location can be found in. */
             region: null | NamedAPIResource;
+            [property: string]: any;
         }
 
         interface LocationGameIndex {
             game_index: number;
             generation: NamedAPIResource;
+            [property: string]: any;
         }
 
         interface LocationName {
             language: NamedAPIResource;
             name: string;
+            [property: string]: any;
         }
 
         /** Location areas are sections of areas, such as floors in a building or cave. Each area has its own set of possible Pokémon encounters. */
@@ -769,6 +844,7 @@ declare module 'pokedex-promise-v2' {
             names: LocationAreaName[];
             /** A list of Pokémon that can be encountered in this area along with version specific details about the encounter. */
             pokemon_encounters: LocationAreaPokemonEncounter[];
+            [property: string]: any;
         }
 
         interface EncounterMethodRate {
@@ -776,16 +852,19 @@ declare module 'pokedex-promise-v2' {
             encounter_method: NamedAPIResource;
             /** The chance of the encounter to occur on a version of the game. */
             version_details: EncounterMethodRateVersionDetail[];
+            [property: string]: any;
         }
 
         interface EncounterMethodRateVersionDetail {
             rate: number;
             version: NamedAPIResource;
+            [property: string]: any;
         }
 
         interface LocationAreaName {
             language: NamedAPIResource;
             name: string;
+            [property: string]: any;
         }
 
         interface LocationAreaPokemonEncounter {
@@ -793,12 +872,14 @@ declare module 'pokedex-promise-v2' {
             pokemon: NamedAPIResource;
             /** A list of versions and encounters with Pokémon that might happen in the referenced location area. */
             version_details: PokemonEncounterVersionDetail[];
+            [property: string]: any;
         }
 
         interface PokemonEncounterVersionDetail {
             encounter_details: PurpleEncounterDetail[];
             max_chance: number;
             version: NamedAPIResource;
+            [property: string]: any;
         }
 
         interface PurpleEncounterDetail {
@@ -807,6 +888,7 @@ declare module 'pokedex-promise-v2' {
             max_level: number;
             method: NamedAPIResource;
             min_level: number;
+            [property: string]: any;
         }
 
         /** Machines are the representation of items that teach moves to Pokémon. They vary from version to version, so it is not certain that one specific TM or HM corresponds to a single Machine. */
@@ -819,6 +901,7 @@ declare module 'pokedex-promise-v2' {
             move: NamedAPIResource;
             /** The version group that this machine applies to. */
             version_group: NamedAPIResource;
+            [property: string]: any;
         }
 
         /** Moves are the skills of Pokémon in battle. In battle, a Pokémon uses one move each turn. Some moves (including those learned by Hidden Machine) can be used outside of battle as well, usually for the purpose of removing obstacles or exploring new areas. */
@@ -871,48 +954,57 @@ declare module 'pokedex-promise-v2' {
             target: NamedAPIResource;
             /** The elemental type of this move. */
             type: NamedAPIResource;
+            [property: string]: any;
         }
 
         interface ContestCombos {
             normal: Normal;
             super: Super;
+            [property: string]: any;
         }
 
         interface Normal {
             use_after: NamedAPIResource[] | null;
             use_before: NamedAPIResource[] | null;
+            [property: string]: any;
         }
 
         interface Super {
             use_after: NamedAPIResource[] | null;
             use_before: NamedAPIResource[] | null;
+            [property: string]: any;
         }
 
         interface MoveEffectChange {
             effect_entries: FluffyEffectEntry[];
             version_group: NamedAPIResource;
+            [property: string]: any;
         }
 
         interface FluffyEffectEntry {
             effect: string;
             language: NamedAPIResource;
+            [property: string]: any;
         }
 
         interface MoveEffectEntry {
             effect: string;
             language: NamedAPIResource;
             short_effect: string;
+            [property: string]: any;
         }
 
         interface MoveFlavorTextEntry {
             flavor_text: string;
             language: NamedAPIResource;
             version_group: NamedAPIResource;
+            [property: string]: any;
         }
 
         interface MoveMachine {
             machine: APIResource;
             version_group: NamedAPIResource;
+            [property: string]: any;
         }
 
         interface Meta {
@@ -928,11 +1020,13 @@ declare module 'pokedex-promise-v2' {
             min_hits: number | null;
             min_turns: number | null;
             stat_chance: number;
+            [property: string]: any;
         }
 
         interface MoveName {
             language: NamedAPIResource;
             name: string;
+            [property: string]: any;
         }
 
         interface PastValue {
@@ -943,20 +1037,23 @@ declare module 'pokedex-promise-v2' {
             pp: number | null;
             type: null | NamedAPIResource;
             version_group: NamedAPIResource;
+            [property: string]: any;
         }
 
         interface PastValueEffectEntry {
             effect: string;
             language: NamedAPIResource;
             short_effect: string;
+            [property: string]: any;
         }
 
         interface StatChange {
             change: number;
             stat: NamedAPIResource;
+            [property: string]: any;
         }
 
-        /** Move Ailments are status conditions caused by moves used during battle. See [Bulbapedia](http://bulbapedia.bulbagarden.net/wiki/http://bulbapedia.bulbagarden.net/wiki/Status_condition) for greater detail. */
+        /** Move Ailments are status conditions caused by moves used during battle. See [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Status_condition) for greater detail. */
         interface MoveAilment {
             /** The identifier for this resource. */
             id: number;
@@ -966,11 +1063,13 @@ declare module 'pokedex-promise-v2' {
             name: string;
             /** The name of this resource listed in different languages. */
             names: MoveAilmentName[];
+            [property: string]: any;
         }
 
         interface MoveAilmentName {
             language: NamedAPIResource;
             name: string;
+            [property: string]: any;
         }
 
         /** Styles of moves when used in the Battle Palace. See [Bulbapedia](http://bulbapedia.bulbagarden.net/wiki/Battle_Frontier_(Generation_III)) for greater detail. */
@@ -981,11 +1080,13 @@ declare module 'pokedex-promise-v2' {
             name: string;
             /** The name of this resource listed in different languages. */
             names: MoveBattleStyleName[];
+            [property: string]: any;
         }
 
         interface MoveBattleStyleName {
             language: NamedAPIResource;
             name: string;
+            [property: string]: any;
         }
 
         /** Very general categories that loosely group move effects. */
@@ -998,11 +1099,13 @@ declare module 'pokedex-promise-v2' {
             moves: NamedAPIResource[];
             /** The name for this resource. */
             name: string;
+            [property: string]: any;
         }
 
         interface MoveCategoryDescription {
             description: string;
             language: NamedAPIResource;
+            [property: string]: any;
         }
 
         /** Damage classes moves can have, e.g. physical, special, or non-damaging. */
@@ -1017,16 +1120,19 @@ declare module 'pokedex-promise-v2' {
             name: string;
             /** The name of this resource listed in different languages. */
             names: MoveDamageClassName[];
+            [property: string]: any;
         }
 
         interface MoveDamageClassDescription {
             description: string;
             language: NamedAPIResource;
+            [property: string]: any;
         }
 
         interface MoveDamageClassName {
             language: NamedAPIResource;
             name: string;
+            [property: string]: any;
         }
 
         /** Methods by which Pokémon can learn moves. */
@@ -1041,16 +1147,19 @@ declare module 'pokedex-promise-v2' {
             names: MoveLearnMethodName[];
             /** A list of version groups where moves can be learned through this method. */
             version_groups: NamedAPIResource[];
+            [property: string]: any;
         }
 
         interface MoveLearnMethodDescription {
             description: string;
             language: NamedAPIResource;
+            [property: string]: any;
         }
 
         interface MoveLearnMethodName {
             language: NamedAPIResource;
             name: string;
+            [property: string]: any;
         }
 
         /** Targets moves can be directed at during battle. Targets can be Pokémon, environments or even other moves. */
@@ -1065,16 +1174,19 @@ declare module 'pokedex-promise-v2' {
             name: string;
             /** The name of this resource listed in different languages. */
             names: MoveTargetName[];
+            [property: string]: any;
         }
 
         interface MoveTargetDescription {
             description: string;
             language: NamedAPIResource;
+            [property: string]: any;
         }
 
         interface MoveTargetName {
             language: NamedAPIResource;
             name: string;
+            [property: string]: any;
         }
 
         /** Natures influence how a Pokémon's stats grow. See [Bulbapedia](http://bulbapedia.bulbagarden.net/wiki/Nature) for greater detail. */
@@ -1097,6 +1209,7 @@ declare module 'pokedex-promise-v2' {
             names: NatureName[];
             /** A list of Pokéathlon stats this nature effects and how much it effects them. */
             pokeathlon_stat_changes: PokeathlonStatChange[];
+            [property: string]: any;
         }
 
         interface MoveBattleStylePreference {
@@ -1106,16 +1219,19 @@ declare module 'pokedex-promise-v2' {
             low_hp_preference: number;
             /** The move battle style. */
             move_battle_style: NamedAPIResource;
+            [property: string]: any;
         }
 
         interface NatureName {
             language: NamedAPIResource;
             name: string;
+            [property: string]: any;
         }
 
         interface PokeathlonStatChange {
             max_change: number;
             pokeathlon_stat: NamedAPIResource;
+            [property: string]: any;
         }
 
         /** Areas used for grouping Pokémon encounters in Pal Park. They're like habitats that are specific to [Pal Park](https://bulbapedia.bulbagarden.net/wiki/Pal_Park). */
@@ -1128,17 +1244,20 @@ declare module 'pokedex-promise-v2' {
             names: PalParkAreaName[];
             /** A list of Pokémon encountered in thi pal park area along with details. */
             pokemon_encounters: PalParkAreaPokemonEncounter[];
+            [property: string]: any;
         }
 
         interface PalParkAreaName {
             language: NamedAPIResource;
             name: string;
+            [property: string]: any;
         }
 
         interface PalParkAreaPokemonEncounter {
             base_score: number;
             pokemon_species: NamedAPIResource;
             rate: number;
+            [property: string]: any;
         }
 
         /** Pokeathlon Stats are different attributes of a Pokémon's performance in Pokéathlons. In Pokéathlons, competitions happen on different courses; one for each of the different Pokéathlon stats. See [Bulbapedia](http://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9athlon) for greater detail. */
@@ -1151,26 +1270,31 @@ declare module 'pokedex-promise-v2' {
             name: string;
             /** The name of this resource listed in different languages. */
             names: PokeathlonStatName[];
+            [property: string]: any;
         }
 
         interface PokeathlonStatAffectingNatures {
             decrease: AffectingNaturesDecrease[];
             increase: AffectingNaturesIncrease[];
+            [property: string]: any;
         }
 
         interface AffectingNaturesDecrease {
             max_change: number;
             nature: NamedAPIResource;
+            [property: string]: any;
         }
 
         interface AffectingNaturesIncrease {
             max_change: number;
             nature: NamedAPIResource;
+            [property: string]: any;
         }
 
         interface PokeathlonStatName {
             language: NamedAPIResource;
             name: string;
+            [property: string]: any;
         }
 
         /** A Pokédex is a handheld electronic encyclopedia device; one which is capable of recording and retaining information of the various Pokémon in a given region with the exception of the national dex and some smaller dexes related to portions of a region. See [Bulbapedia](http://bulbapedia.bulbagarden.net/wiki/Pokedex) for greater detail. */
@@ -1191,16 +1315,19 @@ declare module 'pokedex-promise-v2' {
             region: null | NamedAPIResource;
             /** A list of version groups this Pokédex is relevant to. */
             version_groups: NamedAPIResource[];
+            [property: string]: any;
         }
 
         interface PokedexDescription {
             description: string;
             language: NamedAPIResource;
+            [property: string]: any;
         }
 
         interface PokedexName {
             language: NamedAPIResource;
             name: string;
+            [property: string]: any;
         }
 
         interface PokemonEntry {
@@ -1208,17 +1335,20 @@ declare module 'pokedex-promise-v2' {
             entry_number: number;
             /** The Pokémon species being encountered. */
             pokemon_species: NamedAPIResource;
+            [property: string]: any;
         }
 
         interface PokemonEncounter {
             location_area: NamedAPIResource;
             version_details: PokemonEncounterVersionDetailObject[];
+            [property: string]: any;
         }
 
         interface PokemonEncounterVersionDetailObject {
             encounter_details: FluffyEncounterDetail[];
             max_chance: number;
             version: NamedAPIResource;
+            [property: string]: any;
         }
 
         interface FluffyEncounterDetail {
@@ -1227,12 +1357,13 @@ declare module 'pokedex-promise-v2' {
             max_level: number;
             method: NamedAPIResource;
             min_level: number;
+            [property: string]: any;
         }
 
         /** Pokémon are the creatures that inhabit the world of the Pokémon games. They can be caught using Pokéballs and trained by battling with other Pokémon.  Each Pokémon belongs to a specific species but may take on a variant which makes it differ from other Pokémon of the same species, such as base stats, available abilities and typings. See [Bulbapedia](http://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_(species)) for greater detail. */
         interface Pokemon {
             /** A list of abilities this Pokémon could potentially have. */
-            abilities: AbilityElement[];
+            abilities: PokemonAbility[];
             /** The base experience gained for defeating this Pokémon. */
             base_experience: number | null;
             /** A list of forms this Pokémon can take on. */
@@ -1255,6 +1386,7 @@ declare module 'pokedex-promise-v2' {
             name: string;
             /** Order for sorting. Almost national order, except families are grouped together. */
             order: number;
+            past_abilities: PastAbility[];
             /** A list of details showing types this pokémon had in previous generations */
             past_types: PastType[];
             /** The species this Pokémon belongs to. */
@@ -1267,48 +1399,73 @@ declare module 'pokedex-promise-v2' {
             types: PokemonType[];
             /** The weight of this Pokémon in hectograms. */
             weight: number;
+            [property: string]: any;
         }
 
-        interface AbilityElement {
+        interface PokemonAbility {
+            /** The ability the Pokémon may have. */
             ability: NamedAPIResource;
+            /** Whether or not this is a hidden ability. */
             is_hidden: boolean;
+            /** The slot this ability occupies in this Pokémon species. */
             slot: number;
+            [property: string]: any;
         }
 
         interface PokemonGameIndex {
             game_index: number;
             version: NamedAPIResource;
+            [property: string]: any;
         }
 
         interface HeldItem {
             item: NamedAPIResource;
             version_details: HeldItemVersionDetail[];
+            [property: string]: any;
         }
 
         interface HeldItemVersionDetail {
             rarity: number;
             version: NamedAPIResource;
+            [property: string]: any;
         }
 
         interface MoveElement {
             move: NamedAPIResource;
             version_group_details: VersionGroupDetail[];
+            [property: string]: any;
         }
 
         interface VersionGroupDetail {
             level_learned_at: number;
             move_learn_method: NamedAPIResource;
             version_group: NamedAPIResource;
+            [property: string]: any;
+        }
+
+        interface PastAbility {
+            abilities: PastAbilityAbility[];
+            generation: NamedAPIResource;
+            [property: string]: any;
+        }
+
+        interface PastAbilityAbility {
+            ability: NamedAPIResource;
+            is_hidden: boolean;
+            slot: number;
+            [property: string]: any;
         }
 
         interface PastType {
             generation: NamedAPIResource;
             types: PastTypeType[];
+            [property: string]: any;
         }
 
         interface PastTypeType {
             slot: number;
             type: NamedAPIResource;
+            [property: string]: any;
         }
 
         interface PokemonSprites {
@@ -1330,17 +1487,20 @@ declare module 'pokedex-promise-v2' {
             front_shiny_female: null | string;
             other: Other;
             versions: Versions;
+            [property: string]: any;
         }
 
         interface Other {
             dream_world: DreamWorld;
             home: Home;
             "official-artwork": OfficialArtwork;
+            [property: string]: any;
         }
 
         interface DreamWorld {
             front_default: null | string;
             front_female: null | string;
+            [property: string]: any;
         }
 
         interface Home {
@@ -1348,11 +1508,13 @@ declare module 'pokedex-promise-v2' {
             front_female: null | string;
             front_shiny: null | string;
             front_shiny_female: null | string;
+            [property: string]: any;
         }
 
         interface OfficialArtwork {
             front_default: null | string;
             front_shiny: null | string;
+            [property: string]: any;
         }
 
         interface Versions {
@@ -1364,11 +1526,13 @@ declare module 'pokedex-promise-v2' {
             "generation-vi": GenerationVi;
             "generation-vii": GenerationVii;
             "generation-viii": GenerationViii;
+            [property: string]: any;
         }
 
         interface GenerationI {
             "red-blue": RedBlue;
             yellow: Yellow;
+            [property: string]: any;
         }
 
         interface RedBlue {
@@ -1378,6 +1542,7 @@ declare module 'pokedex-promise-v2' {
             front_default: null | string;
             front_gray: null | string;
             front_transparent: null | string;
+            [property: string]: any;
         }
 
         interface Yellow {
@@ -1387,12 +1552,14 @@ declare module 'pokedex-promise-v2' {
             front_default: null | string;
             front_gray: null | string;
             front_transparent: null | string;
+            [property: string]: any;
         }
 
         interface GenerationIi {
             crystal: Crystal;
             gold: Gold;
             silver: Silver;
+            [property: string]: any;
         }
 
         interface Crystal {
@@ -1404,6 +1571,7 @@ declare module 'pokedex-promise-v2' {
             front_shiny: null | string;
             front_shiny_transparent: null | string;
             front_transparent: null | string;
+            [property: string]: any;
         }
 
         interface Gold {
@@ -1412,6 +1580,7 @@ declare module 'pokedex-promise-v2' {
             front_default: null | string;
             front_shiny: null | string;
             front_transparent: null | string;
+            [property: string]: any;
         }
 
         interface Silver {
@@ -1420,17 +1589,20 @@ declare module 'pokedex-promise-v2' {
             front_default: null | string;
             front_shiny: null | string;
             front_transparent: null | string;
+            [property: string]: any;
         }
 
         interface GenerationIii {
             emerald: Emerald;
             "firered-leafgreen": FireredLeafgreen;
             "ruby-sapphire": RubySapphire;
+            [property: string]: any;
         }
 
         interface Emerald {
             front_default: null | string;
             front_shiny: null | string;
+            [property: string]: any;
         }
 
         interface FireredLeafgreen {
@@ -1438,6 +1610,7 @@ declare module 'pokedex-promise-v2' {
             back_shiny: null | string;
             front_default: null | string;
             front_shiny: null | string;
+            [property: string]: any;
         }
 
         interface RubySapphire {
@@ -1445,12 +1618,14 @@ declare module 'pokedex-promise-v2' {
             back_shiny: null | string;
             front_default: null | string;
             front_shiny: null | string;
+            [property: string]: any;
         }
 
         interface GenerationIv {
             "diamond-pearl": DiamondPearl;
             "heartgold-soulsilver": HeartgoldSoulsilver;
             platinum: Platinum;
+            [property: string]: any;
         }
 
         interface DiamondPearl {
@@ -1462,6 +1637,7 @@ declare module 'pokedex-promise-v2' {
             front_female: null | string;
             front_shiny: null | string;
             front_shiny_female: null | string;
+            [property: string]: any;
         }
 
         interface HeartgoldSoulsilver {
@@ -1473,6 +1649,7 @@ declare module 'pokedex-promise-v2' {
             front_female: null | string;
             front_shiny: null | string;
             front_shiny_female: null | string;
+            [property: string]: any;
         }
 
         interface Platinum {
@@ -1484,10 +1661,12 @@ declare module 'pokedex-promise-v2' {
             front_female: null | string;
             front_shiny: null | string;
             front_shiny_female: null | string;
+            [property: string]: any;
         }
 
         interface GenerationV {
             "black-white": BlackWhite;
+            [property: string]: any;
         }
 
         interface BlackWhite {
@@ -1500,6 +1679,7 @@ declare module 'pokedex-promise-v2' {
             front_female: null | string;
             front_shiny: null | string;
             front_shiny_female: null | string;
+            [property: string]: any;
         }
 
         interface Animated {
@@ -1511,11 +1691,13 @@ declare module 'pokedex-promise-v2' {
             front_female: null | string;
             front_shiny: null | string;
             front_shiny_female: null | string;
+            [property: string]: any;
         }
 
         interface GenerationVi {
             "omegaruby-alphasapphire": OmegarubyAlphasapphire;
             "x-y": XY;
+            [property: string]: any;
         }
 
         interface OmegarubyAlphasapphire {
@@ -1523,6 +1705,7 @@ declare module 'pokedex-promise-v2' {
             front_female: null | string;
             front_shiny: null | string;
             front_shiny_female: null | string;
+            [property: string]: any;
         }
 
         interface XY {
@@ -1530,16 +1713,19 @@ declare module 'pokedex-promise-v2' {
             front_female: null | string;
             front_shiny: null | string;
             front_shiny_female: null | string;
+            [property: string]: any;
         }
 
         interface GenerationVii {
             icons: GenerationViiIcons;
             "ultra-sun-ultra-moon": UltraSunUltraMoon;
+            [property: string]: any;
         }
 
         interface GenerationViiIcons {
             front_default: null | string;
             front_female: null | string;
+            [property: string]: any;
         }
 
         interface UltraSunUltraMoon {
@@ -1547,21 +1733,25 @@ declare module 'pokedex-promise-v2' {
             front_female: null | string;
             front_shiny: null | string;
             front_shiny_female: null | string;
+            [property: string]: any;
         }
 
         interface GenerationViii {
             icons: GenerationViiiIcons;
+            [property: string]: any;
         }
 
         interface GenerationViiiIcons {
             front_default: null | string;
             front_female: null | string;
+            [property: string]: any;
         }
 
         interface StatElement {
             base_stat: number;
             effort: number;
             stat: NamedAPIResource;
+            [property: string]: any;
         }
 
         interface PokemonType {
@@ -1569,6 +1759,7 @@ declare module 'pokedex-promise-v2' {
             slot: number;
             /** The type the referenced Pokémon has. */
             type: NamedAPIResource;
+            [property: string]: any;
         }
 
         /** Colors used for sorting Pokémon in a Pokédex. The color listed in the Pokédex is usually the color most apparent or covering each Pokémon's body. No orange category exists; Pokémon that are primarily orange are listed as red or brown. */
@@ -1581,11 +1772,13 @@ declare module 'pokedex-promise-v2' {
             names: PokemonColorName[];
             /** A list of the Pokémon species that have this color. */
             pokemon_species: NamedAPIResource[];
+            [property: string]: any;
         }
 
         interface PokemonColorName {
             language: NamedAPIResource;
             name: string;
+            [property: string]: any;
         }
 
         /** Some Pokémon may appear in one of multiple, visually different forms. These differences are purely cosmetic. For variations within a Pokémon species, which do differ in more than just visuals, the 'Pokémon' entity is used to represent such a variety. */
@@ -1618,16 +1811,19 @@ declare module 'pokedex-promise-v2' {
             types: PokemonFormType[];
             /** The version group this Pokémon form was introduced in. */
             version_group: NamedAPIResource;
+            [property: string]: any;
         }
 
         interface FormName {
             language: NamedAPIResource;
             name: string;
+            [property: string]: any;
         }
 
         interface PokemonFormName {
             language: NamedAPIResource;
             name: string;
+            [property: string]: any;
         }
 
         interface PokemonFormSprites {
@@ -1643,6 +1839,7 @@ declare module 'pokedex-promise-v2' {
             /** The shiny depiction of this Pokémon form from the front in battle. */
             front_shiny: null | string;
             front_shiny_female: null | string;
+            [property: string]: any;
         }
 
         interface PokemonFormType {
@@ -1650,6 +1847,7 @@ declare module 'pokedex-promise-v2' {
             slot: number;
             /** The type the referenced Form has. */
             type: NamedAPIResource;
+            [property: string]: any;
         }
 
         /** Habitats are generally different terrain Pokémon can be found in but can also be areas designated for rare or legendary Pokémon. */
@@ -1662,11 +1860,13 @@ declare module 'pokedex-promise-v2' {
             names: PokemonHabitatName[];
             /** A list of the Pokémon species that can be found in this habitat. */
             pokemon_species: NamedAPIResource[];
+            [property: string]: any;
         }
 
         interface PokemonHabitatName {
             language: NamedAPIResource;
             name: string;
+            [property: string]: any;
         }
 
         /** Shapes used for sorting Pokémon in a Pokédex. */
@@ -1681,6 +1881,7 @@ declare module 'pokedex-promise-v2' {
             names: PokemonShapeName[];
             /** A list of the Pokémon species that have this shape. */
             pokemon_species: NamedAPIResource[];
+            [property: string]: any;
         }
 
         interface AwesomeName {
@@ -1688,11 +1889,13 @@ declare module 'pokedex-promise-v2' {
             awesome_name: string;
             /** The language this "scientific" name is in. */
             language: NamedAPIResource;
+            [property: string]: any;
         }
 
         interface PokemonShapeName {
             language: NamedAPIResource;
             name: string;
+            [property: string]: any;
         }
 
         /** A Pokémon Species forms the basis for at least one Pokémon. Attributes of a Pokémon species are shared across all varieties of Pokémon within the species. A good example is Wormadam; Wormadam is the species which can be found in three different varieties, Wormadam-Trash, Wormadam-Sandy and Wormadam-Plant. */
@@ -1706,7 +1909,7 @@ declare module 'pokedex-promise-v2' {
             /** A list of egg groups this Pokémon species is a member of. */
             egg_groups: NamedAPIResource[];
             /** The evolution chain this Pokémon species is a member of. */
-            evolution_chain: null | APIResource;
+            evolution_chain: APIResource;
             /** The Pokémon species that evolves into this Pokemon_species. */
             evolves_from_species: null | NamedAPIResource;
             /** A list of flavor text entries for this Pokémon species. */
@@ -1722,7 +1925,7 @@ declare module 'pokedex-promise-v2' {
             /** The generation this Pokémon species was introduced in. */
             generation: NamedAPIResource;
             /** The rate at which this Pokémon species gains levels. */
-            growth_rate: null | NamedAPIResource;
+            growth_rate: NamedAPIResource;
             /** The habitat this Pokémon species can be encountered in. */
             habitat: null | NamedAPIResource;
             /** Whether or not this Pokémon has visual gender differences. */
@@ -1751,17 +1954,20 @@ declare module 'pokedex-promise-v2' {
             shape: null | NamedAPIResource;
             /** A list of the Pokémon that exist within this Pokémon species. */
             varieties: Variety[];
+            [property: string]: any;
         }
 
         interface PokemonSpeciesFlavorTextEntry {
             flavor_text: string;
             language: NamedAPIResource;
             version: NamedAPIResource;
+            [property: string]: any;
         }
 
         interface FormDescription {
             description: string;
             language: NamedAPIResource;
+            [property: string]: any;
         }
 
         interface Genus {
@@ -1769,27 +1975,32 @@ declare module 'pokedex-promise-v2' {
             genus: string;
             /** The language this genus is in. */
             language: NamedAPIResource;
+            [property: string]: any;
         }
 
         interface PokemonSpeciesName {
             language: NamedAPIResource;
             name: string;
+            [property: string]: any;
         }
 
         interface PalParkEncounter {
             area: NamedAPIResource;
             base_score: number;
             rate: number;
+            [property: string]: any;
         }
 
         interface PokedexNumber {
             entry_number: number;
             pokedex: NamedAPIResource;
+            [property: string]: any;
         }
 
         interface Variety {
             is_default: boolean;
             pokemon: NamedAPIResource;
+            [property: string]: any;
         }
 
         /** A region is an organized area of the Pokémon world. Most often, the main difference between regions is the species of Pokémon that can be encountered within them. */
@@ -1808,11 +2019,13 @@ declare module 'pokedex-promise-v2' {
             pokedexes: NamedAPIResource[];
             /** A list of version groups where this region can be visited. */
             version_groups: NamedAPIResource[];
+            [property: string]: any;
         }
 
         interface RegionName {
             language: NamedAPIResource;
             name: string;
+            [property: string]: any;
         }
 
         /** Stats determine certain aspects of battles. Each Pokémon has a value for each stat which grows as they gain levels and can be altered momentarily by effects in battles. */
@@ -1835,31 +2048,37 @@ declare module 'pokedex-promise-v2' {
             name: string;
             /** The name of this resource listed in different languages. */
             names: StatName[];
+            [property: string]: any;
         }
 
         interface AffectingMoves {
             decrease: AffectingMovesDecrease[];
             increase: AffectingMovesIncrease[];
+            [property: string]: any;
         }
 
         interface AffectingMovesDecrease {
             change: number;
             move: NamedAPIResource;
+            [property: string]: any;
         }
 
         interface AffectingMovesIncrease {
             change: number;
             move: NamedAPIResource;
+            [property: string]: any;
         }
 
         interface StatAffectingNatures {
             decrease: NamedAPIResource[];
             increase: NamedAPIResource[];
+            [property: string]: any;
         }
 
         interface StatName {
             language: NamedAPIResource;
             name: string;
+            [property: string]: any;
         }
 
         /** Super contest effects refer to the effects of moves when used in super contests. */
@@ -1872,11 +2091,13 @@ declare module 'pokedex-promise-v2' {
             id: number;
             /** A list of moves that have the effect when used in super contests. */
             moves: NamedAPIResource[];
+            [property: string]: any;
         }
 
         interface SuperContestEffectFlavorTextEntry {
             flavor_text: string;
             language: NamedAPIResource;
+            [property: string]: any;
         }
 
         /** Types are properties for Pokémon and their moves. Each type has three properties: which types of Pokémon it is super effective against, which types of Pokémon it is not very effective against, and which types of Pokémon it is completely ineffective against. */
@@ -1901,6 +2122,7 @@ declare module 'pokedex-promise-v2' {
             past_damage_relations: PastDamageRelation[];
             /** A list of details of Pokémon that have this type. */
             pokemon: TypePokemon[];
+            [property: string]: any;
         }
 
         interface TypeDamageRelations {
@@ -1910,21 +2132,25 @@ declare module 'pokedex-promise-v2' {
             half_damage_to: NamedAPIResource[];
             no_damage_from: NamedAPIResource[];
             no_damage_to: NamedAPIResource[];
+            [property: string]: any;
         }
 
         interface TypeGameIndex {
             game_index: number;
             generation: NamedAPIResource;
+            [property: string]: any;
         }
 
         interface TypeName {
             language: NamedAPIResource;
             name: string;
+            [property: string]: any;
         }
 
         interface PastDamageRelation {
             damage_relations: PastDamageRelationDamageRelations;
             generation: NamedAPIResource;
+            [property: string]: any;
         }
 
         interface PastDamageRelationDamageRelations {
@@ -1934,6 +2160,7 @@ declare module 'pokedex-promise-v2' {
             half_damage_to: NamedAPIResource[];
             no_damage_from: NamedAPIResource[];
             no_damage_to: NamedAPIResource[];
+            [property: string]: any;
         }
 
         interface TypePokemon {
@@ -1941,6 +2168,7 @@ declare module 'pokedex-promise-v2' {
             pokemon: NamedAPIResource;
             /** The order the Pokémon's types are listed in. */
             slot: number;
+            [property: string]: any;
         }
 
         /** Versions of the games, e.g., Red, Blue or Yellow. */
@@ -1953,11 +2181,13 @@ declare module 'pokedex-promise-v2' {
             names: VersionName[];
             /** The version group this version belongs to. */
             version_group: NamedAPIResource;
+            [property: string]: any;
         }
 
         interface VersionName {
             language: NamedAPIResource;
             name: string;
+            [property: string]: any;
         }
 
         /** Version groups categorize highly similar versions of the games. */
@@ -1978,6 +2208,7 @@ declare module 'pokedex-promise-v2' {
             regions: NamedAPIResource[];
             /** The versions this version group owns. */
             versions: NamedAPIResource[];
+            [property: string]: any;
         }
     }
 
