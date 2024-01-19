@@ -1,10 +1,10 @@
 {
   "name": "pokedex-promise-v2",
   "type": "module",
-  "version": "4.1.3",
+  "version": "4.2.0",
   "description": "A library used to get information about Pokemons.",
   "engines": {
-    "node": ">=14"
+    "node": ">=18"
   },
   "main": "dist/src/index.js",
   "typings": "types/index.d.ts",
@@ -13,10 +13,10 @@
     "test": "tsc && mocha dist/test/",
     "testjs": "(cd test/js && npm i ../.. && node index.js)",
     "apidata:clone": "git clone https://github.com/PokeAPI/api-data.git",
-    "apidata:replace": "find api-data/data/schema -type f -exec sed -i -e s:/schema/v2:api-data/data/schema/v2:g {} +",
     "apidata:sync": "git -C api-data reset --hard HEAD && git -C api-data pull",
-    "generate:main": "tsc -p generator/ && node dist/generator/Main.js",
+    "apidata:replace": "find api-data/data/schema -type f -exec sed -i -e s:/schema/v2:api-data/data/schema/v2:g {} +",
     "generate:types": "tsc -p generator/ && node dist/generator/TypesGenerator.js",
+    "generate:main": "tsc -p generator/ && node dist/generator/Main.js",
     "generate:jsdocs": "tsc -p generator/ && node dist/generator/AddJSDocs.js",
     "lint": "eslint --ext .ts src/ --fix",
     "generate:all": "(npm run apidata:clone || true) && npm run apidata:sync && npm run apidata:replace && npm run generate:types && npm run generate:main && npm run generate:jsdocs"
