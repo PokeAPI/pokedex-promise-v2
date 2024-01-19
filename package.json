@@ -18,7 +18,8 @@
     "generate:main": "tsc -p generator/ && node dist/generator/Main.js",
     "generate:types": "tsc -p generator/ && node dist/generator/TypesGenerator.js",
     "generate:jsdocs": "tsc -p generator/ && node dist/generator/AddJSDocs.js",
-    "lint": "eslint --ext .ts src/ --fix"
+    "lint": "eslint --ext .ts src/ --fix",
+    "generate:all": "(npm run apidata:clone || true) && npm run apidata:sync && npm run apidata:replace && npm run generate:main && npm run generate:types && npm run generate:jsdocs"
   },
   "files": [
     "dist/src/",
