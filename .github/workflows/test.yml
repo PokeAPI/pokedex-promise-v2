@@ -3,11 +3,41 @@ name: Tests
 on: [push, pull_request]
 
 jobs:
-  unit:
+  pnpm:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: ['14', '16', '18']
+        node-version: ['18']
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm install
+      - name: Setup pokeapi/api-data
+        run: |
+          pnpm run apidata:clone
+          pnpm run apidata:replace
+      - name: Build
+        run: |
+          pnpm run generate:types
+          pnpm run generate:main
+          pnpm run generate:jsdocs
+      - name: Unit test
+        run: |
+          pnpm t
+  npm:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: ['18', '20']
     steps:
       - name: Clone repository
         uses: actions/checkout@v2

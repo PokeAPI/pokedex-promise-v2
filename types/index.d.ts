@@ -1494,6 +1494,7 @@ declare module 'pokedex-promise-v2' {
             dream_world: DreamWorld;
             home: Home;
             "official-artwork": OfficialArtwork;
+            showdown: Showdown;
             [property: string]: any;
         }
 
@@ -1514,6 +1515,18 @@ declare module 'pokedex-promise-v2' {
         interface OfficialArtwork {
             front_default: null | string;
             front_shiny: null | string;
+            [property: string]: any;
+        }
+
+        interface Showdown {
+            back_default: null | string;
+            back_female: null | string;
+            back_shiny: null | string;
+            back_shiny_female: null;
+            front_default: null | string;
+            front_female: null | string;
+            front_shiny: null | string;
+            front_shiny_female: null | string;
             [property: string]: any;
         }
 
@@ -2245,7 +2258,7 @@ declare module 'pokedex-promise-v2' {
         cacheLimit?: number;
     }
 
-
+    
 
     class PokeAPI {
         constructor(options?: PokeAPIOptions);

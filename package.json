@@ -1,10 +1,10 @@
 {
   "name": "pokedex-promise-v2",
   "type": "module",
-  "version": "4.1.2",
+  "version": "4.2.0",
   "description": "A library used to get information about Pokemons.",
   "engines": {
-    "node": ">=14"
+    "node": ">=18"
   },
   "main": "dist/src/index.js",
   "typings": "types/index.d.ts",
@@ -13,12 +13,13 @@
     "test": "tsc && mocha dist/test/",
     "testjs": "(cd test/js && npm i ../.. && node index.js)",
     "apidata:clone": "git clone https://github.com/PokeAPI/api-data.git",
-    "apidata:replace": "find api-data/data/schema -type f -exec sed -i -e s:/schema/v2:api-data/data/schema/v2:g {} +",
     "apidata:sync": "git -C api-data reset --hard HEAD && git -C api-data pull",
-    "generate:main": "tsc -p generator/ && node dist/generator/Main.js",
+    "apidata:replace": "find api-data/data/schema -type f -exec sed -i -e s:/schema/v2:api-data/data/schema/v2:g {} +",
     "generate:types": "tsc -p generator/ && node dist/generator/TypesGenerator.js",
+    "generate:main": "tsc -p generator/ && node dist/generator/Main.js",
     "generate:jsdocs": "tsc -p generator/ && node dist/generator/AddJSDocs.js",
-    "lint": "eslint --ext .ts src/ --fix"
+    "lint": "eslint --ext .ts src/ --fix",
+    "generate:all": "(npm run apidata:clone || true) && npm run apidata:sync && npm run apidata:replace && npm run generate:types && npm run generate:main && npm run generate:jsdocs"
   },
   "files": [
     "dist/src/",
@@ -48,20 +49,20 @@
   },
   "homepage": "https://github.com/PokeAPI/pokedex-promise-v2#readme",
   "dependencies": {
-    "axios": "^1.6.2",
+    "axios": "^1.6.5",
     "node-cache": "^5.1.2",
-    "p-map": "^5.5.0"
+    "p-map": "^7.0.1"
   },
   "devDependencies": {
     "@types/chai": "^4.3.11",
     "@types/chai-as-promised": "^7.1.8",
-    "@types/chai-things": "^0.0.35",
+    "@types/chai-things": "^0.0.38",
     "@types/memory-cache": "^0.2.5",
-    "@types/mocha": "^9.1.1",
-    "@types/node": "^16.18.68",
-    "@typescript-eslint/eslint-plugin": "^5.62.0",
-    "@typescript-eslint/parser": "^5.62.0",
-    "chai": "^4.3.10",
+    "@types/mocha": "^10.0.6",
+    "@types/node": "^20.11.5",
+    "@typescript-eslint/eslint-plugin": "^6.19.0",
+    "@typescript-eslint/parser": "^6.19.0",
+    "chai": "^4.4.1",
     "chai-as-promised": "^7.1.1",
     "chai-things": "^0.2.0",
     "directory-tree": "^3.5.1",
@@ -70,9 +71,9 @@
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.29.1",
     "lodash": "^4.17.21",
-    "mocha": "^9.2.2",
-    "quicktype-core": "^23.0.80",
-    "ts-morph": "^12.2.0",
-    "typescript": "^4.9.5"
+    "mocha": "^10.2.0",
+    "quicktype-core": "^23.0.81",
+    "ts-morph": "^21.0.1",
+    "typescript": "^5.3.3"
   }
 }
