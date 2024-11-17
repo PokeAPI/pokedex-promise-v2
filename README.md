@@ -797,7 +797,7 @@ This is what you will get:
 
 ## Development
 
-A linux environment is preferred. `bash`, `sed`, `find` and required.
+A linux environment is preferred. `bash`, `sed`, `find` are required.
 
 ```sh
 npm i
