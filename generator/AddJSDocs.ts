@@ -21,8 +21,12 @@ const docList = [
 ];
 
 // Add JSDocs to the interface and all of its properties
-function addJsDoc(generatedInterface: InterfaceDeclaration,
-  index: number, description: string, model: any) {
+function addJsDoc(
+  generatedInterface: InterfaceDeclaration,
+  index: number,
+  description: string,
+  model: any,
+) {
   // If it is the the root interface, add the main description to it
   if (index === 0 && description && description !== ' ') {
     const jsDocs = generatedInterface.getJsDocs();
@@ -42,12 +46,12 @@ function addJsDoc(generatedInterface: InterfaceDeclaration,
       continue;
     }
 
-    const property = generatedInterface.getPropertyOrThrow(field.name);
-    const jsDocs = property.getJsDocs();
+    const property = generatedInterface.getProperty(field.name);
+    const jsDocs = property?.getJsDocs();
 
     if (jsDocs && jsDocs[0] && jsDocs[0].getDescription()) {
       jsDocs[0].setDescription(field.description);
-    } else {
+    } else if (property) {
       property.addJsDoc({
         description: field.description,
       });
