@@ -178,7 +178,7 @@ Use **getContestTypeByName** to return data about the effects of moves when used
 
 Use **getContestEffectById** to return data about the effects of moves when used in contests.
 ```js
-  P.getContestTypeByName(1)
+  P.getContestEffectById(1)
     .then((response) => {
       console.log(response);
     })
@@ -189,7 +189,7 @@ Use **getContestEffectById** to return data about the effects of moves when used
 
 Use **getSuperContestEffectById** to return data about the effects of moves when used in super contests.
 ```js
-  P.getSuperContestTypeById(1)
+  P.getSuperContestEffectById(1)
     .then((response) => {
       console.log(response);
     })
