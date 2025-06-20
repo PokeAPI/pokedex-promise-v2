@@ -1,4 +1,4 @@
-# pokedex-promise-v2 <a href="https://pokeapi.co/api/v2/pokemon/bulbasaur"><img src='https://veekun.com/dex/media/pokemon/global-link/1.png' height=50px/></a>
+# pokedex-promise-v2 <a href="https://pokeapi.co/api/v2/pokemon/bulbasaur"><img src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/1.svg' height=50px/></a>
 
 [![npm version](https://badge.fury.io/js/pokedex-promise-v2.svg)](https://badge.fury.io/js/pokedex-promise-v2)
 [![Tests](https://github.com/PokeAPI/pokedex-promise-v2/actions/workflows/test.yml/badge.svg)](https://github.com/PokeAPI/pokedex-promise-v2/actions/workflows/test.yml)
