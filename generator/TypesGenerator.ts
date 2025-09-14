@@ -173,7 +173,7 @@ async function quicktypeMain(jsonSchema: string, basename: string) {
     // Combines final large schema file into d.ts file
     const qt = await quicktype({
       inputData,
-      lang: 'TypeScript',
+      lang: 'typescript',
       rendererOptions: {
         'just-types': 'true',
       },
