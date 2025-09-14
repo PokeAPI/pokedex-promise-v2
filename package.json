@@ -49,7 +49,7 @@
   },
   "homepage": "https://github.com/PokeAPI/pokedex-promise-v2#readme",
   "dependencies": {
-    "axios": "^1.7.9",
+    "axios": "^1.12.2",
     "node-cache": "^5.1.2",
     "p-map": "^7.0.3"
   },
@@ -59,7 +59,7 @@
     "@types/chai-things": "^0.0.38",
     "@types/memory-cache": "^0.2.6",
     "@types/mocha": "^10.0.10",
-    "@types/node": "^20.17.10",
+    "@types/node": "^20.19.14",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "@typescript-eslint/parser": "^6.21.0",
     "chai": "^4.5.0",
@@ -69,12 +69,24 @@
     "doctoc": "^2.2.1",
     "eslint": "^8.57.1",
     "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-import": "^2.32.0",
     "lodash": "^4.17.21",
     "mocha": "^10.8.2",
-    "quicktype-core": "^23.0.170",
+    "quicktype-core": "^23.2.6",
     "ts-morph": "^21.0.1",
-    "typescript": "^5.7.2"
+    "typescript": "^5.9.2"
   },
-  "packageManager": "pnpm@8.10.2+sha1.e0b68270e89c817ff88b7be62466a2128c53af02"
+  "packageManager": "pnpm@8.10.2+sha1.e0b68270e89c817ff88b7be62466a2128c53af02",
+  "pnpm": {
+    "overrides": {
+      "braces@<3.0.3": ">=3.0.3",
+      "micromatch@<4.0.8": ">=4.0.8",
+      "axios@>=1.0.0 <1.8.2": ">=1.8.2",
+      "cross-spawn@>=7.0.0 <7.0.5": ">=7.0.5",
+      "brace-expansion@>=1.0.0 <=1.1.11": ">=1.1.12",
+      "brace-expansion@>=2.0.0 <=2.0.1": ">=2.0.2",
+      "form-data@>=4.0.0 <4.0.4": ">=4.0.4",
+      "axios@<1.12.0": ">=1.12.0"
+    }
+  }
 }
