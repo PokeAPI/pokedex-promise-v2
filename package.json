@@ -18,7 +18,7 @@
     "generate:types": "tsc -p generator/ && node dist/generator/TypesGenerator.js",
     "generate:main": "tsc -p generator/ && node dist/generator/Main.js",
     "generate:jsdocs": "tsc -p generator/ && node dist/generator/AddJSDocs.js",
-    "lint": "eslint --ext .ts src/ --fix",
+    "lint": "eslint src/ --fix",
     "generate:all": "(npm run apidata:clone || true) && npm run apidata:sync && npm run apidata:replace && npm run generate:types && npm run generate:main && npm run generate:jsdocs"
   },
   "files": [
@@ -68,8 +68,6 @@
     "directory-tree": "^3.6.0",
     "doctoc": "^2.3.0",
     "eslint": "^10.0.2",
-    "eslint-config-airbnb-base": "^11.3.2",
-    "eslint-plugin-import": "^1.16.0",
     "lodash": "^4.17.23",
     "mocha": "^11.7.5",
     "quicktype-core": "^23.2.6",
