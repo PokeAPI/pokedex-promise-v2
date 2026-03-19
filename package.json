@@ -76,10 +76,13 @@
     "ts-morph": "^27.0.2",
     "typescript": "^5.9.3"
   },
-  "packageManager": "pnpm@8.10.2+sha1.e0b68270e89c817ff88b7be62466a2128c53af02",
+  "packageManager": "pnpm@9.15.4",
   "overrides": {
-    "minimatch": ">=10.2.1",
-    "diff": ">=8.0.3"
+    "minimatch": ">=10.2.3",
+    "diff": ">=8.0.3",
+    "serialize-javascript": ">=7.0.3",
+    "underscore": ">=1.13.8",
+    "flatted": ">=3.4.0"
   },
   "pnpm": {
     "overrides": {
@@ -91,9 +94,12 @@
       "brace-expansion@>=2.0.0 <=2.0.1": ">=2.0.2",
       "form-data@>=4.0.0 <4.0.4": ">=4.0.4",
       "axios@<1.12.0": ">=1.12.0",
-      "minimatch@<10.2.1": ">=10.2.1",
+      "minimatch@<10.2.3": ">=10.2.3",
       "diff@>=6.0.0 <8.0.3": ">=8.0.3",
-      "js-yaml@>=4.0.0 <4.1.1": ">=4.1.1"
+      "js-yaml@>=4.0.0 <4.1.1": ">=4.1.1",
+      "serialize-javascript@<=7.0.2": ">=7.0.3",
+      "underscore@<=1.13.7": ">=1.13.8",
+      "flatted@<3.4.0": ">=3.4.0"
     }
   }
 }
