@@ -7,15 +7,13 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: ['18']
+        node-version: ['18', '20']
     steps:
       - name: Clone repository
-        uses: actions/checkout@v3
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 8
+        uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
@@ -40,11 +38,11 @@ jobs:
         node-version: ['18', '20']
     steps:
       - name: Clone repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Setup node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node }}
+          node-version: ${{ matrix.node-version }}
       - name: Install dependencies
         run: npm ci
       - name: Setup pokeapi/api-data
@@ -60,6 +58,28 @@ jobs:
         run: |
           npm t
 
+  bun:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+      - name: Setup bun
+        uses: oven-sh/setup-bun@v2
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+      - name: Setup pokeapi/api-data
+        run: |
+          bun run apidata:clone
+          bun run apidata:replace
+      - name: Build
+        run: |
+          bun run generate:types
+          bun run generate:main
+          bun run generate:jsdocs
+      - name: Unit test
+        run: |
+          bun run test
+
   lint:
     runs-on: ubuntu-latest
     strategy:
@@ -67,11 +87,11 @@ jobs:
         node-version: ['lts/*']
     steps:
       - name: Clone repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Setup node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node }}
+          node-version: ${{ matrix.node-version }}
       - name: Install dependencies
         run: npm ci
       - name: Lint

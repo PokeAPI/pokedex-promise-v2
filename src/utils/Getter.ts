@@ -1,4 +1,3 @@
-/* eslint-disable import/no-unresolved */
 import axios, { AxiosResponse } from 'axios';
 
 import handleError from './ErrorHandler.js';
@@ -7,7 +6,7 @@ import PokeAPIOptions from '../interfaces/PokeAPIOptions.js';
 async function getJSON<T>(
   values: PokeAPIOptions,
   url: string,
-  // eslint-disable-next-line no-unused-vars
+   
   callback?: (result: any, error?: any) => any,
 ): Promise<T> {
   const options = {

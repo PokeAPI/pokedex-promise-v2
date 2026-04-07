@@ -1,4 +1,3 @@
-/* eslint-disable */
 /*
 * DO NOT MODIFY, THIS IS AUTO GENERATED
 * Execute `npm run generate` to regenerate
