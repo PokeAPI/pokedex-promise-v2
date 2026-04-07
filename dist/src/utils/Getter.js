@@ -1,9 +1,6 @@
-/* eslint-disable import/no-unresolved */
 import axios from 'axios';
 import handleError from './ErrorHandler.js';
-async function getJSON(values, url, 
-// eslint-disable-next-line no-unused-vars
-callback) {
+async function getJSON(values, url, callback) {
     const options = {
         baseURL: `${values.protocol}${values.hostName}/`,
         timeout: values.timeout,

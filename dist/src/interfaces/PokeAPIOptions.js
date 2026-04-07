@@ -1,5 +1,4 @@
 class PokeAPIOptions {
-    /* eslint-disable default-param-last */
     constructor(config = {}, cache) {
         this.protocol = 'https';
         this.hostName = '://pokeapi.co';
