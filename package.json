@@ -1,7 +1,7 @@
 {
   "name": "pokedex-promise-v2",
   "type": "module",
-  "version": "4.2.1",
+  "version": "4.2.2",
   "description": "A library used to get information about Pokemons.",
   "engines": {
     "node": ">=18"
@@ -11,7 +11,6 @@
   "scripts": {
     "doctoc": "doctoc .",
     "test": "tsc && mocha dist/test/",
-    "testjs": "(cd test/js && npm i ../.. && node index.js)",
     "apidata:clone": "git clone https://github.com/PokeAPI/api-data.git",
     "apidata:sync": "git -C api-data reset --hard HEAD && git -C api-data pull",
     "apidata:replace": "find api-data/data/schema -type f -exec sed -i -e s:/schema/v2:api-data/data/schema/v2:g {} +",
@@ -19,7 +18,8 @@
     "generate:main": "tsc -p generator/ && node dist/generator/Main.js",
     "generate:jsdocs": "tsc -p generator/ && node dist/generator/AddJSDocs.js",
     "lint": "eslint src/ --fix",
-    "generate:all": "(npm run apidata:clone || true) && npm run apidata:sync && npm run apidata:replace && npm run generate:types && npm run generate:main && npm run generate:jsdocs"
+    "generate:all": "(npm run apidata:clone || true) && npm run apidata:sync && npm run apidata:replace && npm run generate:types && npm run generate:main && npm run generate:jsdocs",
+    "locks:update": "rm -rf node_modules,package-lock.json && npm i && rm -rf node_modules pnpm-lock.json && pnpm i && rm -rf node_modules bun.lock && bun i"
   },
   "files": [
     "dist/src/",
@@ -59,45 +59,19 @@
     "@types/chai-things": "^0.0.38",
     "@types/memory-cache": "^0.2.6",
     "@types/mocha": "^10.0.10",
-    "@types/node": "^20.19.33",
-    "@typescript-eslint/eslint-plugin": "^8.56.1",
-    "@typescript-eslint/parser": "^8.56.1",
+    "@types/node": "^24.12.2",
+    "@typescript-eslint/eslint-plugin": "^8.58.0",
+    "@typescript-eslint/parser": "^8.58.0",
     "chai": "^4.5.0",
     "chai-as-promised": "^7.1.2",
     "chai-things": "^0.2.0",
     "directory-tree": "^3.6.0",
-    "doctoc": "^2.3.0",
-    "eslint": "^10.0.2",
-    "lodash": "^4.17.23",
+    "doctoc": "^2.4.0",
+    "eslint": "^10.2.0",
+    "lodash": "^4.18.1",
     "mocha": "^11.7.5",
     "quicktype-core": "^23.2.6",
     "ts-morph": "^27.0.2",
     "typescript": "^5.9.3"
-  },
-  "packageManager": "pnpm@9.15.4",
-  "overrides": {
-    "minimatch": ">=10.2.3",
-    "diff": ">=8.0.3",
-    "serialize-javascript": ">=7.0.3",
-    "underscore": ">=1.13.8",
-    "flatted": ">=3.4.0"
-  },
-  "pnpm": {
-    "overrides": {
-      "braces@<3.0.3": ">=3.0.3",
-      "micromatch@<4.0.8": ">=4.0.8",
-      "axios@>=1.0.0 <1.8.2": ">=1.8.2",
-      "cross-spawn@>=7.0.0 <7.0.5": ">=7.0.5",
-      "brace-expansion@>=1.0.0 <=1.1.11": ">=1.1.12",
-      "brace-expansion@>=2.0.0 <=2.0.1": ">=2.0.2",
-      "form-data@>=4.0.0 <4.0.4": ">=4.0.4",
-      "axios@<1.12.0": ">=1.12.0",
-      "minimatch@<10.2.3": ">=10.2.3",
-      "diff@>=6.0.0 <8.0.3": ">=8.0.3",
-      "js-yaml@>=4.0.0 <4.1.1": ">=4.1.1",
-      "serialize-javascript@<=7.0.2": ">=7.0.3",
-      "underscore@<=1.13.7": ">=1.13.8",
-      "flatted@<3.4.0": ">=3.4.0"
-    }
   }
 }
