@@ -18,7 +18,8 @@
     "generate:main": "tsc -p generator/ && node dist/generator/Main.js",
     "generate:jsdocs": "tsc -p generator/ && node dist/generator/AddJSDocs.js",
     "lint": "eslint src/ --fix",
-    "generate:all": "(npm run apidata:clone || true) && npm run apidata:sync && npm run apidata:replace && npm run generate:types && npm run generate:main && npm run generate:jsdocs"
+    "generate:all": "(npm run apidata:clone || true) && npm run apidata:sync && npm run apidata:replace && npm run generate:types && npm run generate:main && npm run generate:jsdocs",
+    "locks:update": "rm -rf node_modules,package-lock.json && npm i && rm -rf node_modules pnpm-lock.json && pnpm i && rm -rf node_modules bun.lock && bun i"
   },
   "files": [
     "dist/src/",
