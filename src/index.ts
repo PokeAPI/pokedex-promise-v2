@@ -1,3 +1,4 @@
+/* eslint-disable */
 /*
 * DO NOT MODIFY, THIS IS AUTO GENERATED
 * Execute `npm run generate` to regenerate
@@ -23,7 +24,7 @@ export default class Pokedex {
         try {
           // Fail if the endpoint is not supplied
           if (!endpoint) {
-            throw new Error('Param "endpoint" is required needs to be a string or array of strings');
+            throw new Error('Param "endpoint" is required and must be a string or array of strings');
           }
 
           // Fail if the input types aren't accepted
@@ -31,16 +32,13 @@ export default class Pokedex {
             throw new Error('Param "endpoint" needs to be a string or array of strings');
           }
 
-          /// If the user has submitted a string, return the JSON promise
+          // If the user has submitted a string, return the JSON promise
           if (typeof endpoint === 'string') {
             return getJSON<any>(this.options, endpoint, callback);
           }
 
           // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
-          const mapper = async (endpoints: string) => {
-            const queryRes = await getJSON<any>(this.options, endpoints);
-            return queryRes;
-          };
+          const mapper = (endpoints: string) => getJSON<any>(this.options, endpoints);
 
           // Fetch data asynchronously to be faster
           const mappedResults = await pMap(endpoint, mapper, { concurrency: 4 });
@@ -62,7 +60,7 @@ export default class Pokedex {
         try {
           // Fail if the endpoint is not supplied
           if (!endpoint) {
-            throw new Error('Param "endpoint" is required needs to be a string or array of strings');
+            throw new Error('Param "endpoint" is required and must be a string or array of strings');
           }
 
           // Fail if the input types aren't accepted
@@ -70,16 +68,13 @@ export default class Pokedex {
             throw new Error('Param "endpoint" needs to be a string or array of strings');
           }
 
-          /// If the user has submitted a string, return the JSON promise
+          // If the user has submitted a string, return the JSON promise
           if (typeof endpoint === 'string') {
             return getJSON<any>(this.options, endpoint, callback);
           }
 
           // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
-          const mapper = async (endpoints: string) => {
-            const queryRes = await getJSON<any>(this.options, endpoints);
-            return queryRes;
-          };
+          const mapper = (endpoints: string) => getJSON<any>(this.options, endpoints);
 
           // Fetch data asynchronously to be faster
           const mappedResults = await pMap(endpoint, mapper, { concurrency: 4 });
@@ -114,10 +109,7 @@ export default class Pokedex {
             }
 
             // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
-            const mapper = async (nameOrIds: string | number | Array<string | number>) => {
-              const queryRes = await getJSON<PokeAPITypes.Berry>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}berry/${nameOrIds}/`);
-              return queryRes;
-            };
+            const mapper = (nameOrIds: string | number | Array<string | number>) => getJSON<PokeAPITypes.Berry>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}berry/${nameOrIds}/`);
 
             // Fetch data asynchronously to be faster
             const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
@@ -153,10 +145,7 @@ export default class Pokedex {
             }
 
             // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
-            const mapper = async (nameOrIds: string | number | Array<string | number>) => {
-              const queryRes = await getJSON<PokeAPITypes.BerryFirmness>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}berry-firmness/${nameOrIds}/`);
-              return queryRes;
-            };
+            const mapper = (nameOrIds: string | number | Array<string | number>) => getJSON<PokeAPITypes.BerryFirmness>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}berry-firmness/${nameOrIds}/`);
 
             // Fetch data asynchronously to be faster
             const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
@@ -192,10 +181,7 @@ export default class Pokedex {
             }
 
             // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
-            const mapper = async (nameOrIds: string | number | Array<string | number>) => {
-              const queryRes = await getJSON<PokeAPITypes.BerryFlavor>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}berry-flavor/${nameOrIds}/`);
-              return queryRes;
-            };
+            const mapper = (nameOrIds: string | number | Array<string | number>) => getJSON<PokeAPITypes.BerryFlavor>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}berry-flavor/${nameOrIds}/`);
 
             // Fetch data asynchronously to be faster
             const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
@@ -231,10 +217,7 @@ export default class Pokedex {
             }
 
             // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
-            const mapper = async (nameOrIds: string | number | Array<string | number>) => {
-              const queryRes = await getJSON<PokeAPITypes.ContestType>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}contest-type/${nameOrIds}/`);
-              return queryRes;
-            };
+            const mapper = (nameOrIds: string | number | Array<string | number>) => getJSON<PokeAPITypes.ContestType>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}contest-type/${nameOrIds}/`);
 
             // Fetch data asynchronously to be faster
             const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
@@ -270,10 +253,7 @@ export default class Pokedex {
             }
 
             // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
-            const mapper = async (ids: number | number[]) => {
-              const queryRes = await getJSON<PokeAPITypes.ContestEffect>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}contest-effect/${ids}/`);
-              return queryRes;
-            };
+            const mapper = (ids: number | number[]) => getJSON<PokeAPITypes.ContestEffect>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}contest-effect/${ids}/`);
 
             // Fetch data asynchronously to be faster
             const mappedResults = await pMap(id, mapper, { concurrency: 4 });
@@ -309,10 +289,7 @@ export default class Pokedex {
             }
 
             // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
-            const mapper = async (ids: number | number[]) => {
-              const queryRes = await getJSON<PokeAPITypes.SuperContestEffect>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}super-contest-effect/${ids}/`);
-              return queryRes;
-            };
+            const mapper = (ids: number | number[]) => getJSON<PokeAPITypes.SuperContestEffect>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}super-contest-effect/${ids}/`);
 
             // Fetch data asynchronously to be faster
             const mappedResults = await pMap(id, mapper, { concurrency: 4 });
@@ -348,10 +325,7 @@ export default class Pokedex {
             }
 
             // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
-            const mapper = async (nameOrIds: string | number | Array<string | number>) => {
-              const queryRes = await getJSON<PokeAPITypes.EncounterMethod>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}encounter-method/${nameOrIds}/`);
-              return queryRes;
-            };
+            const mapper = (nameOrIds: string | number | Array<string | number>) => getJSON<PokeAPITypes.EncounterMethod>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}encounter-method/${nameOrIds}/`);
 
             // Fetch data asynchronously to be faster
             const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
@@ -387,10 +361,7 @@ export default class Pokedex {
             }
 
             // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
-            const mapper = async (nameOrIds: string | number | Array<string | number>) => {
-              const queryRes = await getJSON<PokeAPITypes.EncounterCondition>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}encounter-condition/${nameOrIds}/`);
-              return queryRes;
-            };
+            const mapper = (nameOrIds: string | number | Array<string | number>) => getJSON<PokeAPITypes.EncounterCondition>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}encounter-condition/${nameOrIds}/`);
 
             // Fetch data asynchronously to be faster
             const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
@@ -426,10 +397,7 @@ export default class Pokedex {
             }
 
             // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
-            const mapper = async (nameOrIds: string | number | Array<string | number>) => {
-              const queryRes = await getJSON<PokeAPITypes.EncounterConditionValue>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}encounter-condition-value/${nameOrIds}/`);
-              return queryRes;
-            };
+            const mapper = (nameOrIds: string | number | Array<string | number>) => getJSON<PokeAPITypes.EncounterConditionValue>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}encounter-condition-value/${nameOrIds}/`);
 
             // Fetch data asynchronously to be faster
             const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
@@ -465,10 +433,7 @@ export default class Pokedex {
             }
 
             // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
-            const mapper = async (ids: number | number[]) => {
-              const queryRes = await getJSON<PokeAPITypes.EvolutionChain>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}evolution-chain/${ids}/`);
-              return queryRes;
-            };
+            const mapper = (ids: number | number[]) => getJSON<PokeAPITypes.EvolutionChain>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}evolution-chain/${ids}/`);
 
             // Fetch data asynchronously to be faster
             const mappedResults = await pMap(id, mapper, { concurrency: 4 });
@@ -504,10 +469,7 @@ export default class Pokedex {
             }
 
             // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
-            const mapper = async (nameOrIds: string | number | Array<string | number>) => {
-              const queryRes = await getJSON<PokeAPITypes.EvolutionTrigger>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}evolution-trigger/${nameOrIds}/`);
-              return queryRes;
-            };
+            const mapper = (nameOrIds: string | number | Array<string | number>) => getJSON<PokeAPITypes.EvolutionTrigger>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}evolution-trigger/${nameOrIds}/`);
 
             // Fetch data asynchronously to be faster
             const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
@@ -543,10 +505,7 @@ export default class Pokedex {
             }
 
             // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
-            const mapper = async (nameOrIds: string | number | Array<string | number>) => {
-              const queryRes = await getJSON<PokeAPITypes.Generation>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}generation/${nameOrIds}/`);
-              return queryRes;
-            };
+            const mapper = (nameOrIds: string | number | Array<string | number>) => getJSON<PokeAPITypes.Generation>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}generation/${nameOrIds}/`);
 
             // Fetch data asynchronously to be faster
             const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
@@ -582,10 +541,7 @@ export default class Pokedex {
             }
 
             // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
-            const mapper = async (nameOrIds: string | number | Array<string | number>) => {
-              const queryRes = await getJSON<PokeAPITypes.Pokedex>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}pokedex/${nameOrIds}/`);
-              return queryRes;
-            };
+            const mapper = (nameOrIds: string | number | Array<string | number>) => getJSON<PokeAPITypes.Pokedex>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}pokedex/${nameOrIds}/`);
 
             // Fetch data asynchronously to be faster
             const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
@@ -621,10 +577,7 @@ export default class Pokedex {
             }
 
             // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
-            const mapper = async (nameOrIds: string | number | Array<string | number>) => {
-              const queryRes = await getJSON<PokeAPITypes.Version>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}version/${nameOrIds}/`);
-              return queryRes;
-            };
+            const mapper = (nameOrIds: string | number | Array<string | number>) => getJSON<PokeAPITypes.Version>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}version/${nameOrIds}/`);
 
             // Fetch data asynchronously to be faster
             const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
@@ -660,10 +613,7 @@ export default class Pokedex {
             }
 
             // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
-            const mapper = async (nameOrIds: string | number | Array<string | number>) => {
-              const queryRes = await getJSON<PokeAPITypes.VersionGroup>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}version-group/${nameOrIds}/`);
-              return queryRes;
-            };
+            const mapper = (nameOrIds: string | number | Array<string | number>) => getJSON<PokeAPITypes.VersionGroup>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}version-group/${nameOrIds}/`);
 
             // Fetch data asynchronously to be faster
             const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
@@ -699,10 +649,7 @@ export default class Pokedex {
             }
 
             // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
-            const mapper = async (nameOrIds: string | number | Array<string | number>) => {
-              const queryRes = await getJSON<PokeAPITypes.Item>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}item/${nameOrIds}/`);
-              return queryRes;
-            };
+            const mapper = (nameOrIds: string | number | Array<string | number>) => getJSON<PokeAPITypes.Item>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}item/${nameOrIds}/`);
 
             // Fetch data asynchronously to be faster
             const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
@@ -738,10 +685,7 @@ export default class Pokedex {
             }
 
             // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
-            const mapper = async (nameOrIds: string | number | Array<string | number>) => {
-              const queryRes = await getJSON<PokeAPITypes.ItemAttribute>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}item-attribute/${nameOrIds}/`);
-              return queryRes;
-            };
+            const mapper = (nameOrIds: string | number | Array<string | number>) => getJSON<PokeAPITypes.ItemAttribute>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}item-attribute/${nameOrIds}/`);
 
             // Fetch data asynchronously to be faster
             const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
@@ -777,10 +721,7 @@ export default class Pokedex {
             }
 
             // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
-            const mapper = async (nameOrIds: string | number | Array<string | number>) => {
-              const queryRes = await getJSON<PokeAPITypes.ItemCategory>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}item-category/${nameOrIds}/`);
-              return queryRes;
-            };
+            const mapper = (nameOrIds: string | number | Array<string | number>) => getJSON<PokeAPITypes.ItemCategory>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}item-category/${nameOrIds}/`);
 
             // Fetch data asynchronously to be faster
             const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
@@ -816,10 +757,7 @@ export default class Pokedex {
             }
 
             // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
-            const mapper = async (nameOrIds: string | number | Array<string | number>) => {
-              const queryRes = await getJSON<PokeAPITypes.ItemFlingEffect>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}item-fling-effect/${nameOrIds}/`);
-              return queryRes;
-            };
+            const mapper = (nameOrIds: string | number | Array<string | number>) => getJSON<PokeAPITypes.ItemFlingEffect>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}item-fling-effect/${nameOrIds}/`);
 
             // Fetch data asynchronously to be faster
             const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
@@ -855,10 +793,7 @@ export default class Pokedex {
             }
 
             // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
-            const mapper = async (nameOrIds: string | number | Array<string | number>) => {
-              const queryRes = await getJSON<PokeAPITypes.ItemPocket>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}item-pocket/${nameOrIds}/`);
-              return queryRes;
-            };
+            const mapper = (nameOrIds: string | number | Array<string | number>) => getJSON<PokeAPITypes.ItemPocket>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}item-pocket/${nameOrIds}/`);
 
             // Fetch data asynchronously to be faster
             const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
@@ -894,10 +829,7 @@ export default class Pokedex {
             }
 
             // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
-            const mapper = async (ids: number | number[]) => {
-              const queryRes = await getJSON<PokeAPITypes.Machine>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}machine/${ids}/`);
-              return queryRes;
-            };
+            const mapper = (ids: number | number[]) => getJSON<PokeAPITypes.Machine>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}machine/${ids}/`);
 
             // Fetch data asynchronously to be faster
             const mappedResults = await pMap(id, mapper, { concurrency: 4 });
@@ -933,10 +865,7 @@ export default class Pokedex {
             }
 
             // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
-            const mapper = async (nameOrIds: string | number | Array<string | number>) => {
-              const queryRes = await getJSON<PokeAPITypes.Move>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}move/${nameOrIds}/`);
-              return queryRes;
-            };
+            const mapper = (nameOrIds: string | number | Array<string | number>) => getJSON<PokeAPITypes.Move>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}move/${nameOrIds}/`);
 
             // Fetch data asynchronously to be faster
             const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
@@ -972,10 +901,7 @@ export default class Pokedex {
             }
 
             // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
-            const mapper = async (nameOrIds: string | number | Array<string | number>) => {
-              const queryRes = await getJSON<PokeAPITypes.MoveAilment>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}move-ailment/${nameOrIds}/`);
-              return queryRes;
-            };
+            const mapper = (nameOrIds: string | number | Array<string | number>) => getJSON<PokeAPITypes.MoveAilment>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}move-ailment/${nameOrIds}/`);
 
             // Fetch data asynchronously to be faster
             const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
@@ -1011,10 +937,7 @@ export default class Pokedex {
             }
 
             // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
-            const mapper = async (nameOrIds: string | number | Array<string | number>) => {
-              const queryRes = await getJSON<PokeAPITypes.MoveBattleStyle>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}move-battle-style/${nameOrIds}/`);
-              return queryRes;
-            };
+            const mapper = (nameOrIds: string | number | Array<string | number>) => getJSON<PokeAPITypes.MoveBattleStyle>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}move-battle-style/${nameOrIds}/`);
 
             // Fetch data asynchronously to be faster
             const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
@@ -1050,10 +973,7 @@ export default class Pokedex {
             }
 
             // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
-            const mapper = async (nameOrIds: string | number | Array<string | number>) => {
-              const queryRes = await getJSON<PokeAPITypes.MoveCategory>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}move-category/${nameOrIds}/`);
-              return queryRes;
-            };
+            const mapper = (nameOrIds: string | number | Array<string | number>) => getJSON<PokeAPITypes.MoveCategory>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}move-category/${nameOrIds}/`);
 
             // Fetch data asynchronously to be faster
             const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
@@ -1089,10 +1009,7 @@ export default class Pokedex {
             }
 
             // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
-            const mapper = async (nameOrIds: string | number | Array<string | number>) => {
-              const queryRes = await getJSON<PokeAPITypes.MoveDamageClass>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}move-damage-class/${nameOrIds}/`);
-              return queryRes;
-            };
+            const mapper = (nameOrIds: string | number | Array<string | number>) => getJSON<PokeAPITypes.MoveDamageClass>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}move-damage-class/${nameOrIds}/`);
 
             // Fetch data asynchronously to be faster
             const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
@@ -1128,10 +1045,7 @@ export default class Pokedex {
             }
 
             // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
-            const mapper = async (nameOrIds: string | number | Array<string | number>) => {
-              const queryRes = await getJSON<PokeAPITypes.MoveLearnMethod>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}move-learn-method/${nameOrIds}/`);
-              return queryRes;
-            };
+            const mapper = (nameOrIds: string | number | Array<string | number>) => getJSON<PokeAPITypes.MoveLearnMethod>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}move-learn-method/${nameOrIds}/`);
 
             // Fetch data asynchronously to be faster
             const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
@@ -1167,10 +1081,7 @@ export default class Pokedex {
             }
 
             // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
-            const mapper = async (nameOrIds: string | number | Array<string | number>) => {
-              const queryRes = await getJSON<PokeAPITypes.MoveTarget>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}move-target/${nameOrIds}/`);
-              return queryRes;
-            };
+            const mapper = (nameOrIds: string | number | Array<string | number>) => getJSON<PokeAPITypes.MoveTarget>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}move-target/${nameOrIds}/`);
 
             // Fetch data asynchronously to be faster
             const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
@@ -1206,10 +1117,7 @@ export default class Pokedex {
             }
 
             // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
-            const mapper = async (nameOrIds: string | number | Array<string | number>) => {
-              const queryRes = await getJSON<PokeAPITypes.Location>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}location/${nameOrIds}/`);
-              return queryRes;
-            };
+            const mapper = (nameOrIds: string | number | Array<string | number>) => getJSON<PokeAPITypes.Location>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}location/${nameOrIds}/`);
 
             // Fetch data asynchronously to be faster
             const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
@@ -1245,10 +1153,7 @@ export default class Pokedex {
             }
 
             // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
-            const mapper = async (nameOrIds: string | number | Array<string | number>) => {
-              const queryRes = await getJSON<PokeAPITypes.LocationArea>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}location-area/${nameOrIds}/`);
-              return queryRes;
-            };
+            const mapper = (nameOrIds: string | number | Array<string | number>) => getJSON<PokeAPITypes.LocationArea>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}location-area/${nameOrIds}/`);
 
             // Fetch data asynchronously to be faster
             const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
@@ -1284,10 +1189,7 @@ export default class Pokedex {
             }
 
             // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
-            const mapper = async (nameOrIds: string | number | Array<string | number>) => {
-              const queryRes = await getJSON<PokeAPITypes.PalParkArea>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}pal-park-area/${nameOrIds}/`);
-              return queryRes;
-            };
+            const mapper = (nameOrIds: string | number | Array<string | number>) => getJSON<PokeAPITypes.PalParkArea>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}pal-park-area/${nameOrIds}/`);
 
             // Fetch data asynchronously to be faster
             const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
@@ -1323,10 +1225,7 @@ export default class Pokedex {
             }
 
             // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
-            const mapper = async (nameOrIds: string | number | Array<string | number>) => {
-              const queryRes = await getJSON<PokeAPITypes.Region>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}region/${nameOrIds}/`);
-              return queryRes;
-            };
+            const mapper = (nameOrIds: string | number | Array<string | number>) => getJSON<PokeAPITypes.Region>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}region/${nameOrIds}/`);
 
             // Fetch data asynchronously to be faster
             const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
@@ -1362,10 +1261,7 @@ export default class Pokedex {
             }
 
             // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
-            const mapper = async (nameOrIds: string | number | Array<string | number>) => {
-              const queryRes = await getJSON<PokeAPITypes.Ability>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}ability/${nameOrIds}/`);
-              return queryRes;
-            };
+            const mapper = (nameOrIds: string | number | Array<string | number>) => getJSON<PokeAPITypes.Ability>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}ability/${nameOrIds}/`);
 
             // Fetch data asynchronously to be faster
             const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
@@ -1401,10 +1297,7 @@ export default class Pokedex {
             }
 
             // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
-            const mapper = async (ids: number | number[]) => {
-              const queryRes = await getJSON<PokeAPITypes.Characteristic>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}characteristic/${ids}/`);
-              return queryRes;
-            };
+            const mapper = (ids: number | number[]) => getJSON<PokeAPITypes.Characteristic>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}characteristic/${ids}/`);
 
             // Fetch data asynchronously to be faster
             const mappedResults = await pMap(id, mapper, { concurrency: 4 });
@@ -1440,10 +1333,7 @@ export default class Pokedex {
             }
 
             // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
-            const mapper = async (nameOrIds: string | number | Array<string | number>) => {
-              const queryRes = await getJSON<PokeAPITypes.EggGroup>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}egg-group/${nameOrIds}/`);
-              return queryRes;
-            };
+            const mapper = (nameOrIds: string | number | Array<string | number>) => getJSON<PokeAPITypes.EggGroup>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}egg-group/${nameOrIds}/`);
 
             // Fetch data asynchronously to be faster
             const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
@@ -1479,10 +1369,7 @@ export default class Pokedex {
             }
 
             // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
-            const mapper = async (nameOrIds: string | number | Array<string | number>) => {
-              const queryRes = await getJSON<PokeAPITypes.Gender>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}gender/${nameOrIds}/`);
-              return queryRes;
-            };
+            const mapper = (nameOrIds: string | number | Array<string | number>) => getJSON<PokeAPITypes.Gender>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}gender/${nameOrIds}/`);
 
             // Fetch data asynchronously to be faster
             const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
@@ -1518,10 +1405,7 @@ export default class Pokedex {
             }
 
             // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
-            const mapper = async (nameOrIds: string | number | Array<string | number>) => {
-              const queryRes = await getJSON<PokeAPITypes.GrowthRate>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}growth-rate/${nameOrIds}/`);
-              return queryRes;
-            };
+            const mapper = (nameOrIds: string | number | Array<string | number>) => getJSON<PokeAPITypes.GrowthRate>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}growth-rate/${nameOrIds}/`);
 
             // Fetch data asynchronously to be faster
             const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
@@ -1557,10 +1441,7 @@ export default class Pokedex {
             }
 
             // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
-            const mapper = async (nameOrIds: string | number | Array<string | number>) => {
-              const queryRes = await getJSON<PokeAPITypes.Nature>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}nature/${nameOrIds}/`);
-              return queryRes;
-            };
+            const mapper = (nameOrIds: string | number | Array<string | number>) => getJSON<PokeAPITypes.Nature>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}nature/${nameOrIds}/`);
 
             // Fetch data asynchronously to be faster
             const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
@@ -1596,10 +1477,7 @@ export default class Pokedex {
             }
 
             // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
-            const mapper = async (nameOrIds: string | number | Array<string | number>) => {
-              const queryRes = await getJSON<PokeAPITypes.PokeathlonStat>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}pokeathlon-stat/${nameOrIds}/`);
-              return queryRes;
-            };
+            const mapper = (nameOrIds: string | number | Array<string | number>) => getJSON<PokeAPITypes.PokeathlonStat>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}pokeathlon-stat/${nameOrIds}/`);
 
             // Fetch data asynchronously to be faster
             const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
@@ -1635,10 +1513,7 @@ export default class Pokedex {
             }
 
             // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
-            const mapper = async (nameOrIds: string | number | Array<string | number>) => {
-              const queryRes = await getJSON<PokeAPITypes.Pokemon>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}pokemon/${nameOrIds}/`);
-              return queryRes;
-            };
+            const mapper = (nameOrIds: string | number | Array<string | number>) => getJSON<PokeAPITypes.Pokemon>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}pokemon/${nameOrIds}/`);
 
             // Fetch data asynchronously to be faster
             const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
@@ -1674,10 +1549,7 @@ export default class Pokedex {
             }
 
             // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
-            const mapper = async (nameOrIds: string | number | Array<string | number>) => {
-              const queryRes = await getJSON<PokeAPITypes.PokemonColor>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}pokemon-color/${nameOrIds}/`);
-              return queryRes;
-            };
+            const mapper = (nameOrIds: string | number | Array<string | number>) => getJSON<PokeAPITypes.PokemonColor>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}pokemon-color/${nameOrIds}/`);
 
             // Fetch data asynchronously to be faster
             const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
@@ -1713,10 +1585,7 @@ export default class Pokedex {
             }
 
             // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
-            const mapper = async (nameOrIds: string | number | Array<string | number>) => {
-              const queryRes = await getJSON<PokeAPITypes.PokemonForm>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}pokemon-form/${nameOrIds}/`);
-              return queryRes;
-            };
+            const mapper = (nameOrIds: string | number | Array<string | number>) => getJSON<PokeAPITypes.PokemonForm>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}pokemon-form/${nameOrIds}/`);
 
             // Fetch data asynchronously to be faster
             const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
@@ -1752,10 +1621,7 @@ export default class Pokedex {
             }
 
             // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
-            const mapper = async (nameOrIds: string | number | Array<string | number>) => {
-              const queryRes = await getJSON<PokeAPITypes.PokemonHabitat>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}pokemon-habitat/${nameOrIds}/`);
-              return queryRes;
-            };
+            const mapper = (nameOrIds: string | number | Array<string | number>) => getJSON<PokeAPITypes.PokemonHabitat>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}pokemon-habitat/${nameOrIds}/`);
 
             // Fetch data asynchronously to be faster
             const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
@@ -1791,10 +1657,7 @@ export default class Pokedex {
             }
 
             // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
-            const mapper = async (nameOrIds: string | number | Array<string | number>) => {
-              const queryRes = await getJSON<PokeAPITypes.PokemonShape>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}pokemon-shape/${nameOrIds}/`);
-              return queryRes;
-            };
+            const mapper = (nameOrIds: string | number | Array<string | number>) => getJSON<PokeAPITypes.PokemonShape>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}pokemon-shape/${nameOrIds}/`);
 
             // Fetch data asynchronously to be faster
             const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
@@ -1830,10 +1693,7 @@ export default class Pokedex {
             }
 
             // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
-            const mapper = async (nameOrIds: string | number | Array<string | number>) => {
-              const queryRes = await getJSON<PokeAPITypes.PokemonSpecies>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}pokemon-species/${nameOrIds}/`);
-              return queryRes;
-            };
+            const mapper = (nameOrIds: string | number | Array<string | number>) => getJSON<PokeAPITypes.PokemonSpecies>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}pokemon-species/${nameOrIds}/`);
 
             // Fetch data asynchronously to be faster
             const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
@@ -1869,10 +1729,7 @@ export default class Pokedex {
             }
 
             // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
-            const mapper = async (nameOrIds: string | number | Array<string | number>) => {
-              const queryRes = await getJSON<PokeAPITypes.Stat>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}stat/${nameOrIds}/`);
-              return queryRes;
-            };
+            const mapper = (nameOrIds: string | number | Array<string | number>) => getJSON<PokeAPITypes.Stat>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}stat/${nameOrIds}/`);
 
             // Fetch data asynchronously to be faster
             const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
@@ -1908,10 +1765,7 @@ export default class Pokedex {
             }
 
             // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
-            const mapper = async (nameOrIds: string | number | Array<string | number>) => {
-              const queryRes = await getJSON<PokeAPITypes.Type>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}type/${nameOrIds}/`);
-              return queryRes;
-            };
+            const mapper = (nameOrIds: string | number | Array<string | number>) => getJSON<PokeAPITypes.Type>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}type/${nameOrIds}/`);
 
             // Fetch data asynchronously to be faster
             const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
@@ -1947,10 +1801,7 @@ export default class Pokedex {
             }
 
             // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
-            const mapper = async (nameOrIds: string | number | Array<string | number>) => {
-              const queryRes = await getJSON<PokeAPITypes.Language>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}language/${nameOrIds}/`);
-              return queryRes;
-            };
+            const mapper = (nameOrIds: string | number | Array<string | number>) => getJSON<PokeAPITypes.Language>(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}language/${nameOrIds}/`);
 
             // Fetch data asynchronously to be faster
             const mappedResults = await pMap(nameOrId, mapper, { concurrency: 4 });
@@ -1971,11 +1822,11 @@ export default class Pokedex {
             let { limit, offset } = this.options;
 
             if (interval) {
-              if (interval.hasOwnProperty('limit')) {
+              if ('limit' in interval) {
                 limit = interval.limit;
               }
 
-              if (interval.hasOwnProperty('offset')) {
+              if ('offset' in interval) {
                 offset = interval.offset;
               }
             }
@@ -1991,11 +1842,11 @@ export default class Pokedex {
             let { limit, offset } = this.options;
 
             if (interval) {
-              if (interval.hasOwnProperty('limit')) {
+              if ('limit' in interval) {
                 limit = interval.limit;
               }
 
-              if (interval.hasOwnProperty('offset')) {
+              if ('offset' in interval) {
                 offset = interval.offset;
               }
             }
@@ -2012,11 +1863,11 @@ export default class Pokedex {
             let { limit, offset } = this.options;
 
             if (interval) {
-              if (interval.hasOwnProperty('limit')) {
+              if ('limit' in interval) {
                 limit = interval.limit;
               }
 
-              if (interval.hasOwnProperty('offset')) {
+              if ('offset' in interval) {
                 offset = interval.offset;
               }
             }
@@ -2032,11 +1883,11 @@ export default class Pokedex {
             let { limit, offset } = this.options;
 
             if (interval) {
-              if (interval.hasOwnProperty('limit')) {
+              if ('limit' in interval) {
                 limit = interval.limit;
               }
 
-              if (interval.hasOwnProperty('offset')) {
+              if ('offset' in interval) {
                 offset = interval.offset;
               }
             }
@@ -2052,11 +1903,11 @@ export default class Pokedex {
             let { limit, offset } = this.options;
 
             if (interval) {
-              if (interval.hasOwnProperty('limit')) {
+              if ('limit' in interval) {
                 limit = interval.limit;
               }
 
-              if (interval.hasOwnProperty('offset')) {
+              if ('offset' in interval) {
                 offset = interval.offset;
               }
             }
@@ -2072,11 +1923,11 @@ export default class Pokedex {
             let { limit, offset } = this.options;
 
             if (interval) {
-              if (interval.hasOwnProperty('limit')) {
+              if ('limit' in interval) {
                 limit = interval.limit;
               }
 
-              if (interval.hasOwnProperty('offset')) {
+              if ('offset' in interval) {
                 offset = interval.offset;
               }
             }
@@ -2092,11 +1943,11 @@ export default class Pokedex {
             let { limit, offset } = this.options;
 
             if (interval) {
-              if (interval.hasOwnProperty('limit')) {
+              if ('limit' in interval) {
                 limit = interval.limit;
               }
 
-              if (interval.hasOwnProperty('offset')) {
+              if ('offset' in interval) {
                 offset = interval.offset;
               }
             }
@@ -2112,11 +1963,11 @@ export default class Pokedex {
             let { limit, offset } = this.options;
 
             if (interval) {
-              if (interval.hasOwnProperty('limit')) {
+              if ('limit' in interval) {
                 limit = interval.limit;
               }
 
-              if (interval.hasOwnProperty('offset')) {
+              if ('offset' in interval) {
                 offset = interval.offset;
               }
             }
@@ -2132,11 +1983,11 @@ export default class Pokedex {
             let { limit, offset } = this.options;
 
             if (interval) {
-              if (interval.hasOwnProperty('limit')) {
+              if ('limit' in interval) {
                 limit = interval.limit;
               }
 
-              if (interval.hasOwnProperty('offset')) {
+              if ('offset' in interval) {
                 offset = interval.offset;
               }
             }
@@ -2152,11 +2003,11 @@ export default class Pokedex {
             let { limit, offset } = this.options;
 
             if (interval) {
-              if (interval.hasOwnProperty('limit')) {
+              if ('limit' in interval) {
                 limit = interval.limit;
               }
 
-              if (interval.hasOwnProperty('offset')) {
+              if ('offset' in interval) {
                 offset = interval.offset;
               }
             }
@@ -2172,11 +2023,11 @@ export default class Pokedex {
             let { limit, offset } = this.options;
 
             if (interval) {
-              if (interval.hasOwnProperty('limit')) {
+              if ('limit' in interval) {
                 limit = interval.limit;
               }
 
-              if (interval.hasOwnProperty('offset')) {
+              if ('offset' in interval) {
                 offset = interval.offset;
               }
             }
@@ -2192,11 +2043,11 @@ export default class Pokedex {
             let { limit, offset } = this.options;
 
             if (interval) {
-              if (interval.hasOwnProperty('limit')) {
+              if ('limit' in interval) {
                 limit = interval.limit;
               }
 
-              if (interval.hasOwnProperty('offset')) {
+              if ('offset' in interval) {
                 offset = interval.offset;
               }
             }
@@ -2212,11 +2063,11 @@ export default class Pokedex {
             let { limit, offset } = this.options;
 
             if (interval) {
-              if (interval.hasOwnProperty('limit')) {
+              if ('limit' in interval) {
                 limit = interval.limit;
               }
 
-              if (interval.hasOwnProperty('offset')) {
+              if ('offset' in interval) {
                 offset = interval.offset;
               }
             }
@@ -2233,11 +2084,11 @@ export default class Pokedex {
             let { limit, offset } = this.options;
 
             if (interval) {
-              if (interval.hasOwnProperty('limit')) {
+              if ('limit' in interval) {
                 limit = interval.limit;
               }
 
-              if (interval.hasOwnProperty('offset')) {
+              if ('offset' in interval) {
                 offset = interval.offset;
               }
             }
@@ -2253,11 +2104,11 @@ export default class Pokedex {
             let { limit, offset } = this.options;
 
             if (interval) {
-              if (interval.hasOwnProperty('limit')) {
+              if ('limit' in interval) {
                 limit = interval.limit;
               }
 
-              if (interval.hasOwnProperty('offset')) {
+              if ('offset' in interval) {
                 offset = interval.offset;
               }
             }
@@ -2273,11 +2124,11 @@ export default class Pokedex {
             let { limit, offset } = this.options;
 
             if (interval) {
-              if (interval.hasOwnProperty('limit')) {
+              if ('limit' in interval) {
                 limit = interval.limit;
               }
 
-              if (interval.hasOwnProperty('offset')) {
+              if ('offset' in interval) {
                 offset = interval.offset;
               }
             }
@@ -2293,11 +2144,11 @@ export default class Pokedex {
             let { limit, offset } = this.options;
 
             if (interval) {
-              if (interval.hasOwnProperty('limit')) {
+              if ('limit' in interval) {
                 limit = interval.limit;
               }
 
-              if (interval.hasOwnProperty('offset')) {
+              if ('offset' in interval) {
                 offset = interval.offset;
               }
             }
@@ -2313,11 +2164,11 @@ export default class Pokedex {
             let { limit, offset } = this.options;
 
             if (interval) {
-              if (interval.hasOwnProperty('limit')) {
+              if ('limit' in interval) {
                 limit = interval.limit;
               }
 
-              if (interval.hasOwnProperty('offset')) {
+              if ('offset' in interval) {
                 offset = interval.offset;
               }
             }
@@ -2333,11 +2184,11 @@ export default class Pokedex {
             let { limit, offset } = this.options;
 
             if (interval) {
-              if (interval.hasOwnProperty('limit')) {
+              if ('limit' in interval) {
                 limit = interval.limit;
               }
 
-              if (interval.hasOwnProperty('offset')) {
+              if ('offset' in interval) {
                 offset = interval.offset;
               }
             }
@@ -2353,11 +2204,11 @@ export default class Pokedex {
             let { limit, offset } = this.options;
 
             if (interval) {
-              if (interval.hasOwnProperty('limit')) {
+              if ('limit' in interval) {
                 limit = interval.limit;
               }
 
-              if (interval.hasOwnProperty('offset')) {
+              if ('offset' in interval) {
                 offset = interval.offset;
               }
             }
@@ -2373,11 +2224,11 @@ export default class Pokedex {
             let { limit, offset } = this.options;
 
             if (interval) {
-              if (interval.hasOwnProperty('limit')) {
+              if ('limit' in interval) {
                 limit = interval.limit;
               }
 
-              if (interval.hasOwnProperty('offset')) {
+              if ('offset' in interval) {
                 offset = interval.offset;
               }
             }
@@ -2393,11 +2244,11 @@ export default class Pokedex {
             let { limit, offset } = this.options;
 
             if (interval) {
-              if (interval.hasOwnProperty('limit')) {
+              if ('limit' in interval) {
                 limit = interval.limit;
               }
 
-              if (interval.hasOwnProperty('offset')) {
+              if ('offset' in interval) {
                 offset = interval.offset;
               }
             }
@@ -2413,11 +2264,11 @@ export default class Pokedex {
             let { limit, offset } = this.options;
 
             if (interval) {
-              if (interval.hasOwnProperty('limit')) {
+              if ('limit' in interval) {
                 limit = interval.limit;
               }
 
-              if (interval.hasOwnProperty('offset')) {
+              if ('offset' in interval) {
                 offset = interval.offset;
               }
             }
@@ -2433,11 +2284,11 @@ export default class Pokedex {
             let { limit, offset } = this.options;
 
             if (interval) {
-              if (interval.hasOwnProperty('limit')) {
+              if ('limit' in interval) {
                 limit = interval.limit;
               }
 
-              if (interval.hasOwnProperty('offset')) {
+              if ('offset' in interval) {
                 offset = interval.offset;
               }
             }
@@ -2453,11 +2304,11 @@ export default class Pokedex {
             let { limit, offset } = this.options;
 
             if (interval) {
-              if (interval.hasOwnProperty('limit')) {
+              if ('limit' in interval) {
                 limit = interval.limit;
               }
 
-              if (interval.hasOwnProperty('offset')) {
+              if ('offset' in interval) {
                 offset = interval.offset;
               }
             }
@@ -2473,11 +2324,11 @@ export default class Pokedex {
             let { limit, offset } = this.options;
 
             if (interval) {
-              if (interval.hasOwnProperty('limit')) {
+              if ('limit' in interval) {
                 limit = interval.limit;
               }
 
-              if (interval.hasOwnProperty('offset')) {
+              if ('offset' in interval) {
                 offset = interval.offset;
               }
             }
@@ -2493,11 +2344,11 @@ export default class Pokedex {
             let { limit, offset } = this.options;
 
             if (interval) {
-              if (interval.hasOwnProperty('limit')) {
+              if ('limit' in interval) {
                 limit = interval.limit;
               }
 
-              if (interval.hasOwnProperty('offset')) {
+              if ('offset' in interval) {
                 offset = interval.offset;
               }
             }
@@ -2513,11 +2364,11 @@ export default class Pokedex {
             let { limit, offset } = this.options;
 
             if (interval) {
-              if (interval.hasOwnProperty('limit')) {
+              if ('limit' in interval) {
                 limit = interval.limit;
               }
 
-              if (interval.hasOwnProperty('offset')) {
+              if ('offset' in interval) {
                 offset = interval.offset;
               }
             }
@@ -2533,11 +2384,11 @@ export default class Pokedex {
             let { limit, offset } = this.options;
 
             if (interval) {
-              if (interval.hasOwnProperty('limit')) {
+              if ('limit' in interval) {
                 limit = interval.limit;
               }
 
-              if (interval.hasOwnProperty('offset')) {
+              if ('offset' in interval) {
                 offset = interval.offset;
               }
             }
@@ -2553,11 +2404,11 @@ export default class Pokedex {
             let { limit, offset } = this.options;
 
             if (interval) {
-              if (interval.hasOwnProperty('limit')) {
+              if ('limit' in interval) {
                 limit = interval.limit;
               }
 
-              if (interval.hasOwnProperty('offset')) {
+              if ('offset' in interval) {
                 offset = interval.offset;
               }
             }
@@ -2573,11 +2424,11 @@ export default class Pokedex {
             let { limit, offset } = this.options;
 
             if (interval) {
-              if (interval.hasOwnProperty('limit')) {
+              if ('limit' in interval) {
                 limit = interval.limit;
               }
 
-              if (interval.hasOwnProperty('offset')) {
+              if ('offset' in interval) {
                 offset = interval.offset;
               }
             }
@@ -2593,11 +2444,11 @@ export default class Pokedex {
             let { limit, offset } = this.options;
 
             if (interval) {
-              if (interval.hasOwnProperty('limit')) {
+              if ('limit' in interval) {
                 limit = interval.limit;
               }
 
-              if (interval.hasOwnProperty('offset')) {
+              if ('offset' in interval) {
                 offset = interval.offset;
               }
             }
@@ -2613,11 +2464,11 @@ export default class Pokedex {
             let { limit, offset } = this.options;
 
             if (interval) {
-              if (interval.hasOwnProperty('limit')) {
+              if ('limit' in interval) {
                 limit = interval.limit;
               }
 
-              if (interval.hasOwnProperty('offset')) {
+              if ('offset' in interval) {
                 offset = interval.offset;
               }
             }
@@ -2633,11 +2484,11 @@ export default class Pokedex {
             let { limit, offset } = this.options;
 
             if (interval) {
-              if (interval.hasOwnProperty('limit')) {
+              if ('limit' in interval) {
                 limit = interval.limit;
               }
 
-              if (interval.hasOwnProperty('offset')) {
+              if ('offset' in interval) {
                 offset = interval.offset;
               }
             }
@@ -2653,11 +2504,11 @@ export default class Pokedex {
             let { limit, offset } = this.options;
 
             if (interval) {
-              if (interval.hasOwnProperty('limit')) {
+              if ('limit' in interval) {
                 limit = interval.limit;
               }
 
-              if (interval.hasOwnProperty('offset')) {
+              if ('offset' in interval) {
                 offset = interval.offset;
               }
             }
@@ -2673,11 +2524,11 @@ export default class Pokedex {
             let { limit, offset } = this.options;
 
             if (interval) {
-              if (interval.hasOwnProperty('limit')) {
+              if ('limit' in interval) {
                 limit = interval.limit;
               }
 
-              if (interval.hasOwnProperty('offset')) {
+              if ('offset' in interval) {
                 offset = interval.offset;
               }
             }
@@ -2693,11 +2544,11 @@ export default class Pokedex {
             let { limit, offset } = this.options;
 
             if (interval) {
-              if (interval.hasOwnProperty('limit')) {
+              if ('limit' in interval) {
                 limit = interval.limit;
               }
 
-              if (interval.hasOwnProperty('offset')) {
+              if ('offset' in interval) {
                 offset = interval.offset;
               }
             }
@@ -2713,11 +2564,11 @@ export default class Pokedex {
             let { limit, offset } = this.options;
 
             if (interval) {
-              if (interval.hasOwnProperty('limit')) {
+              if ('limit' in interval) {
                 limit = interval.limit;
               }
 
-              if (interval.hasOwnProperty('offset')) {
+              if ('offset' in interval) {
                 offset = interval.offset;
               }
             }
@@ -2733,11 +2584,11 @@ export default class Pokedex {
             let { limit, offset } = this.options;
 
             if (interval) {
-              if (interval.hasOwnProperty('limit')) {
+              if ('limit' in interval) {
                 limit = interval.limit;
               }
 
-              if (interval.hasOwnProperty('offset')) {
+              if ('offset' in interval) {
                 offset = interval.offset;
               }
             }
@@ -2753,11 +2604,11 @@ export default class Pokedex {
             let { limit, offset } = this.options;
 
             if (interval) {
-              if (interval.hasOwnProperty('limit')) {
+              if ('limit' in interval) {
                 limit = interval.limit;
               }
 
-              if (interval.hasOwnProperty('offset')) {
+              if ('offset' in interval) {
                 offset = interval.offset;
               }
             }
@@ -2773,11 +2624,11 @@ export default class Pokedex {
             let { limit, offset } = this.options;
 
             if (interval) {
-              if (interval.hasOwnProperty('limit')) {
+              if ('limit' in interval) {
                 limit = interval.limit;
               }
 
-              if (interval.hasOwnProperty('offset')) {
+              if ('offset' in interval) {
                 offset = interval.offset;
               }
             }
@@ -2793,11 +2644,11 @@ export default class Pokedex {
             let { limit, offset } = this.options;
 
             if (interval) {
-              if (interval.hasOwnProperty('limit')) {
+              if ('limit' in interval) {
                 limit = interval.limit;
               }
 
-              if (interval.hasOwnProperty('offset')) {
+              if ('offset' in interval) {
                 offset = interval.offset;
               }
             }
@@ -2813,11 +2664,11 @@ export default class Pokedex {
             let { limit, offset } = this.options;
 
             if (interval) {
-              if (interval.hasOwnProperty('limit')) {
+              if ('limit' in interval) {
                 limit = interval.limit;
               }
 
-              if (interval.hasOwnProperty('offset')) {
+              if ('offset' in interval) {
                 offset = interval.offset;
               }
             }
@@ -2833,11 +2684,11 @@ export default class Pokedex {
             let { limit, offset } = this.options;
 
             if (interval) {
-              if (interval.hasOwnProperty('limit')) {
+              if ('limit' in interval) {
                 limit = interval.limit;
               }
 
-              if (interval.hasOwnProperty('offset')) {
+              if ('offset' in interval) {
                 offset = interval.offset;
               }
             }
@@ -2853,11 +2704,11 @@ export default class Pokedex {
             let { limit, offset } = this.options;
 
             if (interval) {
-              if (interval.hasOwnProperty('limit')) {
+              if ('limit' in interval) {
                 limit = interval.limit;
               }
 
-              if (interval.hasOwnProperty('offset')) {
+              if ('offset' in interval) {
                 offset = interval.offset;
               }
             }
@@ -2873,11 +2724,11 @@ export default class Pokedex {
             let { limit, offset } = this.options;
 
             if (interval) {
-              if (interval.hasOwnProperty('limit')) {
+              if ('limit' in interval) {
                 limit = interval.limit;
               }
 
-              if (interval.hasOwnProperty('offset')) {
+              if ('offset' in interval) {
                 offset = interval.offset;
               }
             }
@@ -2893,11 +2744,11 @@ export default class Pokedex {
             let { limit, offset } = this.options;
 
             if (interval) {
-              if (interval.hasOwnProperty('limit')) {
+              if ('limit' in interval) {
                 limit = interval.limit;
               }
 
-              if (interval.hasOwnProperty('offset')) {
+              if ('offset' in interval) {
                 offset = interval.offset;
               }
             }
@@ -2913,11 +2764,11 @@ export default class Pokedex {
             let { limit, offset } = this.options;
 
             if (interval) {
-              if (interval.hasOwnProperty('limit')) {
+              if ('limit' in interval) {
                 limit = interval.limit;
               }
 
-              if (interval.hasOwnProperty('offset')) {
+              if ('offset' in interval) {
                 offset = interval.offset;
               }
             }
@@ -2933,11 +2784,11 @@ export default class Pokedex {
             let { limit, offset } = this.options;
 
             if (interval) {
-              if (interval.hasOwnProperty('limit')) {
+              if ('limit' in interval) {
                 limit = interval.limit;
               }
 
-              if (interval.hasOwnProperty('offset')) {
+              if ('offset' in interval) {
                 offset = interval.offset;
               }
             }
@@ -2953,11 +2804,11 @@ export default class Pokedex {
             let { limit, offset } = this.options;
 
             if (interval) {
-              if (interval.hasOwnProperty('limit')) {
+              if ('limit' in interval) {
                 limit = interval.limit;
               }
 
-              if (interval.hasOwnProperty('offset')) {
+              if ('offset' in interval) {
                 offset = interval.offset;
               }
             }
@@ -2969,24 +2820,23 @@ export default class Pokedex {
     }
 
     async getEndpointsList(interval?: ListEndpointOptions, callback?: (result: any, error?: any) => any): Promise<PokeAPITypes.EndpointsList> {
-
         try {
-          let { limit, offset } = this.options;
+            let { limit, offset } = this.options;
 
-          if (interval) {
-            if (interval.hasOwnProperty('limit')) {
-              limit = interval.limit;
+            if (interval) {
+              if ('limit' in interval) {
+                limit = interval.limit;
+              }
+
+              if ('offset' in interval) {
+                offset = interval.offset;
+              }
             }
 
-            if (interval.hasOwnProperty('offset')) {
-              offset = interval.offset;
-            }
+            return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}?limit=${limit}&offset=${offset}`, callback);
+          } catch (error) {
+            handleError(error, callback);
           }
-
-          return getJSON(this.options, `${this.options.protocol}${this.options.hostName}${this.options.versionPath}?limit=${limit}&offset=${offset}`, callback);
-        } catch (error) {
-          handleError(error, callback);
-        }
     }
 
     /** Retrieve the configs used */
@@ -2994,7 +2844,7 @@ export default class Pokedex {
         return this.options;
     }
 
-    /** Retuns the current number of entries in the cache */
+    /** Returns the current number of entries in the cache */
     getCachedItemsCount() {
         return this.options.cache.stats.keys;
     }
