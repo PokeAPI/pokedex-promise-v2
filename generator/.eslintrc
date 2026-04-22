@@ -6,7 +6,6 @@
     "no-restricted-syntax": "off",
     "no-shadow": "off",
     "no-continue": "off",
-    "no-await-in-loop": "off",
     "prefer-destructuring": "off"
   }
 }
