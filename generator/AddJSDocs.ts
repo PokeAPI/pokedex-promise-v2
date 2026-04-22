@@ -27,7 +27,7 @@ function addJsDoc(
   description: string,
   model: any,
 ) {
-  // If it is the the root interface, add the main description to it
+  // If it is the root interface, add the main description to it
   if (index === 0 && description && description !== ' ') {
     const jsDocs = generatedInterface.getJsDocs();
 
@@ -86,8 +86,7 @@ async function loadDocumentation(namespace: ModuleDeclaration, docName: string) 
           addJsDoc(fluffyGeneratedInterface, index, api.description, model);
         }
       } catch (error) {
-        console.log(model.name);
-        console.log(error);
+        console.error('Failed to add JSDoc for', model.name, error);
       }
     }
   }
@@ -109,17 +108,14 @@ const rootModule = file.getModuleOrThrow('\'pokedex-promise-v2\'');
 // Create the namespace
 const namespace = rootModule.getModuleOrThrow('PokeAPI');
 
-// Top level async function
 (async () => {
-  // For each doc we have on the array, add the descriptions it provides
-  for (const docName of docList) {
-    await loadDocumentation(namespace, docName);
+  try {
+    await Promise.all(docList.map((docName) => loadDocumentation(namespace, docName)));
+    await file.save();
+    console.timeEnd(jsdocsLabel);
+    console.log('JSDocs added!');
+  } catch (error) {
+    console.error('JSDoc generation failed:', error);
+    process.exit(1);
   }
-
-  // Save the file
-  await file.save();
-
-  // Timestamp
-  console.timeEnd(jsdocsLabel);
-  console.log('JSDocs added!');
 })();

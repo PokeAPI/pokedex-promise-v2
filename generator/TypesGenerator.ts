@@ -16,13 +16,12 @@ if (!fs.existsSync(schemaFolder)) {
   process.exit(1);
 }
 
-// Helper functions to interface names
-function clearAndUpper(text: string) {
-  return text.replace(/-/, '').toUpperCase();
-}
-
+// Convert kebab-case (or single word) into PascalCase
 function toPascalCase(text: string) {
-  return text.replace(/(^\w|-\w)/g, clearAndUpper);
+  return text
+    .split('-')
+    .map((part) => (part ? part.charAt(0).toUpperCase() + part.slice(1) : ''))
+    .join('');
 }
 
 // A map for the methods of the class
@@ -57,17 +56,26 @@ async function generateFinalFile(types: string) {
   // Write the interfaces to the namespace
   namespace.setBodyText(types);
 
-  // Remove interfaces that are wrongly generated
-  namespace.getInterface('EvolutionChainElement')?.remove();
-  namespace.getInterface('ResultElement')?.remove();
-  namespace.getInterface('GenerationElement')?.remove();
-  namespace.getInterface('VersionGroupNamedList')?.remove();
+  // Quicktype emits a few synthetic interface names we need to rewrite.
+  // Empty target = only remove the interface, leave references untouched.
+  const interfaceRewrites: Record<string, string> = {
+    EvolutionChainElement: 'APIResource',
+    ResultElement: 'APIResource',
+    GenerationElement: 'NamedAPIResource',
+    VersionGroupNamedList: '',
+  };
 
-  // Replace the wrong definitions with the correct ones
-  namespace.setBodyText(namespace.getBodyText()
-    .replace(/ResultElement/g, 'APIResource')
-    .replace(/EvolutionChainElement/g, 'APIResource')
-    .replace(/GenerationElement/g, 'NamedAPIResource'));
+  for (const name of Object.keys(interfaceRewrites)) {
+    namespace.getInterface(name)?.remove();
+  }
+
+  let body = namespace.getBodyText();
+  for (const [from, to] of Object.entries(interfaceRewrites)) {
+    if (to) {
+      body = body.split(from).join(to);
+    }
+  }
+  namespace.setBodyText(body);
 
   // Format the namespace to be correctly indented
   namespace.formatText();
@@ -156,96 +164,75 @@ async function generateFinalFile(types: string) {
 console.time(typesLabel);
 console.timeLog(typesLabel, '- Starting to generate types...');
 
-// Init quicktype stuff
-const schemaInput = new JSONSchemaInput(new FetchingJSONSchemaStore());
-const inputData = new InputData();
+// Schemas that live directly under schema/v2 are added to quicktype first so
+// their interface names take precedence in name disambiguation. Nested schemas
+// (the per-resource ones) follow.
+type SchemaSource = { name: string; schema: string };
+const rootSchemas: SchemaSource[] = [];
+const nestedSchemas: SchemaSource[] = [];
 
-// Gets schema file and adds it to schema source, outputs file at end
-async function quicktypeMain(jsonSchema: string, basename: string) {
-  // Add a single schema file to the schemaInput
-  await schemaInput.addSource({ name: basename, schema: jsonSchema });
+directoryTree(schemaFolder, { extensions: /\.json$/, normalizePath: true }, (item) => {
+  const paths = item.path.split('/').reverse();
 
-  // If its the last schema to process
-  if (basename === 'VersionGroupNamedList') {
-    // Adds the last file to the schema
+  if (paths[1] === 'v2') {
+    let name = path.basename(item.path, '.json').replace(/_/g, '-');
+    name = name === 'index' ? 'EndpointsList' : toPascalCase(name);
+    rootSchemas.push({ name, schema: fs.readFileSync(item.path, 'utf8') });
+    return;
+  }
+
+  // Skip the placeholder -1 folder
+  if (item.path.includes('move-ailment/-1')) return;
+
+  let basename: string;
+  let interfaceName: string;
+
+  if (item.path.includes('pokemon/$id/encounters')) {
+    basename = 'pokemon-encounter';
+    interfaceName = 'PokemonEncounter';
+  } else if (item.path.includes('$id')) {
+    // 'pokemon/$id/index.json' → "pokemon"
+    basename = paths[2];
+    interfaceName = toPascalCase(basename);
+  } else {
+    // 'pokemon/index.json' → "pokemon-list" / "PokemonList"
+    basename = `${paths[1]}-list`;
+    interfaceName = toPascalCase(basename);
+  }
+
+  const jsonSchema = fs.readFileSync(item.path, 'utf8');
+
+  // Named-resource list interfaces get the "NamedList" suffix
+  if (interfaceName.includes('List') && jsonSchema.includes('named_api_resource_list.json')) {
+    interfaceName = interfaceName.replace('List', 'NamedList');
+  }
+
+  apiMap[basename] = interfaceName;
+  nestedSchemas.push({ name: interfaceName, schema: jsonSchema });
+});
+
+(async () => {
+  try {
+    const schemaInput = new JSONSchemaInput(new FetchingJSONSchemaStore());
+    const inputData = new InputData();
+
+    // Sequential: addSource order determines quicktype name disambiguation.
+    for (const { name, schema } of [...rootSchemas, ...nestedSchemas]) {
+      // eslint-disable-next-line no-await-in-loop
+      await schemaInput.addSource({ name, schema });
+    }
+
     inputData.addInput(schemaInput);
 
-    // Combines final large schema file into d.ts file
     const qt = await quicktype({
       inputData,
       lang: 'typescript',
-      rendererOptions: {
-        'just-types': 'true',
-      },
+      rendererOptions: { 'just-types': 'true' },
     });
 
     await generateFinalFile(qt.lines.join('\n').replace(/export /g, ''));
+  } catch (error) {
+    console.error('Type generation failed:', error);
+    process.exit(1);
   }
-}
-
-// First pass through directory tree to make sure standalone files
-// are added to schema source first
-const tree = directoryTree(schemaFolder, { extensions: /\.json$/, normalizePath: true });
-tree.children.forEach((child) => {
-  if (!child.children) {
-    // Get the file name
-    let basename = path.basename(child.path, '.json').replace(/_/g, '-');
-
-    // If the interface is the one containing all the endpoints, rename the interface
-    if (basename === 'index') {
-      basename = 'EndpointsList';
-    } else {
-      basename = toPascalCase(basename);
-    }
-
-    // Read all the schema file
-    const jsonSchema = fs.readFileSync(child.path, 'utf8');
-    quicktypeMain(jsonSchema, basename);
-  }
-});
-
-// Loops through schema directory with main logic
-directoryTree(schemaFolder, { extensions: /\.json$/, normalizePath: true }, (item) => {
-  // Split the path, to get the folder names later
-  const paths = item.path.split('/').reverse();
-
-  // Don't add the standalone files again to the schema source
-  // also, don't parse the -1 folder
-  if (paths[1] !== 'v2' && !item.path.includes('move-ailment/-1')) {
-    // The endpoint path, as in the endpoints list
-    let basename: string;
-    // The name of the generated interface/type
-    let interfaceName: string;
-
-    // Handle special case
-    if (item.path.includes('pokemon/$id/encounters')) {
-      basename = 'pokemon-encounter';
-      interfaceName = 'PokemonEncounter';
-    } else if (item.path.includes('$id')) {
-      // If the scheme is the wanted one, pick the name of two folder above
-      // eg.: 'pokemon/$id/index.json', picks the "pokemon"
-      basename = paths[2];
-      interfaceName = toPascalCase(basename);
-    } else {
-      // Gets one folder above (used for the resource lists)
-      // eg. 'pokemon/index.js', picks the "pokemon"
-      // and adds 'List' to the interface name, eg. 'PokemonList'
-      basename = `${paths[1]}-list`;
-      interfaceName = toPascalCase(basename);
-    }
-
-    // Register to the API map to use later on the methods
-    apiMap[basename] = interfaceName;
-
-    // Read all the schema file
-    const jsonSchema = fs.readFileSync(item.path, 'utf8');
-
-    // If the interface contains named resources and is a list, rename the interface
-    if (interfaceName.includes('List') && jsonSchema.includes('named_api_resource_list.json')) {
-      interfaceName = interfaceName.replace('List', 'NamedList');
-      apiMap[basename] = interfaceName;
-    }
-
-    quicktypeMain(jsonSchema, interfaceName);
-  }
-});
+})();

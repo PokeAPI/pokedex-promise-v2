@@ -8,6 +8,74 @@ import {
   apiMapFile, mainFile, mainLabel, typeFile,
 } from './Utils.js';
 
+// Concurrency for pMap calls in the generated method bodies
+const PMAP_CONCURRENCY = 4;
+
+// Body template for endpoints that take an id / nameOrId (single or array)
+function buildItemMethodBody(opts: {
+  inputParam: string;
+  inputParamType: string;
+  returnType: string;
+  endpoint: string;
+  paramTypeDescription: string;
+}): string {
+  const {
+    inputParam, inputParamType, returnType, endpoint, paramTypeDescription,
+  } = opts;
+  return `try {
+    // Fail if the param is not supplied
+    if (!${inputParam}) {
+      throw new Error('Param "${inputParam}" is required (Must be a ${paramTypeDescription} )');
+    }
+
+    // Fail if the input types aren't accepted
+    if (!Array.isArray(${inputParam}) && typeof ${inputParam} !== 'number' && typeof ${inputParam} !== 'string') {
+    throw new Error('Param "${inputParam}" must be a ${paramTypeDescription}');
+    }
+
+    // If the user has submitted a Name or an ID, return the JSON promise
+    if (typeof ${inputParam} === 'number' || typeof ${inputParam} === 'string') {
+      return getJSON<${returnType}>(this.options, \`\${this.options.protocol}\${this.options.hostName}\${this.options.versionPath}${endpoint}/\${${inputParam}}/\`, callback);
+    }
+
+    // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
+    const mapper = (${inputParam}s: ${inputParamType}) => getJSON<${returnType}>(this.options, \`\${this.options.protocol}\${this.options.hostName}\${this.options.versionPath}${endpoint}/\${${inputParam}s}/\`);
+
+    // Fetch data asynchronously to be faster
+    const mappedResults = await pMap(${inputParam}, mapper, { concurrency: ${PMAP_CONCURRENCY} });
+
+    // Invoke the callback if we have one
+    if (callback) {
+      callback(mappedResults);
+    }
+
+    return mappedResults;
+} catch (error) {
+    handleError(error, callback);
+}`;
+}
+
+// Body template for paginated list endpoints. Pass empty rawEndpoint for the root endpoints list.
+function buildListMethodBody(rawEndpoint: string): string {
+  return `try {
+    let { limit, offset } = this.options;
+
+    if (interval) {
+      if ('limit' in interval) {
+        limit = interval.limit;
+      }
+
+      if ('offset' in interval) {
+        offset = interval.offset;
+      }
+    }
+
+    return getJSON(this.options, \`\${this.options.protocol}\${this.options.hostName}\${this.options.versionPath}${rawEndpoint}?limit=\${limit}&offset=\${offset}\`, callback);
+  } catch (error) {
+    handleError(error, callback);
+  }`;
+}
+
 console.time(mainLabel);
 console.timeLog(mainLabel, '- Starting to main class...');
 
@@ -27,11 +95,11 @@ const indexFile = project.createSourceFile(mainFile, `/* eslint-disable */
 const declarationFile = project.getSourceFile(typeFile);
 
 // Get the types module
-const existingDeclarationModule = declarationFile.getModule('\'pokedex-promise-v2\'');
+const existingDeclarationModule = declarationFile.getModuleOrThrow('\'pokedex-promise-v2\'');
 
-// Get the export existing export and remove them if it exists
+// Remove the existing export assignment if present
 const existingDeclarationExports = existingDeclarationModule.getExportAssignments();
-if (existingDeclarationExports && existingDeclarationExports.length >= 1) {
+if (existingDeclarationExports.length >= 1) {
   existingDeclarationExports[0].remove();
 }
 
@@ -50,40 +118,17 @@ const declarationClass = existingDeclarationModule.addClass({
 const apiMap = JSON.parse(fs.readFileSync(apiMapFile).toString());
 
 // Import dependencies
-indexFile.addImportDeclaration({
-  defaultImport: 'pMap',
-  moduleSpecifier: 'p-map',
-});
+const generatedImports: { defaultImport: string; moduleSpecifier: string }[] = [
+  { defaultImport: 'pMap', moduleSpecifier: 'p-map' },
+  { defaultImport: 'NodeCache', moduleSpecifier: 'node-cache' },
+  { defaultImport: 'PokeAPITypes', moduleSpecifier: 'pokedex-promise-v2' },
+  { defaultImport: 'ListEndpointOptions', moduleSpecifier: './interfaces/ListEndpointOptions.js' },
+  { defaultImport: 'PokeAPIOptions', moduleSpecifier: './interfaces/PokeAPIOptions.js' },
+  { defaultImport: 'handleError', moduleSpecifier: './utils/ErrorHandler.js' },
+  { defaultImport: 'getJSON', moduleSpecifier: './utils/Getter.js' },
+];
 
-indexFile.addImportDeclaration({
-  defaultImport: 'NodeCache',
-  moduleSpecifier: 'node-cache',
-});
-
-indexFile.addImportDeclaration({
-  defaultImport: 'PokeAPITypes',
-  moduleSpecifier: 'pokedex-promise-v2',
-});
-
-indexFile.addImportDeclaration({
-  defaultImport: 'ListEndpointOptions',
-  moduleSpecifier: './interfaces/ListEndpointOptions.js',
-});
-
-indexFile.addImportDeclaration({
-  defaultImport: 'PokeAPIOptions',
-  moduleSpecifier: './interfaces/PokeAPIOptions.js',
-});
-
-indexFile.addImportDeclaration({
-  defaultImport: 'handleError',
-  moduleSpecifier: './utils/ErrorHandler.js',
-});
-
-indexFile.addImportDeclaration({
-  defaultImport: 'getJSON',
-  moduleSpecifier: './utils/Getter.js',
-});
+generatedImports.forEach((decl) => indexFile.addImportDeclaration(decl));
 
 // Add the main PokeAPI class
 const pokeApiClass = indexFile.addClass({
@@ -117,7 +162,7 @@ console.timeLog(mainLabel, ' - Base generated, generating methods...');
 const getResourceCode = `try {
   // Fail if the endpoint is not supplied
   if (!endpoint) {
-    throw new Error('Param "endpoint" is required needs to be a string or array of strings');
+    throw new Error('Param "endpoint" is required and must be a string or array of strings');
   }
 
   // Fail if the input types aren't accepted
@@ -125,19 +170,16 @@ const getResourceCode = `try {
     throw new Error('Param "endpoint" needs to be a string or array of strings');
   }
 
-  /// If the user has submitted a string, return the JSON promise
+  // If the user has submitted a string, return the JSON promise
   if (typeof endpoint === 'string') {
     return getJSON<any>(this.options, endpoint, callback);
   }
 
   // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
-  const mapper = async (endpoints: string) => {
-    const queryRes = await getJSON<any>(this.options, endpoints);
-    return queryRes;
-  };
+  const mapper = (endpoints: string) => getJSON<any>(this.options, endpoints);
 
   // Fetch data asynchronously to be faster
-  const mappedResults = await pMap(endpoint, mapper, { concurrency: 4 });
+  const mappedResults = await pMap(endpoint, mapper, { concurrency: ${PMAP_CONCURRENCY} });
 
   if (callback) {
     callback(mappedResults);
@@ -215,11 +257,12 @@ declarationClass.addMethod(methodStructure)
 // Add all the methods from the endpoints list,
 // setting the parameters typing and binding to the correct interface and endpoint
 for (const [methodName, endpoint, jsdocs] of endpoints) {
-  const inputParam = methodName.match(/ByName$/) ? 'nameOrId' : 'id';
-  const inputParamType = methodName.match(/ByName$/) ? 'string | number | Array<string | number>' : 'number | number[]';
-
-  const singleParamType = methodName.match(/ByName$/) ? 'string | number' : 'number';
-  const multipleParamType = methodName.match(/ByName$/) ? 'Array<string | number>' : 'number[]';
+  const isByName = methodName.endsWith('ByName');
+  const inputParam = isByName ? 'nameOrId' : 'id';
+  const inputParamType = isByName ? 'string | number | Array<string | number>' : 'number | number[]';
+  const singleParamType = isByName ? 'string | number' : 'number';
+  const multipleParamType = isByName ? 'Array<string | number>' : 'number[]';
+  const paramTypeDescription = isByName ? 'string, array of strings or array of string and/or numbers' : 'number or array of numbers';
 
   const returnType = `PokeAPITypes.${apiMap[endpoint]}`;
 
@@ -268,40 +311,9 @@ for (const [methodName, endpoint, jsdocs] of endpoints) {
     ],
   };
 
-  const generatedMethod = pokeApiClass.addMethod(methodStructure).setBodyText(`try {
-    // Fail if the param is not supplied
-    if (!${inputParam}) {
-      throw new Error('Param "${inputParam}" is required (Must be a ${methodName.match(/ByName$/) ? 'string, array of strings or array of string and/or numbers' : 'number or array of numbers'} )');
-    }
-
-    // Fail if the input types aren't accepted
-    if (!Array.isArray(${inputParam}) && typeof ${inputParam} !== 'number' && typeof ${inputParam} !== 'string') {
-    throw new Error('Param "${inputParam}" must be a ${methodName.match(/ByName$/) ? 'string, array of strings or array of string and/or numbers' : 'number or array of numbers'}');
-    }
-
-    // If the user has submitted a Name or an ID, return the JSON promise
-    if (typeof ${inputParam} === 'number' || typeof ${inputParam} === 'string') {
-      return getJSON<${returnType}>(this.options, \`\${this.options.protocol}\${this.options.hostName}\${this.options.versionPath}${endpoint}/\${${inputParam}}/\`, callback);
-    }
-
-    // If the user has submitted an Array return a new promise which will resolve when all getJSON calls are ended
-    const mapper = async (${inputParam}s: ${inputParamType}) => {
-      const queryRes = await getJSON<${returnType}>(this.options, \`\${this.options.protocol}\${this.options.hostName}\${this.options.versionPath}${endpoint}/\${${inputParam}s}/\`);
-      return queryRes;
-    };
-
-    // Fetch data asynchronously to be faster
-    const mappedResults = await pMap(${inputParam}, mapper, { concurrency: 4 });
-
-    // Invoke the callback if we have one
-    if (callback) {
-      callback(mappedResults);
-    }
-
-    return mappedResults;
-} catch (error) {
-    handleError(error, callback);
-}`);
+  const generatedMethod = pokeApiClass.addMethod(methodStructure).setBodyText(buildItemMethodBody({
+    inputParam, inputParamType, returnType, endpoint, paramTypeDescription,
+  }));
 
   // Add the declaration to the types file
   // Removing the async keyword
@@ -328,7 +340,7 @@ for (const [method, rawEndpoint, jsdocs] of rootEndpoints) {
   // If the method doesn't have a interface, skip it
   if (!apiMap[endpoint]) {
     if (method !== 'getEndpointsList') {
-      console.log('Could not found interface for: ', method);
+      console.log('Could not find interface for:', method);
     }
     continue;
   }
@@ -352,23 +364,7 @@ for (const [method, rawEndpoint, jsdocs] of rootEndpoints) {
     returnType: `Promise<${returnType}>`,
   };
 
-  const generatedMethod = pokeApiClass.addMethod(methodStructure).setBodyText(`try {
-    let { limit, offset } = this.options;
-
-    if (interval) {
-      if (interval.hasOwnProperty('limit')) {
-        limit = interval.limit;
-      }
-
-      if (interval.hasOwnProperty('offset')) {
-        offset = interval.offset;
-      }
-    }
-
-    return getJSON(this.options, \`\${this.options.protocol}\${this.options.hostName}\${this.options.versionPath}${rawEndpoint}?limit=\${limit}&offset=\${offset}\`, callback);
-  } catch (error) {
-    handleError(error, callback);
-  }`);
+  const generatedMethod = pokeApiClass.addMethod(methodStructure).setBodyText(buildListMethodBody(rawEndpoint));
 
   // Add the declaration to the types file
   // Removing the async keyword
@@ -399,24 +395,7 @@ methodStructure = {
   returnType: 'Promise<PokeAPITypes.EndpointsList>',
 };
 
-pokeApiClass.addMethod(methodStructure).setBodyText(`
-try {
-  let { limit, offset } = this.options;
-
-  if (interval) {
-    if (interval.hasOwnProperty('limit')) {
-      limit = interval.limit;
-    }
-
-    if (interval.hasOwnProperty('offset')) {
-      offset = interval.offset;
-    }
-  }
-
-  return getJSON(this.options, \`\${this.options.protocol}\${this.options.hostName}\${this.options.versionPath}?limit=\${limit}&offset=\${offset}\`, callback);
-} catch (error) {
-  handleError(error, callback);
-}`);
+pokeApiClass.addMethod(methodStructure).setBodyText(buildListMethodBody(''));
 
 // Add the declaration to the types file
 // Removing the async keyword
@@ -431,7 +410,7 @@ pokeApiClass.addMethod({
 // Add method to get the cache size
 pokeApiClass.addMethod({
   name: 'getCachedItemsCount',
-}).setBodyText('return this.options.cache.stats.keys;').addJsDoc('Retuns the current number of entries in the cache');
+}).setBodyText('return this.options.cache.stats.keys;').addJsDoc('Returns the current number of entries in the cache');
 
 pokeApiClass.addMethod({
   name: 'cacheSize',
@@ -451,14 +430,15 @@ declarationClass.getParentModule().addExportAssignment({
 declarationClass.replaceWithText(declarationClass.getFullText().replace(/PokeAPITypes/g, 'PokeAPI'));
 declarationClass.formatText();
 
-// Top level async function
 (async () => {
-  // Save and compile to JS
-  await indexFile.save();
-  await declarationFile.save();
-  await project.emit();
+  try {
+    await indexFile.save();
+    await declarationFile.save();
+    await project.emit();
+    console.timeEnd(mainLabel);
+    console.log('Main class generated!');
+  } catch (error) {
+    console.error('Main generation failed:', error);
+    process.exit(1);
+  }
 })();
-
-// Timestamp
-console.timeEnd(mainLabel);
-console.log('Main class generated!');
