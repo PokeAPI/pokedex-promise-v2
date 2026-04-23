@@ -20,7 +20,7 @@ const docList = [
   'utility',
 ];
 
-// Add JSDocs to the interface and all of its properties
+// Apply docs from one upstream model onto the generated interface shape.
 function addJsDoc(
   generatedInterface: InterfaceDeclaration,
   index: number,
@@ -59,7 +59,7 @@ function addJsDoc(
   }
 }
 
-// Load a doc from the PokeAPI docs and get the descriptions to apply to the code
+// Fetch one docs file and merge its descriptions into matching generated types.
 async function loadDocumentation(namespace: ModuleDeclaration, docName: string) {
   const response = await axios.get(`https://raw.githubusercontent.com/PokeAPI/pokeapi.co/master/src/docs/${docName}.json`);
   const apis: any = await response.data;
@@ -69,7 +69,7 @@ async function loadDocumentation(namespace: ModuleDeclaration, docName: string) 
     // Loop over all of the response models, not the examples
     for (const [index, model] of api.responseModels.entries()) {
       try {
-        // Quicktype has its quirks while generating the types, so those 3 lines account for them
+        // Some interfaces still keep quicktype's temporary prefixes, so update all known variants.
         const generatedInterface = namespace.getInterface(model.name === 'PokemonEncounter' ? 'LocationAreaPokemonEncounter' : model.name);
         const purpleGeneratedInterface = namespace.getInterface(`Purple${model.name}`);
         const fluffyGeneratedInterface = namespace.getInterface(`Fluffy${model.name}`);
@@ -110,6 +110,7 @@ const namespace = rootModule.getModuleOrThrow('PokeAPI');
 
 (async () => {
   try {
+    // Each upstream docs file is independent, so apply them in parallel.
     await Promise.all(docList.map((docName) => loadDocumentation(namespace, docName)));
     await file.save();
     console.timeEnd(jsdocsLabel);

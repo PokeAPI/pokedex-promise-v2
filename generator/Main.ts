@@ -8,7 +8,7 @@ import {
   apiMapFile, mainFile, mainLabel, typeFile,
 } from './Utils.js';
 
-// Concurrency for pMap calls in the generated method bodies
+// Shared concurrency for generated array-fetch helpers.
 const PMAP_CONCURRENCY = 4;
 
 // Body template for endpoints that take an id / nameOrId (single or array)
@@ -55,7 +55,7 @@ function buildItemMethodBody(opts: {
 }`;
 }
 
-// Body template for paginated list endpoints. Pass empty rawEndpoint for the root endpoints list.
+// Body template for paginated list endpoints. Empty rawEndpoint targets the API root listing.
 function buildListMethodBody(rawEndpoint: string): string {
   return `try {
     let { limit, offset } = this.options;
@@ -84,7 +84,7 @@ const project = new Project({
   tsConfigFilePath: path.resolve('./tsconfig.json'),
 });
 
-// Create the main index.ts
+// Rebuild the runtime entrypoint from scratch on every generation pass.
 const indexFile = project.createSourceFile(mainFile, `/* eslint-disable */
 /*
 * DO NOT MODIFY, THIS IS AUTO GENERATED
@@ -114,7 +114,7 @@ const declarationClass = existingDeclarationModule.addClass({
   name: 'PokeAPI',
 });
 
-// Read the API Map
+// TypesGenerator writes this map so method generation can stay schema-driven.
 const apiMap = JSON.parse(fs.readFileSync(apiMapFile).toString());
 
 // Import dependencies
@@ -158,7 +158,7 @@ declarationClass.addConstructor(classConstructor);
 // Timestamp
 console.timeLog(mainLabel, ' - Base generated, generating methods...');
 
-// Add the get generic resource array method
+// This generic fetch helper is handwritten because it is not tied to one schema endpoint.
 const getResourceCode = `try {
   // Fail if the endpoint is not supplied
   if (!endpoint) {
@@ -235,6 +235,7 @@ let methodStructure: OptionalKind<MethodDeclarationStructure> = {
   ],
 };
 
+// Seed the class with the shared resource helper before endpoint-specific methods.
 pokeApiClass.addMethod(methodStructure).setBodyText(getResourceCode);
 // Add the declaration to the types file
 // Removing the async keyword

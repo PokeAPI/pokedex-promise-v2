@@ -16,7 +16,7 @@ if (!fs.existsSync(schemaFolder)) {
   process.exit(1);
 }
 
-// Convert kebab-case (or single word) into PascalCase
+// Convert schema folder names into the interface names quicktype expects.
 function toPascalCase(text: string) {
   return text
     .split('-')
@@ -24,10 +24,10 @@ function toPascalCase(text: string) {
     .join('');
 }
 
-// A map for the methods of the class
+// This basename -> interface map is consumed later by Main.ts.
 const apiMap: Record<string, string> = {};
 
-// The method that will string together the types and the PokeAPI class
+// Build the declaration file and normalize quicktype's raw output.
 async function generateFinalFile(types: string) {
   // Log progress...
   console.timeLog(typesLabel, '- Types generated, starting the generation of the definition file...');
@@ -71,6 +71,7 @@ async function generateFinalFile(types: string) {
     namespace.setBodyText(body);
   };
 
+  // Compare interfaces by their field signature instead of by quicktype's names.
   const interfaceShape = (iface: InterfaceDeclaration) => iface.getProperties()
     .map((p) => `${p.getName()}:${p.getTypeNode()?.getText()}`)
     .sort()
@@ -91,6 +92,7 @@ async function generateFinalFile(types: string) {
     const name = iface.getName();
     if (canonicalShapes.has(name)) continue;
     const sig = interfaceShape(iface);
+    // These tiny resource wrappers are safe to collapse globally by exact shape.
     if (sig === 'url:string') {
       canonicalRewrites[name] = 'APIResource';
     } else if (sig === 'name:string,url:string') {
@@ -111,6 +113,7 @@ async function generateFinalFile(types: string) {
   for (const iface of namespace.getInterfaces()) {
     const sig = interfaceShape(iface);
     if (!sig) continue;
+    // Group exact duplicates first, then let the suffix rule pick the keeper.
     const group = groupsByShape.get(sig) ?? [];
     group.push(iface.getName());
     groupsByShape.set(sig, group);
@@ -162,6 +165,7 @@ async function generateFinalFile(types: string) {
       .map((i) => i.getName());
     const existing = namespace.getInterface(canonical);
     if (existing) {
+      // Canonical already exists: rewrite every sibling to point at it.
       if (interfaceShape(existing) !== targetShape) {
         console.warn(`shapeAliases: canonical "${canonical}" exists with a different shape, skipping`);
         continue;
@@ -170,6 +174,7 @@ async function generateFinalFile(types: string) {
         if (name !== canonical) aliasRewrites[name] = canonical;
       }
     } else {
+      // No canonical yet: rename one match into place, then rewrite the rest to it.
       aliasRenames.push({ from: matches[0], to: canonical });
       for (const name of matches.slice(1)) {
         aliasRewrites[name] = canonical;
@@ -212,6 +217,7 @@ async function generateFinalFile(types: string) {
   const fieldTypesOf = (iface: InterfaceDeclaration) => new Map(
     iface.getProperties().map((p) => [p.getName(), (p.getTypeNode()?.getText() ?? '').trim()]),
   );
+  // Compare unions loosely so wider variants can absorb null-only example shapes.
   const unionMembers = (typeText: string) => new Set(
     typeText.split('|').map((s) => s.trim()).filter(Boolean),
   );
@@ -219,6 +225,7 @@ async function generateFinalFile(types: string) {
     if (aType === bType) return true;
     const a = unionMembers(aType);
     const b = unionMembers(bType);
+    // `a` dominates `b` when every member accepted by `b` is also accepted by `a`.
     for (const m of b) if (!a.has(m)) return false;
     return true;
   };
@@ -253,6 +260,7 @@ async function generateFinalFile(types: string) {
       const prefix = quicktypePrefixes.find((p) => name.startsWith(p) && name.length > p.length);
       if (!prefix) continue;
       const base = name.slice(prefix.length);
+      // Example: PurpleVersions and FluffyVersions both group under "Versions".
       const list = variantsByBase.get(base) ?? [];
       list.push(iface);
       variantsByBase.set(base, list);
@@ -271,6 +279,7 @@ async function generateFinalFile(types: string) {
       }
 
       const dominator = findDominator(variants);
+      // If none of the variants is clearly wider, leave the set untouched.
       if (!dominator) continue;
       renames.push({ from: dominator.getName(), to: base });
       for (const v of variants) {
@@ -310,6 +319,7 @@ async function generateFinalFile(types: string) {
   const snapshotByName = new Map(snapshot.map((s) => [s.name, s]));
 
   const arrayOfRefRe = /^([A-Za-z_]\w*)\[\]$/;
+  // Walk `Foo[] -> Bar[] -> any[]` chains created from recursive schemas.
   const followRecursiveChain = (startName: string, propName: string): IfaceSnapshot[] | null => {
     const chain: IfaceSnapshot[] = [];
     const seen = new Set<string>();
@@ -322,6 +332,7 @@ async function generateFinalFile(types: string) {
       seen.add(curName);
       const text = info.props.get(propName);
       if (text === undefined) return null;
+      // `any[]` is the tell that quicktype ran out of observed recursion depth.
       if (text === 'any[]') return chain.length >= 2 ? chain : null;
       const m = arrayOfRefRe.exec(text);
       if (!m) return null;
@@ -335,6 +346,7 @@ async function generateFinalFile(types: string) {
     chainNames: string[];
     mergedProps: { name: string; type: string }[];
   };
+  // Collect rewrite operations first so detection is not affected by in-place edits.
   const ops: ChainOp[] = [];
   const claimed = new Set<string>();
   for (const start of snapshot) {
@@ -345,10 +357,12 @@ async function generateFinalFile(types: string) {
       const allPropNames = new Set<string>();
       for (const m of chain) for (const k of m.props.keys()) allPropNames.add(k);
       const mergedProps = [...allPropNames].map((name) => {
+        // The recursive edge always folds back to the outermost interface name.
         if (name === propName) return { name, type: `${start.name}[]` };
         let chosen = '';
         for (const m of chain) {
           const t = m.props.get(name);
+          // Prefer the first concrete type seen deeper in the chain over `any`.
           if (!t || t === 'any' || t === 'any[]') continue;
           chosen = t;
           break;
@@ -369,6 +383,7 @@ async function generateFinalFile(types: string) {
   for (const op of ops) {
     const start = namespace.getInterface(op.startName);
     if (!start) continue;
+    // Rebuild the survivor interface from the merged snapshot in one pass.
     for (const p of start.getProperties()) p.remove();
     // Remove existing index sigs so new properties go above them when re-added
     const indexSigStructures = start.getIndexSignatures().map((s) => s.getStructure());
@@ -487,7 +502,7 @@ directoryTree(schemaFolder, { extensions: /\.json$/, normalizePath: true }, (ite
     return;
   }
 
-  // Skip the placeholder -1 folder
+  // Skip the placeholder folder that is not a real resource shape.
   if (item.path.includes('move-ailment/-1')) return;
 
   let basename: string;
@@ -519,6 +534,7 @@ directoryTree(schemaFolder, { extensions: /\.json$/, normalizePath: true }, (ite
 
 (async () => {
   try {
+    // Resolve local and remote $refs before handing schemas to quicktype.
     const schemaInput = new JSONSchemaInput(new FetchingJSONSchemaStore());
     const inputData = new InputData();
 
