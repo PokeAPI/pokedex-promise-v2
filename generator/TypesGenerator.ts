@@ -1,14 +1,10 @@
 import fs from 'fs';
 import path from 'path';
 import directoryTree from 'directory-tree';
-import { InterfaceDeclaration, Project, Writers } from 'ts-morph';
-import {
-  quicktype, InputData, JSONSchemaInput, FetchingJSONSchemaStore,
-} from 'quicktype-core';
+import {InterfaceDeclaration, Project, Writers} from 'ts-morph';
+import {FetchingJSONSchemaStore, InputData, JSONSchemaInput, quicktype,} from 'quicktype-core';
 
-import {
-  apiMapFile, schemaFolder, typesLabel, typeFile,
-} from './Utils.js';
+import {apiMapFile, schemaFolder, typeFile, typesLabel,} from './Utils.js';
 
 console.log(schemaFolder);
 if (!fs.existsSync(schemaFolder)) {
@@ -41,7 +37,7 @@ async function generateFinalFile(types: string) {
 * And: Christian Garza <https://github.com/C-Garza/>
 * Code inspired by: Mudkip <https://github.com/mudkipme/>
 * Execute \`npm run generate:types\` to regenerate
-*/`, { overwrite: true });
+*/`, {overwrite: true});
 
   // Create the root module
   const rootModule = file.addModule({
@@ -147,13 +143,13 @@ async function generateFinalFile(types: string) {
   const shapeAliases: { sample: string; canonical: string }[] = [
     // All `{ name_icon }` shapes are per-game icon descriptors. Collapse
     // ~18 interfaces (Colosseum, Xd, Fluffy*, ScarletViolet, …) to IconName.
-    { sample: 'FluffyEmerald', canonical: 'IconName' },
+    {sample: 'FluffyEmerald', canonical: 'IconName'},
     // `{ name_icon, symbol_icon }` is the newer Gen IX/BD-SP icon descriptor.
-    { sample: 'TentacledScarletViolet', canonical: 'IconNameWithSymbol' },
+    {sample: 'TentacledScarletViolet', canonical: 'IconNameWithSymbol'},
   ];
   const aliasRewrites: Record<string, string> = {};
   const aliasRenames: { from: string; to: string }[] = [];
-  for (const { sample, canonical } of shapeAliases) {
+  for (const {sample, canonical} of shapeAliases) {
     const sampleIface = namespace.getInterface(sample);
     if (!sampleIface) {
       console.warn(`shapeAliases: sample interface "${sample}" not found, skipping`);
@@ -175,7 +171,7 @@ async function generateFinalFile(types: string) {
       }
     } else {
       // No canonical yet: rename one match into place, then rewrite the rest to it.
-      aliasRenames.push({ from: matches[0], to: canonical });
+      aliasRenames.push({from: matches[0], to: canonical});
       for (const name of matches.slice(1)) {
         aliasRewrites[name] = canonical;
       }
@@ -186,7 +182,7 @@ async function generateFinalFile(types: string) {
   }
   {
     let body = namespace.getBodyText();
-    for (const { from, to } of aliasRenames) {
+    for (const {from, to} of aliasRenames) {
       body = body.split(from).join(to);
     }
     for (const [from, to] of Object.entries(aliasRewrites)) {
@@ -274,14 +270,14 @@ async function generateFinalFile(types: string) {
 
       if (variants.length === 1) {
         // Sole orphan-prefixed variant — strip prefix
-        renames.push({ from: variants[0].getName(), to: base });
+        renames.push({from: variants[0].getName(), to: base});
         continue;
       }
 
       const dominator = findDominator(variants);
       // If none of the variants is clearly wider, leave the set untouched.
       if (!dominator) continue;
-      renames.push({ from: dominator.getName(), to: base });
+      renames.push({from: dominator.getName(), to: base});
       for (const v of variants) {
         if (v !== dominator) drops[v.getName()] = base;
       }
@@ -293,7 +289,7 @@ async function generateFinalFile(types: string) {
       namespace.getInterface(name)?.remove();
     }
     let body = namespace.getBodyText();
-    for (const { from, to } of renames) body = body.split(from).join(to);
+    for (const {from, to} of renames) body = body.split(from).join(to);
     for (const [from, to] of Object.entries(drops)) body = body.split(from).join(to);
     namespace.setBodyText(body);
   }
@@ -358,7 +354,7 @@ async function generateFinalFile(types: string) {
       for (const m of chain) for (const k of m.props.keys()) allPropNames.add(k);
       const mergedProps = [...allPropNames].map((name) => {
         // The recursive edge always folds back to the outermost interface name.
-        if (name === propName) return { name, type: `${start.name}[]` };
+        if (name === propName) return {name, type: `${start.name}[]`};
         let chosen = '';
         for (const m of chain) {
           const t = m.props.get(name);
@@ -368,7 +364,7 @@ async function generateFinalFile(types: string) {
           break;
         }
         if (!chosen) chosen = start.props.get(name) ?? 'any';
-        return { name, type: chosen };
+        return {name, type: chosen};
       });
       ops.push({
         startName: start.name,
@@ -388,7 +384,7 @@ async function generateFinalFile(types: string) {
     // Remove existing index sigs so new properties go above them when re-added
     const indexSigStructures = start.getIndexSignatures().map((s) => s.getStructure());
     for (const s of start.getIndexSignatures()) s.remove();
-    for (const mp of op.mergedProps) start.addProperty({ name: mp.name, type: mp.type });
+    for (const mp of op.mergedProps) start.addProperty({name: mp.name, type: mp.type});
     for (const s of indexSigStructures) start.addIndexSignature(s);
     for (const name of op.chainNames.slice(1)) {
       namespace.getInterface(name)?.remove();
@@ -492,13 +488,13 @@ type SchemaSource = { name: string; schema: string };
 const rootSchemas: SchemaSource[] = [];
 const nestedSchemas: SchemaSource[] = [];
 
-directoryTree(schemaFolder, { extensions: /\.json$/, normalizePath: true }, (item) => {
+directoryTree(schemaFolder, {extensions: /\.json$/, normalizePath: true}, (item) => {
   const paths = item.path.split('/').reverse();
 
   if (paths[1] === 'v2') {
     let name = path.basename(item.path, '.json').replace(/_/g, '-');
     name = name === 'index' ? 'EndpointsList' : toPascalCase(name);
-    rootSchemas.push({ name, schema: fs.readFileSync(item.path, 'utf8') });
+    rootSchemas.push({name, schema: fs.readFileSync(item.path, 'utf8')});
     return;
   }
 
@@ -529,7 +525,7 @@ directoryTree(schemaFolder, { extensions: /\.json$/, normalizePath: true }, (ite
   }
 
   apiMap[basename] = interfaceName;
-  nestedSchemas.push({ name: interfaceName, schema: jsonSchema });
+  nestedSchemas.push({name: interfaceName, schema: jsonSchema});
 });
 
 (async () => {
@@ -539,9 +535,9 @@ directoryTree(schemaFolder, { extensions: /\.json$/, normalizePath: true }, (ite
     const inputData = new InputData();
 
     // Sequential: addSource order determines quicktype name disambiguation.
-    for (const { name, schema } of [...rootSchemas, ...nestedSchemas]) {
+    for (const {name, schema} of [...rootSchemas, ...nestedSchemas]) {
       // eslint-disable-next-line no-await-in-loop
-      await schemaInput.addSource({ name, schema });
+      await schemaInput.addSource({name, schema});
     }
 
     inputData.addInput(schemaInput);
@@ -549,7 +545,7 @@ directoryTree(schemaFolder, { extensions: /\.json$/, normalizePath: true }, (ite
     const qt = await quicktype({
       inputData,
       lang: 'typescript',
-      rendererOptions: { 'just-types': 'true' },
+      rendererOptions: {'just-types': 'true'},
     });
 
     await generateFinalFile(qt.lines.join('\n').replace(/export /g, ''));

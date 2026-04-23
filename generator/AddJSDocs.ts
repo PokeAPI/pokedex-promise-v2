@@ -1,8 +1,8 @@
 import axios from 'axios';
 import path from 'path';
-import { InterfaceDeclaration, ModuleDeclaration, Project } from 'ts-morph';
+import {InterfaceDeclaration, ModuleDeclaration, Project} from 'ts-morph';
 
-import { jsdocsLabel, typeFile } from './Utils.js';
+import {jsdocsLabel, typeFile} from './Utils.js';
 
 // The doc names available on the PokeAPI github repo
 const docList = [

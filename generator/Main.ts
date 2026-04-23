@@ -1,12 +1,10 @@
 import fs from 'fs';
 import path from 'path';
-import { MethodDeclarationStructure, OptionalKind, Project } from 'ts-morph';
+import {MethodDeclarationStructure, OptionalKind, Project} from 'ts-morph';
 
 import endpoints from '../src/utils/Endpoints.js';
 import rootEndpoints from '../src/utils/RootEndpoints.js';
-import {
-  apiMapFile, mainFile, mainLabel, typeFile,
-} from './Utils.js';
+import {apiMapFile, mainFile, mainLabel, typeFile,} from './Utils.js';
 
 // Shared concurrency for generated array-fetch helpers.
 const PMAP_CONCURRENCY = 4;
@@ -89,7 +87,7 @@ const indexFile = project.createSourceFile(mainFile, `/* eslint-disable */
 /*
 * DO NOT MODIFY, THIS IS AUTO GENERATED
 * Execute \`npm run generate\` to regenerate
-*/`, { overwrite: true });
+*/`, {overwrite: true});
 
 // Get the types file
 const declarationFile = project.getSourceFile(typeFile);
@@ -119,13 +117,13 @@ const apiMap = JSON.parse(fs.readFileSync(apiMapFile).toString());
 
 // Import dependencies
 const generatedImports: { defaultImport: string; moduleSpecifier: string }[] = [
-  { defaultImport: 'pMap', moduleSpecifier: 'p-map' },
-  { defaultImport: 'NodeCache', moduleSpecifier: 'node-cache' },
-  { defaultImport: 'PokeAPITypes', moduleSpecifier: 'pokedex-promise-v2' },
-  { defaultImport: 'ListEndpointOptions', moduleSpecifier: './interfaces/ListEndpointOptions.js' },
-  { defaultImport: 'PokeAPIOptions', moduleSpecifier: './interfaces/PokeAPIOptions.js' },
-  { defaultImport: 'handleError', moduleSpecifier: './utils/ErrorHandler.js' },
-  { defaultImport: 'getJSON', moduleSpecifier: './utils/Getter.js' },
+  {defaultImport: 'pMap', moduleSpecifier: 'p-map'},
+  {defaultImport: 'NodeCache', moduleSpecifier: 'node-cache'},
+  {defaultImport: 'PokeAPITypes', moduleSpecifier: 'pokedex-promise-v2'},
+  {defaultImport: 'ListEndpointOptions', moduleSpecifier: './interfaces/ListEndpointOptions.js'},
+  {defaultImport: 'PokeAPIOptions', moduleSpecifier: './interfaces/PokeAPIOptions.js'},
+  {defaultImport: 'handleError', moduleSpecifier: './utils/ErrorHandler.js'},
+  {defaultImport: 'getJSON', moduleSpecifier: './utils/Getter.js'},
 ];
 
 generatedImports.forEach((decl) => indexFile.addImportDeclaration(decl));
@@ -197,11 +195,11 @@ let methodStructure: OptionalKind<MethodDeclarationStructure> = {
     name: 'endpoint',
     type: 'string | string[]',
   },
-  {
-    name: 'callback',
-    type: '(result: any | any[], error?: any) => any',
-    hasQuestionToken: true,
-  }],
+    {
+      name: 'callback',
+      type: '(result: any | any[], error?: any) => any',
+      hasQuestionToken: true,
+    }],
   returnType: 'Promise<any | any[]>',
   overloads: [
     {
@@ -274,11 +272,11 @@ for (const [methodName, endpoint, jsdocs] of endpoints) {
       name: inputParam,
       type: inputParamType,
     },
-    {
-      name: 'callback',
-      type: `((result: ${returnType}, error?: any) => any) & ((result: ${returnType}[], error?: any) => any)`,
-      hasQuestionToken: true,
-    }],
+      {
+        name: 'callback',
+        type: `((result: ${returnType}, error?: any) => any) & ((result: ${returnType}[], error?: any) => any)`,
+        hasQuestionToken: true,
+      }],
     returnType: `Promise<${returnType} | ${returnType}[]>`,
     overloads: [
       {
@@ -357,11 +355,11 @@ for (const [method, rawEndpoint, jsdocs] of rootEndpoints) {
       type: 'ListEndpointOptions',
       hasQuestionToken: true,
     },
-    {
-      name: 'callback',
-      type: `(result: ${returnType}, error?: any) => any`,
-      hasQuestionToken: true,
-    }],
+      {
+        name: 'callback',
+        type: `(result: ${returnType}, error?: any) => any`,
+        hasQuestionToken: true,
+      }],
     returnType: `Promise<${returnType}>`,
   };
 
@@ -388,11 +386,11 @@ methodStructure = {
     type: 'ListEndpointOptions',
     hasQuestionToken: true,
   },
-  {
-    name: 'callback',
-    type: '(result: any, error?: any) => any',
-    hasQuestionToken: true,
-  }],
+    {
+      name: 'callback',
+      type: '(result: any, error?: any) => any',
+      hasQuestionToken: true,
+    }],
   returnType: 'Promise<PokeAPITypes.EndpointsList>',
 };
 
