@@ -62,28 +62,17 @@ function addJsDoc(
 // Fetch one docs file and merge its descriptions into matching generated types.
 async function loadDocumentation(namespace: ModuleDeclaration, docName: string) {
   const response = await axios.get(`https://raw.githubusercontent.com/PokeAPI/pokeapi.co/master/src/docs/${docName}.json`);
-  const apis: any = await response.data;
+  const apis: any = response.data;
 
   // As one doc contain multiple APIs examples, loop through them
   for (const api of apis) {
     // Loop over all of the response models, not the examples
     for (const [index, model] of api.responseModels.entries()) {
       try {
-        // Some interfaces still keep quicktype's temporary prefixes, so update all known variants.
         const generatedInterface = namespace.getInterface(model.name === 'PokemonEncounter' ? 'LocationAreaPokemonEncounter' : model.name);
-        const purpleGeneratedInterface = namespace.getInterface(`Purple${model.name}`);
-        const fluffyGeneratedInterface = namespace.getInterface(`Fluffy${model.name}`);
 
         if (generatedInterface) {
           addJsDoc(generatedInterface, index, api.description, model);
-        }
-
-        if (purpleGeneratedInterface) {
-          addJsDoc(purpleGeneratedInterface, index, api.description, model);
-        }
-
-        if (fluffyGeneratedInterface) {
-          addJsDoc(fluffyGeneratedInterface, index, api.description, model);
         }
       } catch (error) {
         console.error('Failed to add JSDoc for', model.name, error);
