@@ -90,7 +90,7 @@ const indexFile = project.createSourceFile(mainFile, `/* eslint-disable */
 */`, {overwrite: true});
 
 // Get the types file
-const declarationFile = project.getSourceFile(typeFile);
+const declarationFile = project.getSourceFileOrThrow(typeFile);
 
 // Get the types module
 const existingDeclarationModule = declarationFile.getModuleOrThrow('\'pokedex-promise-v2\'');
@@ -156,7 +156,11 @@ declarationClass.addConstructor(classConstructor);
 // Timestamp
 console.timeLog(mainLabel, ' - Base generated, generating methods...');
 
-// This generic fetch helper is handwritten because it is not tied to one schema endpoint.
+// Hand-written rather than routed through buildItemMethodBody because this
+// helper takes an arbitrary URL (not an id appended to a base endpoint), has
+// no numeric input branch, and validates only string/string[]. The shared
+// template does not fit without adding mode flags that would leak into every
+// endpoint method.
 const getResourceCode = `try {
   // Fail if the endpoint is not supplied
   if (!endpoint) {
@@ -188,7 +192,13 @@ const getResourceCode = `try {
   handleError(error, callback);
 }`;
 
-let methodStructure: OptionalKind<MethodDeclarationStructure> = {
+// The impl class gets `isAsync: true`; the declaration class gets the same
+// structure with `isAsync: false` so emitted `.d.ts` does not leak `async`.
+const asDeclaration = (
+  m: OptionalKind<MethodDeclarationStructure>,
+): OptionalKind<MethodDeclarationStructure> => ({...m, isAsync: false});
+
+const getResourceMethod: OptionalKind<MethodDeclarationStructure> = {
   name: 'getResource',
   isAsync: true,
   parameters: [{
@@ -234,23 +244,14 @@ let methodStructure: OptionalKind<MethodDeclarationStructure> = {
 };
 
 // Seed the class with the shared resource helper before endpoint-specific methods.
-pokeApiClass.addMethod(methodStructure).setBodyText(getResourceCode);
-// Add the declaration to the types file
-// Removing the async keyword
-methodStructure.isAsync = false;
-declarationClass.addMethod(methodStructure);
+pokeApiClass.addMethod(getResourceMethod).setBodyText(getResourceCode);
+declarationClass.addMethod(asDeclaration(getResourceMethod));
 
 // Add the deprecated get generic resource method for backwards compatibility
-methodStructure.name = 'resource';
-
-methodStructure.isAsync = true;
-pokeApiClass.addMethod(methodStructure).setBodyText(getResourceCode)
+const resourceMethod: OptionalKind<MethodDeclarationStructure> = {...getResourceMethod, name: 'resource'};
+pokeApiClass.addMethod(resourceMethod).setBodyText(getResourceCode)
   .addJsDoc('@deprecated - will be removed on the next version. Use {@link getResource} instead');
-
-// Add the declaration to the types file
-// Removing the async keyword
-methodStructure.isAsync = false;
-declarationClass.addMethod(methodStructure)
+declarationClass.addMethod(asDeclaration(resourceMethod))
   .addJsDoc('@deprecated - will be removed on the next version. Use {@link getResource} instead');
 
 // Add all the methods from the endpoints list,
@@ -265,7 +266,7 @@ for (const [methodName, endpoint, jsdocs] of endpoints) {
 
   const returnType = `PokeAPITypes.${apiMap[endpoint]}`;
 
-  methodStructure = {
+  const itemMethod: OptionalKind<MethodDeclarationStructure> = {
     name: methodName,
     isAsync: true,
     parameters: [{
@@ -310,14 +311,11 @@ for (const [methodName, endpoint, jsdocs] of endpoints) {
     ],
   };
 
-  const generatedMethod = pokeApiClass.addMethod(methodStructure).setBodyText(buildItemMethodBody({
+  const generatedMethod = pokeApiClass.addMethod(itemMethod).setBodyText(buildItemMethodBody({
     inputParam, inputParamType, returnType, endpoint, paramTypeDescription,
   }));
 
-  // Add the declaration to the types file
-  // Removing the async keyword
-  methodStructure.isAsync = false;
-  const declaredMethod = declarationClass.addMethod(methodStructure);
+  const declaredMethod = declarationClass.addMethod(asDeclaration(itemMethod));
 
   // If the method has a JSDoc, add it
   if (jsdocs) {
@@ -347,7 +345,7 @@ for (const [method, rawEndpoint, jsdocs] of rootEndpoints) {
   // Infer the return type from the name
   const returnType = `PokeAPITypes.${apiMap[endpoint].includes('NamedList') ? 'NamedAPIResourceList' : 'APIResourceList'}`;
 
-  const methodStructure = {
+  const listMethod: OptionalKind<MethodDeclarationStructure> = {
     name: method,
     isAsync: true,
     parameters: [{
@@ -363,12 +361,8 @@ for (const [method, rawEndpoint, jsdocs] of rootEndpoints) {
     returnType: `Promise<${returnType}>`,
   };
 
-  const generatedMethod = pokeApiClass.addMethod(methodStructure).setBodyText(buildListMethodBody(rawEndpoint));
-
-  // Add the declaration to the types file
-  // Removing the async keyword
-  methodStructure.isAsync = false;
-  const declaredMethod = declarationClass.addMethod(methodStructure);
+  const generatedMethod = pokeApiClass.addMethod(listMethod).setBodyText(buildListMethodBody(rawEndpoint));
+  const declaredMethod = declarationClass.addMethod(asDeclaration(listMethod));
 
   // If the method has a JSDoc, add it
   if (jsdocs) {
@@ -378,7 +372,7 @@ for (const [method, rawEndpoint, jsdocs] of rootEndpoints) {
 }
 
 // Add method to get the list of endpoints
-methodStructure = {
+const endpointsListMethod: OptionalKind<MethodDeclarationStructure> = {
   name: 'getEndpointsList',
   isAsync: true,
   parameters: [{
@@ -394,12 +388,8 @@ methodStructure = {
   returnType: 'Promise<PokeAPITypes.EndpointsList>',
 };
 
-pokeApiClass.addMethod(methodStructure).setBodyText(buildListMethodBody(''));
-
-// Add the declaration to the types file
-// Removing the async keyword
-methodStructure.isAsync = false;
-declarationClass.addMethod(methodStructure);
+pokeApiClass.addMethod(endpointsListMethod).setBodyText(buildListMethodBody(''));
+declarationClass.addMethod(asDeclaration(endpointsListMethod));
 
 // Add method to get the config
 pokeApiClass.addMethod({
@@ -426,7 +416,7 @@ declarationClass.getParentModule().addExportAssignment({
 });
 
 // Sanitize the namespaces of the declaration file and format it again
-declarationClass.replaceWithText(declarationClass.getFullText().replace(/PokeAPITypes/g, 'PokeAPI'));
+declarationClass.replaceWithText(declarationClass.getFullText().replace(/\bPokeAPITypes\b/g, 'PokeAPI'));
 declarationClass.formatText();
 
 (async () => {
