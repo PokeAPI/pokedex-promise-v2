@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import directoryTree from 'directory-tree';
-import { Project, Writers } from 'ts-morph';
+import { InterfaceDeclaration, Project, Writers } from 'ts-morph';
 import {
   quicktype, InputData, JSONSchemaInput, FetchingJSONSchemaStore,
 } from 'quicktype-core';
@@ -56,26 +56,238 @@ async function generateFinalFile(types: string) {
   // Write the interfaces to the namespace
   namespace.setBodyText(types);
 
-  // Quicktype emits a few synthetic interface names we need to rewrite.
-  // Empty target = only remove the interface, leave references untouched.
-  const interfaceRewrites: Record<string, string> = {
-    EvolutionChainElement: 'APIResource',
-    ResultElement: 'APIResource',
-    GenerationElement: 'NamedAPIResource',
-    VersionGroupNamedList: '',
+  // Apply a set of name rewrites to the namespace: drop each `from` interface
+  // and replace its references in the body with `to` (empty `to` only drops).
+  const applyRewrites = (rewrites: Record<string, string>) => {
+    for (const name of Object.keys(rewrites)) {
+      namespace.getInterface(name)?.remove();
+    }
+    let body = namespace.getBodyText();
+    for (const [from, to] of Object.entries(rewrites)) {
+      if (to) {
+        body = body.split(from).join(to);
+      }
+    }
+    namespace.setBodyText(body);
   };
 
-  for (const name of Object.keys(interfaceRewrites)) {
-    namespace.getInterface(name)?.remove();
-  }
+  const interfaceShape = (iface: InterfaceDeclaration) => iface.getProperties()
+    .map((p) => `${p.getName()}:${p.getTypeNode()?.getText()}`)
+    .sort()
+    .join('|');
 
-  let body = namespace.getBodyText();
-  for (const [from, to] of Object.entries(interfaceRewrites)) {
-    if (to) {
-      body = body.split(from).join(to);
+  // Pass 1 — canonical resource shapes.
+  // Quicktype synthesizes per-context interfaces (e.g. MachineElement,
+  // LanguageElement, EvolutionChainElement) when the PokeAPI schema embeds
+  // {url} or {name,url} shapes inline rather than via $ref. Detect by exact
+  // shape and rewrite references back to the canonical resource types.
+  // Empty target = drop the interface and leave references untouched (used
+  // for VersionGroupNamedList, which collides with our root list types).
+  const canonicalRewrites: Record<string, string> = {
+    VersionGroupNamedList: '',
+  };
+  const canonicalShapes = new Set(['APIResource', 'NamedAPIResource']);
+  for (const iface of namespace.getInterfaces()) {
+    const name = iface.getName();
+    if (canonicalShapes.has(name)) continue;
+    const sig = interfaceShape(iface);
+    if (sig === 'url:string') {
+      canonicalRewrites[name] = 'APIResource';
+    } else if (sig === 'name:string,url:string') {
+      canonicalRewrites[name] = 'NamedAPIResource';
     }
   }
-  namespace.setBodyText(body);
+  applyRewrites(canonicalRewrites);
+
+  // Pass 2 — Element/Object suffix dedupe.
+  // Quicktype occasionally emits a duplicate of an existing interface with
+  // an "Element" or "Object" suffix when the same shape appears in multiple
+  // schema contexts (e.g. FormNameElement vs Name, EffectEntryObject vs
+  // VerboseEffect). When exactly one of a duplicate-shape pair carries the
+  // suffix, rewrite it to the canonical sibling. Pass 1 must run first so
+  // shapes match on canonical types.
+  const suffixPattern = /(Element|Object)$/;
+  const groupsByShape = new Map<string, string[]>();
+  for (const iface of namespace.getInterfaces()) {
+    const sig = interfaceShape(iface);
+    if (!sig) continue;
+    const group = groupsByShape.get(sig) ?? [];
+    group.push(iface.getName());
+    groupsByShape.set(sig, group);
+  }
+  const duplicateRewrites: Record<string, string> = {};
+  for (const names of groupsByShape.values()) {
+    if (names.length !== 2) continue;
+    const suffixed = names.find((n) => suffixPattern.test(n));
+    const canonical = names.find((n) => !suffixPattern.test(n));
+    if (suffixed && canonical) {
+      duplicateRewrites[suffixed] = canonical;
+    }
+  }
+  applyRewrites(duplicateRewrites);
+
+  // Pass 3 — shape-aliased collapses for quicktype's per-context duplicates.
+  // Quicktype emits one interface per parent context for inline anonymous
+  // shapes that it cannot merge (Purple*/Fluffy*/RubySaphire/Xd/...). Many
+  // of these are structurally identical and semantically the same thing
+  // (e.g. all `{ name_icon }` shapes are the same icon descriptor). Each
+  // entry below picks one existing interface as a "shape sample" and a
+  // chosen canonical name; the generator computes that interface's exact
+  // property signature, finds every other interface with the same signature,
+  // and rewrites them all to the canonical name. The canonical interface is
+  // either an existing interface with the matching shape, or one of the
+  // matches renamed in place.
+  //
+  // Add an entry only when the shape is uniquely owned by a single semantic
+  // type (no risk of collapsing distinct domain entities — see EggGroup /
+  // EvolutionTrigger / PokemonColor for the kind of false positive to avoid).
+  const shapeAliases: { sample: string; canonical: string }[] = [
+    // All `{ name_icon }` shapes are per-game icon descriptors. Collapse
+    // ~18 interfaces (Colosseum, Xd, Fluffy*, ScarletViolet, …) to IconName.
+    { sample: 'FluffyEmerald', canonical: 'IconName' },
+    // `{ name_icon, symbol_icon }` is the newer Gen IX/BD-SP icon descriptor.
+    { sample: 'TentacledScarletViolet', canonical: 'IconNameWithSymbol' },
+  ];
+  const aliasRewrites: Record<string, string> = {};
+  const aliasRenames: { from: string; to: string }[] = [];
+  for (const { sample, canonical } of shapeAliases) {
+    const sampleIface = namespace.getInterface(sample);
+    if (!sampleIface) {
+      console.warn(`shapeAliases: sample interface "${sample}" not found, skipping`);
+      continue;
+    }
+    const targetShape = interfaceShape(sampleIface);
+    const matches = namespace.getInterfaces()
+      .filter((i) => interfaceShape(i) === targetShape)
+      .map((i) => i.getName());
+    const existing = namespace.getInterface(canonical);
+    if (existing) {
+      if (interfaceShape(existing) !== targetShape) {
+        console.warn(`shapeAliases: canonical "${canonical}" exists with a different shape, skipping`);
+        continue;
+      }
+      for (const name of matches) {
+        if (name !== canonical) aliasRewrites[name] = canonical;
+      }
+    } else {
+      aliasRenames.push({ from: matches[0], to: canonical });
+      for (const name of matches.slice(1)) {
+        aliasRewrites[name] = canonical;
+      }
+    }
+  }
+  for (const name of Object.keys(aliasRewrites)) {
+    namespace.getInterface(name)?.remove();
+  }
+  {
+    let body = namespace.getBodyText();
+    for (const { from, to } of aliasRenames) {
+      body = body.split(from).join(to);
+    }
+    for (const [from, to] of Object.entries(aliasRewrites)) {
+      body = body.split(from).join(to);
+    }
+    namespace.setBodyText(body);
+  }
+
+  // Pass 4 — strip quicktype's adjective disambiguation prefixes.
+  // Quicktype prefixes synthesized duplicates with adjectives (Purple, Fluffy,
+  // Tentacled, ...) when the same property in different parents holds an
+  // inline anonymous shape it can't merge. For each base name, group the
+  // prefixed variants by their property-name set; within a subgroup, find a
+  // "dominator" — a variant whose every field type is a (non-strict) superset
+  // of the others' (covers exact-equal AND null-widening, where one variant
+  // has bare `null` because example data lacked the populated case). When a
+  // dominator exists, rename it to the base name and drop the rest. Iterate
+  // until convergence so cascades resolve (PurpleVersions/FluffyVersions only
+  // share a shape after their nested PurpleGenerationIx/FluffyGenerationIx
+  // have already been collapsed). Must run AFTER Pass 3 so icon Fluffy*/
+  // Tentacled* siblings have been collapsed first, leaving sprite Purple*
+  // as orphans the prefix-strip can handle.
+  const quicktypePrefixes = [
+    'Purple', 'Fluffy', 'Tentacled', 'Sticky', 'Indigo', 'Indecent',
+    'Hilarious', 'Ambitious', 'Cunning', 'Magenta', 'Mischievous',
+    'Braggadocious',
+  ];
+  const fieldTypesOf = (iface: InterfaceDeclaration) => new Map(
+    iface.getProperties().map((p) => [p.getName(), (p.getTypeNode()?.getText() ?? '').trim()]),
+  );
+  const unionMembers = (typeText: string) => new Set(
+    typeText.split('|').map((s) => s.trim()).filter(Boolean),
+  );
+  const fieldDominates = (aType: string, bType: string) => {
+    if (aType === bType) return true;
+    const a = unionMembers(aType);
+    const b = unionMembers(bType);
+    for (const m of b) if (!a.has(m)) return false;
+    return true;
+  };
+  // Variant `i` dominates variant `j` if every field present in `j` is also
+  // present in `i` with a (non-strict) superset type. Allows widening through
+  // both null-unions (`null | T` ⊇ `null`) and missing-field tolerance (a
+  // variant whose example data lacked some fields gets dominated by one that
+  // saw them all).
+  const findDominator = (variants: InterfaceDeclaration[]) => {
+    const fieldsList = variants.map(fieldTypesOf);
+    for (let i = 0; i < variants.length; i += 1) {
+      let dominates = true;
+      for (let j = 0; j < variants.length && dominates; j += 1) {
+        if (i === j) continue;
+        for (const [k, jT] of fieldsList[j]) {
+          const iT = fieldsList[i].get(k);
+          if (iT === undefined || !fieldDominates(iT, jT)) {
+            dominates = false;
+            break;
+          }
+        }
+      }
+      if (dominates) return variants[i];
+    }
+    return null;
+  };
+
+  for (let pass = 0; pass < 10; pass += 1) {
+    const variantsByBase = new Map<string, InterfaceDeclaration[]>();
+    for (const iface of namespace.getInterfaces()) {
+      const name = iface.getName();
+      const prefix = quicktypePrefixes.find((p) => name.startsWith(p) && name.length > p.length);
+      if (!prefix) continue;
+      const base = name.slice(prefix.length);
+      const list = variantsByBase.get(base) ?? [];
+      list.push(iface);
+      variantsByBase.set(base, list);
+    }
+
+    const drops: Record<string, string> = {};
+    const renames: { from: string; to: string }[] = [];
+    for (const [base, variants] of variantsByBase) {
+      // Skip if a base interface already exists — don't risk redefining it.
+      if (namespace.getInterface(base)) continue;
+
+      if (variants.length === 1) {
+        // Sole orphan-prefixed variant — strip prefix
+        renames.push({ from: variants[0].getName(), to: base });
+        continue;
+      }
+
+      const dominator = findDominator(variants);
+      if (!dominator) continue;
+      renames.push({ from: dominator.getName(), to: base });
+      for (const v of variants) {
+        if (v !== dominator) drops[v.getName()] = base;
+      }
+    }
+
+    if (renames.length === 0 && Object.keys(drops).length === 0) break;
+
+    for (const name of Object.keys(drops)) {
+      namespace.getInterface(name)?.remove();
+    }
+    let body = namespace.getBodyText();
+    for (const { from, to } of renames) body = body.split(from).join(to);
+    for (const [from, to] of Object.entries(drops)) body = body.split(from).join(to);
+    namespace.setBodyText(body);
+  }
 
   // Format the namespace to be correctly indented
   namespace.formatText();
