@@ -52,6 +52,13 @@ async function generateFinalFile(types: string) {
   // Write the interfaces to the namespace
   namespace.setBodyText(types);
 
+  // Replace whole-word identifier occurrences only. `body.split(from).join(to)`
+  // would also match substrings (e.g. renaming `Chain` would clobber refs
+  // inside `EvolutionChain`).
+  const escapeRegex = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const renameIdentifier = (body: string, from: string, to: string) => body
+    .replace(new RegExp(`\\b${escapeRegex(from)}\\b`, 'g'), to);
+
   // Apply a set of name rewrites to the namespace: drop each `from` interface
   // and replace its references in the body with `to` (empty `to` only drops).
   const applyRewrites = (rewrites: Record<string, string>) => {
@@ -61,7 +68,7 @@ async function generateFinalFile(types: string) {
     let body = namespace.getBodyText();
     for (const [from, to] of Object.entries(rewrites)) {
       if (to) {
-        body = body.split(from).join(to);
+        body = renameIdentifier(body, from, to);
       }
     }
     namespace.setBodyText(body);
@@ -183,10 +190,10 @@ async function generateFinalFile(types: string) {
   {
     let body = namespace.getBodyText();
     for (const {from, to} of aliasRenames) {
-      body = body.split(from).join(to);
+      body = renameIdentifier(body, from, to);
     }
     for (const [from, to] of Object.entries(aliasRewrites)) {
-      body = body.split(from).join(to);
+      body = renameIdentifier(body, from, to);
     }
     namespace.setBodyText(body);
   }
@@ -249,7 +256,8 @@ async function generateFinalFile(types: string) {
     return null;
   };
 
-  for (let pass = 0; pass < 10; pass += 1) {
+  const maxPass4Passes = 10;
+  for (let pass = 0; pass < maxPass4Passes; pass += 1) {
     const variantsByBase = new Map<string, InterfaceDeclaration[]>();
     for (const iface of namespace.getInterfaces()) {
       const name = iface.getName();
@@ -289,9 +297,13 @@ async function generateFinalFile(types: string) {
       namespace.getInterface(name)?.remove();
     }
     let body = namespace.getBodyText();
-    for (const {from, to} of renames) body = body.split(from).join(to);
-    for (const [from, to] of Object.entries(drops)) body = body.split(from).join(to);
+    for (const {from, to} of renames) body = renameIdentifier(body, from, to);
+    for (const [from, to] of Object.entries(drops)) body = renameIdentifier(body, from, to);
     namespace.setBodyText(body);
+
+    if (pass === maxPass4Passes - 1) {
+      console.warn(`Pass 4 hit iteration cap (${maxPass4Passes}), collapse may not have converged`);
+    }
   }
 
   // Pass 5 — collapse depth-unrolled recursive interfaces.
@@ -390,7 +402,7 @@ async function generateFinalFile(types: string) {
       namespace.getInterface(name)?.remove();
     }
     let body = namespace.getBodyText();
-    for (const name of op.chainNames.slice(1)) body = body.split(name).join(op.startName);
+    for (const name of op.chainNames.slice(1)) body = renameIdentifier(body, name, op.startName);
     namespace.setBodyText(body);
   }
 
