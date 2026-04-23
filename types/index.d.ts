@@ -438,16 +438,8 @@ declare module 'pokedex-promise-v2' {
         }
 
         interface Chain {
-            evolution_details: any[];
-            evolves_to: ChainEvolvesTo[];
-            is_baby: boolean;
-            species: NamedAPIResource;
-            [property: string]: any;
-        }
-
-        interface ChainEvolvesTo {
             evolution_details: EvolutionDetail[];
-            evolves_to: EvolvesToEvolvesTo[];
+            evolves_to: Chain[];
             is_baby: boolean;
             species: NamedAPIResource;
             [property: string]: any;
@@ -504,14 +496,6 @@ declare module 'pokedex-promise-v2' {
             turn_upside_down: boolean;
             /** The move that must be used by the evolving Pokémon species during the evolution trigger event in order to evolve into this Pokémon species. */
             used_move: null | NamedAPIResource;
-            [property: string]: any;
-        }
-
-        interface EvolvesToEvolvesTo {
-            evolution_details: EvolutionDetail[];
-            evolves_to: any[];
-            is_baby: boolean;
-            species: NamedAPIResource;
             [property: string]: any;
         }
 
