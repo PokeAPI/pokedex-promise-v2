@@ -289,6 +289,100 @@ async function generateFinalFile(types: string) {
     namespace.setBodyText(body);
   }
 
+  // Pass 5 — collapse depth-unrolled recursive interfaces.
+  // Quicktype unrolls recursive schemas into N per-depth interfaces because
+  // example data never populates the deepest recursion (e.g. PokeAPI's
+  // EvolutionChain.chain expands to Chain → ChainEvolvesTo →
+  // EvolvesToEvolvesTo). Detect the chain by following a property whose type
+  // is "Other[]" through a sequence of interfaces; if the sequence terminates
+  // in `any[]` at the same property, collapse all chain members into the
+  // outermost (start) interface, with the recursive property rewritten to
+  // `Self[]` and any sibling fields widened across the chain (so `any[]` at
+  // the boundary gets replaced by the populated type from a deeper member).
+  type IfaceSnapshot = { name: string; props: Map<string, string> };
+  const snapshot: IfaceSnapshot[] = namespace.getInterfaces().map((i) => ({
+    name: i.getName(),
+    props: new Map(i.getProperties().map((p) => [
+      p.getName(),
+      (p.getTypeNode()?.getText() ?? '').trim(),
+    ])),
+  }));
+  const snapshotByName = new Map(snapshot.map((s) => [s.name, s]));
+
+  const arrayOfRefRe = /^([A-Za-z_]\w*)\[\]$/;
+  const followRecursiveChain = (startName: string, propName: string): IfaceSnapshot[] | null => {
+    const chain: IfaceSnapshot[] = [];
+    const seen = new Set<string>();
+    let curName = startName;
+    while (chain.length < 20) {
+      if (seen.has(curName)) return null;
+      const info = snapshotByName.get(curName);
+      if (!info) return null;
+      chain.push(info);
+      seen.add(curName);
+      const text = info.props.get(propName);
+      if (text === undefined) return null;
+      if (text === 'any[]') return chain.length >= 2 ? chain : null;
+      const m = arrayOfRefRe.exec(text);
+      if (!m) return null;
+      curName = m[1];
+    }
+    return null;
+  };
+
+  type ChainOp = {
+    startName: string;
+    chainNames: string[];
+    mergedProps: { name: string; type: string }[];
+  };
+  const ops: ChainOp[] = [];
+  const claimed = new Set<string>();
+  for (const start of snapshot) {
+    if (claimed.has(start.name)) continue;
+    for (const propName of start.props.keys()) {
+      const chain = followRecursiveChain(start.name, propName);
+      if (!chain) continue;
+      const allPropNames = new Set<string>();
+      for (const m of chain) for (const k of m.props.keys()) allPropNames.add(k);
+      const mergedProps = [...allPropNames].map((name) => {
+        if (name === propName) return { name, type: `${start.name}[]` };
+        let chosen = '';
+        for (const m of chain) {
+          const t = m.props.get(name);
+          if (!t || t === 'any' || t === 'any[]') continue;
+          chosen = t;
+          break;
+        }
+        if (!chosen) chosen = start.props.get(name) ?? 'any';
+        return { name, type: chosen };
+      });
+      ops.push({
+        startName: start.name,
+        chainNames: chain.map((c) => c.name),
+        mergedProps,
+      });
+      for (const c of chain) claimed.add(c.name);
+      break;
+    }
+  }
+
+  for (const op of ops) {
+    const start = namespace.getInterface(op.startName);
+    if (!start) continue;
+    for (const p of start.getProperties()) p.remove();
+    // Remove existing index sigs so new properties go above them when re-added
+    const indexSigStructures = start.getIndexSignatures().map((s) => s.getStructure());
+    for (const s of start.getIndexSignatures()) s.remove();
+    for (const mp of op.mergedProps) start.addProperty({ name: mp.name, type: mp.type });
+    for (const s of indexSigStructures) start.addIndexSignature(s);
+    for (const name of op.chainNames.slice(1)) {
+      namespace.getInterface(name)?.remove();
+    }
+    let body = namespace.getBodyText();
+    for (const name of op.chainNames.slice(1)) body = body.split(name).join(op.startName);
+    namespace.setBodyText(body);
+  }
+
   // Format the namespace to be correctly indented
   namespace.formatText();
 

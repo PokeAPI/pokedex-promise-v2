@@ -85,6 +85,25 @@ For each prefix-stripped base name, Pass 4:
 
 Must run **after** Pass 3 — Pass 3 first peels off the icon-shape `Fluffy*` / `Tentacled*` siblings (collapsed to `IconName` / `IconNameWithSymbol`), leaving the sprite-shape `Purple*` as orphans Pass 4 can handle cleanly.
 
+### Pass 5 — collapse depth-unrolled recursive interfaces
+
+PokeAPI's evolution chain is recursive (`Chain` → `Chain[]` → `Chain[]` → …), but example data never populates the deepest recursion. Quicktype unrolls it into N per-depth interfaces (`Chain`, `ChainEvolvesTo`, `EvolvesToEvolvesTo`) and falls back to `any[]` at the recursion boundary.
+
+Pass 5 detects this by following a property whose type is `"Other[]"` through a sequence of interfaces; if the sequence terminates in `any[]` at the same property, all chain members collapse into the outermost (start) interface, with the recursive property rewritten to `Self[]` and any sibling fields widened across the chain (so `any[]` at the boundary is replaced by the populated type from a deeper member).
+
+Result for the EvolutionChain case:
+
+```ts
+interface Chain {
+  evolution_details: EvolutionDetail[];
+  evolves_to: Chain[];          // recursive self-ref
+  is_baby: boolean;
+  species: NamedAPIResource;
+}
+```
+
+Generic — any future recursive types in the schema get the same treatment automatically as long as the depth-unrolling terminates in `any[]`.
+
 ### Hand-listed removals
 
 The `canonicalRewrites` table in `TypesGenerator.ts` carries one explicit entry:
@@ -96,23 +115,6 @@ Add another entry here only if quicktype emits an interface that needs rewriting
 ## Known quirks NOT handled automatically
 
 These produce drift in `types/index.d.ts` between regenerations and the committed file. Review the diff after regenerating and clean up by hand.
-
-### Recursive types: `evolution_details: any[]` / `evolves_to: any[]`
-
-The PokeAPI evolution chain is recursive — a `Chain` evolves into more `Chain`s. The example data never populates the deepest depth (no infinite chains in real Pokémon), so quicktype unrolls the recursion into separate per-depth interfaces (`Chain`, `ChainEvolvesTo`, `EvolvesToEvolvesTo`) and falls back to `any[]` for the empty-array fields at the recursion boundary.
-
-The hand-cleaned form is one recursive interface:
-
-```ts
-interface Chain {
-  evolution_details: EvolutionDetail[];
-  evolves_to: Chain[];
-  is_baby: boolean;
-  species: NamedAPIResource;
-}
-```
-
-Detect with `grep -n "any\[\]"`. Currently lines 441 and 512. No automatic fix — the depth-unrolling pattern would need a bespoke pass.
 
 ### Element-suffixed types with no canonical sibling
 
