@@ -123,6 +123,8 @@ async function generateFinalFile(types: string) {
   }
   const duplicateRewrites: Record<string, string> = {};
   for (const names of groupsByShape.values()) {
+    // Only handle exact-pair groups: 3+ variants make the "pick the suffixed
+    // one" rule ambiguous, so leave them for later passes.
     if (names.length !== 2) continue;
     const suffixed = names.find((n) => suffixPattern.test(n));
     const canonical = names.find((n) => !suffixPattern.test(n));
@@ -501,6 +503,7 @@ const rootSchemas: SchemaSource[] = [];
 const nestedSchemas: SchemaSource[] = [];
 
 directoryTree(schemaFolder, {extensions: /\.json$/, normalizePath: true}, (item) => {
+  // Reversed so paths[0] = filename, paths[1] = immediate parent dir, paths[2] = grandparent.
   const paths = item.path.split('/').reverse();
 
   if (paths[1] === 'v2') {
@@ -560,6 +563,8 @@ directoryTree(schemaFolder, {extensions: /\.json$/, normalizePath: true}, (item)
       rendererOptions: {'just-types': 'true'},
     });
 
+    // Strip `export` — quicktype emits `export interface …`, but the output is
+    // injected into a namespace body where `export` is invalid.
     await generateFinalFile(qt.lines.join('\n').replace(/export /g, ''));
   } catch (error) {
     console.error('Type generation failed:', error);

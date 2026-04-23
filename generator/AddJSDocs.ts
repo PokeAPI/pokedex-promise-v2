@@ -27,7 +27,7 @@ function addJsDoc(
   description: string,
   model: any,
 ) {
-  // If it is the root interface, add the main description to it
+  // Upstream pokeapi.co docs use a single-space string as the empty-description sentinel.
   if (index === 0 && description && description !== ' ') {
     const jsDocs = generatedInterface.getJsDocs();
 
@@ -42,6 +42,7 @@ function addJsDoc(
 
   // Add JSDocs to all of the properties of the interface
   for (const field of model.fields) {
+    // Same ' ' empty-description sentinel as the root description above.
     if (!field.description || field.description === ' ') {
       continue;
     }

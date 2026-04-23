@@ -6,7 +6,8 @@ import endpoints from '../src/utils/Endpoints.js';
 import rootEndpoints from '../src/utils/RootEndpoints.js';
 import {apiMapFile, mainFile, mainLabel, typeFile,} from './Utils.js';
 
-// Shared concurrency for generated array-fetch helpers.
+// Cap on parallel HTTP requests per user call — balances throughput against
+// upstream rate limits when a user passes a large id array.
 const PMAP_CONCURRENCY = 4;
 
 // Body template for endpoints that take an id / nameOrId (single or array)
@@ -248,7 +249,10 @@ pokeApiClass.addMethod(getResourceMethod).setBodyText(getResourceCode);
 declarationClass.addMethod(asDeclaration(getResourceMethod));
 
 // Add the deprecated get generic resource method for backwards compatibility
-const resourceMethod: OptionalKind<MethodDeclarationStructure> = {...getResourceMethod, name: 'resource'};
+const resourceMethod: OptionalKind<MethodDeclarationStructure> = {
+  ...getResourceMethod,
+  name: 'resource'
+};
 pokeApiClass.addMethod(resourceMethod).setBodyText(getResourceCode)
   .addJsDoc('@deprecated - will be removed on the next version. Use {@link getResource} instead');
 declarationClass.addMethod(asDeclaration(resourceMethod))
@@ -415,7 +419,9 @@ declarationClass.getParentModule().addExportAssignment({
   expression: 'PokeAPI',
 });
 
-// Sanitize the namespaces of the declaration file and format it again
+// Generated method signatures reference `PokeAPITypes.*` (the imported module
+// alias). Rewrite to `PokeAPI.*` so the emitted `.d.ts` resolves against the
+// namespace declared in the same module block instead of re-importing itself.
 declarationClass.replaceWithText(declarationClass.getFullText().replace(/\bPokeAPITypes\b/g, 'PokeAPI'));
 declarationClass.formatText();
 
