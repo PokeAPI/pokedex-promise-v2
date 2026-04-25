@@ -61,7 +61,6 @@ declare module 'pokedex-promise-v2' {
             flavor_text: string;
             /** The language this name is in. */
             language: NamedAPIResource;
-            version_group: null | NamedAPIResource;
             [property: string]: any;
         }
 
@@ -99,6 +98,7 @@ declare module 'pokedex-promise-v2' {
             location: string;
             "location-area": string;
             machine: string;
+            meta: string;
             move: string;
             "move-ailment": string;
             "move-battle-style": string;
@@ -202,11 +202,11 @@ declare module 'pokedex-promise-v2' {
         /** Abilities provide passive effects for Pokémon in battle or in the overworld. Pokémon have multiple possible abilities but can have only one ability at a time. Check out [Bulbapedia](http://bulbapedia.bulbagarden.net/wiki/Ability) for greater detail. */
         interface Ability {
             /** The list of previous effects this ability has had across version groups. */
-            effect_changes: EffectChange[];
+            effect_changes: AbilityEffectChange[];
             /** The effect of this ability listed in different languages. */
             effect_entries: VerboseEffect[];
             /** The flavor text of this ability listed in different languages. */
-            flavor_text_entries: FlavorText[];
+            flavor_text_entries: AbilityFlavorTextEntry[];
             /** The generation this ability originated in. */
             generation: NamedAPIResource;
             /** The identifier for this resource. */
@@ -222,10 +222,17 @@ declare module 'pokedex-promise-v2' {
             [property: string]: any;
         }
 
-        interface EffectChange {
+        interface AbilityEffectChange {
             /** The previous effect of this ability listed in different languages. */
             effect_entries: Effect[];
             /** The version group in which the previous effect of this ability originated. */
+            version_group: NamedAPIResource;
+            [property: string]: any;
+        }
+
+        interface AbilityFlavorTextEntry {
+            flavor_text: string;
+            language: NamedAPIResource;
             version_group: NamedAPIResource;
             [property: string]: any;
         }
@@ -324,6 +331,14 @@ declare module 'pokedex-promise-v2' {
             [property: string]: any;
         }
 
+        interface SuperContestEffectList {
+            count: number;
+            next: null | string;
+            previous: null | string;
+            results: APIResource[];
+            [property: string]: any;
+        }
+
         /** Contest effects refer to the effects of moves when used in contests. */
         interface ContestEffect {
             /** The base number of hearts the user of this move gets. */
@@ -352,8 +367,11 @@ declare module 'pokedex-promise-v2' {
             [property: string]: any;
         }
 
-        interface ContestTypeName extends Name {
+        interface ContestTypeName {
             color: string;
+            language: NamedAPIResource;
+            name: string;
+            [property: string]: any;
         }
 
         /** Egg Groups are categories which determine which Pokémon are able to interbreed. Pokémon may belong to either one or two Egg Groups. Check out [Bulbapedia](http://bulbapedia.bulbagarden.net/wiki/Egg_Group) for greater detail. */
@@ -428,6 +446,8 @@ declare module 'pokedex-promise-v2' {
         }
 
         interface EvolutionDetail {
+            /** The required form for which this evolution can occur. */
+            base_form: null | NamedAPIResource;
             /** The id of the gender of the evolving Pokémon species must be in order to evolve into this Pokémon species. */
             gender: number | null;
             /** The item the evolving Pokémon species must be holding during the evolution trigger event to evolve into this Pokémon species. */
@@ -444,16 +464,26 @@ declare module 'pokedex-promise-v2' {
             min_affection: number | null;
             /** The minimum required level of beauty the evolving Pokémon species to evolve into this Pokémon species. */
             min_beauty: number | null;
+            /** The minimum amount of damage taken during the evolution trigger event in order to evolve into this Pokémon species. */
+            min_damage_taken: number | null;
             /** The minimum required level of happiness the evolving Pokémon species to evolve into this Pokémon species. */
             min_happiness: number | null;
             /** The minimum required level of the evolving Pokémon species to evolve into this Pokémon species. */
             min_level: number | null;
+            /** The minimum number of times a move must be used in order to evolve into this Pokémon species. */
+            min_move_count: number | null;
+            /** The minimum number of steps that must be taken in order to evolve into this Pokémon species. */
+            min_steps: number | null;
+            /** Whether or not multiplayer link play is needed to evolve into this Pokémon species (e.g. Union Circle). */
+            needs_multiplayer: boolean;
             /** Whether or not it must be raining in the overworld to cause evolution this Pokémon species. */
             needs_overworld_rain: boolean;
             /** The Pokémon species that must be in the players party in order for the evolving Pokémon species to evolve into this Pokémon species. */
             party_species: null | NamedAPIResource;
             /** The player must have a Pokémon of this type in their party during the evolution trigger event in order for the evolving Pokémon species to evolve into this Pokémon species. */
             party_type: null | NamedAPIResource;
+            /** The required region in which this evolution can occur. */
+            region: null | NamedAPIResource;
             /** The required relation between the Pokémon's Attack and Defense stats. 1 means Attack > Defense. 0 means Attack = Defense. -1 means Attack < Defense. */
             relative_physical_stats: number | null;
             /** The required time of day. Day or night. */
@@ -464,6 +494,8 @@ declare module 'pokedex-promise-v2' {
             trigger: NamedAPIResource;
             /** Whether or not the 3DS needs to be turned upside-down as this Pokémon levels up. */
             turn_upside_down: boolean;
+            /** The move that must be used by the evolving Pokémon species during the evolution trigger event in order to evolve into this Pokémon species. */
+            used_move: null | NamedAPIResource;
             [property: string]: any;
         }
 
@@ -580,15 +612,15 @@ declare module 'pokedex-promise-v2' {
             [property: string]: any;
         }
 
-        interface RarityVersion {
-          rarity: number;
-          version: NamedAPIResource;
-          [property: string]: any;
-      }
-
         interface HeldByPokemon {
             pokemon: NamedAPIResource;
-            version_details: RarityVersion[];
+            version_details: HeldByPokemonVersionDetail[];
+            [property: string]: any;
+        }
+
+        interface HeldByPokemonVersionDetail {
+            rarity: number;
+            version: NamedAPIResource;
             [property: string]: any;
         }
 
@@ -675,7 +707,7 @@ declare module 'pokedex-promise-v2' {
         interface Location {
             /** Areas that can be found within this location. */
             areas: NamedAPIResource[];
-            /** A list of game indices relevant to this location by generation. */
+            /** A list of game indices relevent to this location by generation. */
             game_indices: GenerationGameIndex[];
             /** The identifier for this resource. */
             id: number;
@@ -742,6 +774,13 @@ declare module 'pokedex-promise-v2' {
             [property: string]: any;
         }
 
+        interface MetaList {
+            deploy_date: string;
+            hash: string;
+            tag: null;
+            [property: string]: any;
+        }
+
         /** Moves are the skills of Pokémon in battle. In battle, a Pokémon uses one move each turn. Some moves (including those learned by Hidden Machine) can be used outside of battle as well, usually for the purpose of removing obstacles or exploring new areas. */
         interface Move {
             /** The percent value of how likely this move is to be successful. */
@@ -757,11 +796,11 @@ declare module 'pokedex-promise-v2' {
             /** The percent value of how likely it is this moves effect will happen. */
             effect_chance: number | null;
             /** The list of previous effects this move has had across version groups of the games. */
-            effect_changes: EffectChange[];
+            effect_changes: MoveEffectChange[];
             /** The effect of this move listed in different languages. */
             effect_entries: VerboseEffect[];
             /** The flavor text of this move listed in different languages. */
-            flavor_text_entries: FlavorText[];
+            flavor_text_entries: MoveFlavorTextEntry[];
             /** The generation in which this move was introduced. */
             generation: NamedAPIResource;
             /** The identifier for this resource. */
@@ -777,7 +816,7 @@ declare module 'pokedex-promise-v2' {
             /** The name of this resource listed in different languages. */
             names: Name[];
             /** A list of move resource value changes across version groups of the game. */
-            past_values: Move[];
+            past_values: PastValue[];
             /** The base power of this move with a value of 0 if it does not have a base power. */
             power: number | null;
             /** Power points. The number of times this move can be used. */
@@ -796,14 +835,33 @@ declare module 'pokedex-promise-v2' {
         }
 
         interface ContestCombos {
-            normal: ComboDetail;
-            super: ComboDetail;
+            normal: Normal;
+            super: Super;
             [property: string]: any;
         }
 
-        interface ComboDetail {
+        interface Normal {
             use_after: NamedAPIResource[] | null;
             use_before: NamedAPIResource[] | null;
+            [property: string]: any;
+        }
+
+        interface Super {
+            use_after: NamedAPIResource[] | null;
+            use_before: NamedAPIResource[] | null;
+            [property: string]: any;
+        }
+
+        interface MoveEffectChange {
+            effect_entries: Effect[];
+            version_group: NamedAPIResource;
+            [property: string]: any;
+        }
+
+        interface MoveFlavorTextEntry {
+            flavor_text: string;
+            language: NamedAPIResource;
+            version_group: NamedAPIResource;
             [property: string]: any;
         }
 
@@ -820,6 +878,17 @@ declare module 'pokedex-promise-v2' {
             min_hits: number | null;
             min_turns: number | null;
             stat_chance: number;
+            [property: string]: any;
+        }
+
+        interface PastValue {
+            accuracy: number | null;
+            effect_chance: number | null;
+            effect_entries: VerboseEffect[];
+            power: number | null;
+            pp: number | null;
+            type: null | NamedAPIResource;
+            version_group: NamedAPIResource;
             [property: string]: any;
         }
 
@@ -984,12 +1053,18 @@ declare module 'pokedex-promise-v2' {
         }
 
         interface PokeathlonStatAffectingNatures {
-            decrease: AffectingNaturesChange[];
-            increase: AffectingNaturesChange[];
+            decrease: AffectingNaturesDecrease[];
+            increase: AffectingNaturesIncrease[];
             [property: string]: any;
         }
 
-        interface AffectingNaturesChange {
+        interface AffectingNaturesDecrease {
+            max_change: number;
+            nature: NamedAPIResource;
+            [property: string]: any;
+        }
+
+        interface AffectingNaturesIncrease {
             max_change: number;
             nature: NamedAPIResource;
             [property: string]: any;
@@ -1035,7 +1110,7 @@ declare module 'pokedex-promise-v2' {
             /** A list of abilities this Pokémon could potentially have. */
             abilities: PokemonAbility[];
             /** The base experience gained for defeating this Pokémon. */
-            base_experience: number;
+            base_experience: number | null;
             /** A set of cries used to depict this Pokémon in the game. A visual representation of the various cries can be found at <a href='https://github.com/PokeAPI/cries#cries'>PokeAPI/cries</a> */
             cries: Cries;
             /** A list of forms this Pokémon can take on. */
@@ -1058,7 +1133,10 @@ declare module 'pokedex-promise-v2' {
             name: string;
             /** Order for sorting. Almost national order, except families are grouped together. */
             order: number;
+            /** A list of details showing abilities this pokémon had in previous generations */
             past_abilities: PastAbility[];
+            /** A list of details showing stats this pokémon had in previous generations */
+            past_stats: PastStat[];
             /** A list of details showing types this pokémon had in previous generations */
             past_types: PastType[];
             /** The species this Pokémon belongs to. */
@@ -1066,7 +1144,7 @@ declare module 'pokedex-promise-v2' {
             /** A set of sprites used to depict this Pokémon in the game. A visual representation of the various sprites can be found at <a href='https://github.com/PokeAPI/sprites#sprites'>PokeAPI/sprites</a> */
             sprites: PokemonSprites;
             /** A list of base stat values for this Pokémon. */
-            stats: StatElement[];
+            stats: PokemonStat[];
             /** A list of details showing types this Pokémon has. */
             types: PokemonType[];
             /** The weight of this Pokémon in hectograms. */
@@ -1085,14 +1163,20 @@ declare module 'pokedex-promise-v2' {
         }
 
         interface Cries {
-            latest: string;
+            latest: null | string;
             legacy: null | string;
             [property: string]: any;
         }
 
         interface HeldItem {
             item: NamedAPIResource;
-            version_details: RarityVersion[];
+            version_details: HeldItemVersionDetail[];
+            [property: string]: any;
+        }
+
+        interface HeldItemVersionDetail {
+            rarity: number;
+            version: NamedAPIResource;
             [property: string]: any;
         }
 
@@ -1105,6 +1189,7 @@ declare module 'pokedex-promise-v2' {
         interface VersionGroupDetail {
             level_learned_at: number;
             move_learn_method: NamedAPIResource;
+            order: number | null;
             version_group: NamedAPIResource;
             [property: string]: any;
         }
@@ -1116,9 +1201,22 @@ declare module 'pokedex-promise-v2' {
         }
 
         interface PastAbilityAbility {
-            ability: NamedAPIResource;
+            ability: null | NamedAPIResource;
             is_hidden: boolean;
             slot: number;
+            [property: string]: any;
+        }
+
+        interface PastStat {
+            generation: NamedAPIResource;
+            stats: PastStatStat[];
+            [property: string]: any;
+        }
+
+        interface PastStatStat {
+            base_stat: number;
+            effort: number;
+            stat: NamedAPIResource;
             [property: string]: any;
         }
 
@@ -1152,7 +1250,7 @@ declare module 'pokedex-promise-v2' {
             /** The shiny female depiction of this Pokémon from the front in battle. */
             front_shiny_female: null | string;
             other: Other;
-            versions: SpriteVersions;
+            versions: Versions;
             [property: string]: any;
         }
 
@@ -1196,25 +1294,36 @@ declare module 'pokedex-promise-v2' {
             [property: string]: any;
         }
 
-        interface SpriteVersions {
+        interface Versions {
             "generation-i": GenerationI;
             "generation-ii": GenerationIi;
-            "generation-iii": GenerationIii;
-            "generation-iv": GenerationIv;
-            "generation-v": GenerationV;
-            "generation-vi": GenerationVi;
-            "generation-vii": GenerationVii;
+            "generation-iii": VersionsGenerationIii;
+            "generation-iv": VersionsGenerationIv;
+            "generation-ix": GenerationIx;
+            "generation-v": VersionsGenerationV;
+            "generation-vi": VersionsGenerationVi;
+            "generation-vii": VersionsGenerationVii;
             "generation-viii": GenerationViii;
             [property: string]: any;
         }
 
         interface GenerationI {
-            "red-blue": GenerationISprite;
-            yellow: GenerationISprite;
+            "red-blue": RedBlue;
+            yellow: Yellow;
             [property: string]: any;
         }
 
-        interface GenerationISprite {
+        interface RedBlue {
+            back_default: null | string;
+            back_gray: null | string;
+            back_transparent: null | string;
+            front_default: null | string;
+            front_gray: null | string;
+            front_transparent: null | string;
+            [property: string]: any;
+        }
+
+        interface Yellow {
             back_default: null | string;
             back_gray: null | string;
             back_transparent: null | string;
@@ -1225,13 +1334,13 @@ declare module 'pokedex-promise-v2' {
         }
 
         interface GenerationIi {
-            crystal: GenerationIiSpriteExtra;
-            gold: GenerationIiSprite;
-            silver: GenerationIiSprite;
+            crystal: Crystal;
+            gold: Gold;
+            silver: Silver;
             [property: string]: any;
         }
 
-        interface GenerationIiSpriteExtra {
+        interface Crystal {
             back_default: null | string;
             back_shiny: null | string;
             back_shiny_transparent: null | string;
@@ -1243,7 +1352,7 @@ declare module 'pokedex-promise-v2' {
             [property: string]: any;
         }
 
-        interface GenerationIiSprite {
+        interface Gold {
             back_default: null | string;
             back_shiny: null | string;
             front_default: null | string;
@@ -1252,20 +1361,29 @@ declare module 'pokedex-promise-v2' {
             [property: string]: any;
         }
 
-        interface GenerationIii {
-            emerald: GenerationIiiSpriteBasic;
-            "firered-leafgreen": GenerationIiiSprite;
-            "ruby-sapphire": GenerationIiiSprite;
+        interface Silver {
+            back_default: null | string;
+            back_shiny: null | string;
+            front_default: null | string;
+            front_shiny: null | string;
+            front_transparent: null | string;
             [property: string]: any;
         }
 
-        interface GenerationIiiSpriteBasic {
+        interface VersionsGenerationIii {
+            emerald: Emerald;
+            "firered-leafgreen": FireredLeafgreen;
+            "ruby-sapphire": RubySapphire;
+            [property: string]: any;
+        }
+
+        interface Emerald {
             front_default: null | string;
             front_shiny: null | string;
             [property: string]: any;
         }
 
-        interface GenerationIiiSprite {
+        interface FireredLeafgreen {
             back_default: null | string;
             back_shiny: null | string;
             front_default: null | string;
@@ -1273,14 +1391,22 @@ declare module 'pokedex-promise-v2' {
             [property: string]: any;
         }
 
-        interface GenerationIv {
-            "diamond-pearl": GenerationIvSprite;
-            "heartgold-soulsilver": GenerationIvSprite;
-            platinum: GenerationIvSprite;
+        interface RubySapphire {
+            back_default: null | string;
+            back_shiny: null | string;
+            front_default: null | string;
+            front_shiny: null | string;
             [property: string]: any;
         }
 
-        interface GenerationIvSprite {
+        interface VersionsGenerationIv {
+            "diamond-pearl": DiamondPearl;
+            "heartgold-soulsilver": HeartgoldSoulsilver;
+            platinum: Platinum;
+            [property: string]: any;
+        }
+
+        interface DiamondPearl {
             back_default: null | string;
             back_female: null | string;
             back_shiny: null | string;
@@ -1292,13 +1418,47 @@ declare module 'pokedex-promise-v2' {
             [property: string]: any;
         }
 
-
-        interface GenerationV {
-            "black-white": GenerationVSprite;
+        interface HeartgoldSoulsilver {
+            back_default: null | string;
+            back_female: null | string;
+            back_shiny: null | string;
+            back_shiny_female: null | string;
+            front_default: null | string;
+            front_female: null | string;
+            front_shiny: null | string;
+            front_shiny_female: null | string;
             [property: string]: any;
         }
 
-        interface GenerationVSprite {
+        interface Platinum {
+            back_default: null | string;
+            back_female: null | string;
+            back_shiny: null | string;
+            back_shiny_female: null | string;
+            front_default: null | string;
+            front_female: null | string;
+            front_shiny: null | string;
+            front_shiny_female: null | string;
+            [property: string]: any;
+        }
+
+        interface GenerationIx {
+            "scarlet-violet": ScarletViolet;
+            [property: string]: any;
+        }
+
+        interface ScarletViolet {
+            front_default: null | string;
+            front_female: null | string;
+            [property: string]: any;
+        }
+
+        interface VersionsGenerationV {
+            "black-white": BlackWhite;
+            [property: string]: any;
+        }
+
+        interface BlackWhite {
             animated: Animated;
             back_default: null | string;
             back_female: null | string;
@@ -1323,22 +1483,31 @@ declare module 'pokedex-promise-v2' {
             [property: string]: any;
         }
 
-        interface GenerationVi {
-            "omegaruby-alphasapphire": GenerationViSprite;
-            "x-y": GenerationViSprite;
+        interface VersionsGenerationVi {
+            "omegaruby-alphasapphire": OmegarubyAlphasapphire;
+            "x-y": XY;
             [property: string]: any;
         }
 
-        interface GenerationViSprite {
+        interface OmegarubyAlphasapphire {
             front_default: null | string;
             front_female: null | string;
             front_shiny: null | string;
             front_shiny_female: null | string;
             [property: string]: any;
         }
-        interface GenerationVii {
+
+        interface XY {
+            front_default: null | string;
+            front_female: null | string;
+            front_shiny: null | string;
+            front_shiny_female: null | string;
+            [property: string]: any;
+        }
+
+        interface VersionsGenerationVii {
             icons: GenerationViiIcons;
-            "ultra-sun-ultra-moon": GenerationViiSprite;
+            "ultra-sun-ultra-moon": UltraSunUltraMoon;
             [property: string]: any;
         }
 
@@ -1348,7 +1517,7 @@ declare module 'pokedex-promise-v2' {
             [property: string]: any;
         }
 
-        interface GenerationViiSprite {
+        interface UltraSunUltraMoon {
             front_default: null | string;
             front_female: null | string;
             front_shiny: null | string;
@@ -1357,7 +1526,14 @@ declare module 'pokedex-promise-v2' {
         }
 
         interface GenerationViii {
+            "brilliant-diamond-shining-pearl": BrilliantDiamondShiningPearl;
             icons: GenerationViiiIcons;
+            [property: string]: any;
+        }
+
+        interface BrilliantDiamondShiningPearl {
+            front_default: null | string;
+            front_female: null;
             [property: string]: any;
         }
 
@@ -1367,9 +1543,12 @@ declare module 'pokedex-promise-v2' {
             [property: string]: any;
         }
 
-        interface StatElement {
+        interface PokemonStat {
+            /** The base value of the stat. */
             base_stat: number;
+            /** The effort points (EV) the Pokémon has in the stat. */
             effort: number;
+            /** The stat the Pokémon has. */
             stat: NamedAPIResource;
             [property: string]: any;
         }
@@ -1441,6 +1620,7 @@ declare module 'pokedex-promise-v2' {
             /** The shiny depiction of this Pokémon form from the front in battle. */
             front_shiny: null | string;
             front_shiny_female: null | string;
+            versions: Versions;
             [property: string]: any;
         }
 
@@ -1491,7 +1671,7 @@ declare module 'pokedex-promise-v2' {
         /** A Pokémon Species forms the basis for at least one Pokémon. Attributes of a Pokémon species are shared across all varieties of Pokémon within the species. A good example is Wormadam; Wormadam is the species which can be found in three different varieties, Wormadam-Trash, Wormadam-Sandy and Wormadam-Plant. */
         interface PokemonSpecies {
             /** The happiness when caught by a normal Pokéball; up to 255. The higher the number, the happier the Pokémon. */
-            base_happiness: number | null;
+            base_happiness: number;
             /** The base capture rate; up to 255. The higher the number, the easier the catch. */
             capture_rate: number;
             /** The color of this Pokémon for Pokédex search. */
@@ -1503,7 +1683,7 @@ declare module 'pokedex-promise-v2' {
             /** The Pokémon species that evolves into this Pokemon_species. */
             evolves_from_species: null | NamedAPIResource;
             /** A list of flavor text entries for this Pokémon species. */
-            flavor_text_entries: FlavorText[];
+            flavor_text_entries: PokemonSpeciesFlavorTextEntry[];
             /** Descriptions of different forms Pokémon take on within the Pokémon species. */
             form_descriptions: Description[];
             /** Whether or not this Pokémon has multiple forms and can switch between them. */
@@ -1521,7 +1701,7 @@ declare module 'pokedex-promise-v2' {
             /** Whether or not this Pokémon has visual gender differences. */
             has_gender_differences: boolean;
             /** Initial hatch counter: one must walk Y × (hatch_counter + 1) steps before this Pokémon's egg hatches, unless utilizing bonuses like Flame Body's. Y varies per generation. In Generations II, III, and VII, Egg cycles are 256 steps long. In Generation IV, Egg cycles are 255 steps long. In Pokémon Brilliant Diamond and Shining Pearl, Egg cycles are also 255 steps long, but are shorter on special dates. In Generations V and VI, Egg cycles are 257 steps long. In Pokémon Sword and Shield, and in Pokémon Scarlet and Violet, Egg cycles are 128 steps long. */
-            hatch_counter: number | null;
+            hatch_counter: number;
             /** The identifier for this resource. */
             id: number;
             /** Whether or not this is a baby Pokémon. */
@@ -1544,6 +1724,13 @@ declare module 'pokedex-promise-v2' {
             shape: NamedAPIResource;
             /** A list of the Pokémon that exist within this Pokémon species. */
             varieties: Variety[];
+            [property: string]: any;
+        }
+
+        interface PokemonSpeciesFlavorTextEntry {
+            flavor_text: string;
+            language: NamedAPIResource;
+            version: NamedAPIResource;
             [property: string]: any;
         }
 
@@ -1595,6 +1782,7 @@ declare module 'pokedex-promise-v2' {
 
         /** Stats determine certain aspects of battles. Each Pokémon has a value for each stat which grows as they gain levels and can be altered momentarily by effects in battles. */
         interface Stat {
+            affecting_items: NamedAPIResource[];
             /** A detail of moves which affect this stat positively or negatively. */
             affecting_moves: AffectingMoves;
             /** A detail of natures which affect this stat positively or negatively. */
@@ -1617,12 +1805,18 @@ declare module 'pokedex-promise-v2' {
         }
 
         interface AffectingMoves {
-            decrease: AffectingMovesChange[];
-            increase: AffectingMovesChange[];
+            decrease: AffectingMovesDecrease[];
+            increase: AffectingMovesIncrease[];
             [property: string]: any;
         }
 
-        interface AffectingMovesChange {
+        interface AffectingMovesDecrease {
+            change: number;
+            move: NamedAPIResource;
+            [property: string]: any;
+        }
+
+        interface AffectingMovesIncrease {
             change: number;
             move: NamedAPIResource;
             [property: string]: any;
@@ -1650,7 +1844,7 @@ declare module 'pokedex-promise-v2' {
         /** Types are properties for Pokémon and their moves. Each type has three properties: which types of Pokémon it is super effective against, which types of Pokémon it is not very effective against, and which types of Pokémon it is completely ineffective against. */
         interface Type {
             /** A detail of how effective this type is toward others and vice versa. */
-            damage_relations: DamageRelations;
+            damage_relations: TypeDamageRelations;
             /** A list of game indices relevent to this item by generation. */
             game_indices: GenerationGameIndex[];
             /** The generation this type was introduced in. */
@@ -1673,7 +1867,7 @@ declare module 'pokedex-promise-v2' {
             [property: string]: any;
         }
 
-        interface DamageRelations {
+        interface TypeDamageRelations {
             double_damage_from: NamedAPIResource[];
             double_damage_to: NamedAPIResource[];
             half_damage_from: NamedAPIResource[];
@@ -1684,8 +1878,18 @@ declare module 'pokedex-promise-v2' {
         }
 
         interface PastDamageRelation {
-            damage_relations: DamageRelations;
+            damage_relations: PastDamageRelationDamageRelations;
             generation: NamedAPIResource;
+            [property: string]: any;
+        }
+
+        interface PastDamageRelationDamageRelations {
+            double_damage_from: NamedAPIResource[];
+            double_damage_to: NamedAPIResource[];
+            half_damage_from: NamedAPIResource[];
+            half_damage_to: NamedAPIResource[];
+            no_damage_from: NamedAPIResource[];
+            no_damage_to: NamedAPIResource[];
             [property: string]: any;
         }
 
@@ -1698,65 +1902,72 @@ declare module 'pokedex-promise-v2' {
         }
 
         interface TypeSprites {
-            "generation-iii": IconsGenerationIii;
-            "generation-iv": IconsGenerationIv;
-            "generation-ix": IconsGenerationIx;
-            "generation-v": IconsGenerationV;
-            "generation-vi": IconsGenerationVi;
-            "generation-vii": IconsGenerationVii;
-            "generation-viii": IconsGenerationViii;
+            "generation-iii": SpritesGenerationIii;
+            "generation-iv": SpritesGenerationIv;
+            "generation-ix": SpritesGenerationIx;
+            "generation-v": SpritesGenerationV;
+            "generation-vi": SpritesGenerationVi;
+            "generation-vii": SpritesGenerationVii;
+            "generation-viii": SpritesGenerationViii;
             [property: string]: any;
         }
 
-        interface IconName {
-          name_icon: null | string;
-          [property: string]: any;
-        }
-
-        interface IconsGenerationIii {
+        interface SpritesGenerationIii {
             colosseum: IconName;
             emerald: IconName;
             "firered-leafgreen": IconName;
-            "ruby-saphire": IconName;
+            "ruby-sapphire": IconName;
             xd: IconName;
             [property: string]: any;
         }
 
-        interface IconsGenerationIv {
+        interface IconName {
+            name_icon: null | string;
+            symbol_icon: null;
+            [property: string]: any;
+        }
+
+        interface SpritesGenerationIv {
             "diamond-pearl": IconName;
             "heartgold-soulsilver": IconName;
             platinum: IconName;
             [property: string]: any;
         }
 
-        interface IconsGenerationIx {
-            "scarlet-violet": IconName;
+        interface SpritesGenerationIx {
+            "scarlet-violet": IconNameWithSymbol;
             [property: string]: any;
         }
 
-        interface IconsGenerationV {
+        interface IconNameWithSymbol {
+            name_icon: null | string;
+            symbol_icon: null | string;
+            [property: string]: any;
+        }
+
+        interface SpritesGenerationV {
             "black-2-white-2": IconName;
             "black-white": IconName;
             [property: string]: any;
         }
 
-        interface IconsGenerationVi {
+        interface SpritesGenerationVi {
             "omega-ruby-alpha-sapphire": IconName;
             "x-y": IconName;
             [property: string]: any;
         }
 
-        interface IconsGenerationVii {
-            "lets-go-pikachu-lets-go-eevee": IconName;
+        interface SpritesGenerationVii {
+            "lets-go-pikachu-lets-go-eevee": IconNameWithSymbol;
             "sun-moon": IconName;
             "ultra-sun-ultra-moon": IconName;
             [property: string]: any;
         }
 
-        interface IconsGenerationViii {
-            "brilliant-diamond-and-shining-pearl": IconName;
-            "legends-arceus": IconName;
-            "sword-shield": IconName;
+        interface SpritesGenerationViii {
+            "brilliant-diamond-shining-pearl": IconNameWithSymbol;
+            "legends-arceus": IconNameWithSymbol;
+            "sword-shield": IconNameWithSymbol;
             [property: string]: any;
         }
 
@@ -1827,6 +2038,8 @@ declare module 'pokedex-promise-v2' {
         /** @default 1000000 * 1000 // (11 days) */
         cacheLimit?: number;
     }
+
+    
 
     class PokeAPI {
         constructor(options?: PokeAPIOptions);

@@ -17,7 +17,9 @@
     "generate:types": "tsc -p generator/ && node dist/generator/TypesGenerator.js",
     "generate:main": "tsc -p generator/ && node dist/generator/Main.js",
     "generate:jsdocs": "tsc -p generator/ && node dist/generator/AddJSDocs.js",
-    "lint": "eslint src/ --fix",
+    "lint": "npm run lint:eslint && npm run lint:oxlint",
+    "lint:eslint": "eslint src/ --fix",
+    "lint:oxlint": "oxlint src --fix",
     "generate:all": "(npm run apidata:clone || true) && npm run apidata:sync && npm run apidata:replace && npm run generate:types && npm run generate:main && npm run generate:jsdocs",
     "locks:update": "rm -rf node_modules,package-lock.json && npm i && rm -rf node_modules pnpm-lock.json && pnpm i && rm -rf node_modules bun.lock && bun i"
   },
@@ -70,6 +72,7 @@
     "eslint": "^10.2.0",
     "lodash": "^4.18.1",
     "mocha": "^11.7.5",
+    "oxlint": "^1.61.0",
     "quicktype-core": "^23.2.6",
     "ts-morph": "^27.0.2",
     "typescript": "^5.9.3"
