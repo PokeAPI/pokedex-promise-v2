@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: ['18', '20']
+        node-version: ['22', '24']
     steps:
       - name: Clone repository
         uses: actions/checkout@v6
@@ -37,7 +37,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: ['18', '20', 'lts/*']
+        node-version: ['22', '24', 'lts/*']
     steps:
       - name: Clone repository
         uses: actions/checkout@v6
